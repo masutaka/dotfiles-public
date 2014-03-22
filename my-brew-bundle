@@ -7,9 +7,10 @@ outdated=`brew outdated`
 
 if [ -n "$outdated" ]; then
 	cat << EOF
-$outdated
 
-The above package(s) will upgrade.
+The following package(s) will upgrade.
+
+$outdated
 
 Are you sure?
 If you do not want to upgrade, please type Ctrl-c now.
@@ -45,6 +46,7 @@ brew install global
 brew install gnu-sed
 brew install gnupg
 brew install heroku-toolbelt
+brew install hub
 brew install imagemagick
 brew install jq
 brew install jsl
@@ -94,7 +96,6 @@ brew cask install quicksilver
 brew cask install ripit
 brew cask install sequel-pro
 brew cask install silverlight
-brew cask install skitch
 brew cask install skype
 brew cask install sourcetree
 brew cask install sublime-text
