@@ -6,6 +6,8 @@
 
 (defconst hostname (downcase (car (split-string (system-name) "\\."))))
 
+(defconst here-is-feedforce (equal hostname "takashi-no-mac-mini"))
+
 (defconst machine-linux (eq system-type 'gnu/linux) "Linux")
 (defconst machine-mac (eq system-type 'darwin) "Mac")
 
@@ -342,48 +344,11 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;; 表示する最大候補数。
 (setq helm-candidate-number-limit 100)
 
-;; ミニバッファでの補完にもHelmを使う。
-;;(setq completing-read-function 'helm-completing-read-default)
-
-;; M-x helm-ack時にカーソル下の単語を使わない。
-(setq helm-c-ack-insert-at-point nil)
-
 (eval-after-load "helm-buffers"
   '(add-to-list 'helm-boring-buffer-regexp-list "\\*Mew message\\*"))
 
 (eval-after-load "helm-files"
   '(setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list)))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; helm-git-project
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defun helm-c-sources-git-project-for (pwd)
-  (loop for elt in
-        '(("Modified files (%s)" . "--modified")
-          ("Untracked files (%s)" . "--others --exclude-standard")
-          ("All controlled files in this project (%s)" . ""))
-        collect
-        `((name . ,(format (car elt) pwd))
-          (init . (lambda ()
-                    (unless (and ,(string= (cdr elt) "")
-				 ;; update candidate buffer every time except for that of all project files
-                                 (helm-candidate-buffer))
-                      (with-current-buffer
-                          (helm-candidate-buffer 'global)
-                        (insert
-                         (shell-command-to-string
-                          ,(format "git ls-files $(git rev-parse --show-cdup) %s"
-                                   (cdr elt))))))))
-          (candidates-in-buffer)
-          (type . file))))
-
-(defun helm-git-project ()
-  (interactive)
-  (let* ((pwd (shell-command-to-string "echo -n `pwd`"))
-         (sources (helm-c-sources-git-project-for pwd)))
-    (helm-other-buffer sources
-			   (format "*Helm git project in %s*" pwd))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto-complete
@@ -517,7 +482,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 	   ((equal filename "clmemo.txt")
 	    "masutaka.net/chalow")
 	   (t
-	    "localhost/~masutaka/chalow-ura"))))
+	    "0.0.0.0:8080/chalow-ura"))))
     (save-excursion
       (setq date (and (re-search-backward date-regexp (point-min) t)
 		      (match-string-no-properties 1))))
@@ -803,8 +768,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; git
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; egg
-
 (require 'egg)
 
 (defadvice egg-log
@@ -817,13 +780,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
   "現在のフレームを egg-status バッファだけにする。"
   (delete-other-windows))
 
-;; (setq egg-diff-ignore-white-space t)
 (setq egg-enable-tooltip t)
-
-(defun toggle-egg-diff-ignore-white-space ()
-  "Toggle 'egg-diff-ignore-white-space'."
-  (interactive)
-  (toggle-variable 'egg-diff-ignore-white-space))
 
 (set-face-foreground 'egg-branch "blue")
 (set-face-foreground 'egg-branch-mono "blue")
@@ -836,19 +793,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (define-key egg-log-buffer-mode-map (kbd "k") 'scroll-down-one-line)
 (define-key ctl-x-map (kbd "v s") 'egg-status)
 (define-key ctl-x-map (kbd "v l") 'egg-log)
-
-;; git-dwim
-
-(require 'git-dwim)
-
-(defadvice git-merge-to
-  (before confirm activate)
-  "本当にマージして良いか問い合わせる。"
-  (unless (yes-or-no-p "really?")
-    (error "Be not merged.")))
-
-(define-key ctl-x-map (kbd "v b") 'git-branch-next-action)
-(define-key egg-file-cmd-map (kbd "b") 'git-branch-next-action)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; gud-mode
@@ -892,7 +836,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (progn
   (setq Info-directory-list nil)
   (dolist (dir `(,@Info-default-directory-list
-		 "~/local/share/info"))
+		 ,(expand-file-name "share/info" user-emacs-directory)))
     (setq dir (expand-file-name dir))
     (if (file-directory-p dir)
 	(add-to-list 'Info-directory-list dir))))
@@ -1006,6 +950,10 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (setq show-trailing-whitespace t))
 (add-hook 'sgml-mode-hook 'sgml-mode-hook-func)
 
+(defun haml-mode-hook-func ()
+  (setq show-trailing-whitespace t))
+(add-hook 'haml-mode-hook 'haml-mode-hook-func)
+
 (setq auto-mode-alist (cons '("\\.haml\\'" . haml-mode) auto-mode-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1026,7 +974,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (when (require 'migemo nil t)
   (setq migemo-command "cmigemo")
   (setq migemo-options '("-q" "--emacs" "-i" "\g"))
-  (setq migemo-dictionary "/opt/boxen/homebrew/share/migemo/utf-8/migemo-dict")
+  (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
   (setq migemo-user-dictionary nil)
   (setq migemo-regex-dictionary nil)
 
@@ -1375,23 +1323,18 @@ do nothing. And suppress the output from `message' and
 ;;; Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; for distnoted patch
+(setq use-dialog-box nil)
+
+(autoload 'e2wm:start-management "e2wm" nil t)
+
 (require 'historyf)
-(defun historyf-active-major-mode ()
-  "Active major-mode."
-  (if (and (buffer-file-name)
-           (memq major-mode historyf-major-modes))
-      major-mode
-    nil))
 
 ;; コマンドの使用頻度を表示(M-x keyfreq-show)
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 
 (add-hook 'puppet-mode-hook 'flymake-puppet-load)
-
-;; (when (require 'git-gutter-fringe nil t)
-;;   (setq git-gutter:update-hooks '(find-file-hooks after-save-hook after-revert-hook))
-;;   (global-git-gutter-mode t))
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
@@ -1629,7 +1572,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key global-map (kbd "C-q") ctl-q-map)
 ;;(define-key global-map (kbd "C-r") 'isearch-backward)
 ;;(define-key global-map (kbd "C-s") 'isearch-forward)
-;;(define-key global-map (kbd "C-t") 'transpose-chars)
+(define-key global-map (kbd "C-t") 'repeat)
 ;;(define-key global-map (kbd "C-u") 'universal-argument)
 ;;(define-key global-map (kbd "C-v") 'scroll-up)
 ;;(define-key global-map (kbd "C-w") 'kill-region)
@@ -1686,14 +1629,17 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-3") 'split-window-right)
 (define-key global-map (kbd "s-a") 'helm-imenu)
 (define-key global-map (kbd "s-b") 'helm-hatena-bookmark)
+(define-key global-map (kbd "s-c") 'helm-open-github-from-commit)
 (define-key global-map (kbd "s-e") 'helm-elscreen)
+(define-key global-map (kbd "s-f") 'helm-open-github-from-file)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
+(define-key global-map (kbd "s-i") 'helm-open-github-from-issues)
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
 (define-key global-map (kbd "s-n") nil)
 (define-key global-map (kbd "s-o") nil)
-(define-key global-map (kbd "s-p") 'helm-git-project)
+(define-key global-map (kbd "s-p") 'helm-open-github-from-pull-requests)
 (define-key global-map (kbd "s-t") 'my-create-window)
 (define-key global-map (kbd "s-w") 'my-delete-current-window)
 (define-key global-map (kbd "s-y") 'duplicate-thing)
@@ -1714,7 +1660,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-b") 'backward-list)
 (define-key ctl-q-map (kbd "C-c") 'clmemo)
 (define-key ctl-q-map (kbd "C-d") 'my-dictionary)
-(define-key ctl-q-map (kbd "C-e") 'helm-ack)
+(define-key ctl-q-map (kbd "C-e") 'grep-find)
 (define-key ctl-q-map (kbd "C-f") 'forward-list)
 (define-key ctl-q-map (kbd "C-g") nil)
 ;;(define-key ctl-q-map (kbd "C-h") 'shell)		;;; => DEL
