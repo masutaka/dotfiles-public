@@ -37,6 +37,7 @@ brew tap phinze/homebrew-cask
 # stunnel:    for mew
 # webkit2png: % webkit2png -TF http://masutaka.net
 brew install ack
+brew install ansible
 brew install aspell
 brew install autoconf
 brew install binutils
@@ -45,6 +46,7 @@ brew install git
 brew install global
 brew install gnu-sed
 brew install gnupg
+brew install go
 brew install heroku-toolbelt
 brew install hub
 brew install imagemagick
@@ -87,6 +89,7 @@ brew cask install handbrake
 brew cask install hipchat
 brew cask install iterm2
 brew cask install keyremap4macbook
+brew cask install kobito
 brew cask install libreoffice
 brew cask install limechat
 brew cask install lyn
