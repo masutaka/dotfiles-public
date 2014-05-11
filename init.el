@@ -364,23 +364,20 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; Backup
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(let ((dropbox-directory (expand-file-name "~/Dropbox/"))
-      (destination-directory (expand-file-name "~/.Trash/")))
+(let ((target-dir (expand-file-name "~/"))
+      (dest-dir (expand-file-name "~/.Trash/")))
 
   ;; 自動保存ファイル(#ファイル名#)の作成先変更
   (add-to-list 'auto-save-file-name-transforms
-               `(,(concat dropbox-directory "\\([^/]*/\\)*\\([^/]*\\)$")
-                 ,(concat destination-directory "\\2") t))
+               `(,(concat target-dir "\\([^/]*/\\)*\\([^/]*\\)$")
+                 ,(concat dest-dir "\\2")
+		 t))
 
   ;; バックアップファイル(ファイル名~)の作成先変更
-  (add-to-list 'backup-directory-alist
-               `(,dropbox-directory . ,destination-directory)))
+  (add-to-list 'backup-directory-alist (cons target-dir dest-dir))
 
-;; do not create *~
-(setq make-backup-files nil)
-
-;; do not create ~/.saves-PID-HOSTNAME
-(setq auto-save-list-file-prefix nil)
+  ;; 自動保存リスト(.saves-<PID>-<HOSTNAME>)の作成先変更
+  (setq auto-save-list-file-prefix (expand-file-name ".saves-" dest-dir)))
 
 ;; バージョン管理されたファイルをセーブする時にコピーを作らない。
 (setq vc-make-backup-files nil)
@@ -928,6 +925,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
 (add-to-list 'auto-mode-alist '("Gemfile\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile\\'" . ruby-mode))
+(add-to-list 'auto-mode-alist '("\\.rake\\'" . ruby-mode))
 
 (setq ruby-insert-encoding-magic-comment nil)
 
@@ -1143,7 +1141,10 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (setq twittering-timeline-spec-alias
 	`(("r"          . ,(lambda (u) (if u (format ":search/to:%s OR from:%s OR @%s/" u u u)" :home")))
 	  ("d"          . "(:direct_messages+:direct_messages_sent)")
-	  ("twmode"     . ":search/twmode OR twittering-mode -rt/")))
+	  ("feedforce"  . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam -rt -from:GGG82433838/")
+	  ("langrich"   . ":search/langrich OR ラングリッチ OR from:Langrich_ESL OR from:LR_STARS OR to:Langrich_ESL OR to:LR_STARS -source:Langrich -rt/")
+	  ("twmode"     . ":search/twmode OR twittering-mode -rt/")
+	  ("quickshape" . ":search/#クイックシェイプ OR クイックシェイプ OR quickshape OR from:Quick_Shape OR to:Quick_Shape/")))
   (setq twittering-number-of-tweets-on-retrieval 50)
   (setq twittering-tinyurl-service 'ow.ly)
   (setq twittering-owly-api-key "OJ7p3NWSyKt3l5jOTDPq0")
