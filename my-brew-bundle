@@ -24,7 +24,6 @@ fi
 # Add Repository
 brew tap homebrew/binary
 brew tap josegonzalez/homebrew-php
-brew tap phinze/homebrew-cask
 
 # Memo:
 # autoconf:   emacs with inline.patch needs autoheader
@@ -68,13 +67,15 @@ brew install qt
 brew install rbenv
 brew install readline
 brew install stunnel
+brew install tmux
+brew install tree
 brew install unrar
 brew install w3m
 brew install webkit2png
 brew install wget
 brew install xz
 
-brew install brew-cask
+brew install caskroom/cask/brew-cask
 brew cask install adobe-reader
 brew cask install appcleaner
 brew cask install clipmenu
@@ -82,12 +83,16 @@ brew cask install dropbox
 brew cask install firefox
 brew cask install flash
 brew cask install flip4mac
+brew cask install free-ruler
 brew cask install github
 brew cask install google-chrome
 brew cask install google-drive
+brew cask install google-japanese-ime
 brew cask install grandperspective
+brew cask install gyazo
 brew cask install handbrake
 brew cask install hipchat
+brew cask install istat-menus
 brew cask install iterm2
 brew cask install keyremap4macbook
 brew cask install kobito
