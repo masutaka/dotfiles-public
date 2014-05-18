@@ -8,7 +8,7 @@ if [ -z "$WINDOW" ]; then
 fi
 
 # プロンプト(man zshmisc)
-PROMPT="%B%U%m%u:%/ %%%b "
+PROMPT='%B%U%m%u:%/ $%b '
 RPROMPT="[%T]%1(v|%F{green}%1v%f|)"
 
 # 履歴を保存するファイル
@@ -23,7 +23,7 @@ SAVEHIST=1000000
 # 新規メールが来ても、メッセージを出さない。
 MAILCHECK=0
 
-FPATH=$HOME/.zsh/functions:$FPATH
+FPATH=$HOME/.zsh/functions:/usr/local/share/zsh/site-functions:$FPATH
 
 #---------------------------------------------------------------------
 # Shell options
@@ -182,10 +182,66 @@ if [ "$EMACS" != "t" ]; then
 fi
 
 #---------------------------------------------------------------------
+# Functions
+#---------------------------------------------------------------------
+if [ "$EMACS" = "t" ]; then
+	function kd() {
+		ls -alF $*
+	}
+else
+	function kd() {
+		ls -alF $* | more
+	}
+fi
+
+function psme() {
+	ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
+}
+
+function psnot() {
+	ps auxw$1 | egrep -v "^$USER" | sort -k 2 -n
+}
+
+function svndiff() {
+	svn diff $* | vim -R -
+}
+
+#---------------------------------------------------------------------
 # Aliases
 #---------------------------------------------------------------------
+if [ "$OS_KIND" = Darwin ]; then
+	alias emacs=/Applications/Emacs.app/Contents/MacOS/Emacs
+	alias emacsdevel=/Applications/Emacs-devel.app/Contents/MacOS/Emacs
+fi
+
+if type hub > /dev/null; then
+	eval "$(hub alias -s)"
+fi
+
+if [ "$EMACS" = "t" ]; then
+	alias git="git --no-pager"
+fi
+
 alias -g G='2>&1 | grep'
 alias -g L='2>&1 | less'
+
+alias be="bundle exec"
+alias ce="carton exec"
+
+alias d='dirs -v; echo -n "select number: "; read newdir; cd +"$newdir"'
+
+alias cp="cp -i"
+alias mv="mv -i"
+alias rm="rm -i"
+
+alias cdg="cd \$(git rev-parse --show-toplevel)"
+alias e="eval $EDITOR"
+alias expandurl="perl -MLWP::UserAgent -lE 'say LWP::UserAgent->new->head(shift)->request->uri'"
+alias g="git"
+alias hall="history -E -i 1"
+alias ll="kd"
+alias rootinstalllog="echo 'find /usr/local -cnewer timestamp | sort'"
+alias v="vagrant"
 
 # Local Variables:
 # coding: utf-8
