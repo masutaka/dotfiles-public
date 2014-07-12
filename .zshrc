@@ -77,6 +77,17 @@ unsetopt clobber
 # シェル終了時に子プロセスに HUP を送らない
 setopt nocheckjobs nohup
 
+## cdr
+autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+add-zsh-hook chpwd chpwd_recent_dirs
+mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/shell"
+zstyle ':completion:*:*:cdr:*:*' menu selection
+zstyle ':completion:*' recent-dirs-insert both
+zstyle ':chpwd:*' recent-dirs-max 500
+zstyle ':chpwd:*' recent-dirs-default true
+zstyle ':chpwd:*' recent-dirs-file "${XDG_CACHE_HOME:-$HOME/.cache}/shell/chpwd-recent-dirs"
+zstyle ':chpwd:*' recent-dirs-pushd true
+
 ## show vcs branch name (1/2)
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn hg bzr
@@ -121,10 +132,68 @@ if [ "$EMACS" != "t" ]; then
 	zstyle ':completion:*:default' menu select=1
 
 	# /usr(/local)?/share/zsh/4.0.6/functions 以下にある補間コレクションを使う。
-	autoload -U compinit; compinit -u
+	autoload -Uz compinit; compinit -u
+
+	if [ -f /usr/local/share/zsh/site-functions/go ]; then
+		source /usr/local/share/zsh/site-functions/go
+	fi
 
 	# tetris
-#	autoload -U tetris; zle -N tetris
+#	autoload -Uz tetris; zle -N tetris
+
+	#--------------------------------------------------------------------- peco
+	function exists() { type $1 > /dev/null }
+
+	if exists peco; then
+		function peco_select_history() {
+			local tac
+			exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+			BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
+			CURSOR=$#BUFFER         # move cursor
+			zle clear-screen
+		}
+		zle -N peco_select_history
+		bindkey '^R' peco_select_history
+
+		function peco_cdr () {
+			local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
+			if [ -n "$selected_dir" ]; then
+				BUFFER="cd ${selected_dir}"
+				zle accept-line
+			fi
+			zle clear-screen
+		}
+		zle -N peco_cdr
+		bindkey '^xb' peco_cdr
+
+		function peco-pkill() {
+			for pid in `ps aux | peco | awk '{ print $2 }'`; do
+				kill $pid
+				echo "Killed ${pid}"
+			done
+		}
+		alias pk="peco-pkill"
+
+		function peco_ghn_open() {
+			local url=$(ghn list | peco --query "$LBUFFER")
+			if [ -n "$url" ]; then
+				open ${url}
+			fi
+		}
+		zle -N peco_ghn_open
+		bindkey '^x^o' peco_ghn_open
+
+		function peco_ghq_look() {
+			local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
+			if [ -n "$selected_dir" ]; then
+				BUFFER="cd ${selected_dir}"
+				zle accept-line
+			fi
+			zle clear-screen
+		}
+		zle -N peco_ghq_look
+		bindkey '^x^y' peco_ghq_look
+	fi
 
 	#--------------------------------------------------------------------- Key binding
 	function my-backward-kill-word() {
@@ -163,7 +232,7 @@ if [ "$EMACS" != "t" ]; then
 	#function _mkdir() { _files }
 
 	# shell-mode風
-	autoload -U history-search-end
+	autoload -Uz history-search-end
 	zle -N history-beginning-search-backward-end history-search-end
 	zle -N history-beginning-search-forward-end history-search-end
 	bindkey "^[p" history-beginning-search-backward-end
@@ -171,7 +240,7 @@ if [ "$EMACS" != "t" ]; then
 
 	if zle -la | grep -q '^history-incremental-pattern-search'; then
 		# glob(*) で履歴をインクリメンタル検索可能。zsh 4.3.10 以降でのみ有効。
-		bindkey '^R' history-incremental-pattern-search-backward
+#		bindkey '^R' history-incremental-pattern-search-backward
 		bindkey '^S' history-incremental-pattern-search-forward
 	fi
 
@@ -222,13 +291,15 @@ if [ "$EMACS" = "t" ]; then
 	alias git="git --no-pager"
 fi
 
+if exists peco; then
+	alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//"`'
+fi
+
 alias -g G='2>&1 | grep'
 alias -g L='2>&1 | less'
 
 alias be="bundle exec"
 alias ce="carton exec"
-
-alias d='dirs -v; echo -n "select number: "; read newdir; cd +"$newdir"'
 
 alias cp="cp -i"
 alias mv="mv -i"
