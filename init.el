@@ -437,7 +437,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (let (pro
 	(pnm "mkchalow")
 	(buf " *mkchalow*")
-	(cnm "/Users/masutaka/projects/masutaka.net/script/mkchalow")
+	(cnm "mkchalow")
 	(opts (if force '("-f"))))
     (message (format "%sBuilding chalow for masutaka.net..."
 		     (if force "Force " "")))
@@ -454,7 +454,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (let (pro
 	(pnm "mkchalow-ura")
 	(buf " *mkchalow-ura*")
-	(cnm "/Users/masutaka/projects/masutaka.net-ura/script/mkchalow")
+	(cnm "mkchalow-ura")
 	(opts (if force '("-f"))))
     (message (format "%sBuilding chalow for %s..."
 		     (if force "Force " "") hostname))
@@ -479,7 +479,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 	   ((equal filename "clmemo.txt")
 	    "masutaka.net/chalow")
 	   (t
-	    "0.0.0.0:8080/chalow-ura"))))
+	    "localhost/chalow-ura"))))
     (save-excursion
       (setq date (and (re-search-backward date-regexp (point-min) t)
 		      (match-string-no-properties 1))))
@@ -922,6 +922,11 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;   (setq indent-tabs-mode nil))
 ;; (add-hook 'js-mode-hook 'js-mode-hook-func)
 
+(defun coffee-mode-hook-func ()
+ (setq coffee-tab-width 2))
+
+(add-hook 'coffee-mode-hook 'coffee-mode-hook-func)
+
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
 (add-to-list 'auto-mode-alist '("Gemfile\\'" . ruby-mode))
 (add-to-list 'auto-mode-alist '("Rakefile\\'" . ruby-mode))
@@ -1081,6 +1086,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
     (delete-other-windows)
     (split-window-horizontally)
     (split-window-horizontally)
+    (split-window-horizontally)
     (balance-windows)
     (twit)
     (cond
@@ -1089,7 +1095,9 @@ redrawが non-nilの場合は、Windowを再描画します。"
       (other-window 1)
       (twittering-visit-timeline "masutaka/read")
       (other-window 1)
-      (twittering-visit-timeline "masutaka/meta")
+      (twittering-visit-timeline "$feedforce")
+      (other-window 1)
+      (twittering-visit-timeline "masutaka/readmore")
       (other-window 1))
      (t
       (delete-other-windows))))
@@ -1141,7 +1149,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (setq twittering-timeline-spec-alias
 	`(("r"          . ,(lambda (u) (if u (format ":search/to:%s OR from:%s OR @%s/" u u u)" :home")))
 	  ("d"          . "(:direct_messages+:direct_messages_sent)")
-	  ("feedforce"  . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam -rt -from:GGG82433838/")
+	  ("feedforce"  . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam -rt/")
 	  ("langrich"   . ":search/langrich OR ラングリッチ OR from:Langrich_ESL OR from:LR_STARS OR to:Langrich_ESL OR to:LR_STARS -source:Langrich -rt/")
 	  ("twmode"     . ":search/twmode OR twittering-mode -rt/")
 	  ("quickshape" . ":search/#クイックシェイプ OR クイックシェイプ OR quickshape OR from:Quick_Shape OR to:Quick_Shape/")))
@@ -1152,7 +1160,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (define-key twittering-mode-map (kbd "<") 'my-beginning-of-buffer)
   (define-key twittering-mode-map (kbd ">") 'my-end-of-buffer)
   (define-key twittering-mode-map (kbd "a") nil)
-  (define-key twittering-mode-map (kbd "A") 'my-twittering-toggle-activate-all-buffer)
+  (define-key twittering-mode-map (kbd "T") 'my-twittering-toggle-activate-all-buffer)
   (define-key twittering-mode-map (kbd "F") 'twittering-favorite)
   (define-key twittering-mode-map (kbd "o") 'other-window)
   (define-key twittering-mode-map (kbd "t") 'twittering-toggle-activate-buffer)
@@ -1326,8 +1334,6 @@ do nothing. And suppress the output from `message' and
 
 ;; for distnoted patch
 (setq use-dialog-box nil)
-
-(autoload 'e2wm:start-management "e2wm" nil t)
 
 (require 'historyf)
 
@@ -1630,17 +1636,13 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-3") 'split-window-right)
 (define-key global-map (kbd "s-a") 'helm-imenu)
 (define-key global-map (kbd "s-b") 'helm-hatena-bookmark)
-(define-key global-map (kbd "s-c") 'helm-open-github-from-commit)
 (define-key global-map (kbd "s-e") 'helm-elscreen)
-(define-key global-map (kbd "s-f") 'helm-open-github-from-file)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
-(define-key global-map (kbd "s-i") 'helm-open-github-from-issues)
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
 (define-key global-map (kbd "s-n") nil)
 (define-key global-map (kbd "s-o") nil)
-(define-key global-map (kbd "s-p") 'helm-open-github-from-pull-requests)
 (define-key global-map (kbd "s-t") 'my-create-window)
 (define-key global-map (kbd "s-w") 'my-delete-current-window)
 (define-key global-map (kbd "s-y") 'duplicate-thing)
@@ -1666,7 +1668,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-g") nil)
 ;;(define-key ctl-q-map (kbd "C-h") 'shell)		;;; => DEL
 (define-key ctl-q-map (kbd "C-i") 'window-toggle-division)
-(define-key ctl-q-map (kbd "C-j") 'e2wm:start-management)
+(define-key ctl-q-map (kbd "C-j") nil)
 ;;(define-key ctl-q-map (kbd "C-k") nil)
 (define-key ctl-q-map (kbd "C-l") 'move-to-window-line)
 (define-key ctl-q-map (kbd "C-m") 'comment-region)
@@ -1715,7 +1717,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key ctl-x-map (kbd "C-v") 'find-alternate-file)
 ;;(define-key ctl-x-map (kbd "C-w") 'write-file)
 ;;(define-key ctl-x-map (kbd "C-x") 'exchange-point-and-mark)
-;;(define-key ctl-x-map (kbd "C-y") nil)
+(define-key ctl-x-map (kbd "C-y") 'helm-ghq)
 ;;(define-key ctl-x-map (kbd "C-z") 'iconify-or-deiconify-frame)
 
 ;;; Local Variables:
