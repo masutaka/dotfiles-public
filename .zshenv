@@ -19,14 +19,17 @@ Linux)
 	export LDFLAGS="-s"
 	;;
 Darwin)
-	export GOPATH=$HOME/projects/go
+	export GOPATH=$HOME
 	export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
-	export PATH=$HOME/bin:$GOPATH/bin:$GOPATH/go_appengine:/Applications/Emacs.app/Contents/MacOS/bin:$PATH:/usr/local/mysql/bin:$HOME/.phpenv/bin
+	export PATH=$HOME/opt/bin:$GOPATH/bin:/Applications/Emacs.app/Contents/MacOS/bin:$PATH:/usr/local/mysql/bin:$HOME/.phpenv/bin
 	export MANPATH=$HOME/.emacs.d/share/man:/usr/local/mysql/man:$MANPATH
 	export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
+	export NVM_DIR=$HOME/.nvm
+	source $(brew --prefix nvm)/nvm.sh
 	eval "$(phpenv init -)"
 	eval "$(plenv init -)"
 	eval "$(rbenv init -)"
+	eval "$(direnv hook zsh)"
 	;;
 *)
 	echo "Unkonwn OS" > /dev/stderr
@@ -40,6 +43,8 @@ umask 022
 ulimit -S -c 0 > /dev/null 2>&1
 
 export MYSQL_PS1="(\u@`hostname`) [\d] > "
+
+export DOCKER_HOST=tcp://localhost:4243
 
 # Local Variables:
 # coding: utf-8
