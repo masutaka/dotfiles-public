@@ -1,4 +1,4 @@
-;;; masutaka's original .emacs for Emacs-23.3 latera
+;;; masutaka's original .emacs for Emacs-23.3 later
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Constants
