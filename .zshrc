@@ -77,6 +77,31 @@ unsetopt clobber
 # シェル終了時に子プロセスに HUP を送らない
 setopt nocheckjobs nohup
 
+# ディレクトリ名だけでcd
+setopt auto_cd
+
+# Ctrl-Sで端末を固まらせない。
+stty -ixon
+
+# tetris
+#autoload -Uz tetris; zle -N tetris
+
+## まともな kill の補完にする。
+zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
+
+## 補完時に大文字小文字を区別しない。
+zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
+
+# 補間候補を C-fとかC-nとかで選択できる。
+zstyle ':completion:*:default' menu select=1
+
+# /usr(/local)?/share/zsh/4.0.6/functions 以下にある補間コレクションを使う。
+autoload -Uz compinit; compinit -u
+
+if [ -f /usr/local/share/zsh/site-functions/go ]; then
+	source /usr/local/share/zsh/site-functions/go
+fi
+
 ## cdr
 autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
 add-zsh-hook chpwd chpwd_recent_dirs
@@ -95,12 +120,6 @@ zstyle ':vcs_info:*' formats '(%s:%b)'
 zstyle ':vcs_info:*' actionformats '(%s:%b|%a)'
 zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
 zstyle ':vcs_info:bzr:*' use-simple true
-
-## まともな kill の補完にする。
-zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
-
-## 補完時に大文字小文字を区別しない。
-zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
 function preexec() {
 	# screen へのヒント情報。(1/2)
@@ -121,147 +140,142 @@ function precmd() {
     [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
 
-if [ "$EMACS" != "t" ]; then
-	# ディレクトリ名だけでcd
-	setopt auto_cd
+#--------------------------------------------------------------------- peco
+function exists() { type $1 > /dev/null }
 
-	# Ctrl-Sで端末を固まらせない。
-	stty -ixon
-
-	# 補間候補を C-fとかC-nとかで選択できる。
-	zstyle ':completion:*:default' menu select=1
-
-	# /usr(/local)?/share/zsh/4.0.6/functions 以下にある補間コレクションを使う。
-	autoload -Uz compinit; compinit -u
-
-	if [ -f /usr/local/share/zsh/site-functions/go ]; then
-		source /usr/local/share/zsh/site-functions/go
-	fi
-
-	# tetris
-#	autoload -Uz tetris; zle -N tetris
-
-	#--------------------------------------------------------------------- peco
-	function exists() { type $1 > /dev/null }
-
-	if exists peco; then
-		function peco_select_history() {
-			local tac
-			exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-			BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
-			CURSOR=$#BUFFER         # move cursor
-			zle clear-screen
-		}
-		zle -N peco_select_history
-		bindkey '^R' peco_select_history
-
-		function peco_cdr () {
-			local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
-			if [ -n "$selected_dir" ]; then
-				BUFFER="cd ${selected_dir}"
-				zle accept-line
-			fi
-			zle clear-screen
-		}
-		zle -N peco_cdr
-		bindkey '^xb' peco_cdr
-
-		function peco-pkill() {
-			for pid in `ps aux | peco | awk '{ print $2 }'`; do
-				kill $pid
-				echo "Killed ${pid}"
-			done
-		}
-		alias pk="peco-pkill"
-
-		function peco_ghn_open() {
-			local url=$(ghn list | peco --query "$LBUFFER")
-			if [ -n "$url" ]; then
-				open ${url}
-			fi
-		}
-		zle -N peco_ghn_open
-		bindkey '^x^o' peco_ghn_open
-
-		function peco_ghq_look() {
-			local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
-			if [ -n "$selected_dir" ]; then
-				BUFFER="cd ${selected_dir}"
-				zle accept-line
-			fi
-			zle clear-screen
-		}
-		zle -N peco_ghq_look
-		bindkey '^x^y' peco_ghq_look
-	fi
-
-	#--------------------------------------------------------------------- Key binding
-	function my-backward-kill-word() {
-		local WORDCHARS="${WORDCHARS:s#/#}"
-		zle backward-kill-word
+if exists peco; then
+	function peco_select_history() {
+		local tac
+		exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+		BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
+		CURSOR=$#BUFFER         # move cursor
+		zle clear-screen
 	}
-	zle -N my-backward-kill-word
-	bindkey '^[h' my-backward-kill-word
+	zle -N peco_select_history
+	bindkey '^R' peco_select_history
 
-	function my-backward-word() {
-		local WORDCHARS="${WORDCHARS:s#/#}"
-		zle backward-word
+	function peco_cdr () {
+		local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
+		if [ -n "$selected_dir" ]; then
+			BUFFER="cd ${selected_dir}"
+			zle accept-line
+		fi
+		zle clear-screen
 	}
-	zle -N my-backward-word
-	bindkey '^[b' my-backward-word	# 本当は C-, を使いたい。
+	zle -N peco_cdr
+	bindkey '^xb' peco_cdr
 
-	function my-forward-word() {
-		local WORDCHARS="${WORDCHARS:s#/#}"
-		zle forward-word
+	function peco-pkill() {
+		for pid in `ps aux | peco | awk '{ print $2 }'`; do
+			kill $pid
+			echo "Killed ${pid}"
+		done
 	}
-	zle -N my-forward-word
-	bindkey '^[f' my-forward-word	# 本当は C-. を使いたい。
+	alias pk="peco-pkill"
 
-	if [ "$OS_KIND" = "Darwin" ]; then
-		# C-x C-p で直前の履歴をクリップボードにコピー
-		pbcopy-last-history(){
-			zle up-line-or-history
-			print -rn $BUFFER | pbcopy
-			zle kill-whole-line
-		}
-		zle -N pbcopy-last-history
-		bindkey '^x^p' pbcopy-last-history
-	fi
+	function peco-git-recent-branches () {
+		local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads | \
+			perl -pne 's{^refs/heads/}{}' | peco)
+		if [ -n "$selected_branch" ]; then
+			BUFFER="git checkout ${selected_branch}"
+			zle accept-line
+		fi
+		zle clear-screen
+	}
+	zle -N peco-git-recent-branches
+	bindkey '^xn' peco-git-recent-branches
 
-	# ファイル名で補完させる。
-	#function _mkdir() { _files }
+	function peco-git-recent-all-branches () {
+		local selected_branch=$(git for-each-ref --format='%(refname)' --sort=-committerdate refs/heads refs/remotes | \
+			perl -pne 's{^refs/(heads|remotes)/}{}' | peco)
+		if [ -n "$selected_branch" ]; then
+			BUFFER="git checkout -t ${selected_branch}"
+			zle accept-line
+		fi
+		zle clear-screen
+	}
+	zle -N peco-git-recent-all-branches
+	bindkey '^x^n' peco-git-recent-all-branches
 
-	# shell-mode風
-	autoload -Uz history-search-end
-	zle -N history-beginning-search-backward-end history-search-end
-	zle -N history-beginning-search-forward-end history-search-end
-	bindkey "^[p" history-beginning-search-backward-end
-	bindkey "^[n" history-beginning-search-forward-end
+	function peco_ghn_open() {
+		local url=$(ghn list | peco --query "$LBUFFER")
+		if [ -n "$url" ]; then
+			open ${url}
+		fi
+	}
+	zle -N peco_ghn_open
+	bindkey '^x^o' peco_ghn_open
 
-	if zle -la | grep -q '^history-incremental-pattern-search'; then
-		# glob(*) で履歴をインクリメンタル検索可能。zsh 4.3.10 以降でのみ有効。
-#		bindkey '^R' history-incremental-pattern-search-backward
-		bindkey '^S' history-incremental-pattern-search-forward
-	fi
-
-	bindkey '^[?'	run-help		# カーソル下の manを表示。
-	bindkey '^q^q'	quoted-insert
-	bindkey '^v'	undefined-key
-	bindkey '^w'	kill-region
+	function peco_ghq_look() {
+		local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
+		if [ -n "$selected_dir" ]; then
+			BUFFER="cd ${selected_dir}"
+			zle accept-line
+		fi
+		zle clear-screen
+	}
+	zle -N peco_ghq_look
+	bindkey '^x^y' peco_ghq_look
 fi
+
+#--------------------------------------------------------------------- Key binding
+function my-backward-kill-word() {
+	local WORDCHARS="${WORDCHARS:s#/#}"
+	zle backward-kill-word
+}
+zle -N my-backward-kill-word
+bindkey '^[h' my-backward-kill-word
+
+function my-backward-word() {
+	local WORDCHARS="${WORDCHARS:s#/#}"
+	zle backward-word
+}
+zle -N my-backward-word
+bindkey '^[b' my-backward-word	# 本当は C-, を使いたい。
+
+function my-forward-word() {
+	local WORDCHARS="${WORDCHARS:s#/#}"
+	zle forward-word
+}
+zle -N my-forward-word
+bindkey '^[f' my-forward-word	# 本当は C-. を使いたい。
+
+if [ "$OS_KIND" = "Darwin" ]; then
+	# C-x C-p で直前の履歴をクリップボードにコピー
+	pbcopy-last-history(){
+		zle up-line-or-history
+		print -rn $BUFFER | pbcopy
+		zle kill-whole-line
+	}
+	zle -N pbcopy-last-history
+	bindkey '^x^p' pbcopy-last-history
+fi
+
+# ファイル名で補完させる。
+#function _mkdir() { _files }
+
+# shell-mode風
+autoload -Uz history-search-end
+zle -N history-beginning-search-backward-end history-search-end
+zle -N history-beginning-search-forward-end history-search-end
+bindkey "^[p" history-beginning-search-backward-end
+bindkey "^[n" history-beginning-search-forward-end
+
+# glob(*) で履歴をインクリメンタル検索可能。
+#bindkey '^R' history-incremental-pattern-search-backward
+bindkey '^S' history-incremental-pattern-search-forward
+
+bindkey '^[?'	run-help		# カーソル下の manを表示。
+bindkey '^q^q'	quoted-insert
+bindkey '^v'	undefined-key
+bindkey '^w'	kill-region
 
 #---------------------------------------------------------------------
 # Functions
 #---------------------------------------------------------------------
-if [ "$EMACS" = "t" ]; then
-	function kd() {
-		ls -alF $*
-	}
-else
-	function kd() {
-		ls -alF $* | more
-	}
-fi
+function kd() {
+	ls -alF $* | more
+}
 
 function psme() {
 	ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
@@ -285,10 +299,6 @@ fi
 
 if type hub > /dev/null; then
 	eval "$(hub alias -s)"
-fi
-
-if [ "$EMACS" = "t" ]; then
-	alias git="git --no-pager"
 fi
 
 if exists peco; then
