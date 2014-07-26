@@ -971,6 +971,16 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (setq transient-mark-mode t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; markdown
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun markdown-mode-hook-func ()
+  (setq markdown-css-path mkdown-css-file-name))
+(add-hook 'markdown-mode-hook 'markdown-mode-hook-func)
+
+(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; migemo (ローマ字のまま日本語をインクリメンタル検索)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1345,8 +1355,6 @@ do nothing. And suppress the output from `message' and
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 (when (require 'org-tree-slide nil t)
   (setq org-tree-slide-heading-emphasis t)
