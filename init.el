@@ -238,6 +238,19 @@ redrawが non-nilの場合は、Windowを再描画します。"
     (switch-to-buffer other-buf)
     (other-window -1)))
 
+(defun swap-buffers ()
+  "Swapping buffers in two windows"
+  (interactive)
+  (let* ((current-w (frame-selected-window))
+	 (current-b (window-buffer current-w))
+	 (other-w (get-lru-window))
+	 (other-b (window-buffer other-w)))
+    (unless (one-window-p)
+      (select-window current-w)
+      (switch-to-buffer other-b)
+      (select-window other-w)
+      (switch-to-buffer current-b))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Path
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -329,6 +342,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (require 'helm-config)
 (require 'helm-migemo)
 (require 'helm-imenu)
+(require 'helm-ghq)
 
 (setq helm-use-migemo t)
 
@@ -344,11 +358,11 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;; 表示する最大候補数。
 (setq helm-candidate-number-limit 100)
 
+(add-to-list 'helm-for-files-preferred-list 'helm-source-ghq)
+(setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
+
 (eval-after-load "helm-buffers"
   '(add-to-list 'helm-boring-buffer-regexp-list "\\*Mew message\\*"))
-
-(eval-after-load "helm-files"
-  '(setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto-complete
@@ -1026,6 +1040,14 @@ redrawが non-nilの場合は、Windowを再描画します。"
   'mew-send-hook)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; mozc.el
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'mozc)
+(setq default-input-method "japanese-mozc")
+(setq mozc-helper-program-name "mozc_emacs_helper")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; quickrun.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1271,11 +1293,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
 
 (require 'generic-x)
 
-;; " と " に挟まれたコメントに色が付かないので、なんとかしたい。
-(defun my-generic-mode-common-setup ()
-  (make-local-variable 'font-lock-string-face)
-  (setq font-lock-string-face nil))
-
 ;;; mew addrbook
 (eval-after-load "mew"
   '(define-generic-mode 'mew-addrbook-generic-mode
@@ -1284,16 +1301,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
      nil
      (list (concat "\\" (file-relative-name mew-addrbook-file) "\\'"))
      nil))
-
-;;; migemo user dictionary
-(if (stringp migemo-user-dictionary)
-    (eval-after-load "migemo"
-      '(define-generic-mode 'migemo-dic-generic-mode
-	 (list ?\;)
-	 nil
-	 nil
-	 (list (concat "\\" (file-relative-name migemo-user-dictionary) "\\'"))
-	 (list 'my-generic-mode-common-setup))))
 
 (delete '("\\.js\\'" . javascript-generic-mode) auto-mode-alist)
 
@@ -1642,6 +1649,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-1") 'delete-other-windows)
 (define-key global-map (kbd "s-2") 'split-window-below)
 (define-key global-map (kbd "s-3") 'split-window-right)
+(define-key global-map (kbd "s-9") 'delete-other-windows-vertically)
 (define-key global-map (kbd "s-a") 'helm-imenu)
 (define-key global-map (kbd "s-b") 'helm-hatena-bookmark)
 (define-key global-map (kbd "s-e") 'helm-elscreen)
@@ -1677,7 +1685,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key ctl-q-map (kbd "C-h") 'shell)		;;; => DEL
 (define-key ctl-q-map (kbd "C-i") 'window-toggle-division)
 (define-key ctl-q-map (kbd "C-j") nil)
-;;(define-key ctl-q-map (kbd "C-k") nil)
+(define-key ctl-q-map (kbd "C-k") 'swap-buffers)
 (define-key ctl-q-map (kbd "C-l") 'move-to-window-line)
 (define-key ctl-q-map (kbd "C-m") 'comment-region)
 (define-key ctl-q-map (kbd "C-n") 'move-to-window-line-bottom)
@@ -1697,6 +1705,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-SPC") 'comint-dynamic-complete-filename)
 
 ;; custom of the ctl-x-map
+(define-key ctl-x-map (kbd "9") 'delete-other-windows-vertically)
 (define-key ctl-x-map (kbd "M") 'compose-mail)
 (define-key ctl-x-map (kbd "b") 'helm-for-files)
 (define-key ctl-x-map (kbd "f") 'find-file-literally)
@@ -1725,7 +1734,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key ctl-x-map (kbd "C-v") 'find-alternate-file)
 ;;(define-key ctl-x-map (kbd "C-w") 'write-file)
 ;;(define-key ctl-x-map (kbd "C-x") 'exchange-point-and-mark)
-(define-key ctl-x-map (kbd "C-y") 'helm-ghq)
+;;(define-key ctl-x-map (kbd "C-y") nil)
 ;;(define-key ctl-x-map (kbd "C-z") 'iconify-or-deiconify-frame)
 
 ;;; Local Variables:
