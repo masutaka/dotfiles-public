@@ -1,6 +1,5 @@
 #!/bin/sh
 
-
 echo "brew updating..."
 
 brew update
