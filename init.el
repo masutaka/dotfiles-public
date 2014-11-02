@@ -267,12 +267,11 @@ redrawが non-nilの場合は、Windowを再描画します。"
       (normal-top-level-add-subdirs-to-load-path))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; package.el
+;;; cask.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(when (require 'package nil t)
-  (add-to-list 'package-archives '("melpa" . "http://melpa.milkbox.net/packages/"))
-  (package-initialize))
+(require 'cask "~/.cask/cask.el")
+(cask-initialize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; set Kanji coding system
@@ -296,8 +295,9 @@ redrawが non-nilの場合は、Windowを再描画します。"
   ;; スクロールバー非表示
   (scroll-bar-mode 0)
 
-  ;; カーソルを点滅
+  ;; カーソルを永久に点滅
   (blink-cursor-mode 1)
+  (setq blink-cursor-blinks 0)
 
   ;; マウスペースト時カーソル位置に挿入
   (setq mouse-yank-at-point t)
@@ -344,7 +344,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (require 'helm-imenu)
 (require 'helm-ghq)
 
-(setq helm-use-migemo t)
+(setq helm-use-migemo nil)
 
 ;; C-c F1 などのインターフェイスを提供。
 (helm-descbinds-mode)
@@ -361,15 +361,14 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (add-to-list 'helm-for-files-preferred-list 'helm-source-ghq)
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
 
-(eval-after-load "helm-buffers"
-  '(add-to-list 'helm-boring-buffer-regexp-list "\\*Mew message\\*"))
+(with-eval-after-load "helm-buffers"
+  (add-to-list 'helm-boring-buffer-regexp-list "\\*Mew message\\*"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto-complete
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'auto-complete-config)
-(setq ac-modes (delete 'lisp-interaction-mode ac-modes))
 (define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
 (ac-config-default)
 (setq ac-ignore-case nil)
@@ -435,7 +434,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; ChangeLogメモ
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(eval-after-load "add-log" '(require 'clmemo))
+(with-eval-after-load "add-log" (require 'clmemo))
 (autoload 'clgrep "clgrep" "grep mode for ChangeLog Memo file" t)
 
 (defadvice add-log-iso8601-time-string-with-weekday
@@ -493,7 +492,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 	   ((equal filename "clmemo.txt")
 	    "masutaka.net/chalow")
 	   (t
-	    "localhost/chalow-ura"))))
+	    "localhost:8080/chalow-ura"))))
     (save-excursion
       (setq date (and (re-search-backward date-regexp (point-min) t)
 		      (match-string-no-properties 1))))
@@ -526,23 +525,22 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (setq show-trailing-whitespace t))
 (add-hook 'change-log-mode-hook 'change-log-mode-hook-func)
 
-(eval-after-load "clmemo"
-  '(progn
-     ;; 日本語の曜日も正しく色付けするように変更。
-     (setcar (car clmemo-font-lock-keywords)
-	     "^\\sw.........[0-9:+ ]*\\((.)\\)?")
-     ;; 日付の判断をきちんとやる。
-     (setcar (cadr clmemo-font-lock-keywords)
-	     "\\[2[0-9][0-9][0-9]-[01]?[0-9]-[0-3]?[0-9]-?[0-9]*\\]")
-     (define-key clmemo-mode-map (kbd "C-i") 'indent-for-tab-command)
-     (define-key clmemo-mode-map (kbd "C-c C-c") 'mkchalow)
-     (define-key clmemo-mode-map (kbd "C-c C-u") 'mkchalow-ura)
-     (define-key clmemo-mode-map (kbd "C-c C-o") 'open-chalow)))
+(with-eval-after-load "clmemo"
+  ;; 日本語の曜日も正しく色付けするように変更。
+  (setcar (car clmemo-font-lock-keywords)
+	  "^\\sw.........[0-9:+ ]*\\((.)\\)?")
+  ;; 日付の判断をきちんとやる。
+  (setcar (cadr clmemo-font-lock-keywords)
+	  "\\[2[0-9][0-9][0-9]-[01]?[0-9]-[0-3]?[0-9]-?[0-9]*\\]")
+  (define-key clmemo-mode-map (kbd "C-i") 'indent-for-tab-command)
+  (define-key clmemo-mode-map (kbd "C-c C-c") 'mkchalow)
+  (define-key clmemo-mode-map (kbd "C-c C-u") 'mkchalow-ura)
+  (define-key clmemo-mode-map (kbd "C-c C-o") 'open-chalow))
 
-(eval-after-load "add-log"
+(with-eval-after-load "add-log"
   ;; 複数のタグがあってもきちんと色付けする。
-  '(setcar (assoc "\\[!?\\([^]\n]+\\)\\]\\(:\\| (\\)" change-log-font-lock-keywords)
-	   "\\( *\\[.+\\]\\)+ *:"))
+  (setcar (assoc "\\[!?\\([^]\n]+\\)\\]\\(:\\| (\\)" change-log-font-lock-keywords)
+	  "\\( *\\[.+\\]\\)+ *:"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Dictionary
@@ -587,13 +585,12 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; Diff-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(eval-after-load "diff-mode"
-  '(progn
-     (set-face-foreground 'diff-added-face "blue1")
-     (set-face-foreground 'diff-removed-face "red")
-     (define-key diff-mode-map (kbd "M-0") 'my-delete-current-window)
-     (define-key diff-mode-map (kbd "M-2") 'my-create-window)
-     (define-key diff-mode-map (kbd "M-o") 'my-next-window)))
+(with-eval-after-load "diff-mode"
+  (set-face-foreground 'diff-added-face "blue1")
+  (set-face-foreground 'diff-removed-face "red")
+  (define-key diff-mode-map (kbd "M-0") 'my-delete-current-window)
+  (define-key diff-mode-map (kbd "M-2") 'my-create-window)
+  (define-key diff-mode-map (kbd "M-o") 'my-next-window))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Dired (directory-browsing commands)
@@ -634,10 +631,10 @@ redrawが non-nilの場合は、Windowを再描画します。"
 	  "\\(%Y-%m-%d\\|%b %e\\) [0-9]....")))
      arg t))
 
-  (eval-after-load "dired"
-    '(font-lock-add-keywords
-      'dired-mode
-      (list '(dired-today-search . dired-todays-face)))))
+  (with-eval-after-load "dired"
+    (font-lock-add-keywords
+     'dired-mode
+     (list '(dired-today-search . dired-todays-face)))))
 
 (defun dired-mode-hook-func ()
   (define-key dired-mode-map (kbd "<") 'my-beginning-of-buffer)
@@ -689,8 +686,8 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (add-hook 'lisp-interaction-mode-hook 'lisp-interaction-mode-hook-func)
 
 ;; モードラインの "ElDoc" の表示はいらない。
-(eval-after-load "eldoc"
-  '(setcar (cdr (assq 'eldoc-mode minor-mode-alist)) ""))
+(with-eval-after-load "eldoc"
+  (setcar (cdr (assq 'eldoc-mode minor-mode-alist)) ""))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Elscreen
@@ -718,8 +715,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (defalias 'my-delete-current-window 'elscreen-kill)
   (defalias 'my-next-window 'elscreen-next)
   (defalias 'my-prev-window 'elscreen-previous)
-
-  (set-face-background 'elscreen-tab-other-screen-face "DodgerBlue")
 
   ;; 閉じるボタンは右側
   (setq elscreen-tab-display-kill-screen 'right)
@@ -759,18 +754,17 @@ redrawが non-nilの場合は、Windowを再描画します。"
       (set-face-background 'fringe "gray40"))
 
   ;; For M-x cvs-update
-  (eval-after-load "pcvs-info"
-    '(set-face-foreground 'cvs-handled-face "gold4"))
+  (with-eval-after-load "pcvs-info"
+    (set-face-foreground 'cvs-handled-face "gold4"))
 
   ;; For sh script
-  (eval-after-load "sh-script"
-    '(progn
-       (set-face-foreground 'sh-heredoc-face "goldenrod4")
-       (set-face-foreground 'sh-quoted-exec "medium orchid")))
+  (with-eval-after-load "sh-script"
+    (set-face-foreground 'sh-heredoc-face "goldenrod4")
+    (set-face-foreground 'sh-quoted-exec "medium orchid"))
 
   ;; For w3m
-  (eval-after-load "w3m-form"
-    '(set-face-foreground 'w3m-form-face "gold4")))
+  (with-eval-after-load "w3m-form"
+    (set-face-foreground 'w3m-form-face "gold4")))
  (t
   (set-face-foreground 'minibuffer-prompt "black")
   (set-face-foreground 'font-lock-comment-face "red")))
@@ -950,13 +944,13 @@ redrawが non-nilの場合は、Windowを再描画します。"
 
 ;; work around
 ;; http://blog.livedoor.jp/ooboofo3/archives/53748087.html
-(eval-after-load "ruby-mode"
-  '(defun ruby-electric-brace (arg)
-     (interactive "P")
-     (insert-char last-command-event 1)
-     (ruby-indent-line t)
-     (delete-char -1)
-     (self-insert-command (prefix-numeric-value arg))))
+(with-eval-after-load "ruby-mode"
+  (defun ruby-electric-brace (arg)
+    (interactive "P")
+    (insert-char last-command-event 1)
+    (ruby-indent-line t)
+    (delete-char -1)
+    (self-insert-command (prefix-numeric-value arg))))
 
 (defun ruby-mode-hook-func ()
   (setq show-trailing-whitespace t))
@@ -988,7 +982,22 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; markdown
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun my-markdown-preview ()
+  "Run `markdown-command' on the current buffer and view output in browser."
+  (interactive)
+  (let ((output-file (convert-standard-filename
+		      (make-temp-file
+		       (expand-file-name "my-markdown" temporary-file-directory)
+		       nil ".html"))))
+    (browse-url (markdown-export output-file))
+    (kill-buffer (get-file-buffer output-file))))
+
+(with-eval-after-load "markdown-mode"
+  (define-key markdown-mode-map (kbd "C-c C-c p") 'my-markdown-preview))
+
 (defun markdown-mode-hook-func ()
+  (setq indent-tabs-mode nil)
+  (setq show-trailing-whitespace t)
   (setq markdown-css-path mkdown-css-file-name))
 (add-hook 'markdown-mode-hook 'markdown-mode-hook-func)
 
@@ -1040,12 +1049,18 @@ redrawが non-nilの場合は、Windowを再描画します。"
   'mew-send-hook)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; mozc.el
+;;; mozc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'mozc)
 (setq default-input-method "japanese-mozc")
 (setq mozc-helper-program-name "mozc_emacs_helper")
+
+(require 'ac-mozc)
+(define-key ac-mode-map (kbd "C-c C-SPC") 'ac-complete-mozc)
+
+(add-to-list 'ac-modes 'change-log-mode)
+(add-to-list 'ac-modes 'markdown-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; quickrun.el
@@ -1062,11 +1077,10 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (add-to-list 'ac-modes 'motion-mode)
 (add-to-list 'ac-sources 'ac-source-dictionary)
 
-(eval-after-load "motion-mode"
-  '(progn
-     (define-key motion-mode-map (kbd "C-c C-c") 'motion-execute-rake)
-     (define-key motion-mode-map (kbd "C-c C-d") 'motion-dash-at-point)
-     (define-key motion-mode-map (kbd "C-c C-p") 'motion-convert-code-region)))
+(with-eval-after-load "motion-mode"
+  (define-key motion-mode-map (kbd "C-c C-c") 'motion-execute-rake)
+  (define-key motion-mode-map (kbd "C-c C-d") 'motion-dash-at-point)
+  (define-key motion-mode-map (kbd "C-c C-p") 'motion-convert-code-region))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sequential-command.el
@@ -1127,9 +1141,9 @@ redrawが non-nilの場合は、Windowを再描画します。"
       (other-window 1)
       (twittering-visit-timeline "masutaka/read")
       (other-window 1)
-      (twittering-visit-timeline "$feedforce")
-      (other-window 1)
       (twittering-visit-timeline "masutaka/readmore")
+      (other-window 1)
+      (twittering-visit-timeline "$feedforce")
       (other-window 1))
      (t
       (delete-other-windows))))
@@ -1226,11 +1240,11 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;; read-only の時は view-mode にする。→ edebug やり辛いのでコメントアウト
 ;(setq view-read-only t)
 
-(eval-after-load "view"
-  '(setcar (cdr (assq 'view-mode minor-mode-alist))
-	   (list (propertize " View"
-			     'face
-			     '(:foreground "white" :background "DeepPink1")))))
+(with-eval-after-load "view"
+  (setcar (cdr (assq 'view-mode minor-mode-alist))
+	  (list (propertize " View"
+			    'face
+			    '(:foreground "white" :background "DeepPink1")))))
 
 (defun view-mode-hook-func ()
   (define-key view-mode-map (kbd "G") 'view-goto-line-last)
@@ -1294,13 +1308,13 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (require 'generic-x)
 
 ;;; mew addrbook
-(eval-after-load "mew"
-  '(define-generic-mode 'mew-addrbook-generic-mode
-     (list ?#)
-     nil
-     nil
-     (list (concat "\\" (file-relative-name mew-addrbook-file) "\\'"))
-     nil))
+(with-eval-after-load "mew"
+  (define-generic-mode 'mew-addrbook-generic-mode
+    (list ?#)
+    nil
+    nil
+    (list (concat "\\" (file-relative-name mew-addrbook-file) "\\'"))
+    nil))
 
 (delete '("\\.js\\'" . javascript-generic-mode) auto-mode-alist)
 
@@ -1345,14 +1359,24 @@ do nothing. And suppress the output from `message' and
 ;; scratch バッファを次回起動時に復元。ログも記録する。
 (require 'scratch-log)
 
+;; workaround
+(defun sl-need-to-save ()
+  (sl-awhen (get-buffer "*scratch*")
+    (let ((scratch-point-max (with-current-buffer it (point-max))))
+      (with-temp-buffer
+        (insert-file-contents sl-prev-scratch-string-file)
+        (or (not (eq (point-max) scratch-point-max))
+            (not (eq (compare-buffer-substrings
+                      (current-buffer) 1 (point-max)
+                      it 1 scratch-point-max)
+                     0)))))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; for distnoted patch
 (setq use-dialog-box nil)
-
-(require 'historyf)
 
 ;; コマンドの使用頻度を表示(M-x keyfreq-show)
 (keyfreq-mode 1)
@@ -1439,13 +1463,12 @@ do nothing. And suppress the output from `message' and
 
 (progn
   ;; jpeg ファイルかどうかのチェックを甘くする。
-  (eval-after-load "image"
-    '(add-to-list 'image-type-header-regexps (cons "\\`\xff\xd8" 'jpeg)))
+  (with-eval-after-load "image"
+    (add-to-list 'image-type-header-regexps (cons "\\`\xff\xd8" 'jpeg)))
   ;; 画像を表示する時は標準のキーバインドにする。
-  (eval-after-load "image-mode"
-    '(progn
-       (define-key image-mode-map (kbd "C-n") 'next-line)
-       (define-key image-mode-map (kbd "C-p") 'previous-line))))
+  (with-eval-after-load "image-mode"
+    (define-key image-mode-map (kbd "C-n") 'next-line)
+    (define-key image-mode-map (kbd "C-p") 'previous-line)))
 
 ;; general tab stops
 (set-aurora-tab-width (setq default-tab-width (setq-default tab-width 8)))
@@ -1533,12 +1556,12 @@ do nothing. And suppress the output from `message' and
 (display-time)
 
 ;; スクリプトファイル保存時に自動で実行許可フラグを立てる。
-(eval-after-load "ange-ftp"
-    '(defadvice executable-make-buffer-file-executable-if-script-p
-       (around for-ange-ftp activate)
-       "ネットワーク先のファイルには実行しないようにする。"
-       (unless (string-match (car ange-ftp-name-format) (buffer-file-name))
-	 ad-do-it)))
+(with-eval-after-load "ange-ftp"
+  (defadvice executable-make-buffer-file-executable-if-script-p
+      (around for-ange-ftp activate)
+    "ネットワーク先のファイルには実行しないようにする。"
+    (unless (string-match (car ange-ftp-name-format) (buffer-file-name))
+      ad-do-it)))
 (add-hook 'after-save-hook
 	  'executable-make-buffer-file-executable-if-script-p)
 
@@ -1555,6 +1578,9 @@ do nothing. And suppress the output from `message' and
 
 (keyboard-translate ?\C-h ?\C-?)  ; translate `C-h' to DEL
 (keyboard-translate ?\C-? ?\C-h)  ; translate DEL to `C-h'.
+
+(setq mac-command-modifier 'super)
+(setq mac-option-modifier 'meta)
 
 (define-key minibuffer-local-completion-map (kbd "s-<backspace>") 'backward-kill-word)
 
@@ -1605,6 +1631,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "C-.") 'forward-word)
 
 ;; custom of the Esc-? key
+(define-key esc-map (kbd "SPC") 'cycle-spacing)
 (define-key esc-map (kbd "+") 'eval-expression)
 (define-key esc-map (kbd "<") 'my-beginning-of-buffer)
 (define-key esc-map (kbd ">") 'my-end-of-buffer)
@@ -1643,8 +1670,6 @@ do nothing. And suppress the output from `message' and
 ;; custom of the Super-? key (see term/ns-win.el)
 (define-key global-map (kbd "s-{") 'my-prev-window)
 (define-key global-map (kbd "s-}") 'my-next-window)
-(define-key global-map (kbd "s-[") 'historyf-back)
-(define-key global-map (kbd "s-]") 'historyf-forward)
 (define-key global-map (kbd "s-0") 'delete-window)
 (define-key global-map (kbd "s-1") 'delete-other-windows)
 (define-key global-map (kbd "s-2") 'split-window-below)
@@ -1710,6 +1735,8 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-x-map (kbd "b") 'helm-for-files)
 (define-key ctl-x-map (kbd "f") 'find-file-literally)
 (define-key ctl-x-map (kbd "m") mule-keymap)
+(define-key ctl-x-map (kbd "v g") 'github-browse-file-blame)
+(define-key ctl-x-map (kbd "v o") 'github-browse-file)
 ;;(define-key ctl-x-map (kbd "C-a") GUD-KEY-PREFIX)
 (define-key ctl-x-map (kbd "C-b") 'ibuffer)
 ;;(define-key ctl-x-map (kbd "C-c") 'save-buffers-kill-terminal)
