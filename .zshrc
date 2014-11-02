@@ -8,7 +8,11 @@ if [ -z "$WINDOW" ]; then
 fi
 
 # プロンプト(man zshmisc)
-PROMPT='%B%U%m%u:%/ $%b '
+if [ "$OS_KIND" = Darwin ]; then
+	PROMPT='%B%U%m%u:%/ $%b '
+else
+	PROMPT='%B%U%M%u:%/ $%b '
+fi
 RPROMPT="[%T]%1(v|%F{green}%1v%f|)"
 
 # 履歴を保存するファイル
@@ -154,16 +158,33 @@ if exists peco; then
 	zle -N peco_select_history
 	bindkey '^R' peco_select_history
 
-	function peco_cdr () {
-		local selected_dir=$(cdr -l | awk '{ print $2 }' | peco)
+	function peco_helm () {
+		local IFS="
+"
+		my-compact-chpwd-recent-dirs
+		local selected_dir=$((ghq list --full-path | sed -e "s@$HOME@~@";
+				cdr -l | perl -pne 's@^[0-9]+ +@@') | awk '!x[$0]++{print $0}' | peco)
 		if [ -n "$selected_dir" ]; then
 			BUFFER="cd ${selected_dir}"
 			zle accept-line
 		fi
 		zle clear-screen
 	}
-	zle -N peco_cdr
-	bindkey '^xb' peco_cdr
+	zle -N peco_helm
+	bindkey '^xb' peco_helm
+
+	# http://blog.n-z.jp/blog/2014-07-25-compact-chpwd-recent-dirs.html
+	function my-compact-chpwd-recent-dirs () {
+		emulate -L zsh
+		setopt extendedglob
+		local -aU reply
+		integer history_size
+		autoload -Uz chpwd_recent_filehandler
+		chpwd_recent_filehandler
+		history_size=$#reply
+		reply=(${^reply}(N))
+		(( $history_size == $#reply )) || chpwd_recent_filehandler $reply
+	}
 
 	function peco-pkill() {
 		for pid in `ps aux | peco | awk '{ print $2 }'`; do
@@ -205,17 +226,6 @@ if exists peco; then
 	}
 	zle -N peco_ghn_open
 	bindkey '^x^o' peco_ghn_open
-
-	function peco_ghq_look() {
-		local selected_dir=$(ghq list --full-path | peco --query "$LBUFFER")
-		if [ -n "$selected_dir" ]; then
-			BUFFER="cd ${selected_dir}"
-			zle accept-line
-		fi
-		zle clear-screen
-	}
-	zle -N peco_ghq_look
-	bindkey '^x^y' peco_ghq_look
 fi
 
 #--------------------------------------------------------------------- Key binding
@@ -273,6 +283,10 @@ bindkey '^w'	kill-region
 #---------------------------------------------------------------------
 # Functions
 #---------------------------------------------------------------------
+function go-update() {
+	cat $HOME/src/github.com/masutaka/dotfiles/anyenvs/go.txt | xargs go get -u
+}
+
 function kd() {
 	ls -alF $* | more
 }
@@ -293,8 +307,7 @@ function svndiff() {
 # Aliases
 #---------------------------------------------------------------------
 if [ "$OS_KIND" = Darwin ]; then
-	alias emacs=/Applications/Emacs.app/Contents/MacOS/Emacs
-	alias emacsdevel=/Applications/Emacs-devel.app/Contents/MacOS/Emacs
+	alias emacs=$HOME/Applications/Emacs.app/Contents/MacOS/Emacs
 fi
 
 if type hub > /dev/null; then
