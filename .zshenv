@@ -6,30 +6,25 @@ OS_KIND=`uname`
 # Environment variables
 #---------------------------------------------------------------------
 case "$OS_KIND" in
-Linux)
-	if [ -d "$HOME/.plenv" ]; then
-		export PATH=$HOME/.plenv/bin:$PATH
-		eval "$(plenv init -)"
-	fi
-	if [ -d "$HOME/.rbenv" ]; then
-		export PATH=$HOME/.rbenv/bin:$PATH
-		eval "$(rbenv init -)"
-	fi
-	export EDITOR=emacsclient
-	export LDFLAGS="-s"
-	;;
 Darwin)
 	export GOPATH=$HOME
 	export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
-	export PATH=$HOME/opt/bin:$GOPATH/bin:/Applications/Emacs.app/Contents/MacOS/bin:$PATH:/usr/local/mysql/bin:$HOME/.phpenv/bin
+	export PATH=$HOME/opt/bin:$GOPATH/bin:$HOME/.cask/bin:$HOME/terraform:$PATH:/usr/local/mysql/bin
 	export MANPATH=$HOME/.emacs.d/share/man:/usr/local/mysql/man:$MANPATH
-	export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
+	export EDITOR=$HOME/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
 	export NVM_DIR=$HOME/.nvm
-	source $(brew --prefix nvm)/nvm.sh
-	eval "$(phpenv init -)"
+	source /usr/local/opt/nvm/nvm.sh
 	eval "$(plenv init -)"
 	eval "$(rbenv init -)"
 	eval "$(direnv hook zsh)"
+	;;
+Linux)
+	export GOPATH=$HOME
+	export PATH=$GOPATH/bin:$PATH
+	export EDITOR=vi
+	export LDFLAGS="-s"
+	type plenv > /dev/null && eval "$(plenv init -)"
+	type rbenv > /dev/null && eval "$(rbenv init -)"
 	;;
 *)
 	echo "Unkonwn OS" > /dev/stderr
