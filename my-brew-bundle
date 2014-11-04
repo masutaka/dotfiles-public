@@ -54,18 +54,14 @@ brew install imagemagick
 brew install jq
 brew install jsl
 brew install kindlegen
-brew uninstall kyoto-tycoon || true
 brew install lv
 brew install markdown
-brew uninstall mcrypt || true
 brew install mercurial
 brew install mozc-emacs-helper
 brew install nginx
-brew uninstall node || true
 brew install nvm
 brew install openssl
 brew install packer
-brew uninstall phpenv || true
 brew install pkg-config
 brew install plenv
 brew install postgresql
@@ -91,7 +87,6 @@ brew cask install caffeine
 brew cask install chromecast
 brew cask install clipmenu
 brew cask install dropbox
-brew cask uninstall emacs
 brew cask install firefox
 brew cask install flash
 brew cask install flip4mac
@@ -103,7 +98,6 @@ brew cask install google-japanese-ime
 brew cask install grandperspective
 brew cask install gyazo
 brew cask install handbrake
-brew cask uninstall hipchat
 brew cask install istat-menus
 brew cask install iterm2
 brew cask install karabiner
@@ -114,7 +108,6 @@ brew cask install licecap
 brew cask install limechat
 brew cask install lyn
 brew cask install openoffice
-brew cask uninstall opera
 brew cask install quicksilver
 brew cask install ripit
 brew cask install sequel-pro
