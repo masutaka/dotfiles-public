@@ -23,7 +23,6 @@ fi
 
 # Add Repository
 brew tap homebrew/binary
-brew untap josegonzalez/homebrew-php
 brew tap hirocaster/homebrew-mozc-emacs-helper
 
 # Memo:
