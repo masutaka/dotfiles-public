@@ -27,8 +27,6 @@ brew tap hirocaster/homebrew-mozc-emacs-helper
 
 # Memo:
 # autoconf:   emacs with inline.patch needs autoheader
-# jq:         json pretty-print
-# openssl:    for ruby
 # pkg-config: for gem ref
 # qt:         gem capybara-screenshot uses qmake
 # readline:   for Ruby
@@ -59,13 +57,11 @@ brew install mercurial
 brew install mozc-emacs-helper
 brew install nginx
 brew install nvm
-brew install openssl
 brew install packer
 brew install pkg-config
 brew install plenv
 brew install postgresql
 brew install qt
-brew install rbenv
 brew install readline
 brew install redis
 brew install stunnel
@@ -79,19 +75,17 @@ brew install wget
 brew install xz
 
 brew install caskroom/cask/brew-cask
-brew cask install adobe-reader
 brew cask install appcleaner
 brew cask install atom
 brew cask install caffeine
 brew cask install chromecast
-brew cask install clipmenu
 brew cask install dropbox
 brew cask install firefox
 brew cask install flash
 brew cask install flip4mac
 brew cask install free-ruler
 brew cask install github
-brew cask install google-chrome
+brew cask install google-chrome --caskroom=/Applications
 brew cask install google-drive
 brew cask install google-japanese-ime
 brew cask install grandperspective
@@ -102,16 +96,15 @@ brew cask install iterm2
 brew cask install karabiner
 brew cask install kobito
 brew cask install launchbar
-brew cask install libreoffice
 brew cask install licecap
 brew cask install limechat
 brew cask install lyn
-brew cask install openoffice
 brew cask install quicksilver
 brew cask install ripit
 brew cask install sequel-pro
 brew cask install silverlight
 brew cask install skype
+brew cask install sleipnir
 brew cask install sourcetree
 brew cask install sublime-text
 brew cask install trailer
