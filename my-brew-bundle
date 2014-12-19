@@ -41,7 +41,6 @@ brew install boot2docker
 brew install cmigemo
 brew install docker
 brew install git
-brew install global
 brew install gnu-sed
 brew install gnupg
 brew install go
@@ -57,7 +56,6 @@ brew install mercurial
 brew install mozc-emacs-helper
 brew install nginx
 brew install nvm
-brew install packer
 brew install pkg-config
 brew install plenv
 brew install postgresql
@@ -66,7 +64,6 @@ brew install readline
 brew install redis
 brew install stunnel
 brew install terminal-notifier
-brew install tmux
 brew install tree
 brew install unrar
 brew install w3m
@@ -86,6 +83,7 @@ brew cask install flip4mac
 brew cask install free-ruler
 brew cask install github
 brew cask install google-chrome --caskroom=/Applications
+brew cask install google-cloud-sdk
 brew cask install google-drive
 brew cask install google-japanese-ime
 brew cask install grandperspective
