@@ -57,7 +57,6 @@ brew install mozc-emacs-helper
 brew install nginx
 brew install nvm
 brew install pkg-config
-brew install plenv
 brew install postgresql
 brew install qt
 brew install readline
