@@ -284,7 +284,10 @@ bindkey '^w'	kill-region
 # Functions
 #---------------------------------------------------------------------
 function go-update() {
-	cat $HOME/src/github.com/masutaka/dotfiles/anyenvs/go.txt | xargs go get -u
+	for i in `cat $HOME/src/github.com/masutaka/dotfiles/anyenvs/go.txt`; do
+		echo $i
+		go get -u $i
+	done
 }
 
 function kd() {
