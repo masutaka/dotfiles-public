@@ -43,6 +43,18 @@
       (dotimes (i (or n 1))
         (yank)))))
 
+(defun delete-word (arg)
+  "Delete characters forward until encountering the end of a word.
+With argument, do this that many times."
+  (interactive "p")
+  (delete-region (point) (progn (forward-word arg) (point))))
+ 
+(defun backward-delete-word (arg)
+  "Delete characters backward until encountering the end of a word.
+With argument, do this that many times."
+  (interactive "p")
+  (delete-word (- arg)))
+
 (defadvice find-alternate-file
   (around revival-point activate)
   "ファイルを読み直す時だけ、カーソル位置を保持する。"
@@ -1059,8 +1071,8 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (require 'ac-mozc)
 (define-key ac-mode-map (kbd "C-c C-SPC") 'ac-complete-mozc)
 
-(add-to-list 'ac-modes 'change-log-mode)
-(add-to-list 'ac-modes 'markdown-mode)
+;;(add-to-list 'ac-modes 'change-log-mode)
+;;(add-to-list 'ac-modes 'markdown-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; quickrun.el
@@ -1115,7 +1127,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (define-key shell-mode-map (kbd "<up>") 'comint-previous-matching-input-from-input)
   (define-key shell-mode-map (kbd "C-c C-i") 'helm-complete-shell-history)
   (define-key shell-mode-map (kbd "M-?") 'help-for-help)
-  (define-key shell-mode-map (kbd "M-h") 'backward-kill-word)
+  (define-key shell-mode-map (kbd "M-h") 'backward-delete-word)
   (define-key shell-mode-map (kbd "M-n") 'comint-next-matching-input-from-input)
   (define-key shell-mode-map (kbd "M-p") 'comint-previous-matching-input-from-input))
 (add-hook 'shell-mode-hook 'shell-mode-hook-func)
@@ -1359,18 +1371,6 @@ do nothing. And suppress the output from `message' and
 ;; scratch バッファを次回起動時に復元。ログも記録する。
 (require 'scratch-log)
 
-;; workaround
-(defun sl-need-to-save ()
-  (sl-awhen (get-buffer "*scratch*")
-    (let ((scratch-point-max (with-current-buffer it (point-max))))
-      (with-temp-buffer
-        (insert-file-contents sl-prev-scratch-string-file)
-        (or (not (eq (point-max) scratch-point-max))
-            (not (eq (compare-buffer-substrings
-                      (current-buffer) 1 (point-max)
-                      it 1 scratch-point-max)
-                     0)))))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1582,8 +1582,6 @@ do nothing. And suppress the output from `message' and
 (setq mac-command-modifier 'super)
 (setq mac-option-modifier 'meta)
 
-(define-key minibuffer-local-completion-map (kbd "s-<backspace>") 'backward-kill-word)
-
 (define-key isearch-mode-map (kbd "C-k") 'isearch-edit-string)
 (define-key isearch-mode-map (kbd "DEL") 'isearch-delete-char)
 
@@ -1646,7 +1644,7 @@ do nothing. And suppress the output from `message' and
 (define-key esc-map (kbd "e") 'grep)
 (define-key esc-map (kbd "f") 'forward-word)
 ;;(define-key esc-map (kbd "g") goto-map)
-(define-key esc-map (kbd "h") 'mark-sexp)
+(define-key esc-map (kbd "h") 'backward-delete-word)
 ;;(define-key esc-map (kbd "i") 'tab-to-tab-stop)
 ;;(define-key esc-map (kbd "j") 'indent-new-comment-line)
 (define-key esc-map (kbd "k") 'kill-current-line)
@@ -1689,7 +1687,6 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-y") 'duplicate-thing)
 (define-key global-map (kbd "s-C-j") 'scroll-up-one-line-both-window)
 (define-key global-map (kbd "s-C-k") 'scroll-down-one-line-both-window)
-(define-key global-map (kbd "s-<backspace>") 'backward-kill-word)
 
 ;; custom of the ctl-q-map
 (defvar ctl-q-map (make-keymap))
