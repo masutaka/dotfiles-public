@@ -7,30 +7,28 @@ OS_KIND=`uname`
 #---------------------------------------------------------------------
 case "$OS_KIND" in
 Darwin)
-	export GOPATH=$HOME
 	export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
-	export PATH=$HOME/opt/bin:$HOME/.rbenv/bin:$GOPATH/bin:$HOME/.cask/bin:$HOME/opt/terraform:$PATH:/usr/local/mysql/bin
+	export PATH=$HOME/opt/bin:$HOME/.cask/bin:$HOME/opt/terraform:$PATH:/usr/local/mysql/bin
 	export MANPATH=$HOME/.emacs.d/share/man:/usr/local/mysql/man:$MANPATH
 	export EDITOR=$HOME/opt/emacs-24.4/bin/emacsclient
 	export NVM_DIR=$HOME/.nvm
 	source /usr/local/opt/nvm/nvm.sh
-	eval "$(plenv init -)"
-	eval "$(rbenv init -)"
-	eval "$(direnv hook zsh)"
     source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 #   source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 	;;
 Linux)
-	export GOPATH=$HOME
-	export PATH=$GOPATH/bin:$PATH
 	export LDFLAGS="-s"
-	type plenv > /dev/null && eval "$(plenv init -)"
-	type rbenv > /dev/null && eval "$(rbenv init -)"
 	;;
 *)
 	echo "Unkonwn OS" > /dev/stderr
 	;;
 esac
+
+export GOPATH=$HOME
+export PATH=$HOME/.plenv/bin:$HOME/.rbenv/bin:$GOPATH/bin:$PATH
+eval "$(plenv init -)"
+eval "$(rbenv init -)"
+eval "$(direnv hook zsh)"
 
 # New File => 644, New Dir => 755
 umask 022
