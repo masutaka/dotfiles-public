@@ -1,5 +1,3 @@
-;;; masutaka's original .emacs for Emacs-23.3 later
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Constants
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -11,7 +9,6 @@
 (defconst machine-linux (eq system-type 'gnu/linux) "Linux")
 (defconst machine-mac (eq system-type 'darwin) "Mac")
 
-(defconst running-23 (eq emacs-major-version 23) "running emacs 23.xx")
 (defconst running-24 (eq emacs-major-version 24) "running emacs 24.xx")
 
 (defconst my-download-directory "~/tmp" "The directory for download.")
@@ -1382,8 +1379,6 @@ do nothing. And suppress the output from `message' and
 (keyfreq-mode 1)
 (keyfreq-autosave-mode 1)
 
-(add-hook 'puppet-mode-hook 'flymake-puppet-load)
-
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
 
@@ -1391,9 +1386,6 @@ do nothing. And suppress the output from `message' and
   (setq org-tree-slide-heading-emphasis t)
   (define-key global-map (kbd "<f5>") 'org-tree-slide-mode)
   (define-key global-map (kbd "S-<f5>") 'org-tree-slide-skip-done-toggle))
-
-(require 'yascroll)
-(global-yascroll-bar-mode 1)
 
 (defun org-mode-hook-func ()
   (define-key org-mode-map (kbd "C-,") 'backward-word))
