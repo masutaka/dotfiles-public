@@ -808,6 +808,12 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (define-key ctl-x-map (kbd "v s") 'egg-status)
 (define-key ctl-x-map (kbd "v l") 'egg-log)
 
+(require 'git-dwim)
+(define-key ctl-x-map (kbd "v b") 'git-branch-next-action)
+
+(define-key ctl-x-map (kbd "v g") 'github-browse-file-blame)
+(define-key ctl-x-map (kbd "v o") 'github-browse-file)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; gud-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1724,8 +1730,6 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-x-map (kbd "b") 'helm-for-files)
 (define-key ctl-x-map (kbd "f") 'find-file-literally)
 (define-key ctl-x-map (kbd "m") mule-keymap)
-(define-key ctl-x-map (kbd "v g") 'github-browse-file-blame)
-(define-key ctl-x-map (kbd "v o") 'github-browse-file)
 ;;(define-key ctl-x-map (kbd "C-a") GUD-KEY-PREFIX)
 (define-key ctl-x-map (kbd "C-b") 'ibuffer)
 ;;(define-key ctl-x-map (kbd "C-c") 'save-buffers-kill-terminal)
