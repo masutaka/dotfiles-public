@@ -55,7 +55,6 @@ brew install markdown
 brew install mercurial
 brew install mozc-emacs-helper
 brew install nginx
-brew install nvm
 brew install pkg-config
 brew install postgresql
 brew install qt
@@ -79,7 +78,6 @@ brew cask install dropbox
 brew cask install firefox
 brew cask install flash
 brew cask install flip4mac
-brew cask install free-ruler
 brew cask install github
 brew cask install google-chrome --caskroom=/Applications
 brew cask install google-cloud-sdk
@@ -89,7 +87,6 @@ brew cask install grandperspective
 brew cask install gyazo
 brew cask install handbrake
 brew cask install istat-menus
-brew cask install iterm2
 brew cask install karabiner
 brew cask install kobito
 brew cask install launchbar
@@ -103,7 +100,6 @@ brew cask install silverlight
 brew cask install skype
 brew cask install sleipnir
 brew cask install sourcetree
-brew cask install sublime-text
 brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
