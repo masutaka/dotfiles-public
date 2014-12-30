@@ -11,8 +11,6 @@ Darwin)
 	export PATH=$HOME/opt/bin:$HOME/.cask/bin:$HOME/opt/terraform:$PATH:/usr/local/mysql/bin
 	export MANPATH=$HOME/.emacs.d/share/man:/usr/local/mysql/man:$MANPATH
 	export EDITOR=$HOME/opt/emacs-24.4/bin/emacsclient
-	export NVM_DIR=$HOME/.nvm
-	source /usr/local/opt/nvm/nvm.sh
     source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 #   source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 	;;
@@ -26,6 +24,7 @@ esac
 
 export GOPATH=$HOME
 export PATH=$HOME/.plenv/bin:$HOME/.rbenv/bin:$GOPATH/bin:$PATH
+source $HOME/.nvm/nvm.sh
 eval "$(plenv init -)"
 eval "$(rbenv init -)"
 eval "$(direnv hook zsh)"
