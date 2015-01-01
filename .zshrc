@@ -1,4 +1,35 @@
-# masutaka's original .zshrc for zsh 4.0.2-later
+# masutaka's original .zshrc for zsh 5.0.5 later
+
+#---------------------------------------------------------------------
+# Functions
+#---------------------------------------------------------------------
+
+function exists() {
+	type $1 > /dev/null
+}
+
+function go-update() {
+	for i in `cat $HOME/src/github.com/masutaka/dotfiles/anyenvs/go.txt`; do
+		echo $i
+		go get -u $i
+	done
+}
+
+function kd() {
+	ls -alF $* | more
+}
+
+function psme() {
+	ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
+}
+
+function psnot() {
+	ps auxw$1 | egrep -v "^$USER" | sort -k 2 -n
+}
+
+function svndiff() {
+	svn diff $* | vim -R -
+}
 
 #---------------------------------------------------------------------
 # Shell variables
@@ -103,8 +134,14 @@ if [ -f /usr/local/share/zsh/site-functions/go ]; then
 	source /usr/local/share/zsh/site-functions/go
 fi
 
-## cdr
-autoload -Uz chpwd_recent_dirs cdr add-zsh-hook
+# for hook
+autoload -Uz add-zsh-hook
+
+#---------------------------------------------------------------------
+# cdr
+#---------------------------------------------------------------------
+
+autoload -Uz chpwd_recent_dirs cdr
 add-zsh-hook chpwd chpwd_recent_dirs
 mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/shell"
 zstyle ':completion:*:*:cdr:*:*' menu selection
@@ -114,7 +151,10 @@ zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-file "${XDG_CACHE_HOME:-$HOME/.cache}/shell/chpwd-recent-dirs"
 zstyle ':chpwd:*' recent-dirs-pushd true
 
-## show vcs branch name (1/2)
+#---------------------------------------------------------------------
+# show vcs branch name to $RPROMPT
+#---------------------------------------------------------------------
+
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn hg bzr
 zstyle ':vcs_info:*' formats '(%s:%b)'
@@ -122,27 +162,16 @@ zstyle ':vcs_info:*' actionformats '(%s:%b|%a)'
 zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
 zstyle ':vcs_info:bzr:*' use-simple true
 
-function preexec() {
-	# screen へのヒント情報。(1/2)
-	# コマンド実行中はコマンド名を、未実行ならカレントディレクトリを表示する。
-	if [ "$TERM" = "screen" ]; then
-		echo -ne "\ek#${1%% *}\e\\"
-	fi
-}
-function precmd() {
-	# screen へのヒント情報。(2/2)
-	if [ "$TERM" = "screen" ]; then
-		echo -ne "\ek$(basename $(pwd))\e\\"
-	fi
-
-	## show vcs branch name (2/2)
+function vcs_info_precmd() {
     psvar=()
     LANG=en_US.UTF-8 vcs_info
     [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
+add-zsh-hook precmd vcs_info_precmd
 
-#--------------------------------------------------------------------- peco
-function exists() { type $1 > /dev/null }
+#---------------------------------------------------------------------
+# peco
+#---------------------------------------------------------------------
 
 if exists peco; then
 	function peco_select_history() {
@@ -225,7 +254,28 @@ if exists peco; then
 	bindkey '^x^o' peco_ghn_open
 fi
 
-#--------------------------------------------------------------------- Key binding
+#---------------------------------------------------------------------
+# screen mode-line
+#---------------------------------------------------------------------
+
+if [ "$TERM" = "screen" ]; then
+	# コマンド実行中はコマンド名を、未実行ならカレントディレクトリを表示する。
+
+	function screen_mode_line_preexec() {
+		echo -ne "\ek#${1%% *}\e\\"
+	}
+	add-zsh-hook preexec screen_mode_line_preexec
+
+	function screen_mode_line_precmd() {
+		echo -ne "\ek$(basename $(pwd))\e\\"
+	}
+	add-zsh-hook precmd screen_mode_line_precmd
+fi
+
+#---------------------------------------------------------------------
+# Key binding
+#---------------------------------------------------------------------
+
 function my-backward-kill-word() {
 	local WORDCHARS="${WORDCHARS:s#/#}"
 	zle backward-kill-word
@@ -278,39 +328,13 @@ bindkey '^v'	undefined-key
 bindkey '^w'	kill-region
 
 #---------------------------------------------------------------------
-# Functions
-#---------------------------------------------------------------------
-function go-update() {
-	for i in `cat $HOME/src/github.com/masutaka/dotfiles/anyenvs/go.txt`; do
-		echo $i
-		go get -u $i
-	done
-}
-
-function kd() {
-	ls -alF $* | more
-}
-
-function psme() {
-	ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
-}
-
-function psnot() {
-	ps auxw$1 | egrep -v "^$USER" | sort -k 2 -n
-}
-
-function svndiff() {
-	svn diff $* | vim -R -
-}
-
-#---------------------------------------------------------------------
 # Aliases
 #---------------------------------------------------------------------
 if [ "$OS_KIND" = Darwin ]; then
 	alias emacs=$HOME/Applications/Emacs.app/Contents/MacOS/Emacs
 fi
 
-if type hub > /dev/null; then
+if exists hub; then
 	eval "$(hub alias -s)"
 fi
 
