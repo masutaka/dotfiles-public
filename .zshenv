@@ -1,4 +1,4 @@
-# masutaka's original .zshenv for zsh 4.0.2-later
+# masutaka's original .zshenv for zsh 5.0.5 later
 
 OS_KIND=`uname`
 
