@@ -997,6 +997,23 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (setq auto-mode-alist (cons '("\\.haml\\'" . haml-mode) auto-mode-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Mac port patch
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; http://masutaka.net/chalow/2015-01-04-1.html
+
+(defun mac-selected-keyboard-input-source-change-hook-func ()
+  ;; 入力モードが英語の時はカーソルの色をfirebrickに、日本語の時はblackにする
+  (set-cursor-color (if (string-match "\\.US$" (mac-input-source))
+			"firebrick" "black")))
+
+(add-hook 'mac-selected-keyboard-input-source-change-hook
+	  'mac-selected-keyboard-input-source-change-hook-func)
+
+;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
+(mac-auto-ascii-mode 1)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mark
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1092,6 +1109,13 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;(add-to-list 'ac-modes 'markdown-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; open-junk-file
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'open-junk-file)
+(setq open-junk-file-format "~/Dropbox/junk/%Y-%m-%d-%H%M%S.")
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; quickrun.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1152,9 +1176,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; twittering-mode.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; workaround https://twitter.com/masutaka/status/551670014562934787
-(add-to-list 'load-path "~/src/github.com/masutaka/twittering-mode")
 
 (when (require 'twittering-mode nil t)
 
@@ -1228,11 +1249,12 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (setq twittering-timer-interval 60)
   (setq twittering-use-icon-storage t)
   (setq twittering-timeline-spec-alias
-	`(("r"          . ,(lambda (u) (if u (format ":search/to:%s OR from:%s OR @%s/" u u u) ":home")))
-	  ("d"          . "(:direct_messages+:direct_messages_sent)")
-	  ("feedforce"  . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam -rt/")
-	  ("langrich"   . ":search/langrich OR ラングリッチ OR from:Langrich_ESL OR from:LR_STARS OR to:Langrich_ESL OR to:LR_STARS -source:Langrich -rt/")
-	  ("twmode"     . ":search/twmode OR twittering-mode -rt/")))
+	`(("r"           . ,(lambda (u) (if u (format ":search/to:%s OR from:%s OR @%s/" u u u) ":home")))
+	  ("d"           . "(:direct_messages+:direct_messages_sent)")
+	  ("feedforce"   . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam -rt/")
+	  ("langrich"    . ":search/langrich OR ラングリッチ OR from:Langrich_ESL OR from:LR_STARS OR to:Langrich_ESL OR to:LR_STARS -source:Langrich -rt/")
+	  ("masutakanet" . ":search/masutaka.net/")
+	  ("twmode"      . ":search/twmode OR twittering-mode -rt/")))
   (setq twittering-number-of-tweets-on-retrieval 50)
   (setq twittering-tinyurl-service 'ow.ly)
   (setq twittering-owly-api-key (my-lisp-load "twittering-owly-api-key"))
@@ -1415,10 +1437,6 @@ do nothing. And suppress the output from `message' and
 (defun org-mode-hook-func ()
   (define-key org-mode-map (kbd "C-,") 'backward-word))
 (add-hook 'org-mode-hook 'org-mode-hook-func)
-
-;; C-x C-f とかで IME を OFF する。
-(if (and machine-mac (fboundp 'mac-input-method-mode))
-    (mac-input-method-mode 1))
 
 ;; ファイル名補完時、常に大文字小文字を区別しない。
 (setq read-file-name-completion-ignore-case t)
@@ -1714,6 +1732,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd ",") 'migemo-toggle-isearch-enable)
 (define-key ctl-q-map (kbd ".") (if (featurep 'mi-config) 'mode-info-find-tag))
 (define-key ctl-q-map (kbd "c") 'copy-this-buffer-file-name)
+(define-key ctl-q-map (kbd "j") 'open-junk-file)
 (define-key ctl-q-map (kbd "C-a") 'text-scale-adjust)
 (define-key ctl-q-map (kbd "C-b") 'backward-list)
 (define-key ctl-q-map (kbd "C-c") 'clmemo)
