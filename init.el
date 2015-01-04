@@ -111,6 +111,20 @@ With argument, do this that many times."
   (interactive)
   (goto-char (point-max)))
 
+(defun my-lisp-load (filename)
+  "Load lisp from FILENAME"
+  (let ((fullname (expand-file-name (concat "spec/" filename) user-emacs-directory))
+        lisp)
+    (when (file-readable-p fullname)
+      (with-temp-buffer
+        (progn
+          (insert-file-contents fullname)
+          (setq lisp 
+                (condition-case nil
+                    (read (current-buffer))
+                  (error ()))))))
+    lisp))
+
 (defun my-yank-pop ()
   (interactive)
   (if (minibufferp)
@@ -1139,6 +1153,9 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; twittering-mode.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; workaround https://twitter.com/masutaka/status/551670014562934787
+(add-to-list 'load-path "~/src/github.com/masutaka/twittering-mode")
+
 (when (require 'twittering-mode nil t)
 
   (defun my-twit ()
@@ -1158,7 +1175,10 @@ redrawが non-nilの場合は、Windowを再描画します。"
       (other-window 1)
       (twittering-visit-timeline "masutaka/readmore")
       (other-window 1)
-      (twittering-visit-timeline "$feedforce")
+      (twittering-visit-timeline "masutakafeed")
+      (when here-is-feedforce
+	(other-window 1)
+	(twittering-visit-timeline "$feedforce"))
       (other-window 1))
      (t
       (delete-other-windows))))
@@ -1208,15 +1228,14 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (setq twittering-timer-interval 60)
   (setq twittering-use-icon-storage t)
   (setq twittering-timeline-spec-alias
-	`(("r"          . ,(lambda (u) (if u (format ":search/to:%s OR from:%s OR @%s/" u u u)" :home")))
+	`(("r"          . ,(lambda (u) (if u (format ":search/to:%s OR from:%s OR @%s/" u u u) ":home")))
 	  ("d"          . "(:direct_messages+:direct_messages_sent)")
 	  ("feedforce"  . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam -rt/")
 	  ("langrich"   . ":search/langrich OR ラングリッチ OR from:Langrich_ESL OR from:LR_STARS OR to:Langrich_ESL OR to:LR_STARS -source:Langrich -rt/")
-	  ("twmode"     . ":search/twmode OR twittering-mode -rt/")
-	  ("quickshape" . ":search/#クイックシェイプ OR クイックシェイプ OR quickshape OR from:Quick_Shape OR to:Quick_Shape/")))
+	  ("twmode"     . ":search/twmode OR twittering-mode -rt/")))
   (setq twittering-number-of-tweets-on-retrieval 50)
   (setq twittering-tinyurl-service 'ow.ly)
-  (setq twittering-owly-api-key "OJ7p3NWSyKt3l5jOTDPq0")
+  (setq twittering-owly-api-key (my-lisp-load "twittering-owly-api-key"))
 
   (define-key twittering-mode-map (kbd "<") 'my-beginning-of-buffer)
   (define-key twittering-mode-map (kbd ">") 'my-end-of-buffer)
