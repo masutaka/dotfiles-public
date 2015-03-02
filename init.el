@@ -202,11 +202,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 
 (defun shell-insert-result (command)
   "shell-commandの結果を prompt&コマンド名付きでカーソル位置に挿入します。"
-  (interactive
-   (list (shell-command-read-minibuffer
-	  shell-command-prompt
-	  default-directory
-	  nil nil nil 'shell-command-history)))
+  (interactive (list (read-shell-command "Shell command: ")))
   (insert "% " command "\n")
   (shell-command command t))
 
@@ -468,21 +464,22 @@ redrawが non-nilの場合は、Windowを再描画します。"
 	  (concat (add-log-iso8601-time-string)
 		  " (" (cdr (assoc (format-time-string "%a") day-name-alist)) ")"))))
 
-(defun mkchalow (force)
+(defun cap-deploy (arg)
   (interactive "P")
-  (let (pro
-	(pnm "mkchalow")
-	(buf " *mkchalow*")
-	(cnm "mkchalow")
-	(opts (if force '("-f"))))
-    (message (format "%sBuilding chalow for masutaka.net..."
-		     (if force "Force " "")))
+  (let* (pro
+	 (stage (if arg (read-string "stage: " "melody") "prod"))
+	 (default-directory "~/src/github.com/masutaka/masutaka.net/")
+	 (exec-path (cons "vendor/bundle/bin" exec-path))
+	 (pnm "cap-deploy")
+	 (buf " *cap-deploy*")
+	 (cnm "cap")
+	 (opts (list stage "deploy")))
+    (message (format "cap %s deploy..." stage))
     (setq pro (apply 'start-process pnm buf cnm opts))
     (set-process-sentinel
      pro
      `(lambda (process string)
-	(message ,(format "%sBuilding chalow for masutaka.net...done"
-			  (if force "Force " "")))
+	(message (format "cap %s deploy...done" ,stage))
 	(kill-buffer ,buf)))))
 
 (defun mkchalow-ura (force)
@@ -556,7 +553,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (setcar (cadr clmemo-font-lock-keywords)
 	  "\\[2[0-9][0-9][0-9]-[01]?[0-9]-[0-3]?[0-9]-?[0-9]*\\]")
   (define-key clmemo-mode-map (kbd "C-i") 'indent-for-tab-command)
-  (define-key clmemo-mode-map (kbd "C-c C-c") 'mkchalow)
+  (define-key clmemo-mode-map (kbd "C-c C-c") 'cap-deploy)
   (define-key clmemo-mode-map (kbd "C-c C-u") 'mkchalow-ura)
   (define-key clmemo-mode-map (kbd "C-c C-o") 'open-chalow))
 
@@ -827,6 +824,23 @@ redrawが non-nilの場合は、Windowを再描画します。"
 
 (define-key ctl-x-map (kbd "v g") 'github-browse-file-blame)
 (define-key ctl-x-map (kbd "v o") 'github-browse-file)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Go
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(with-eval-after-load "go-mode"
+  (require 'go-autocomplete)
+
+  (defun go-mode-hook-func ()
+    (setq tab-width 4)
+    (go-eldoc-setup))
+  (add-hook 'go-mode-hook 'go-mode-hook-func)
+
+  (define-key go-mode-map (kbd "M-.") 'godef-jump)
+  (define-key go-mode-map (kbd "M-,") 'pop-tag-mark))
+
+(add-hook 'before-save-hook 'gofmt-before-save)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; gud-mode
@@ -1185,7 +1199,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
     (delete-other-windows)
     (split-window-horizontally)
     (split-window-horizontally)
-    (split-window-horizontally)
+    (if here-is-feedforce (split-window-horizontally))
     (balance-windows)
     (twit)
     (cond
@@ -1193,8 +1207,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
       (switch-to-buffer ":home")
       (other-window 1)
       (twittering-visit-timeline "masutaka/read")
-      (other-window 1)
-      (twittering-visit-timeline "masutaka/readmore")
       (other-window 1)
       (twittering-visit-timeline "masutakafeed")
       (when here-is-feedforce
