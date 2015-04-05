@@ -10,7 +10,7 @@ Darwin)
 	export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 	export PATH=$HOME/opt/bin:$HOME/.cask/bin:$HOME/opt/terraform:$PATH:/usr/local/mysql/bin
 	export MANPATH=$HOME/.emacs.d/share/man:/usr/local/mysql/man:$MANPATH
-	export EDITOR=$HOME/opt/emacs-24.4/bin/emacsclient
+	export EDITOR=$HOME/opt/emacs-24.4.90/bin/emacsclient
     source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 #   source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 	;;
@@ -36,8 +36,6 @@ umask 022
 ulimit -S -c 0 > /dev/null 2>&1
 
 export MYSQL_PS1="(\u@`hostname`) [\d] > "
-
-export DOCKER_HOST=tcp://localhost:4243
 
 # Local Variables:
 # coding: utf-8
