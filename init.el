@@ -464,24 +464,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
 	  (concat (add-log-iso8601-time-string)
 		  " (" (cdr (assoc (format-time-string "%a") day-name-alist)) ")"))))
 
-(defun cap-deploy (arg)
-  (interactive "P")
-  (let* (pro
-	 (stage (if arg (read-string "stage: " "melody") "prod"))
-	 (default-directory "~/src/github.com/masutaka/masutaka.net/")
-	 (exec-path (cons "vendor/bundle/bin" exec-path))
-	 (pnm "cap-deploy")
-	 (buf " *cap-deploy*")
-	 (cnm "cap")
-	 (opts (list stage "deploy")))
-    (message (format "cap %s deploy..." stage))
-    (setq pro (apply 'start-process pnm buf cnm opts))
-    (set-process-sentinel
-     pro
-     `(lambda (process string)
-	(message (format "cap %s deploy...done" ,stage))
-	(kill-buffer ,buf)))))
-
 (defun mkchalow-ura (force)
   (interactive "P")
   (let (pro
@@ -553,7 +535,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (setcar (cadr clmemo-font-lock-keywords)
 	  "\\[2[0-9][0-9][0-9]-[01]?[0-9]-[0-3]?[0-9]-?[0-9]*\\]")
   (define-key clmemo-mode-map (kbd "C-i") 'indent-for-tab-command)
-  (define-key clmemo-mode-map (kbd "C-c C-c") 'cap-deploy)
   (define-key clmemo-mode-map (kbd "C-c C-u") 'mkchalow-ura)
   (define-key clmemo-mode-map (kbd "C-c C-o") 'open-chalow))
 
@@ -616,12 +597,12 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; Dired (directory-browsing commands)
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun dired-w3m-find-file ()
-  "dired でポイントのあるファイルを w3mで開く。"
+(defun dired-eww-find-file ()
+  "diredでポイントのあるファイルをewwで開く。"
   (interactive)
   (let ((file (dired-get-filename)))
-    (when (y-or-n-p (format "Open 'w3m' %s " (file-name-nondirectory file)))
-      (w3m-find-file file))))
+    (when (y-or-n-p (format "Open 'eww' %s " (file-name-nondirectory file)))
+      (eww-open-file file))))
 
 (setq dired-listing-switches "-al")
 
@@ -665,7 +646,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (define-key dired-mode-map (kbd "k") 'scroll-down-one-line)
   (define-key dired-mode-map (kbd "r") 'dired-view-file)
   (define-key dired-mode-map (kbd "v") 'dired-find-alternate-file)
-  (define-key dired-mode-map (kbd "w") 'dired-w3m-find-file)
+  (define-key dired-mode-map (kbd "w") 'dired-eww-find-file)
   (define-key dired-mode-map (kbd "C-t") 'call-last-kbd-macro)
   (define-key dired-mode-map (kbd "M-{") 'my-prev-window)
   (define-key dired-mode-map (kbd "M-}") 'my-next-window)
@@ -698,7 +679,8 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (local-set-key (kbd "C-c i")   'elisp-insert-kbd))
 
 (defun emacs-lisp-mode-hook-func ()
-  (elisp-mode-common-hook-func))
+  (elisp-mode-common-hook-func)
+  (checkdoc-minor-mode))
 (add-hook 'emacs-lisp-mode-hook 'emacs-lisp-mode-hook-func)
 
 (defun lisp-interaction-mode-hook-func ()
@@ -780,11 +762,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
   ;; For sh script
   (with-eval-after-load "sh-script"
     (set-face-foreground 'sh-heredoc-face "goldenrod4")
-    (set-face-foreground 'sh-quoted-exec "medium orchid"))
-
-  ;; For w3m
-  (with-eval-after-load "w3m-form"
-    (set-face-foreground 'w3m-form-face "gold4")))
+    (set-face-foreground 'sh-quoted-exec "medium orchid")))
  (t
   (set-face-foreground 'minibuffer-prompt "black")
   (set-face-foreground 'font-lock-comment-face "red")))
@@ -863,7 +841,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; Grep
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq grep-find-command '("ack --nogroup --nocolor -k " . 28))
+(setq grep-find-command '("ack --nogroup --nocolor --ignore-dir=vendor/bundle -k " . 55))
 (setq grep-find-history
       '("find . -type f -name '*' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"))
 
@@ -1109,20 +1087,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
   'mew-send-hook)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; mozc
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'mozc)
-(setq default-input-method "japanese-mozc")
-(setq mozc-helper-program-name "mozc_emacs_helper")
-
-(require 'ac-mozc)
-(define-key ac-mode-map (kbd "C-c C-SPC") 'ac-complete-mozc)
-
-;;(add-to-list 'ac-modes 'change-log-mode)
-;;(add-to-list 'ac-modes 'markdown-mode)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; open-junk-file
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1191,98 +1155,98 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; twittering-mode.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(when (require 'twittering-mode nil t)
+(require 'twittering-mode)
 
-  (defun my-twit ()
-    "自分用の Twitter 画面にする。"
-    (interactive)
-    (delete-other-windows)
-    (split-window-horizontally)
-    (split-window-horizontally)
-    (if here-is-feedforce (split-window-horizontally))
-    (balance-windows)
-    (twit)
-    (cond
-     ((twittering-account-authorized-p)
-      (switch-to-buffer ":home")
+(defun my-twit ()
+  "自分用の Twitter 画面にする。"
+  (interactive)
+  (delete-other-windows)
+  (split-window-horizontally)
+  (split-window-horizontally)
+  (if here-is-feedforce (split-window-horizontally))
+  (balance-windows)
+  (twit)
+  (cond
+   ((twittering-account-authorized-p)
+    (switch-to-buffer ":home")
+    (other-window 1)
+    (twittering-visit-timeline "masutaka/read")
+    (other-window 1)
+    (twittering-visit-timeline "masutakafeed")
+    (when here-is-feedforce
       (other-window 1)
-      (twittering-visit-timeline "masutaka/read")
-      (other-window 1)
-      (twittering-visit-timeline "masutakafeed")
-      (when here-is-feedforce
-	(other-window 1)
-	(twittering-visit-timeline "$feedforce"))
-      (other-window 1))
-     (t
-      (delete-other-windows))))
+      (twittering-visit-timeline "$feedforce"))
+    (other-window 1))
+   (t
+    (delete-other-windows))))
 
-  (defadvice twittering-goto-next-status
+(defadvice twittering-goto-next-status
     (around get-more activate)
-    "過去のツイートはたくさん取得する。"
-    (let ((twittering-number-of-tweets-on-retrieval 100))
-      ad-do-it))
+  "過去のツイートはたくさん取得する。"
+  (let ((twittering-number-of-tweets-on-retrieval 100))
+    ad-do-it))
 
-  (defun my-twittering-toggle-activate-all-buffer ()
-    "全バッファの activate/inactivate をトグルする。"
-    (interactive)
+(defun my-twittering-toggle-activate-all-buffer ()
+  "全バッファの activate/inactivate をトグルする。"
+  (interactive)
+  (dolist (buf (twittering-get-buffer-list))
+    (twittering-toggle-activate-buffer buf)))
+
+(defun my-twittering-erase-old-statuses (arg)
+  "\\[twittering-erase-old-statuses] のラッパ関数"
+  (interactive "P")
+  (if arg
+      (my-twittering-erase-old-statuses-all-buffer)
+    (twittering-erase-old-statuses)))
+
+(defun my-twittering-erase-old-statuses-all-buffer ()
+  "全バッファを erase-old-statuses する。"
+  (interactive)
+  (let ((tmpbuf (current-buffer)))
     (dolist (buf (twittering-get-buffer-list))
-      (twittering-toggle-activate-buffer buf)))
+      (switch-to-buffer buf)
+      (twittering-erase-old-statuses)
+      (sleep-for 1))
+    (switch-to-buffer tmpbuf)))
 
-  (defun my-twittering-erase-old-statuses (arg)
-    "\\[twittering-erase-old-statuses] のラッパ関数"
-    (interactive "P")
-    (if arg
-	(my-twittering-erase-old-statuses-all-buffer)
-      (twittering-erase-old-statuses)))
+(defun twittering-mode-init-hook-func ()
+  (set-face-bold-p 'twittering-username-face t)
+  (set-face-foreground 'twittering-username-face "DeepSkyBlue3")
+  (set-face-foreground 'twittering-uri-face "gray35"))
+(add-hook 'twittering-mode-init-hook 'twittering-mode-init-hook-func)
 
-  (defun my-twittering-erase-old-statuses-all-buffer ()
-    "全バッファを erase-old-statuses する。"
-    (interactive)
-    (let ((tmpbuf (current-buffer)))
-      (dolist (buf (twittering-get-buffer-list))
-	(switch-to-buffer buf)
-	(twittering-erase-old-statuses)
-	(sleep-for 1))
-      (switch-to-buffer tmpbuf)))
+(setq twittering-icon-mode t)
+(setq twittering-jojo-mode t)
+(setq twittering-display-remaining t)
+(setq twittering-status-format "%i %s,  %C{%m/%d (%a) %R}\n%FILL[  ]{%T // from %f%r%R}\n ")
+(setq twittering-retweet-format "QT @%s %t")
+(setq twittering-request-confirmation-on-posting t)
+(setq twittering-use-master-password t)
+(setq twittering-timer-interval 90)
+(setq twittering-use-icon-storage t)
+(setq twittering-timeline-spec-alias
+      `(("r"           . ,(lambda (u) (if u (format ":search/to:%s OR from:%s OR @%s/" u u u) ":home")))
+	("d"           . "(:direct_messages+:direct_messages_sent)")
+	("feedforce"   . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam -rt/")
+	("langrich"    . ":search/langrich OR ラングリッチ OR from:Langrich_ESL OR from:LR_STARS OR to:Langrich_ESL OR to:LR_STARS -source:Langrich -rt/")
+	("masutakanet" . ":search/masutaka.net/")
+	("twmode"      . ":search/twmode OR twittering-mode -rt/")))
+(setq twittering-number-of-tweets-on-retrieval 50)
+(setq twittering-tinyurl-service 'ow.ly)
+(setq twittering-owly-api-key (my-lisp-load "twittering-owly-api-key"))
 
-  (defun twittering-mode-init-hook-func ()
-    (set-face-bold-p 'twittering-username-face t)
-    (set-face-foreground 'twittering-username-face "DeepSkyBlue3")
-    (set-face-foreground 'twittering-uri-face "gray35"))
-  (add-hook 'twittering-mode-init-hook 'twittering-mode-init-hook-func)
-
-  (setq twittering-icon-mode t)
-  (setq twittering-jojo-mode t)
-  (setq twittering-display-remaining t)
-  (setq twittering-status-format "%i %s,  %C{%m/%d (%a) %R}\n%FILL[  ]{%T // from %f%r%R}\n ")
-  (setq twittering-retweet-format "QT @%s %t")
-  (setq twittering-request-confirmation-on-posting t)
-  (setq twittering-use-master-password t)
-  (setq twittering-timer-interval 60)
-  (setq twittering-use-icon-storage t)
-  (setq twittering-timeline-spec-alias
-	`(("r"           . ,(lambda (u) (if u (format ":search/to:%s OR from:%s OR @%s/" u u u) ":home")))
-	  ("d"           . "(:direct_messages+:direct_messages_sent)")
-	  ("feedforce"   . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam -rt/")
-	  ("langrich"    . ":search/langrich OR ラングリッチ OR from:Langrich_ESL OR from:LR_STARS OR to:Langrich_ESL OR to:LR_STARS -source:Langrich -rt/")
-	  ("masutakanet" . ":search/masutaka.net/")
-	  ("twmode"      . ":search/twmode OR twittering-mode -rt/")))
-  (setq twittering-number-of-tweets-on-retrieval 50)
-  (setq twittering-tinyurl-service 'ow.ly)
-  (setq twittering-owly-api-key (my-lisp-load "twittering-owly-api-key"))
-
-  (define-key twittering-mode-map (kbd "<") 'my-beginning-of-buffer)
-  (define-key twittering-mode-map (kbd ">") 'my-end-of-buffer)
-  (define-key twittering-mode-map (kbd "a") nil)
-  (define-key twittering-mode-map (kbd "T") 'my-twittering-toggle-activate-all-buffer)
-  (define-key twittering-mode-map (kbd "F") 'twittering-favorite)
-  (define-key twittering-mode-map (kbd "o") 'other-window)
-  (define-key twittering-mode-map (kbd "t") 'twittering-toggle-activate-buffer)
-  (define-key twittering-mode-map (kbd "O") (lambda () (interactive) (other-window -1)))
-  (define-key twittering-mode-map (kbd "<mouse-6>") 'twittering-switch-to-previous-timeline)
-  (define-key twittering-mode-map (kbd "<mouse-7>") 'twittering-switch-to-next-timeline)
-  (define-key twittering-mode-map (kbd "C-c C-e") 'my-twittering-erase-old-statuses)
-  (define-key twittering-edit-mode-map (kbd "C-c C-q") 'twittering-edit-cancel-status))
+(define-key twittering-mode-map (kbd "<") 'my-beginning-of-buffer)
+(define-key twittering-mode-map (kbd ">") 'my-end-of-buffer)
+(define-key twittering-mode-map (kbd "a") nil)
+(define-key twittering-mode-map (kbd "T") 'my-twittering-toggle-activate-all-buffer)
+(define-key twittering-mode-map (kbd "F") 'twittering-favorite)
+(define-key twittering-mode-map (kbd "o") 'other-window)
+(define-key twittering-mode-map (kbd "t") 'twittering-toggle-activate-buffer)
+(define-key twittering-mode-map (kbd "O") (lambda () (interactive) (other-window -1)))
+(define-key twittering-mode-map (kbd "<mouse-6>") 'twittering-switch-to-previous-timeline)
+(define-key twittering-mode-map (kbd "<mouse-7>") 'twittering-switch-to-next-timeline)
+(define-key twittering-mode-map (kbd "C-c C-e") 'my-twittering-erase-old-statuses)
+(define-key twittering-edit-mode-map (kbd "C-c C-q") 'twittering-edit-cancel-status)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sql-mode
@@ -1319,55 +1283,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (define-key view-mode-map (kbd "j") 'View-scroll-line-forward)
   (define-key view-mode-map (kbd "k") 'View-scroll-line-backward))
 (add-hook 'view-mode-hook 'view-mode-hook-func)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Interface program of W3m on Emacs
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(autoload 'w3m "w3m" "Interface for w3m on Emacs." t)
-(autoload 'w3m-find-file "w3m" "Interface for w3m on Emacs." t)
-
-(defun w3m-bookmark-backward-section ()
-  "前のセクションに飛ぶ。(Bookmark用)"
-  (interactive)
-  (cond ((re-search-backward "^[a-zA-Z]" (point-min) t))
-        (t (goto-char (point-min)))))
-
-(defun w3m-bookmark-next-section ()
-  "次のセクションに飛ぶ。(Bookmark用)"
-  (interactive)
-  (forward-line)
-  (cond ((re-search-forward "^[a-zA-Z]" (point-max) t) (beginning-of-line))
-        (t (goto-char (point-max)))))
-
-;; iconの場所
-(setq w3m-icon-directory
-      (let ((w3m_el (locate-library "w3m")))
-	(if w3m_el
-	    (expand-file-name
-	     "icons" (file-name-directory w3m_el))
-	  "")))
-
-;; ダウンロードする場所
-(setq w3m-default-save-directory my-download-directory)
-
-;; 検索エンジン(S)
-(setq w3m-search-default-engine "google")
-
-;; 天気予報(W)
-(setq w3m-weather-default-area "東京都・東京")
-
-(defun w3m-mode-hook-func ()
-  (define-key w3m-mode-map (kbd "F") 'w3m-view-next-page)
-  (define-key w3m-mode-map (kbd "N") 'w3m-bookmark-next-section)
-  (define-key w3m-mode-map (kbd "P") 'w3m-bookmark-backward-section)
-  (define-key w3m-mode-map (kbd "j") 'scroll-up-one-line)
-  (define-key w3m-mode-map (kbd "k") 'scroll-down-one-line)
-  (define-key w3m-mode-map (kbd "n") 'next-line)
-  (define-key w3m-mode-map (kbd "p") 'previous-line)
-  (define-key w3m-mode-map (kbd ",") (lambda (num) (interactive "p") (w3m-scroll-right num)))
-  (define-key w3m-mode-map (kbd ".") (lambda (num) (interactive "p") (w3m-scroll-left num))))
-(add-hook 'w3m-mode-hook 'w3m-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto-mode
@@ -1744,7 +1659,6 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd ",") 'migemo-toggle-isearch-enable)
 (define-key ctl-q-map (kbd ".") (if (featurep 'mi-config) 'mode-info-find-tag))
 (define-key ctl-q-map (kbd "c") 'copy-this-buffer-file-name)
-(define-key ctl-q-map (kbd "j") 'open-junk-file)
 (define-key ctl-q-map (kbd "C-a") 'text-scale-adjust)
 (define-key ctl-q-map (kbd "C-b") 'backward-list)
 (define-key ctl-q-map (kbd "C-c") 'clmemo)
@@ -1754,7 +1668,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-g") nil)
 ;;(define-key ctl-q-map (kbd "C-h") 'shell)		;;; => DEL
 (define-key ctl-q-map (kbd "C-i") 'window-toggle-division)
-(define-key ctl-q-map (kbd "C-j") nil)
+(define-key ctl-q-map (kbd "C-j") 'open-junk-file)
 (define-key ctl-q-map (kbd "C-k") 'swap-buffers)
 (define-key ctl-q-map (kbd "C-l") 'move-to-window-line)
 (define-key ctl-q-map (kbd "C-m") 'comment-region)
