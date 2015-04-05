@@ -6,14 +6,14 @@ brew update
 outdated=`brew outdated`
 
 if [ -n "$outdated" ]; then
-	cat << EOF
+	cat <<EOF
 
 The following package(s) will upgrade.
 
 $outdated
 
 Are you sure?
-If you do not want to upgrade, please type Ctrl-c now.
+If you don't want to upgrade, please type Ctrl-c now.
 EOF
 
 	read dummy
@@ -22,20 +22,13 @@ EOF
 fi
 
 # Add Repository
+brew tap caskroom/homebrew-versions
 brew tap homebrew/binary
-brew tap hirocaster/homebrew-mozc-emacs-helper
 
-# Memo:
-# autoconf:   emacs with inline.patch needs autoheader
-# pkg-config: for gem ref
-# qt:         gem capybara-screenshot uses qmake
-# readline:   for Ruby
-# stunnel:    for mew
-# webkit2png: % webkit2png -TF http://masutaka.net
 brew install ack
 brew install ansible
 brew install aspell
-brew install autoconf
+brew install autoconf # emacs with inline.patch needs autoheader
 brew install binutils
 brew install boot2docker
 brew install cmigemo
@@ -45,7 +38,6 @@ brew install gnu-sed
 brew install gnupg
 brew install go
 brew install heroku-toolbelt
-brew install hub
 brew install imagemagick
 brew install jq
 brew install jsl
@@ -53,21 +45,27 @@ brew install kindlegen
 brew install lv
 brew install markdown
 brew install mercurial
-brew install mozc-emacs-helper
 brew install nginx
-brew install pkg-config
+brew install pkg-config # for gem ref
 brew install postgresql
-brew install qt
-brew install readline
+brew install qt # gem capybara-screenshot uses qmake
+brew install readline # for Ruby
 brew install redis
-brew install stunnel
+brew install stunnel # for mew
 brew install terminal-notifier
 brew install tree
 brew install unrar
-brew install w3m
-brew install webkit2png
+brew install webkit2png # $ webkit2png -TF http://masutaka.net
 brew install wget
 brew install xz
+brew install youtube-dl
+
+cat <<EOF
+Do you want to install brew casks?
+If you don't want to install, please type Ctrl-c now.
+EOF
+
+read dummy
 
 brew install caskroom/cask/brew-cask
 brew cask install appcleaner
@@ -87,6 +85,7 @@ brew cask install grandperspective
 brew cask install gyazo
 brew cask install handbrake
 brew cask install istat-menus
+brew cask install java6
 brew cask install karabiner
 brew cask install kobito
 brew cask install launchbar
@@ -95,6 +94,7 @@ brew cask install limechat
 brew cask install lyn
 brew cask install quicksilver
 brew cask install ripit
+brew cask install rubymine
 brew cask install sequel-pro
 brew cask install silverlight
 brew cask install skype
