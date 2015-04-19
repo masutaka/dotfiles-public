@@ -184,6 +184,17 @@ if exists peco; then
 	zle -N peco_select_history
 	bindkey '^R' peco_select_history
 
+	function peco_bundle_show() {
+		local selected_dir=$(bundle show | awk 'NR>1 {print $2}' | peco | xargs bundle show)
+		if [ -n "$selected_dir" ]; then
+			BUFFER="cd ${selected_dir}"
+			zle accept-line
+		fi
+		zle clear-screen
+	}
+	zle -N peco_bundle_show
+	bindkey '^xy' peco_bundle_show
+
 	function peco_helm () {
 		local IFS="
 "
