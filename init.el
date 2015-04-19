@@ -380,8 +380,9 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (add-to-list 'helm-for-files-preferred-list 'helm-source-ghq)
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
 
-(with-eval-after-load "helm-buffers"
-  (add-to-list 'helm-boring-buffer-regexp-list "\\*Mew message\\*"))
+(setq helm-hatena-bookmark:username "masutaka26")
+(setq helm-hatena-bookmark:debug-mode t)
+(helm-hatena-bookmark:initialize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto-complete
@@ -735,7 +736,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; font-lock-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-font-lock-mode t)
+(global-font-lock-mode 1)
 
 (cond
  (window-system
@@ -1030,8 +1031,18 @@ redrawが non-nilの場合は、Windowを再描画します。"
     (browse-url (markdown-export output-file))
     (kill-buffer (get-file-buffer output-file))))
 
+(defun octodown ()
+  (interactive)
+  (shell-command (format "octodown %s" (buffer-file-name))))
+
+(defun qiitadown ()
+  (interactive)
+  (shell-command (format "qiitadown.sh %s" (buffer-file-name))))
+
 (with-eval-after-load "markdown-mode"
-  (define-key markdown-mode-map (kbd "C-c C-c p") 'my-markdown-preview))
+  (define-key markdown-mode-map (kbd "C-c C-c p") 'my-markdown-preview)
+  (define-key markdown-mode-map (kbd "C-c C-c C-c") 'octodown)
+  (define-key markdown-mode-map (kbd "C-c C-c C-q") 'qiitadown))
 
 (defun markdown-mode-hook-func ()
   (setq indent-tabs-mode nil)
@@ -1065,26 +1076,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
     (define-key help-map (kbd "F") 'mode-info-describe-function)
     (define-key help-map (kbd "V") 'mode-info-describe-variable))
   (add-hook 'help-mode-hook 'help-mode-hook-func))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Mew (Messaging in the Emacs World)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(autoload 'mew "mew" "Messaging in the Emacs World" t)
-(autoload 'mew-send "mew" "Messaging in the Emacs World" t)
-
-;; Read Mail menu
-(setq read-mail-command 'mew)
-
-;; e.g. C-xm for sending a message
-(autoload 'mew-user-agent-compose "mew" nil t)
-(setq mail-user-agent 'mew-user-agent)
-(define-mail-user-agent
-  'mew-user-agent
-  'mew-user-agent-compose
-  'mew-draft-send-letter
-  'mew-draft-kill
-  'mew-send-hook)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; open-junk-file
@@ -1290,15 +1281,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
 
 (require 'generic-x)
 
-;;; mew addrbook
-(with-eval-after-load "mew"
-  (define-generic-mode 'mew-addrbook-generic-mode
-    (list ?#)
-    nil
-    nil
-    (list (concat "\\" (file-relative-name mew-addrbook-file) "\\'"))
-    nil))
-
 (delete '("\\.js\\'" . javascript-generic-mode) auto-mode-alist)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1345,6 +1327,8 @@ do nothing. And suppress the output from `message' and
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(global-auto-revert-mode 1)
 
 ;; for distnoted patch
 (setq use-dialog-box nil)
@@ -1679,13 +1663,13 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-r") 'rename-uniquely)
 (define-key ctl-q-map (kbd "C-s") 'toggle-truncate-lines)
 (define-key ctl-q-map (kbd "C-t") 'linum-mode)
-;;(define-key ctl-q-map (kbd "C-u") nil)
+(define-key ctl-q-map (kbd "C-u") 'sort-lines)
 (define-key ctl-q-map (kbd "C-v") nil)
 ;;(define-key ctl-q-map (kbd "C-w") nil)
 (define-key ctl-q-map (kbd "C-x") 'dec2hex-hex2dec)
 (define-key ctl-q-map (kbd "C-y") 'quote-yank)
 ;;(define-key ctl-q-map (kbd "C-z") nil)
-(define-key ctl-q-map (kbd "DEL") 'shell)
+(define-key ctl-q-map (kbd "DEL") 'flyspell-region)
 (define-key ctl-q-map (kbd "C-SPC") 'comint-dynamic-complete-filename)
 
 ;; custom of the ctl-x-map
@@ -1694,6 +1678,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-x-map (kbd "b") 'helm-for-files)
 (define-key ctl-x-map (kbd "f") 'find-file-literally)
 (define-key ctl-x-map (kbd "m") mule-keymap)
+(define-key ctl-x-map (kbd "y") 'helm-bundle-show)
 ;;(define-key ctl-x-map (kbd "C-a") GUD-KEY-PREFIX)
 (define-key ctl-x-map (kbd "C-b") 'ibuffer)
 ;;(define-key ctl-x-map (kbd "C-c") 'save-buffers-kill-terminal)
@@ -1719,7 +1704,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key ctl-x-map (kbd "C-w") 'write-file)
 ;;(define-key ctl-x-map (kbd "C-x") 'exchange-point-and-mark)
 ;;(define-key ctl-x-map (kbd "C-y") nil)
-;;(define-key ctl-x-map (kbd "C-z") 'iconify-or-deiconify-frame)
+(define-key ctl-x-map (kbd "C-z") nil)
 
 ;;; Local Variables:
 ;;; mode: emacs-lisp
