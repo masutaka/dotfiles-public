@@ -1,4 +1,11 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; For isolation environment
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(if load-file-name
+    (setq user-emacs-directory (file-name-directory load-file-name)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Constants
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -17,6 +24,68 @@
 (defconst day-name-alist '(("Sun" . "日") ("Mon" . "月") ("Tue" . "火")
 			   ("Wed" . "水") ("Thu" . "木") ("Fri" . "金") ("Sat" . "土")))
 (defconst day-name-jp-list (mapcar (lambda (cell) (cdr cell)) day-name-alist))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; El-Get
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; See http://d.hatena.ne.jp/tarao/20150221/1424518030
+
+(add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
+
+(unless (require 'el-get nil 'noerror)
+  (with-current-buffer
+      (url-retrieve-synchronously
+       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
+    (goto-char (point-max))
+    (eval-print-last-sexp)))
+
+;; lock the pacakge versions
+(el-get-bundle! tarao/el-get-lock)
+
+;; Packages
+(el-get-bundle auto-complete)
+(el-get-bundle blgrep)
+(el-get-bundle clmemo)
+(el-get-bundle coffee-mode)
+(el-get-bundle dash)
+(el-get-bundle egg :type github :pkgname "masutaka/egg" :branch "freeze-time")
+(el-get-bundle eldoc-extension)
+(el-get-bundle elscreen)
+(el-get-bundle git-dwim)
+(el-get-bundle github-browse-file)
+(el-get-bundle go-autocomplete)
+(el-get-bundle go-eldoc)
+(el-get-bundle go-mode)
+(el-get-bundle haml-mode)
+(el-get-bundle helm)
+(el-get-bundle helm-bundle-show)
+(el-get-bundle helm-descbinds)
+(el-get-bundle helm-ghq)
+(el-get-bundle helm-hatena-bookmark :type github :pkgname "masutaka/emacs-helm-hatena-bookmark" :branch "fix-sleep-problem")
+(el-get-bundle helm-migemo)
+(el-get-bundle highlight-symbol)
+(el-get-bundle hl-line+)
+(el-get-bundle keyfreq)
+(el-get-bundle markdown-mode)
+(el-get-bundle migemo)
+(el-get-bundle mkdown)
+(el-get-bundle motion-mode)
+(el-get-bundle navi2ch)
+(el-get-bundle nginx-mode)
+(el-get-bundle open-junk-file)
+(el-get-bundle org-tree-slide :type github :pkgname "takaxp/org-tree-slide")
+(el-get-bundle php-mode)
+(el-get-bundle quickrun)
+(el-get-bundle rspec-mode)
+(el-get-bundle savekill)
+(el-get-bundle scratch-log)
+(el-get-bundle sequential-command)
+(el-get-bundle terraform-mode)
+(el-get-bundle twittering-mode :type github :pkgname "masutaka/twittering-mode" :branch "add-owly")
+(el-get-bundle web-mode)
+(el-get-bundle wgrep)
+(el-get-bundle yaml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Advices and Functions
@@ -284,13 +353,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
       ;; パスを通したくないディレクトリには、.nosearch という
       ;; ファイルを置く。ディレクトリ RCS と CVS は追加しない。
       (normal-top-level-add-subdirs-to-load-path))))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; cask.el
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'cask "~/.cask/cask.el")
-(cask-initialize)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; set Kanji coding system
@@ -842,9 +904,10 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; Grep
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq grep-find-command '("ack --nogroup --nocolor --ignore-dir=vendor/bundle -k " . 55))
+(setq grep-find-command '("ack --nogroup --nocolor -k " . 28))
 (setq grep-find-history
-      '("find . -type f -name '*' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"))
+      '("find . -type f -name '*' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"
+	"ack --nogroup --nocolor --ignore-dir=vendor/bundle -k "))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; hl-line+
@@ -914,6 +977,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (define-key php-mode-map (kbd "C-c C-]") 'end-of-defun)
 
 (defun web-mode-hook-func ()
+  (setq web-mode-markup-indent-offset 2)
   (setq indent-tabs-mode nil))
 (add-hook 'web-mode-hook 'web-mode-hook-func)
 
