@@ -41,51 +41,52 @@
     (eval-print-last-sexp)))
 
 ;; lock the pacakge versions
-(el-get-bundle! tarao/el-get-lock)
+(el-get-bundle tarao/el-get-lock)
+(el-get-lock)
 
 ;; Packages
-(el-get-bundle auto-complete)
-(el-get-bundle blgrep)
-(el-get-bundle clmemo)
-(el-get-bundle coffee-mode)
-(el-get-bundle dash)
+(el-get-bundle elpa:auto-complete)
+(el-get-bundle elpa:blgrep)
+(el-get-bundle elpa:clmemo)
+(el-get-bundle elpa:coffee-mode)
+(el-get-bundle elpa:dash)
 (el-get-bundle egg :type github :pkgname "masutaka/egg" :branch "freeze-time")
-(el-get-bundle eldoc-extension)
-(el-get-bundle elscreen)
-(el-get-bundle git-dwim)
-(el-get-bundle github-browse-file)
-(el-get-bundle go-autocomplete)
-(el-get-bundle go-eldoc)
-(el-get-bundle go-mode)
-(el-get-bundle haml-mode)
-(el-get-bundle helm)
-(el-get-bundle helm-bundle-show)
-(el-get-bundle helm-descbinds)
-(el-get-bundle helm-ghq)
+(el-get-bundle elpa:eldoc-extension)
+(el-get-bundle elpa:elscreen)
+(el-get-bundle elpa:git-dwim)
+(el-get-bundle elpa:github-browse-file)
+(el-get-bundle elpa:go-autocomplete)
+(el-get-bundle elpa:go-eldoc)
+(el-get-bundle elpa:go-mode)
+(el-get-bundle elpa:haml-mode)
+(el-get-bundle elpa:helm)
+(el-get-bundle elpa:helm-bundle-show)
+(el-get-bundle elpa:helm-descbinds)
+(el-get-bundle elpa:helm-ghq)
 (el-get-bundle helm-hatena-bookmark :type github :pkgname "masutaka/emacs-helm-hatena-bookmark" :branch "fix-sleep-problem")
-(el-get-bundle helm-migemo)
-(el-get-bundle highlight-symbol)
-(el-get-bundle hl-line+)
-(el-get-bundle keyfreq)
-(el-get-bundle markdown-mode)
-(el-get-bundle migemo)
-(el-get-bundle mkdown)
-(el-get-bundle motion-mode)
-(el-get-bundle navi2ch)
-(el-get-bundle nginx-mode)
-(el-get-bundle open-junk-file)
-(el-get-bundle org-tree-slide :type github :pkgname "takaxp/org-tree-slide")
-(el-get-bundle php-mode)
-(el-get-bundle quickrun)
-(el-get-bundle rspec-mode)
-(el-get-bundle savekill)
-(el-get-bundle scratch-log)
-(el-get-bundle sequential-command)
-(el-get-bundle terraform-mode)
+(el-get-bundle elpa:helm-migemo)
+(el-get-bundle elpa:highlight-symbol)
+(el-get-bundle elpa:hl-line+)
+(el-get-bundle elpa:keyfreq)
+(el-get-bundle elpa:markdown-mode)
+(el-get-bundle elpa:migemo)
+(el-get-bundle elpa:mkdown)
+(el-get-bundle elpa:navi2ch)
+(el-get-bundle elpa:nginx-mode)
+(el-get-bundle elpa:open-junk-file)
+(el-get-bundle elpa:org-tree-slide)
+(el-get-bundle elpa:php-mode)
+(el-get-bundle elpa:popup) ;; for dependency
+(el-get-bundle elpa:quickrun)
+(el-get-bundle elpa:rspec-mode)
+(el-get-bundle elpa:savekill)
+(el-get-bundle elpa:scratch-log)
+(el-get-bundle elpa:sequential-command)
+(el-get-bundle elpa:terraform-mode)
 (el-get-bundle twittering-mode :type github :pkgname "masutaka/twittering-mode" :branch "add-owly")
-(el-get-bundle web-mode)
-(el-get-bundle wgrep)
-(el-get-bundle yaml-mode)
+(el-get-bundle elpa:web-mode)
+(el-get-bundle elpa:wgrep)
+(el-get-bundle elpa:yaml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Advices and Functions
@@ -439,7 +440,12 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;; 表示する最大候補数。
 (setq helm-candidate-number-limit 100)
 
+;; Add ghq to after buffers-list
+(setq helm-for-files-preferred-list (delete 'helm-source-buffers-list helm-for-files-preferred-list))
 (add-to-list 'helm-for-files-preferred-list 'helm-source-ghq)
+(add-to-list 'helm-for-files-preferred-list 'helm-source-buffers-list)
+
+;; Remove locate
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
 
 (setq helm-hatena-bookmark:username "masutaka26")
@@ -1154,19 +1160,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
 
 (when (require 'quickrun nil t)
   (define-key global-map (kbd "<f8>") 'quickrun))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; RubyMotion
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-hook 'ruby-mode-hook 'motion-recognize-project)
-(add-to-list 'ac-modes 'motion-mode)
-(add-to-list 'ac-sources 'ac-source-dictionary)
-
-(with-eval-after-load "motion-mode"
-  (define-key motion-mode-map (kbd "C-c C-c") 'motion-execute-rake)
-  (define-key motion-mode-map (kbd "C-c C-d") 'motion-dash-at-point)
-  (define-key motion-mode-map (kbd "C-c C-p") 'motion-convert-code-region))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sequential-command.el
