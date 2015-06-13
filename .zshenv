@@ -8,7 +8,7 @@ OS_KIND=`uname`
 case "$OS_KIND" in
 Darwin)
 	export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
-	export PATH=$HOME/opt/bin:$HOME/.cask/bin:$HOME/opt/terraform:$PATH:/usr/local/mysql/bin
+	export PATH=$HOME/opt/bin:$HOME/opt/terraform:$PATH:/usr/local/mysql/bin
 	export MANPATH=/usr/local/mysql/man:$MANPATH
 	export EDITOR=$HOME/opt/emacs-24.5/bin/emacsclient
     source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
