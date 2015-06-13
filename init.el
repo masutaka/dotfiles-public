@@ -53,6 +53,7 @@
 (el-get-bundle egg :type github :pkgname "masutaka/egg" :branch "freeze-time")
 (el-get-bundle elpa:eldoc-extension)
 (el-get-bundle elpa:elscreen)
+(el-get-bundle elpa:flycheck)
 (el-get-bundle elpa:git-dwim)
 (el-get-bundle elpa:github-browse-file)
 (el-get-bundle elpa:go-autocomplete)
@@ -63,7 +64,7 @@
 (el-get-bundle elpa:helm-bundle-show)
 (el-get-bundle elpa:helm-descbinds)
 (el-get-bundle elpa:helm-ghq)
-(el-get-bundle helm-hatena-bookmark :type github :pkgname "masutaka/emacs-helm-hatena-bookmark" :branch "fix-sleep-problem")
+(el-get-bundle elpa:helm-hatena-bookmark)
 (el-get-bundle elpa:helm-migemo)
 (el-get-bundle elpa:highlight-symbol)
 (el-get-bundle elpa:hl-line+)
@@ -87,6 +88,7 @@
 (el-get-bundle elpa:web-mode)
 (el-get-bundle elpa:wgrep)
 (el-get-bundle elpa:yaml-mode)
+(el-get-bundle elpa:zoom-window)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Advices and Functions
@@ -764,41 +766,31 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; Elscreen
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(cond 
- ;;## elscreen
- ;;((and (require 'elscreen nil t) window-system)	;;; 暫定 [Elips: 0005505]
- ((require 'elscreen nil t)
+(require 'elscreen)
 
-  (elscreen-start)
+(elscreen-start)
 
-  (defcustom elscreen-navi2ch-mode-to-nickname-alist
-    '(("^navi2ch-" . "Navi2ch"))
-    "*Alist composed of the pair of mode-name and corresponding screen-name."
-    :type '(alist :key-type string :value-type (choice string function))
-    :tag "Navi2ch major-mode to screen nickname alist"
-    :set (lambda (symbol value)
-	   (custom-set-default symbol value)
-	   (elscreen-rebuild-mode-to-nickname-alist))
-    :group 'navi2ch)
-  (elscreen-set-mode-to-nickname-alist 'elscreen-navi2ch-mode-to-nickname-alist)
+(defcustom elscreen-navi2ch-mode-to-nickname-alist
+  '(("^navi2ch-" . "Navi2ch"))
+  "*Alist composed of the pair of mode-name and corresponding screen-name."
+  :type '(alist :key-type string :value-type (choice string function))
+  :tag "Navi2ch major-mode to screen nickname alist"
+  :set (lambda (symbol value)
+	 (custom-set-default symbol value)
+	 (elscreen-rebuild-mode-to-nickname-alist))
+  :group 'navi2ch)
+(elscreen-set-mode-to-nickname-alist 'elscreen-navi2ch-mode-to-nickname-alist)
 
-  (defalias 'my-create-window 'elscreen-create)
-  (defalias 'my-delete-current-window 'elscreen-kill)
-  (defalias 'my-next-window 'elscreen-next)
-  (defalias 'my-prev-window 'elscreen-previous)
+(defalias 'my-create-window 'elscreen-create)
+(defalias 'my-delete-current-window 'elscreen-kill)
+(defalias 'my-next-window 'elscreen-next)
+(defalias 'my-prev-window 'elscreen-previous)
 
-  ;; 閉じるボタンは右側
-  (setq elscreen-tab-display-kill-screen 'right)
+;; 閉じるボタンは右側
+(setq elscreen-tab-display-kill-screen 'right)
 
-  (define-key elscreen-map (kbd "C-l") 'elscreen-clone)
-  (define-key elscreen-map (kbd "C-SPC") 'elscreen-toggle))
-
- ;;## default
- (t
-  (defalias 'my-create-window 'make-frame-command)
-  (defalias 'my-delete-current-window 'delete-frame)
-  (defalias 'my-next-window 'other-frame)
-  (defalias 'my-prev-window (lambda () (interactive) (other-frame t)))))
+(define-key elscreen-map (kbd "C-l") 'elscreen-clone)
+(define-key elscreen-map (kbd "C-SPC") 'elscreen-toggle)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; font-lock-mode
@@ -1045,6 +1037,9 @@ redrawが non-nilの場合は、Windowを再描画します。"
     (self-insert-command (prefix-numeric-value arg))))
 
 (defun ruby-mode-hook-func ()
+  ;; http://qiita.com/aKenjiKato/items/9ff1a153691e947113bb
+  ;; (setq flycheck-checker 'ruby-rubocop)
+  ;; (flycheck-mode 1)
   (setq show-trailing-whitespace t))
 (add-hook 'ruby-mode-hook 'ruby-mode-hook-func)
 
@@ -1074,7 +1069,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 	  'mac-selected-keyboard-input-source-change-hook-func)
 
 ;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
-(mac-auto-ascii-mode 1)
+;;(mac-auto-ascii-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mark
@@ -1275,7 +1270,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (setq twittering-timeline-spec-alias
       `(("r"           . ,(lambda (u) (if u (format ":search/to:%s OR from:%s OR @%s/" u u u) ":home")))
 	("d"           . "(:direct_messages+:direct_messages_sent)")
-	("feedforce"   . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam -rt/")
+	("feedforce"   . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam OR from:DFPLUS1 OR to:DFPLUS1 OR from:ff_boardgame OR to:ff_boardgame -rt/")
 	("langrich"    . ":search/langrich OR ラングリッチ OR from:Langrich_ESL OR from:LR_STARS OR to:Langrich_ESL OR to:LR_STARS -source:Langrich -rt/")
 	("masutakanet" . ":search/masutaka.net/")
 	("twmode"      . ":search/twmode OR twittering-mode -rt/")))
@@ -1380,6 +1375,16 @@ do nothing. And suppress the output from `message' and
 
 ;; scratch バッファを次回起動時に復元。ログも記録する。
 (require 'scratch-log)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; zoom-window
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'zoom-window)
+(setq zoom-window-use-elscreen t)
+(zoom-window-setup)
+
+(define-key elscreen-map (kbd "C-z") 'zoom-window-zoom)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Misc
