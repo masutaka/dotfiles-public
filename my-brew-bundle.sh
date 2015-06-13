@@ -18,7 +18,7 @@ EOF
 
 	read dummy
 
-	brew upgrade
+	brew upgrade --all
 fi
 
 if [ $(hostname) = "masutaka-pc.local" ]; then
@@ -39,21 +39,19 @@ brew install gnu-sed
 brew install gnupg
 brew install go
 brew install heroku-toolbelt
+brew install homebrew/binary/jsl
+brew install homebrew/binary/kindlegen
 brew install icu4c # for gem octodown
 brew install imagemagick
 brew install jq
-brew install homebrew/binary/jsl
-brew install homebrew/binary/kindlegen
 brew install lv
 brew install markdown
 brew install mercurial
-brew install nginx
 brew install pkg-config # for gem ref
 brew install postgresql
 brew install qt # gem capybara-screenshot uses qmake
 brew install readline # for Ruby
 brew install redis
-brew install stunnel # for mew
 brew install terminal-notifier
 brew install tree
 brew install unrar
@@ -62,6 +60,7 @@ brew install wget
 brew install xz
 
 if [ -n "$PRIVATE_MACHINE" ]; then
+	brew install nginx
 	brew install youtube-dl
 fi
 
@@ -77,9 +76,8 @@ brew cask install appcleaner
 brew cask install atom
 brew cask install caffeine
 brew cask install dropbox
-brew cask install firefox
+brew cask install firefox --caskroom=/Applications
 brew cask install flash
-brew cask install github
 brew cask install google-chrome --caskroom=/Applications
 brew cask install google-cloud-sdk
 brew cask install google-drive
@@ -87,17 +85,12 @@ brew cask install google-japanese-ime
 brew cask install grandperspective
 brew cask install gyazo
 brew cask install imageoptim
-brew cask install istat-menus
-brew cask install java6
 brew cask install karabiner
-brew cask install kobito
 brew cask install launchbar
 brew cask install licecap
+brew cask install mysqlworkbench
 brew cask install quicksilver
-brew cask install rubymine
-brew cask install sequel-pro
 brew cask install silverlight
-brew cask install sourcetree
 brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
