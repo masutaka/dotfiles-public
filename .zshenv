@@ -11,6 +11,7 @@ Darwin)
 	export PATH=$HOME/opt/bin:$HOME/opt/terraform:$PATH:/usr/local/mysql/bin
 	export MANPATH=/usr/local/mysql/man:$MANPATH
 	export EDITOR=$HOME/opt/emacs-24.5/bin/emacsclient
+	export EMACS=$HOME/Applications/Emacs.app/Contents/MacOS/Emacs
     source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
 #   source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 	;;
