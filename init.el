@@ -54,7 +54,7 @@
 (el-get-bundle elpa:git-dwim)
 (el-get-bundle elpa:hl-line+)
 (el-get-bundle elpa:sequential-command)
-(el-get-bundle emacs-jp/elscreen)
+(el-get-bundle elscreen)
 (el-get-bundle flycheck/flycheck :depends (dash pkg-info let-alist cl-lib))
 (el-get-bundle go-autocomplete)
 (el-get-bundle go-eldoc)
