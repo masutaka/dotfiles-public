@@ -99,7 +99,6 @@ if [ -n "$PRIVATE_MACHINE" ]; then
 	brew cask install chromecast
 	brew cask install flip4mac
 	brew cask install handbrake
-	brew cask install limechat
 	brew cask install lyn
 	brew cask install ripit
 	brew cask install skype
