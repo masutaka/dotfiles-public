@@ -4,6 +4,16 @@
 # Functions
 #---------------------------------------------------------------------
 
+# arg: 0 or 1 (default: 1)
+function askpass() {
+	local cond=1
+	if [ "$1" ]; then
+		cond=$1
+	fi
+	defaults write com.apple.screensaver askForPassword -int $cond
+	echo "screensaver askForPassword: $cond"
+}
+
 function exists() {
 	type $1 > /dev/null
 }
@@ -342,7 +352,7 @@ bindkey '^w'	kill-region
 # Aliases
 #---------------------------------------------------------------------
 if [ "$OS_KIND" = Darwin ]; then
-	alias emacs=$HOME/Applications/Emacs.app/Contents/MacOS/Emacs
+	alias emacs=$EMACS
 fi
 
 if exists hub; then
