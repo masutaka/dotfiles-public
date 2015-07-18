@@ -70,7 +70,6 @@
 (el-get-bundle masutaka/egg :branch "freeze-time")
 (el-get-bundle masutaka/emacs-helm-bundle-show :name helm-bundle-show)
 (el-get-bundle masutaka/emacs-helm-hatena-bookmark :name helm-hatena-bookmark)
-(el-get-bundle masutaka/twittering-mode :branch "add-owly")
 (el-get-bundle migemo)
 (el-get-bundle mori-dev/scratch-log)
 (el-get-bundle navi2ch)
@@ -1191,103 +1190,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
   (define-key shell-mode-map (kbd "M-n") 'comint-next-matching-input-from-input)
   (define-key shell-mode-map (kbd "M-p") 'comint-previous-matching-input-from-input))
 (add-hook 'shell-mode-hook 'shell-mode-hook-func)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; twittering-mode.el
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'twittering-mode)
-
-(defun my-twit ()
-  "自分用の Twitter 画面にする。"
-  (interactive)
-  (delete-other-windows)
-  (split-window-horizontally)
-  (split-window-horizontally)
-  (if here-is-feedforce (split-window-horizontally))
-  (balance-windows)
-  (twit)
-  (cond
-   ((twittering-account-authorized-p)
-    (switch-to-buffer ":home")
-    (other-window 1)
-    (twittering-visit-timeline "masutaka/read")
-    (other-window 1)
-    (twittering-visit-timeline "masutakafeed")
-    (when here-is-feedforce
-      (other-window 1)
-      (twittering-visit-timeline "$feedforce"))
-    (other-window 1))
-   (t
-    (delete-other-windows))))
-
-(defadvice twittering-goto-next-status
-    (around get-more activate)
-  "過去のツイートはたくさん取得する。"
-  (let ((twittering-number-of-tweets-on-retrieval 100))
-    ad-do-it))
-
-(defun my-twittering-toggle-activate-all-buffer ()
-  "全バッファの activate/inactivate をトグルする。"
-  (interactive)
-  (dolist (buf (twittering-get-buffer-list))
-    (twittering-toggle-activate-buffer buf)))
-
-(defun my-twittering-erase-old-statuses (arg)
-  "\\[twittering-erase-old-statuses] のラッパ関数"
-  (interactive "P")
-  (if arg
-      (my-twittering-erase-old-statuses-all-buffer)
-    (twittering-erase-old-statuses)))
-
-(defun my-twittering-erase-old-statuses-all-buffer ()
-  "全バッファを erase-old-statuses する。"
-  (interactive)
-  (let ((tmpbuf (current-buffer)))
-    (dolist (buf (twittering-get-buffer-list))
-      (switch-to-buffer buf)
-      (twittering-erase-old-statuses)
-      (sleep-for 1))
-    (switch-to-buffer tmpbuf)))
-
-(defun twittering-mode-init-hook-func ()
-  (set-face-bold-p 'twittering-username-face t)
-  (set-face-foreground 'twittering-username-face "DeepSkyBlue3")
-  (set-face-foreground 'twittering-uri-face "gray35"))
-(add-hook 'twittering-mode-init-hook 'twittering-mode-init-hook-func)
-
-(setq twittering-icon-mode t)
-(setq twittering-jojo-mode t)
-(setq twittering-display-remaining t)
-(setq twittering-status-format "%i %s,  %C{%m/%d (%a) %R}\n%FILL[  ]{%T // from %f%r%R}\n ")
-(setq twittering-retweet-format "QT @%s %t")
-(setq twittering-request-confirmation-on-posting t)
-(setq twittering-use-master-password t)
-(setq twittering-timer-interval 90)
-(setq twittering-use-icon-storage t)
-(setq twittering-timeline-spec-alias
-      `(("r"           . ,(lambda (u) (if u (format ":search/to:%s OR from:%s OR @%s/" u u u) ":home")))
-	("d"           . "(:direct_messages+:direct_messages_sent)")
-	("feedforce"   . ":search/feedforce OR フィードフォース OR from:feedforce OR to:feedforce OR from:ff_socialteam OR to:ff_socialteam OR from:DFPLUS1 OR to:DFPLUS1 OR from:ff_boardgame OR to:ff_boardgame -rt/")
-	("langrich"    . ":search/langrich OR ラングリッチ OR from:Langrich_ESL OR to:Langrich_ESL OR from:LR_STARS OR to:LR_STARS OR from:Langrich_Promo OR to:Langrich_Promo -rt/")
-	("masutakanet" . ":search/masutaka.net/")
-	("twmode"      . ":search/twmode OR twittering-mode -rt/")))
-(setq twittering-number-of-tweets-on-retrieval 50)
-(setq twittering-tinyurl-service 'ow.ly)
-(setq twittering-owly-api-key (my-lisp-load "twittering-owly-api-key"))
-
-(define-key twittering-mode-map (kbd "<") 'my-beginning-of-buffer)
-(define-key twittering-mode-map (kbd ">") 'my-end-of-buffer)
-(define-key twittering-mode-map (kbd "a") nil)
-(define-key twittering-mode-map (kbd "T") 'my-twittering-toggle-activate-all-buffer)
-(define-key twittering-mode-map (kbd "F") 'twittering-favorite)
-(define-key twittering-mode-map (kbd "o") 'other-window)
-(define-key twittering-mode-map (kbd "t") 'twittering-toggle-activate-buffer)
-(define-key twittering-mode-map (kbd "O") (lambda () (interactive) (other-window -1)))
-(define-key twittering-mode-map (kbd "<mouse-6>") 'twittering-switch-to-previous-timeline)
-(define-key twittering-mode-map (kbd "<mouse-7>") 'twittering-switch-to-next-timeline)
-(define-key twittering-mode-map (kbd "C-c C-e") 'my-twittering-erase-old-statuses)
-(define-key twittering-edit-mode-map (kbd "C-c C-q") 'twittering-edit-cancel-status)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sql-mode
