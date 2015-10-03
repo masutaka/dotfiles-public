@@ -26,66 +26,58 @@
 (defconst day-name-jp-list (mapcar (lambda (cell) (cdr cell)) day-name-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; El-Get
+;;; package.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; See http://d.hatena.ne.jp/tarao/20150221/1424518030
+(require 'package)
 
-(add-to-list 'load-path (locate-user-emacs-file "el-get/el-get"))
+(add-to-list 'package-archives '("melpa" . "http://melpa.org/packages/") t)
 
-(unless (require 'el-get nil 'noerror)
-  (with-current-buffer
-      (url-retrieve-synchronously
-       "https://raw.githubusercontent.com/dimitri/el-get/master/el-get-install.el")
-    (goto-char (point-max))
-    (eval-print-last-sexp)))
+(package-initialize)
+(package-refresh-contents)
 
-;; lock the pacakge versions
-(el-get-bundle tarao/el-get-lock)
-(el-get-lock)
-
-;; Packages
-(el-get-bundle ajtulloch/mkdown.el :name mkdown)
-(el-get-bundle ataka/blgrep)
-(el-get-bundle ataka/clmemo)
-(el-get-bundle auto-complete)
-(el-get-bundle coffee-mode)
-(el-get-bundle elpa:eldoc-extension)
-(el-get-bundle elpa:git-dwim)
-(el-get-bundle elpa:hl-line+)
-(el-get-bundle elpa:sequential-command)
-(el-get-bundle elscreen)
-(el-get-bundle flycheck/flycheck :depends (dash pkg-info let-alist cl-lib))
-(el-get-bundle go-autocomplete)
-(el-get-bundle go-eldoc)
-(el-get-bundle go-mode)
-(el-get-bundle haml-mode)
-(el-get-bundle helm)
-(el-get-bundle helm-descbinds)
-(el-get-bundle helm-ghq)
-(el-get-bundle helm-migemo)
-(el-get-bundle highlight-symbol)
-(el-get-bundle keyfreq)
-(el-get-bundle markdown-mode)
-(el-get-bundle masutaka/egg :branch "freeze-time")
-(el-get-bundle masutaka/emacs-helm-bundle-show :name helm-bundle-show)
-(el-get-bundle masutaka/emacs-helm-hatena-bookmark :name helm-hatena-bookmark)
-(el-get-bundle migemo)
-(el-get-bundle mori-dev/scratch-log)
-(el-get-bundle navi2ch)
-(el-get-bundle nginx-mode)
-(el-get-bundle open-junk-file)
-(el-get-bundle org-tree-slide)
-(el-get-bundle osener/github-browse-file)
-(el-get-bundle php-mode)
-(el-get-bundle quickrun)
-(el-get-bundle rspec-mode)
-(el-get-bundle savekill)
-(el-get-bundle terraform-mode)
-(el-get-bundle web-mode)
-(el-get-bundle wgrep)
-(el-get-bundle yaml-mode)
-(el-get-bundle zoom-window)
+(package-install 'mkdown)
+(package-install 'coffee-mode)
+(package-install 'blgrep)
+(package-install 'clmemo)
+(package-install 'auto-complete)
+(package-install 'coffee-mode)
+(package-install 'dockerfile-mode)
+(package-install 'eldoc-extension)
+(package-install 'git-dwim)
+(package-install 'hl-line+)
+(package-install 'sequential-command)
+(package-install 'elscreen)
+(package-install 'flycheck)
+(package-install 'go-autocomplete)
+(package-install 'go-eldoc)
+(package-install 'go-mode)
+(package-install 'haml-mode)
+(package-install 'helm)
+(package-install 'helm-descbinds)
+(package-install 'helm-ghq)
+(package-install 'helm-migemo)
+(package-install 'highlight-symbol)
+(package-install 'keyfreq)
+(package-install 'markdown-mode)
+(package-install 'egg)
+(package-install 'helm-bundle-show)
+(package-install 'helm-hatena-bookmark)
+(package-install 'migemo)
+(package-install 'scratch-log)
+(package-install 'navi2ch)
+(package-install 'nginx-mode)
+(package-install 'open-junk-file)
+(package-install 'org-tree-slide)
+(package-install 'github-browse-file)
+(package-install 'php-mode)
+(package-install 'quickrun)
+(package-install 'rspec-mode)
+(package-install 'savekill)
+(package-install 'terraform-mode)
+(package-install 'web-mode)
+(package-install 'wgrep)
+(package-install 'yaml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Advices and Functions
@@ -831,16 +823,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
 
 (require 'egg)
 
-(defadvice egg-log
-  (after detete-current-window activate)
-  "現在のフレームを egg-log バッファだけにする。"
-  (delete-other-windows))
-
-(defadvice egg-status
-  (after detete-current-window activate)
-  "現在のフレームを egg-status バッファだけにする。"
-  (delete-other-windows))
-
 (setq egg-enable-tooltip t)
 
 (set-face-foreground 'egg-branch "blue")
@@ -1109,7 +1091,8 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (defun markdown-mode-hook-func ()
   (setq indent-tabs-mode nil)
   (setq show-trailing-whitespace t)
-  (setq markdown-css-paths (list mkdown-css-file-name)))
+  (setq markdown-css-paths (list mkdown-css-file-name))
+  (electric-indent-local-mode 0))
 (add-hook 'markdown-mode-hook 'markdown-mode-hook-func)
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
@@ -1275,16 +1258,6 @@ do nothing. And suppress the output from `message' and
 
 ;; scratch バッファを次回起動時に復元。ログも記録する。
 (require 'scratch-log)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; zoom-window
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'zoom-window)
-(setq zoom-window-use-elscreen t)
-(zoom-window-setup)
-
-(define-key elscreen-map (kbd "C-z") 'zoom-window-zoom)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Misc
@@ -1637,12 +1610,11 @@ do nothing. And suppress the output from `message' and
 ;; custom of the ctl-x-map
 (define-key ctl-x-map (kbd "9") 'delete-other-windows-vertically)
 (define-key ctl-x-map (kbd "M") 'compose-mail)
-(define-key ctl-x-map (kbd "b") 'helm-for-files)
 (define-key ctl-x-map (kbd "f") 'find-file-literally)
 (define-key ctl-x-map (kbd "m") mule-keymap)
 (define-key ctl-x-map (kbd "y") 'helm-bundle-show)
 ;;(define-key ctl-x-map (kbd "C-a") GUD-KEY-PREFIX)
-(define-key ctl-x-map (kbd "C-b") 'ibuffer)
+(define-key ctl-x-map (kbd "C-b") 'helm-for-files)
 ;;(define-key ctl-x-map (kbd "C-c") 'save-buffers-kill-terminal)
 ;;(define-key ctl-x-map (kbd "C-d") 'list-directory)
 ;;(define-key ctl-x-map (kbd "C-e") 'eval-last-sexp)
