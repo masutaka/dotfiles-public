@@ -218,7 +218,7 @@ if exists peco; then
 		zle clear-screen
 	}
 	zle -N peco_helm
-	bindkey '^xb' peco_helm
+	bindkey '^x^b' peco_helm
 
 	# http://blog.n-z.jp/blog/2014-07-25-compact-chpwd-recent-dirs.html
 	function my-compact-chpwd-recent-dirs () {
@@ -381,6 +381,9 @@ alias hall="history -E -i 1"
 alias ll="kd"
 alias rootinstalllog="echo 'find /usr/local -cnewer timestamp | sort'"
 alias v="vagrant"
+
+alias s="cd ~/src/github.com/feedforce/social-plus"
+alias ss="cd ~/src/github.com/feedforce/server-social-plus"
 
 # Local Variables:
 # coding: utf-8
