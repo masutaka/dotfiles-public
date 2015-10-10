@@ -11,7 +11,7 @@
 
 (defconst hostname (downcase (car (split-string (system-name) "\\."))))
 
-(defconst here-is-feedforce (equal hostname "takashi-no-mac-mini"))
+(defconst here-is-feedforce (equal hostname "masutaka-pro"))
 
 (defconst machine-linux (eq system-type 'gnu/linux) "Linux")
 (defconst machine-mac (eq system-type 'darwin) "Mac")
@@ -824,6 +824,7 @@ redrawが non-nilの場合は、Windowを再描画します。"
 
 (require 'egg)
 
+(setq egg-buffer-hide-section-type-on-start nil)
 (setq egg-enable-tooltip t)
 
 (set-face-foreground 'egg-branch "blue")
@@ -1604,7 +1605,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-s") 'toggle-truncate-lines)
 (define-key ctl-q-map (kbd "C-t") 'linum-mode)
 (define-key ctl-q-map (kbd "C-u") 'sort-lines)
-(define-key ctl-q-map (kbd "C-v") nil)
+(define-key ctl-q-map (kbd "C-v") 'mark-whole-buffer)
 ;;(define-key ctl-q-map (kbd "C-w") nil)
 (define-key ctl-q-map (kbd "C-x") 'dec2hex-hex2dec)
 (define-key ctl-q-map (kbd "C-y") 'quote-yank)
