@@ -858,23 +858,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (add-hook 'before-save-hook 'gofmt-before-save)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; gud-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(defadvice gdb-init-1
-  (after keybind-again activate)
-  ;; ここでもキーをセットしないと、C-cC-u が gud-until() に上書きされてしまう。
-  (gdb-set-my-keybind))
-
-(defun gdb-set-my-keybind ()
-  (local-set-key (kbd "M-p") 'comint-previous-matching-input-from-input)
-  (local-set-key (kbd "M-n") 'comint-next-matching-input-from-input)
-  (local-set-key (kbd "C-c C-p") 'comint-previous-prompt)
-  (local-set-key (kbd "C-c C-n") 'comint-next-prompt)
-  (local-set-key (kbd "C-c C-u") 'comint-kill-input))
-(add-hook 'gdb-mode-hook 'gdb-set-my-keybind)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Grep
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1587,7 +1570,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-x-map (kbd "f") 'find-file-literally)
 (define-key ctl-x-map (kbd "m") mule-keymap)
 (define-key ctl-x-map (kbd "y") 'helm-bundle-show)
-;;(define-key ctl-x-map (kbd "C-a") GUD-KEY-PREFIX)
+;;(define-key ctl-x-map (kbd "C-a") DEFAULT-KEY-PREFIX)
 (define-key ctl-x-map (kbd "C-b") 'helm-for-files)
 ;;(define-key ctl-x-map (kbd "C-c") 'save-buffers-kill-terminal)
 ;;(define-key ctl-x-map (kbd "C-d") 'list-directory)
