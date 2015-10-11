@@ -58,12 +58,10 @@
 (package-install 'helm-descbinds)
 (package-install 'helm-ghq)
 (package-install 'helm-hatena-bookmark)
-(package-install 'helm-migemo)
 (package-install 'highlight-symbol)
 (package-install 'hl-line+)
 (package-install 'keyfreq)
 (package-install 'markdown-mode)
-(package-install 'migemo)
 (package-install 'mkdown)
 (package-install 'navi2ch)
 (package-install 'nginx-mode)
@@ -414,11 +412,8 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'helm-config)
-(require 'helm-migemo)
 (require 'helm-imenu)
 (require 'helm-ghq)
-
-(setq helm-use-migemo nil)
 
 ;; C-c F1 などのインターフェイスを提供。
 (helm-descbinds-mode)
@@ -1100,21 +1095,6 @@ redrawが non-nilの場合は、Windowを再描画します。"
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; migemo (ローマ字のまま日本語をインクリメンタル検索)
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(when (require 'migemo nil t)
-  (setq migemo-command "cmigemo")
-  (setq migemo-options '("-q" "--emacs" "-i" "\g"))
-  (setq migemo-dictionary "/usr/local/share/migemo/utf-8/migemo-dict")
-  (setq migemo-user-dictionary nil)
-  (setq migemo-regex-dictionary nil)
-
-  (setq migemo-coding-system 'utf-8-unix)
-  (migemo-init)
-  (set-process-query-on-exit-flag migemo-process nil))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; mode-info
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1300,10 +1280,6 @@ do nothing. And suppress the output from `message' and
 ;; C-u C-SPC, C-u C-SPC,... が C-u C-SPC, C-SPC,... で良くなる。
 (setq set-mark-command-repeat-pop t)
 
-;; ミニバッファの補完で ".log" を除外しない。
-(setq completion-ignored-extensions
-      (delete ".log" completion-ignored-extensions))
-
 ;; C-v などでページ移動があってもカーソル位置を変化させない。
 (setq scroll-preserve-screen-position t)
 
@@ -1419,19 +1395,12 @@ do nothing. And suppress the output from `message' and
 ;; 桁番号の表示
 (column-number-mode t)
 
-;; eval/narrow mode OK
-(put 'eval-expression 'disabled nil)
-(put 'narrow-to-region 'disabled nil)
-
-;; up/down case-region OK
-(put 'upcase-region 'disabled nil)
-(put 'downcase-region 'disabled nil)
-
-;; M-x erase-buffer OK
-(put 'erase-buffer 'disabled nil)
-
-;; In dired, `v' command OK (Emacs-21.3.50 later)
+;; 実行の許可
 (put 'dired-find-alternate-file 'disabled nil)
+(put 'downcase-region 'disabled nil)
+(put 'erase-buffer 'disabled nil)
+(put 'narrow-to-region 'disabled nil)
+(put 'upcase-region 'disabled nil)
 
 ;; 時間の書式
 (setq display-time-string-forms
@@ -1581,7 +1550,6 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "2") (lambda () (interactive) (set-aurora-tab-width 2 t t)))
 (define-key ctl-q-map (kbd "4") (lambda () (interactive) (set-aurora-tab-width 4 t t)))
 (define-key ctl-q-map (kbd "8") (lambda () (interactive) (set-aurora-tab-width 8 t t)))
-(define-key ctl-q-map (kbd ",") 'migemo-toggle-isearch-enable)
 (define-key ctl-q-map (kbd ".") (if (featurep 'mi-config) 'mode-info-find-tag))
 (define-key ctl-q-map (kbd "c") 'copy-this-buffer-file-name)
 (define-key ctl-q-map (kbd "C-a") 'text-scale-adjust)
