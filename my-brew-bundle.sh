@@ -31,7 +31,6 @@ brew install autoconf # emacs with inline.patch needs autoheader
 brew install binutils
 brew install caskroom/cask/brew-cask
 brew install cmake # for gem octodown
-brew install cmigemo
 brew install docker
 brew install git
 brew install gnu-sed
@@ -79,7 +78,6 @@ brew cask install google-cloud-sdk
 brew cask install google-drive
 brew cask install google-japanese-ime
 brew cask install grandperspective
-brew cask install gyazo
 brew cask install imageoptim
 brew cask install karabiner
 brew cask install launchbar
