@@ -43,11 +43,9 @@
 (package-install 'coffee-mode)
 (package-install 'coffee-mode)
 (package-install 'dockerfile-mode)
-(package-install 'egg)
 (package-install 'eldoc-extension)
 (package-install 'elscreen)
 (package-install 'flycheck)
-(package-install 'git-dwim)
 (package-install 'github-browse-file)
 (package-install 'go-autocomplete)
 (package-install 'go-eldoc)
@@ -61,6 +59,7 @@
 (package-install 'highlight-symbol)
 (package-install 'hl-line+)
 (package-install 'keyfreq)
+(package-install 'magit)
 (package-install 'markdown-mode)
 (package-install 'mkdown)
 (package-install 'navi2ch)
@@ -244,21 +243,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   "2 分割している場合、両方の Window が 1 行スクロールアップします。"
   (interactive "p")
   (scroll-up-one-line num t))
-
-(defun set-aurora-tab-width (num &optional local redraw)
-  "タブ幅をセットします。タブ5とかタブ20も設定できたりします。
-localが non-nilの場合は、カレントバッファでのみ有効になります。
-redrawが non-nilの場合は、Windowを再描画します。"
-  (interactive "nTab Width: ")
-  (when local
-    (make-local-variable 'tab-width)
-    (make-local-variable 'tab-stop-list))
-  (setq tab-width num)
-  (setq tab-stop-list ())
-  (while (<= num 256)
-    (setq tab-stop-list `(,@tab-stop-list ,num))
-    (setq num (+ num tab-width)))
-  (when redraw (redraw-display)) tab-width)
 
 (defun shell-insert-result (command)
   "shell-commandの結果を prompt&コマンド名付きでカーソル位置に挿入します。"
@@ -817,28 +801,10 @@ redrawが non-nilの場合は、Windowを再描画します。"
 ;;; git
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'egg)
-
-(setq egg-buffer-hide-section-type-on-start nil)
-(setq egg-enable-tooltip t)
-
-(set-face-foreground 'egg-branch "blue")
-(set-face-foreground 'egg-branch-mono "blue")
-(set-face-foreground 'egg-help-key "blue")
-(set-face-foreground 'egg-term "blue")
-
-(define-key egg-status-buffer-mode-map (kbd "j") 'scroll-up-one-line)
-(define-key egg-status-buffer-mode-map (kbd "k") 'scroll-down-one-line)
-(define-key egg-log-buffer-mode-map (kbd "j") 'scroll-up-one-line)
-(define-key egg-log-buffer-mode-map (kbd "k") 'scroll-down-one-line)
-(define-key ctl-x-map (kbd "v s") 'egg-status)
-(define-key ctl-x-map (kbd "v l") 'egg-log)
-
-(require 'git-dwim)
-(define-key ctl-x-map (kbd "v b") 'git-branch-next-action)
-
 (define-key ctl-x-map (kbd "v g") 'github-browse-file-blame)
+(define-key ctl-x-map (kbd "v l") 'magit-log)
 (define-key ctl-x-map (kbd "v o") 'github-browse-file)
+(define-key ctl-x-map (kbd "v s") 'magit-status)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Go
@@ -963,6 +929,8 @@ redrawが non-nilの場合は、Windowを再描画します。"
 
   (add-to-list 'flymake-err-line-patterns
 	       '("^\\(.+\\)(\\([0-9]+\\)): \\(.*warning\\|SyntaxError\\): \\(.*\\)" 1 2 nil 4))
+
+  (setq js-indent-level 2)
 
   (defun js-mode-hook-func ()
     (flymake-mode 1)
@@ -1316,9 +1284,6 @@ do nothing. And suppress the output from `message' and
     (define-key image-mode-map (kbd "C-n") 'next-line)
     (define-key image-mode-map (kbd "C-p") 'previous-line)))
 
-;; general tab stops
-(set-aurora-tab-width (setq default-tab-width (setq-default tab-width 8)))
-
 ;; 強力な補完機能 (ex. C-x C-f <stdio.h> [RET])
 ;;(partial-completion-mode t)
 
@@ -1405,8 +1370,7 @@ do nothing. And suppress the output from `message' and
 	  'executable-make-buffer-file-executable-if-script-p)
 
 (defun sh-mode-hook-func ()
-  ;; sh script のタブは 4
-  (set-aurora-tab-width 4 t)
+  (setq tab-width 4)
   ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t))
 (add-hook 'sh-mode-hook 'sh-mode-hook-func)
@@ -1530,9 +1494,6 @@ do nothing. And suppress the output from `message' and
 ;; custom of the ctl-q-map
 (defvar ctl-q-map (make-keymap))
 (define-key global-map (kbd "C-q") ctl-q-map)
-(define-key ctl-q-map (kbd "2") (lambda () (interactive) (set-aurora-tab-width 2 t t)))
-(define-key ctl-q-map (kbd "4") (lambda () (interactive) (set-aurora-tab-width 4 t t)))
-(define-key ctl-q-map (kbd "8") (lambda () (interactive) (set-aurora-tab-width 8 t t)))
 (define-key ctl-q-map (kbd ".") (if (featurep 'mi-config) 'mode-info-find-tag))
 (define-key ctl-q-map (kbd "c") 'copy-this-buffer-file-name)
 (define-key ctl-q-map (kbd "C-a") 'text-scale-adjust)
