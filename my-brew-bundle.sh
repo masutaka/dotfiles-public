@@ -68,14 +68,11 @@ EOF
 read dummy
 
 brew cask install appcleaner
-brew cask install atom
 brew cask install dropbox
 brew cask install firefox --caskroom=/Applications
 brew cask install flash
-brew cask install github-desktop
 brew cask install google-chrome --caskroom=/Applications
 brew cask install google-cloud-sdk
-brew cask install google-drive
 brew cask install google-japanese-ime
 brew cask install grandperspective
 brew cask install imageoptim
@@ -83,16 +80,18 @@ brew cask install karabiner
 brew cask install launchbar
 brew cask install licecap
 brew cask install quicksilver
-brew cask install silverlight
 brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
 
 if [ -n "$PRIVATE_MACHINE" ]; then
+	brew cask install atom
 	brew cask install chromecast
+	brew cask install google-drive
 	brew cask install handbrake
 	brew cask install lyn
 	brew cask install ripit
+	brew cask install silverlight
 	brew cask install skype
 	brew cask install vlc
 else
