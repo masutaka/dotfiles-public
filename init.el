@@ -43,9 +43,11 @@
 (package-install 'coffee-mode)
 (package-install 'coffee-mode)
 (package-install 'dockerfile-mode)
+(package-install 'egg)
 (package-install 'eldoc-extension)
 (package-install 'elscreen)
 (package-install 'flycheck)
+(package-install 'git-dwim)
 (package-install 'github-browse-file)
 (package-install 'go-autocomplete)
 (package-install 'go-eldoc)
@@ -59,7 +61,6 @@
 (package-install 'highlight-symbol)
 (package-install 'hl-line+)
 (package-install 'keyfreq)
-(package-install 'magit)
 (package-install 'markdown-mode)
 (package-install 'mkdown)
 (package-install 'navi2ch)
@@ -801,10 +802,36 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;;; git
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;; egg
+
+(require 'egg)
+
+(setq egg-buffer-hide-section-type-on-start nil)
+(setq egg-enable-tooltip t)
+(setq egg-max-reflogs 0)
+
+(set-face-foreground 'egg-branch "blue")
+(set-face-foreground 'egg-branch-mono "blue")
+(set-face-foreground 'egg-help-key "blue")
+(set-face-foreground 'egg-term "blue")
+
+(define-key egg-status-buffer-mode-map (kbd "j") 'scroll-up-one-line)
+(define-key egg-status-buffer-mode-map (kbd "k") 'scroll-down-one-line)
+(define-key egg-log-buffer-mode-map (kbd "j") 'scroll-up-one-line)
+(define-key egg-log-buffer-mode-map (kbd "k") 'scroll-down-one-line)
+(define-key ctl-x-map (kbd "v s") 'egg-status)
+(define-key ctl-x-map (kbd "v l") 'egg-log)
+
+;;; git-dwim
+
+(require 'git-dwim)
+
+(define-key ctl-x-map (kbd "v b") 'git-branch-next-action)
+
+;;; github-browse-file
+
 (define-key ctl-x-map (kbd "v g") 'github-browse-file-blame)
-(define-key ctl-x-map (kbd "v l") 'magit-log)
 (define-key ctl-x-map (kbd "v o") 'github-browse-file)
-(define-key ctl-x-map (kbd "v s") 'magit-status)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Go
@@ -930,16 +957,12 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   (add-to-list 'flymake-err-line-patterns
 	       '("^\\(.+\\)(\\([0-9]+\\)): \\(.*warning\\|SyntaxError\\): \\(.*\\)" 1 2 nil 4))
 
-  (setq js-indent-level 2)
-
   (defun js-mode-hook-func ()
     (flymake-mode 1)
     (setq indent-tabs-mode nil))
   (add-hook 'js-mode-hook 'js-mode-hook-func))
 
-;; (defun js-mode-hook-func ()
-;;   (setq indent-tabs-mode nil))
-;; (add-hook 'js-mode-hook 'js-mode-hook-func)
+(setq js-indent-level 2)
 
 (defun coffee-mode-hook-func ()
  (setq coffee-tab-width 2))
