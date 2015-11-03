@@ -85,13 +85,11 @@ brew cask install vagrant
 brew cask install virtualbox
 
 if [ -n "$PRIVATE_MACHINE" ]; then
-	brew cask install atom
 	brew cask install chromecast
 	brew cask install google-drive
 	brew cask install handbrake
 	brew cask install lyn
 	brew cask install ripit
-	brew cask install silverlight
 	brew cask install skype
 	brew cask install vlc
 else
