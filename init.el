@@ -1098,6 +1098,32 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 (require 'sequential-command)
 
+;;; workaround
+;;; seq-count() conflicts with seq.el
+
+(defun sequential-command-count ()
+  "Returns number of times `this-command' was executed.
+It also updates `seq-start-position'."
+  (if (eq last-command this-command)
+      (incf seq-store-count)
+    (setq seq-start-position  (cons (point) (window-start))
+          seq-store-count     0)))
+
+(defmacro define-sequential-command (name &rest commands)
+  "Define a command whose behavior is changed by sequence of calls of the same command."
+  (let ((cmdary (apply 'vector commands)))
+    `(defun ,name ()
+       ,(concat "Sequential command of "
+                (mapconcat
+                 (lambda (cmd) (format "`%s'" (symbol-name cmd)))
+                 commands " and ")
+                ".")
+       (interactive)
+       (call-interactively
+        (aref ,cmdary (mod (sequential-command-count) ,(length cmdary)))))))
+
+;;; definitions
+
 (define-sequential-command my-beginning-of-line
   beginning-of-line back-to-indentation seq-return)
 
