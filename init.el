@@ -41,7 +41,6 @@
 (package-install 'clmemo)
 (package-install 'codic)
 (package-install 'coffee-mode)
-(package-install 'coffee-mode)
 (package-install 'dockerfile-mode)
 (package-install 'egg)
 (package-install 'eldoc-extension)
@@ -58,6 +57,7 @@
 (package-install 'helm-descbinds)
 (package-install 'helm-ghq)
 (package-install 'helm-hatena-bookmark)
+(package-install 'helm-swoop)
 (package-install 'highlight-symbol)
 (package-install 'hl-line+)
 (package-install 'keyfreq)
@@ -535,7 +535,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 	   ((equal filename "clmemo.txt")
 	    "masutaka.net/chalow")
 	   (t
-	    "localhost:8080/chalow-ura"))))
+	    "0.0.0.0:8080/chalow-ura"))))
     (save-excursion
       (setq date (and (re-search-backward date-regexp (point-min) t)
 		      (match-string-no-properties 1))))
