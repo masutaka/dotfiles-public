@@ -56,6 +56,7 @@
 (package-install 'helm-bundle-show)
 (package-install 'helm-descbinds)
 (package-install 'helm-ghq)
+(package-install 'helm-github-stars)
 (package-install 'helm-hatena-bookmark)
 (package-install 'helm-swoop)
 (package-install 'highlight-symbol)
@@ -423,6 +424,9 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (setq helm-hatena-bookmark:username "masutaka26")
 (setq helm-hatena-bookmark:debug-mode t)
 (helm-hatena-bookmark:initialize)
+
+(setq helm-github-stars-token (my-lisp-load "helm-github-stars-token"))
+(setq helm-github-stars-name-length 50)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto-complete
@@ -1535,6 +1539,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-n") nil)
 (define-key global-map (kbd "s-o") nil)
 (define-key global-map (kbd "s-t") 'my-create-window)
+(define-key global-map (kbd "s-u") 'helm-github-stars)
 (define-key global-map (kbd "s-w") 'my-delete-current-window)
 (define-key global-map (kbd "s-y") 'duplicate-thing)
 (define-key global-map (kbd "s-C-j") 'scroll-up-one-line-both-window)
