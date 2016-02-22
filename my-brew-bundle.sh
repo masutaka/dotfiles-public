@@ -29,9 +29,10 @@ brew install ack
 brew install aspell
 brew install autoconf # emacs with inline.patch needs autoheader
 brew install binutils
-brew install caskroom/cask/brew-cask
+brew install bzr	# for `$ go get github.com/stretchr/gomniauth/...`
 brew install cmake # for gem octodown
-brew install docker
+brew install direnv
+brew install ghq
 brew install git
 brew install gnu-sed
 brew install gnupg
@@ -39,12 +40,15 @@ brew install go
 brew install heroku-toolbelt
 brew install homebrew/binary/jsl
 brew install homebrew/binary/kindlegen
+brew install hub
 brew install icu4c # for gem octodown
 brew install imagemagick
 brew install jq
 brew install lv
 brew install markdown
 brew install mercurial
+brew install openssl # El Capitan doesn't have
+brew install peco
 brew install pkg-config # for gem ref
 brew install qt # gem capybara-screenshot uses qmake
 brew install readline # for Ruby
@@ -57,8 +61,13 @@ brew install xz
 
 if [ -n "$PRIVATE_MACHINE" ]; then
 	brew install nginx
+	brew install postgresql
 	brew install youtube-dl
+else
+	brew install rpm2cpio
 fi
+
+brew tap caskroom/cask
 
 cat <<EOF
 Do you want to install brew casks?
@@ -68,6 +77,7 @@ EOF
 read dummy
 
 brew cask install appcleaner
+brew cask install dockertoolbox
 brew cask install dropbox
 brew cask install firefox --caskroom=/Applications
 brew cask install flash
@@ -93,5 +103,8 @@ if [ -n "$PRIVATE_MACHINE" ]; then
 	brew cask install skype
 	brew cask install vlc
 else
+	brew cask install android-studio
+	brew cask install genymotion
+	brew cask install java
 	brew cask install mysqlworkbench
 fi
