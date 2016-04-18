@@ -24,8 +24,7 @@ Linux)
 esac
 
 export GOPATH=$HOME
-export PATH=$HOME/.plenv/bin:$HOME/.rbenv/bin:$GOPATH/bin:$PATH
-source $HOME/.nvm/nvm.sh
+export PATH=$HOME/.nodebrew/current/bin:$HOME/.plenv/bin:$HOME/.rbenv/bin:$GOPATH/bin:$PATH
 eval "$(plenv init -)"
 eval "$(rbenv init -)"
 eval "$(direnv hook zsh)"
@@ -37,6 +36,8 @@ umask 022
 ulimit -S -c 0 > /dev/null 2>&1
 
 export MYSQL_PS1="(\u@`hostname`) [\d] > "
+
+#eval "$(docker-machine env default)"
 
 # Local Variables:
 # coding: utf-8
