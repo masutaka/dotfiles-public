@@ -29,8 +29,8 @@ brew install ack
 brew install aspell
 brew install autoconf # emacs with inline.patch needs autoheader
 brew install binutils
-brew install bzr	# for `$ go get github.com/stretchr/gomniauth/...`
 brew install cmake # for gem octodown
+brew install curl --with-nghttp2
 brew install direnv
 brew install ghq
 brew install git
@@ -60,9 +60,13 @@ brew install wget
 brew install xz
 
 if [ -n "$PRIVATE_MACHINE" ]; then
+	brew install bzr	# for gowebbook `$ go get github.com/stretchr/gomniauth/...`
+	brew install mongodb # for gowebbook
+	brew install mysql
 	brew install nginx
+	brew install nsq # for gowebbook
 	brew install postgresql
-	brew install youtube-dl
+	brew install redis
 else
 	brew install rpm2cpio
 fi
@@ -77,6 +81,7 @@ EOF
 read dummy
 
 brew cask install appcleaner
+brew cask install bitbar
 brew cask install dockertoolbox
 brew cask install dropbox
 brew cask install firefox --caskroom=/Applications
