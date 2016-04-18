@@ -4,16 +4,6 @@
 # Functions
 #---------------------------------------------------------------------
 
-# arg: 0 or 1 (default: 1)
-function askpass() {
-	local cond=1
-	if [ "$1" ]; then
-		cond=$1
-	fi
-	defaults write com.apple.screensaver askForPassword -int $cond
-	echo "screensaver askForPassword: $cond"
-}
-
 function exists() {
 	type $1 > /dev/null
 }
@@ -294,6 +284,36 @@ if [ "$TERM" = "screen" ]; then
 fi
 
 #---------------------------------------------------------------------
+# Function
+#---------------------------------------------------------------------
+
+function urlencode() {
+	echo $(php -r "echo rawurlencode('$1');")
+}
+
+function urldecode() {
+	echo $(php -r "echo rawurldecode('$1');")
+}
+
+if [ "$OS_KIND" = "Darwin" ]; then
+	# http://qiita.com/kyanny/items/0797d37cab6327fba2c4
+	function ciopen() {
+		commit=head
+		if [ -n "$1" ]; then
+			commit=$1
+		fi
+
+		result=$(hub ci-status -v $commit)
+
+		if [ $? = 3 ]; then
+			echo $result
+		else
+			open $(echo $result | awk '{print $NF}')
+		fi
+	}
+fi
+
+#---------------------------------------------------------------------
 # Key binding
 #---------------------------------------------------------------------
 
@@ -330,7 +350,7 @@ if [ "$OS_KIND" = "Darwin" ]; then
 fi
 
 # ファイル名で補完させる。
-#function _mkdir() { _files }
+function _du() { _files }
 
 # shell-mode風
 autoload -Uz history-search-end
@@ -355,9 +375,9 @@ if [ "$OS_KIND" = Darwin ]; then
 	alias emacs=$EMACS
 fi
 
-if exists hub; then
-	eval "$(hub alias -s)"
-fi
+# if exists hub; then
+# 	eval "$(hub alias -s)"
+# fi
 
 if exists peco; then
 	alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//"`'
@@ -374,7 +394,6 @@ alias mv="mv -i"
 alias rm="rm -i"
 
 alias cdg="cd \$(git rev-parse --show-toplevel)"
-alias e="eval $EDITOR"
 alias expandurl="perl -MLWP::UserAgent -lE 'say LWP::UserAgent->new->head(shift)->request->uri'"
 alias g="git"
 alias hall="history -E -i 1"
