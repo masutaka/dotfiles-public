@@ -595,7 +595,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (require 'sdic)
 (setq sdic-window-height 20)
 
-(defvar dict-bin "/Users/masutaka/repository/commandline-dictionary-app/src/dict"
+(defvar dict-bin "/Users/masutaka/src/hg.pqrs.org/commandline-dictionary-app/src/dict"
   "a path of commandline-dictionary-app")
 
 (defun dictionary-app (word)
@@ -845,7 +845,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   (require 'go-autocomplete)
 
   (defun go-mode-hook-func ()
-    (setq tab-width 4)
+    (setq tab-width 2)
     (go-eldoc-setup))
   (add-hook 'go-mode-hook 'go-mode-hook-func)
 
@@ -1538,9 +1538,10 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
 (define-key global-map (kbd "s-n") nil)
 (define-key global-map (kbd "s-o") nil)
+(define-key global-map (kbd "s-s") 'helm-swoop)
 (define-key global-map (kbd "s-t") 'my-create-window)
 (define-key global-map (kbd "s-u") 'helm-github-stars)
-(define-key global-map (kbd "s-w") 'my-delete-current-window)
+(define-key global-map (kbd "s-w") nil)
 (define-key global-map (kbd "s-y") 'duplicate-thing)
 (define-key global-map (kbd "s-C-j") 'scroll-up-one-line-both-window)
 (define-key global-map (kbd "s-C-k") 'scroll-down-one-line-both-window)
