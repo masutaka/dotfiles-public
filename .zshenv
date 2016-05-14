@@ -25,6 +25,7 @@ esac
 
 export GOPATH=$HOME
 export PATH=$HOME/.nodebrew/current/bin:$HOME/.plenv/bin:$HOME/.rbenv/bin:$GOPATH/bin:$PATH
+export NODE_PATH=$(npm root -g)
 eval "$(plenv init -)"
 eval "$(rbenv init -)"
 eval "$(direnv hook zsh)"
