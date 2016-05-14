@@ -28,6 +28,7 @@ fi
 brew install ack
 brew install aspell
 brew install autoconf # emacs with inline.patch needs autoheader
+brew install awscli
 brew install binutils
 brew install cmake # for gem octodown
 brew install curl --with-nghttp2
@@ -35,7 +36,7 @@ brew install direnv
 brew install ghq
 brew install git
 brew install gnu-sed
-brew install gnupg
+brew install gnupg2
 brew install go
 brew install heroku-toolbelt
 brew install homebrew/binary/jsl
@@ -68,6 +69,7 @@ if [ -n "$PRIVATE_MACHINE" ]; then
 	brew install postgresql
 	brew install redis
 else
+	brew install lha
 	brew install rpm2cpio
 fi
 
