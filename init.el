@@ -58,6 +58,7 @@
 (package-install 'helm-ghq)
 (package-install 'helm-github-stars)
 (package-install 'helm-hatena-bookmark)
+(package-install 'helm-qiita)
 (package-install 'helm-swoop)
 (package-install 'highlight-symbol)
 (package-install 'hl-line+)
@@ -404,15 +405,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;; C-c F1 などのインターフェイスを提供。
 (helm-descbinds-mode)
 
-;; 候補を作って描写するまでのタイムラグ。
-(setq helm-idle-delay 0.1)
-
-;; 文字列を入力してから検索するまでのタイムラグ。
-(setq helm-input-idle-delay 0.1)
-
-;; 表示する最大候補数。
-(setq helm-candidate-number-limit 100)
-
 ;; Add ghq to after buffers-list
 (setq helm-for-files-preferred-list (delete 'helm-source-buffers-list helm-for-files-preferred-list))
 (add-to-list 'helm-for-files-preferred-list 'helm-source-ghq)
@@ -424,6 +416,12 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (setq helm-hatena-bookmark:username "masutaka26")
 (setq helm-hatena-bookmark:debug-mode t)
 (helm-hatena-bookmark:initialize)
+
+(setq helm-qiita-username "masutaka")
+(setq helm-qiita-organization "feedforce")
+(setq helm-qiita-access-token (my-lisp-load "helm-qiita-access-token"))
+(setq helm-qiita-debug-mode t)
+(helm-qiita-initialize)
 
 (setq helm-github-stars-token (my-lisp-load "helm-github-stars-token"))
 (setq helm-github-stars-name-length 50)
@@ -1538,6 +1536,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
 (define-key global-map (kbd "s-n") nil)
 (define-key global-map (kbd "s-o") nil)
+(define-key global-map (kbd "s-q") 'helm-qiita)
 (define-key global-map (kbd "s-s") 'helm-swoop)
 (define-key global-map (kbd "s-t") 'my-create-window)
 (define-key global-map (kbd "s-u") 'helm-github-stars)
