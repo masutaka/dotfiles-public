@@ -75,6 +75,7 @@
 (package-install 'savekill)
 (package-install 'scratch-log)
 (package-install 'sequential-command)
+(package-install 'slim-mode)
 (package-install 'terraform-mode)
 (package-install 'web-mode)
 (package-install 'wgrep)
@@ -413,9 +414,9 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;; Remove locate
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
 
-(setq helm-hatena-bookmark:username "masutaka26")
-(setq helm-hatena-bookmark:debug-mode t)
-(helm-hatena-bookmark:initialize)
+(setq helm-hatena-bookmark-username "masutaka26")
+(setq helm-hatena-bookmark-debug-mode t)
+(helm-hatena-bookmark-initialize)
 
 (setq helm-qiita-username "masutaka")
 (setq helm-qiita-organization "feedforce")
@@ -425,6 +426,13 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 (setq helm-github-stars-token (my-lisp-load "helm-github-stars-token"))
 (setq helm-github-stars-name-length 50)
+(setq helm-github-stars-refetch-time 0.5)
+
+(defun helm-my-bookmark ()
+  "Search Hatena:Bookmark and Qiita Stocks using `helm'."
+  (interactive)
+  (helm :sources '(helm-hatena-bookmark-source helm-qiita-source)
+	:prompt "Find Bookmark: "))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto-complete
@@ -938,6 +946,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.ctp\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.slim\\'" . slim-mode)) ;; ↑より優先させたい
 
 ;; http://d.hatena.ne.jp/sugyan/20100705/1278306885
 (defadvice flymake-post-syntax-check
@@ -1528,18 +1537,17 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-3") 'split-window-right)
 (define-key global-map (kbd "s-9") 'delete-other-windows-vertically)
 (define-key global-map (kbd "s-a") 'helm-imenu)
-(define-key global-map (kbd "s-b") 'helm-hatena-bookmark)
+(define-key global-map (kbd "s-b") 'helm-my-bookmark)
 (define-key global-map (kbd "s-e") 'helm-elscreen)
+(define-key global-map (kbd "s-g") 'helm-github-stars)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
 (define-key global-map (kbd "s-n") nil)
 (define-key global-map (kbd "s-o") nil)
-(define-key global-map (kbd "s-q") 'helm-qiita)
 (define-key global-map (kbd "s-s") 'helm-swoop)
 (define-key global-map (kbd "s-t") 'my-create-window)
-(define-key global-map (kbd "s-u") 'helm-github-stars)
 (define-key global-map (kbd "s-w") nil)
 (define-key global-map (kbd "s-y") 'duplicate-thing)
 (define-key global-map (kbd "s-C-j") 'scroll-up-one-line-both-window)
