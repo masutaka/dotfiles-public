@@ -937,6 +937,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (define-key php-mode-map (kbd "C-c C-]") 'end-of-defun)
 
 (defun web-mode-hook-func ()
+  (setq web-mode-css-indent-offset 2)
   (setq web-mode-markup-indent-offset 2)
   (setq indent-tabs-mode nil))
 (add-hook 'web-mode-hook 'web-mode-hook-func)
@@ -946,7 +947,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.ctp\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.slim\\'" . slim-mode)) ;; ↑より優先させたい
+(add-to-list 'auto-mode-alist '("\\.slim\\'" . slim-mode)) ;; web-mode より優先させたい
 
 ;; http://d.hatena.ne.jp/sugyan/20100705/1278306885
 (defadvice flymake-post-syntax-check
