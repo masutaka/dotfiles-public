@@ -73,8 +73,6 @@ else
 	brew install rpm2cpio
 fi
 
-brew tap caskroom/cask
-
 cat <<EOF
 Do you want to install brew casks?
 If you don't want to install, please type Ctrl-c now.
@@ -86,9 +84,9 @@ brew cask install appcleaner
 brew cask install bitbar
 brew cask install dockertoolbox
 brew cask install dropbox
-brew cask install firefox --caskroom=/Applications
+brew cask install firefox
 brew cask install flash
-brew cask install google-chrome --caskroom=/Applications
+brew cask install google-chrome
 brew cask install google-cloud-sdk
 brew cask install google-japanese-ime
 brew cask install grandperspective
@@ -97,12 +95,12 @@ brew cask install karabiner
 brew cask install launchbar
 brew cask install licecap
 brew cask install quicksilver
+brew cask install terraform
 brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
 
 if [ -n "$PRIVATE_MACHINE" ]; then
-	brew cask install chromecast
 	brew cask install google-drive
 	brew cask install handbrake
 	brew cask install lyn
