@@ -7,13 +7,11 @@ OS_KIND=`uname`
 #---------------------------------------------------------------------
 case "$OS_KIND" in
 Darwin)
-	export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
-	export PATH=$HOME/opt/bin:$HOME/opt/terraform:$PATH:/usr/local/mysql/bin
-	export MANPATH=/usr/local/mysql/man:$MANPATH
+	export PATH=$HOME/opt/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
 	export EDITOR=$HOME/opt/emacs-24.5/bin/emacsclient
 	export EMACS=$HOME/Applications/Emacs.app/Contents/MacOS/Emacs
-    source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
-#   source /opt/homebrew-cask/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+    source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+#   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 	;;
 Linux)
 	export LDFLAGS="-s"
@@ -25,7 +23,7 @@ esac
 
 export GOPATH=$HOME
 export PATH=$HOME/.nodebrew/current/bin:$HOME/.plenv/bin:$HOME/.rbenv/bin:$GOPATH/bin:$PATH
-export NODE_PATH=$(npm root -g)
+export NODE_PATH=$(npm root -g 2> /dev/null)
 eval "$(plenv init -)"
 eval "$(rbenv init -)"
 eval "$(direnv hook zsh)"
