@@ -48,6 +48,8 @@ brew install jq
 brew install lv
 brew install markdown
 brew install mercurial
+brew install mongodb
+brew install mysql
 brew install openssl # El Capitan doesn't have
 brew install peco
 brew install pkg-config # for gem ref
@@ -62,8 +64,6 @@ brew install xz
 
 if [ -n "$PRIVATE_MACHINE" ]; then
 	brew install bzr	# for gowebbook `$ go get github.com/stretchr/gomniauth/...`
-	brew install mongodb # for gowebbook
-	brew install mysql
 	brew install nginx
 	brew install nsq # for gowebbook
 	brew install postgresql
@@ -81,8 +81,9 @@ EOF
 read dummy
 
 brew cask install appcleaner
+brew cask install atom
 brew cask install bitbar
-brew cask install dockertoolbox
+brew cask install docker
 brew cask install dropbox
 brew cask install firefox
 brew cask install flash
@@ -108,8 +109,6 @@ if [ -n "$PRIVATE_MACHINE" ]; then
 	brew cask install skype
 	brew cask install vlc
 else
-	brew cask install android-studio
-	brew cask install genymotion
-	brew cask install java
 	brew cask install mysqlworkbench
+	brew cask install the-unarchiver
 fi
