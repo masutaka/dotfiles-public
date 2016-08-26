@@ -401,11 +401,7 @@ alias ll="kd"
 alias rootinstalllog="echo 'find /usr/local -cnewer timestamp | sort'"
 alias v="vagrant"
 
-alias s="cd ~/src/github.com/feedforce/social-plus"
-alias ss="cd ~/src/github.com/feedforce/server-social-plus"
-
-alias d="cd ~/src/github.com/feedforce/datafeed-maker"
-alias sd="cd ~/src/github.com/feedforce/server-datafeed-maker"
+for i in $HOME/.zsh/aliases/*; do source $i; done
 
 # Local Variables:
 # coding: utf-8
