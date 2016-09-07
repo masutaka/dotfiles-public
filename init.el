@@ -1046,6 +1046,18 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;;; markdown
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(defun replace-naganen-contents ()
+  (interactive)
+  (save-excursion
+    (goto-char (point-min))
+    (search-forward "長年記事")
+    (insert "\n")
+    (delete-region (point) (point-max))
+    (let ((date (format-time-string "%m-%d")))
+      (insert (format "\n同じ日に書いた過去の記事はありません。
+[2014](https://feedforce.qiita.com/search?sort=&q=user%%3Amasutaka+created%%3A2014-%s)
+[2015](https://feedforce.qiita.com/search?sort=&q=user%%3Amasutaka+created%%3A2015-%s)\n" date date)))))
+
 (defun my-markdown-preview ()
   "Run `markdown-command' on the current buffer and view output in browser."
   (interactive)
@@ -1067,7 +1079,9 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (with-eval-after-load "markdown-mode"
   (define-key markdown-mode-map (kbd "C-c C-c p") 'my-markdown-preview)
   (define-key markdown-mode-map (kbd "C-c C-c C-c") 'octodown)
-  (define-key markdown-mode-map (kbd "C-c C-c C-q") 'qiitadown))
+  (define-key markdown-mode-map (kbd "C-c C-c C-q") 'qiitadown)
+  (define-key markdown-mode-map (kbd "C-c C-i C-n") 'replace-naganen-contents)
+  (define-key markdown-mode-map (kbd "C-c C-m") 'browse-url-at-point))
 
 (defun markdown-mode-hook-func ()
   (setq indent-tabs-mode nil)
