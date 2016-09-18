@@ -31,7 +31,6 @@ brew install autoconf # emacs with inline.patch needs autoheader
 brew install awscli
 brew install binutils
 brew install cmake # for gem octodown
-brew install curl --with-nghttp2
 brew install direnv
 brew install ghq
 brew install git
@@ -46,16 +45,19 @@ brew install icu4c # for gem octodown
 brew install imagemagick
 brew install jq
 brew install lv
+brew install mackerelio/mackerel-agent/mkr
 brew install markdown
 brew install mercurial
 brew install mongodb
 brew install mysql
 brew install openssl # El Capitan doesn't have
+brew install packer
 brew install peco
 brew install pkg-config # for gem ref
 brew install qt # gem capybara-screenshot uses qmake
 brew install readline # for Ruby
 brew install terminal-notifier
+brew install terraform
 brew install tree
 brew install unrar
 brew install webkit2png # $ webkit2png -TF http://masutaka.net
@@ -85,6 +87,7 @@ brew cask install atom
 brew cask install bitbar
 brew cask install docker
 brew cask install dropbox
+brew cask install emacs
 brew cask install firefox
 brew cask install flash
 brew cask install google-chrome
@@ -96,7 +99,6 @@ brew cask install karabiner
 brew cask install launchbar
 brew cask install licecap
 brew cask install quicksilver
-brew cask install terraform
 brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
