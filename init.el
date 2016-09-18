@@ -852,7 +852,8 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
   (defun go-mode-hook-func ()
     (setq tab-width 2)
-    (go-eldoc-setup))
+    (go-eldoc-setup)
+    (flycheck-mode 1))
   (add-hook 'go-mode-hook 'go-mode-hook-func)
 
   (define-key go-mode-map (kbd "M-.") 'godef-jump)
@@ -1236,20 +1237,21 @@ It also updates `seq-start-position'."
 do nothing. And suppress the output from `message' and
 `write-file' to minibuffer."
   (unless (equal recentf-list my-recentf-list-prev)
-    (flet ((message (format-string &rest args)
-		    (eval `(format ,format-string ,@args)))
-	   (write-file (file &optional confirm)
-		       (let ((str (buffer-string)))
-			 (with-temp-file file
-			   (insert str)))))
+    (cl-letf (((symbol-function 'message) #'format)
+	      ((symbol-function 'write-file)
+	       ;; write-file() は内部で C で書かれた write_region() を
+	       ;; 呼ぶため、上の message() への抑制は効かない。
+	       (lambda (file &optional confirm)
+		 (let ((str (buffer-string)))
+		   (with-temp-file file
+		     (insert str))))))
       ad-do-it
       (setq my-recentf-list-prev recentf-list))))
 
 (defadvice recentf-cleanup
   (around no-message activate)
   "suppress the output from `message' to minibuffer"
-  (flet ((message (format-string &rest args)
-		  (eval `(format ,format-string ,@args))))
+  (cl-letf (((symbol-function 'message) #'format))
     ad-do-it))
 
 (setq recentf-save-file (expand-file-name ".recentf" user-emacs-directory))
@@ -1268,6 +1270,9 @@ do nothing. And suppress the output from `message' and
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; Avoid to write `package-selected-packages` in init.el
+(load (setq custom-file (expand-file-name "custom.el" user-emacs-directory)))
 
 (setq codic-api-token (my-lisp-load "codic-api-token"))
 
