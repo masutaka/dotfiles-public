@@ -401,7 +401,9 @@ alias ll="kd"
 alias rootinstalllog="echo 'find /usr/local -cnewer timestamp | sort'"
 alias v="vagrant"
 
-for i in $HOME/.zsh/aliases/*; do source $i; done
+if [ -d $HOME/.zsh/aliases ]; then
+	for i in $HOME/.zsh/aliases/*; do source $i; done
+fi
 
 # Local Variables:
 # coding: utf-8
