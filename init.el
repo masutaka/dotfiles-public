@@ -859,6 +859,8 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   (define-key go-mode-map (kbd "M-.") 'godef-jump)
   (define-key go-mode-map (kbd "M-,") 'pop-tag-mark))
 
+(setq gofmt-command "goimports")
+
 (add-hook 'before-save-hook 'gofmt-before-save)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1030,7 +1032,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 	  'mac-selected-keyboard-input-source-change-hook-func)
 
 ;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
-;;(mac-auto-ascii-mode 1)
+(mac-auto-ascii-mode 1)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mark
