@@ -87,7 +87,6 @@ brew cask install atom
 brew cask install bitbar
 brew cask install docker
 brew cask install dropbox
-brew cask install emacs
 brew cask install firefox
 brew cask install flash
 brew cask install google-chrome
@@ -99,6 +98,7 @@ brew cask install karabiner
 brew cask install launchbar
 brew cask install licecap
 brew cask install quicksilver
+brew cask install railwaycat/emacsmacport/emacs-mac
 brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
