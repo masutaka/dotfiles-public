@@ -40,6 +40,9 @@ export MYSQL_PS1="(\u@`hostname`) [\d] > "
 
 #eval "$(docker-machine env default)"
 
+# Avoid ack warning
+export LANG=en_US.UTF-8
+
 # Local Variables:
 # coding: utf-8
 # mode: shell-script
