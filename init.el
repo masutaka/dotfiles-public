@@ -1510,6 +1510,7 @@ do nothing. And suppress the output from `message' and
 ;; custom of the Esc-? key
 (define-key esc-map (kbd "SPC") 'cycle-spacing)
 (define-key esc-map (kbd "+") 'eval-expression)
+(define-key esc-map (kbd "/") 'helm-dabbrev)
 (define-key esc-map (kbd "<") 'my-beginning-of-buffer)
 (define-key esc-map (kbd ">") 'my-end-of-buffer)
 (define-key esc-map (kbd "?") 'help)
