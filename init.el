@@ -1445,7 +1445,8 @@ do nothing. And suppress the output from `message' and
 	  'executable-make-buffer-file-executable-if-script-p)
 
 (defun sh-mode-hook-func ()
-  (setq tab-width 4)
+  (setq sh-basic-offset 2)
+  (setq sh-indentation 2)
   ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t))
 (add-hook 'sh-mode-hook 'sh-mode-hook-func)
