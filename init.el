@@ -838,11 +838,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 (define-key ctl-x-map (kbd "v b") 'git-branch-next-action)
 
-;;; github-browse-file
-
-(define-key ctl-x-map (kbd "v g") 'github-browse-file-blame)
-(define-key ctl-x-map (kbd "v o") 'github-browse-file)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Go
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1578,6 +1573,8 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "C-q") ctl-q-map)
 (define-key ctl-q-map (kbd ".") (if (featurep 'mi-config) 'mode-info-find-tag))
 (define-key ctl-q-map (kbd "c") 'copy-this-buffer-file-name)
+(define-key ctl-q-map (kbd "g b") 'github-browse-file-blame)
+(define-key ctl-q-map (kbd "g f") 'github-browse-file)
 (define-key ctl-q-map (kbd "C-a") 'text-scale-adjust)
 (define-key ctl-q-map (kbd "C-b") 'backward-list)
 (define-key ctl-q-map (kbd "C-c") 'clmemo)
