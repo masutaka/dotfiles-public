@@ -403,8 +403,9 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (require 'helm-imenu)
 (require 'helm-ghq)
 
-;; for helm-dabbrev
-(set-face-background 'helm-lisp-show-completion "white")
+(with-eval-after-load "helm-elisp"
+  ;; for helm-dabbrev
+  (set-face-background 'helm-lisp-show-completion "white"))
 
 ;; C-c F1 などのインターフェイスを提供。
 (helm-descbinds-mode)
