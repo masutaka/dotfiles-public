@@ -43,6 +43,8 @@ export MYSQL_PS1="(\u@`hostname`) [\d] > "
 # Avoid ack warning
 export LANG=en_US.UTF-8
 
+export LESS="-g -i -M -R -S -W -z-4 -x4"
+
 # Local Variables:
 # coding: utf-8
 # mode: shell-script
