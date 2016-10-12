@@ -18,7 +18,7 @@ EOF
 
 	read dummy
 
-	brew upgrade --all
+	brew upgrade
 fi
 
 if [ $(hostname) = "masutaka-pc.local" ]; then
