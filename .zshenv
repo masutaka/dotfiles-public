@@ -37,8 +37,6 @@ ulimit -S -c 0 > /dev/null 2>&1
 
 export MYSQL_PS1="(\u@`hostname`) [\d] > "
 
-#eval "$(docker-machine env default)"
-
 # Avoid ack warning
 export LANG=en_US.UTF-8
 
