@@ -7,18 +7,18 @@ OS_KIND=`uname`
 #---------------------------------------------------------------------
 case "$OS_KIND" in
 Darwin)
-	export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
-	export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
-	export EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
-    source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
-#   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
-	;;
+  export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+  export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
+  export EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
+  source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+# source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+  ;;
 Linux)
-	export LDFLAGS="-s"
-	;;
+  export LDFLAGS="-s"
+  ;;
 *)
-	echo "Unkonwn OS" > /dev/stderr
-	;;
+  echo "Unkonwn OS" > /dev/stderr
+  ;;
 esac
 
 export GOPATH=$HOME/go:$HOME
@@ -28,6 +28,10 @@ export NODE_PATH=$(npm root -g 2> /dev/null)
 eval "$(plenv init -)"
 eval "$(rbenv init -)"
 eval "$(direnv hook zsh)"
+
+if type ghg > /dev/null; then
+  export PATH=$(ghg bin):$PATH
+fi
 
 # New File => 644, New Dir => 755
 umask 022
