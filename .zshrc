@@ -5,30 +5,30 @@
 #---------------------------------------------------------------------
 
 function exists() {
-	type $1 > /dev/null
+  type $1 > /dev/null
 }
 
 function go-update() {
-	for i in `cat $HOME/src/github.com/masutaka/dotfiles/anyenvs/go.txt`; do
-		echo $i
-		go get -u $i
-	done
+  for i in `cat $HOME/src/github.com/masutaka/dotfiles/anyenvs/go.txt`; do
+	echo $i
+	go get -u $i
+  done
 }
 
 function kd() {
-	ls -alF $* | more
+  ls -alF $* | more
 }
 
 function psme() {
-	ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
+  ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
 }
 
 function psnot() {
-	ps auxw$1 | egrep -v "^$USER" | sort -k 2 -n
+  ps auxw$1 | egrep -v "^$USER" | sort -k 2 -n
 }
 
 function svndiff() {
-	svn diff $* | vim -R -
+  svn diff $* | vim -R -
 }
 
 #---------------------------------------------------------------------
@@ -37,9 +37,9 @@ function svndiff() {
 
 # プロンプト(man zshmisc)
 if [ "$OS_KIND" = Darwin ]; then
-	PROMPT='%B%U%m%u:%/ $%b '
+  PROMPT='%B%U%m%u:%/ $%b '
 else
-	PROMPT='%B%U%M%u:%/ $%b '
+  PROMPT='%B%U%M%u:%/ $%b '
 fi
 RPROMPT="[%T]%1(v|%F{green}%1v%f|)"
 
@@ -131,7 +131,7 @@ zstyle ':completion:*:default' menu select=1
 autoload -Uz compinit; compinit -u
 
 if [ -f /usr/local/share/zsh/site-functions/go ]; then
-	source /usr/local/share/zsh/site-functions/go
+  source /usr/local/share/zsh/site-functions/go
 fi
 
 # for hook
@@ -163,9 +163,9 @@ zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
 zstyle ':vcs_info:bzr:*' use-simple true
 
 function vcs_info_precmd() {
-    psvar=()
-    LANG=en_US.UTF-8 vcs_info
-    [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
+  psvar=()
+  LANG=en_US.UTF-8 vcs_info
+  [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
 add-zsh-hook precmd vcs_info_precmd
 
@@ -174,93 +174,93 @@ add-zsh-hook precmd vcs_info_precmd
 #---------------------------------------------------------------------
 
 if exists peco; then
-	function peco_select_history() {
-		local tac
-		exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-		BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
-		CURSOR=$#BUFFER         # move cursor
-		zle clear-screen
-	}
-	zle -N peco_select_history
-	bindkey '^R' peco_select_history
+  function peco_select_history() {
+	local tac
+	exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+	BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
+	CURSOR=$#BUFFER         # move cursor
+	zle clear-screen
+  }
+  zle -N peco_select_history
+  bindkey '^R' peco_select_history
 
-	function peco_bundle_show() {
-		local selected_dir=$(bundle show | awk 'NR>1 {print $2}' | peco | xargs bundle show)
-		if [ -n "$selected_dir" ]; then
-			BUFFER="cd ${selected_dir}"
-			zle accept-line
-		fi
-		zle clear-screen
-	}
-	zle -N peco_bundle_show
-	bindkey '^xy' peco_bundle_show
+  function peco_bundle_show() {
+	local selected_dir=$(bundle show | awk 'NR>1 {print $2}' | peco | xargs bundle show)
+	if [ -n "$selected_dir" ]; then
+	  BUFFER="cd ${selected_dir}"
+	  zle accept-line
+	fi
+	zle clear-screen
+  }
+  zle -N peco_bundle_show
+  bindkey '^xy' peco_bundle_show
 
-	function peco_helm () {
-		local IFS="
+  function peco_helm () {
+	local IFS="
 "
-		my-compact-chpwd-recent-dirs
-		local selected_dir=$((ghq list --full-path | sed -e "s@$HOME@~@";
-				cdr -l | perl -pne 's@^[0-9]+ +@@') | awk '!x[$0]++{print $0}' | peco)
-		if [ -n "$selected_dir" ]; then
-			BUFFER="cd ${selected_dir}"
-			zle accept-line
-		fi
-		zle clear-screen
-	}
-	zle -N peco_helm
-	bindkey '^x^b' peco_helm
+	my-compact-chpwd-recent-dirs
+	local selected_dir=$((ghq list --full-path | sed -e "s@$HOME@~@";
+						  cdr -l | perl -pne 's@^[0-9]+ +@@') | awk '!x[$0]++{print $0}' | peco)
+	if [ -n "$selected_dir" ]; then
+	  BUFFER="cd ${selected_dir}"
+	  zle accept-line
+	fi
+	zle clear-screen
+  }
+  zle -N peco_helm
+  bindkey '^x^b' peco_helm
 
-	# http://blog.n-z.jp/blog/2014-07-25-compact-chpwd-recent-dirs.html
-	function my-compact-chpwd-recent-dirs () {
-		emulate -L zsh
-		setopt extendedglob
-		local -aU reply
-		integer history_size
-		autoload -Uz chpwd_recent_filehandler
-		chpwd_recent_filehandler
-		history_size=$#reply
-		reply=(${^reply}(N))
-		(( $history_size == $#reply )) || chpwd_recent_filehandler $reply
-	}
+  # http://blog.n-z.jp/blog/2014-07-25-compact-chpwd-recent-dirs.html
+  function my-compact-chpwd-recent-dirs () {
+	emulate -L zsh
+	setopt extendedglob
+	local -aU reply
+	integer history_size
+	autoload -Uz chpwd_recent_filehandler
+	chpwd_recent_filehandler
+	history_size=$#reply
+	reply=(${^reply}(N))
+	(( $history_size == $#reply )) || chpwd_recent_filehandler $reply
+  }
 
-	function peco-pkill() {
-		for pid in `ps aux | peco | awk '{ print $2 }'`; do
-			kill $pid
-			echo "Killed ${pid}"
-		done
-	}
-	alias pk="peco-pkill"
+  function peco-pkill() {
+	for pid in `ps aux | peco | awk '{ print $2 }'`; do
+	  kill $pid
+	  echo "Killed ${pid}"
+	done
+  }
+  alias pk="peco-pkill"
 
-	function peco-git-recent-branches () {
-		local selected_branch=$(git branch --sort=-authordate -v | peco | sed -E -e 's/^[* ]+//' | cut -d ' ' -f1)
-		if [ -n "$selected_branch" ]; then
-			BUFFER="git checkout ${selected_branch}"
-			zle accept-line
-		fi
-		zle clear-screen
-	}
-	zle -N peco-git-recent-branches
-	bindkey '^xn' peco-git-recent-branches
+  function peco-git-recent-branches () {
+	local selected_branch=$(git branch --sort=-authordate -v | peco | sed -E -e 's/^[* ]+//' | cut -d ' ' -f1)
+	if [ -n "$selected_branch" ]; then
+	  BUFFER="git checkout ${selected_branch}"
+	  zle accept-line
+	fi
+	zle clear-screen
+  }
+  zle -N peco-git-recent-branches
+  bindkey '^xn' peco-git-recent-branches
 
-	function peco-git-recent-all-branches () {
-		local selected_branch=$(git branch --sort=-authordate -v -a | peco | sed -E -e 's/^[* ]+//' | cut -d ' ' -f1)
-		if [ -n "$selected_branch" ]; then
-			BUFFER="git checkout -t ${selected_branch}"
-			zle accept-line
-		fi
-		zle clear-screen
-	}
-	zle -N peco-git-recent-all-branches
-	bindkey '^x^n' peco-git-recent-all-branches
+  function peco-git-recent-all-branches () {
+	local selected_branch=$(git branch --sort=-authordate -v -a | peco | sed -E -e 's/^[* ]+//' | cut -d ' ' -f1)
+	if [ -n "$selected_branch" ]; then
+	  BUFFER="git checkout -t ${selected_branch}"
+	  zle accept-line
+	fi
+	zle clear-screen
+  }
+  zle -N peco-git-recent-all-branches
+  bindkey '^x^n' peco-git-recent-all-branches
 
-	function peco_ghn_open() {
-		local url=$(ghn list | peco --query "$LBUFFER")
-		if [ -n "$url" ]; then
-			open ${url}
-		fi
-	}
-	zle -N peco_ghn_open
-	bindkey '^x^o' peco_ghn_open
+  function peco_ghn_open() {
+	local url=$(ghn list | peco --query "$LBUFFER")
+	if [ -n "$url" ]; then
+	  open ${url}
+	fi
+  }
+  zle -N peco_ghn_open
+  bindkey '^x^o' peco_ghn_open
 fi
 
 #---------------------------------------------------------------------
@@ -268,17 +268,17 @@ fi
 #---------------------------------------------------------------------
 
 if [ "$TERM" = "screen" ]; then
-	# コマンド実行中はコマンド名を、未実行ならカレントディレクトリを表示する。
+  # コマンド実行中はコマンド名を、未実行ならカレントディレクトリを表示する。
 
-	function screen_mode_line_preexec() {
-		echo -ne "\ek#${1%% *}\e\\"
-	}
-	add-zsh-hook preexec screen_mode_line_preexec
+  function screen_mode_line_preexec() {
+	echo -ne "\ek#${1%% *}\e\\"
+  }
+  add-zsh-hook preexec screen_mode_line_preexec
 
-	function screen_mode_line_precmd() {
-		echo -ne "\ek$(basename $(pwd))\e\\"
-	}
-	add-zsh-hook precmd screen_mode_line_precmd
+  function screen_mode_line_precmd() {
+	echo -ne "\ek$(basename $(pwd))\e\\"
+  }
+  add-zsh-hook precmd screen_mode_line_precmd
 fi
 
 #---------------------------------------------------------------------
@@ -286,29 +286,29 @@ fi
 #---------------------------------------------------------------------
 
 function urlencode() {
-	echo $(php -r "echo rawurlencode('$1');")
+  echo $(php -r "echo rawurlencode('$1');")
 }
 
 function urldecode() {
-	echo $(php -r "echo rawurldecode('$1');")
+  echo $(php -r "echo rawurldecode('$1');")
 }
 
 if [ "$OS_KIND" = "Darwin" ]; then
-	# http://qiita.com/kyanny/items/0797d37cab6327fba2c4
-	function ciopen() {
-		commit=head
-		if [ -n "$1" ]; then
-			commit=$1
-		fi
+  # http://qiita.com/kyanny/items/0797d37cab6327fba2c4
+  function ciopen() {
+	commit=head
+	if [ -n "$1" ]; then
+	  commit=$1
+	fi
 
-		result=$(hub ci-status -v $commit)
+	result=$(hub ci-status -v $commit)
 
-		if [ $? = 3 ]; then
-			echo $result
-		else
-			open $(echo $result | awk '{print $NF}')
-		fi
-	}
+	if [ $? = 3 ]; then
+	  echo $result
+	else
+	  open $(echo $result | awk '{print $NF}')
+	fi
+  }
 fi
 
 #---------------------------------------------------------------------
@@ -316,35 +316,35 @@ fi
 #---------------------------------------------------------------------
 
 function my-backward-kill-word() {
-	local WORDCHARS="${WORDCHARS:s#/#}"
-	zle backward-kill-word
+  local WORDCHARS="${WORDCHARS:s#/#}"
+  zle backward-kill-word
 }
 zle -N my-backward-kill-word
 bindkey '^[h' my-backward-kill-word
 
 function my-backward-word() {
-	local WORDCHARS="${WORDCHARS:s#/#}"
-	zle backward-word
+  local WORDCHARS="${WORDCHARS:s#/#}"
+  zle backward-word
 }
 zle -N my-backward-word
 bindkey '^[b' my-backward-word	# 本当は C-, を使いたい。
 
 function my-forward-word() {
-	local WORDCHARS="${WORDCHARS:s#/#}"
-	zle forward-word
+  local WORDCHARS="${WORDCHARS:s#/#}"
+  zle forward-word
 }
 zle -N my-forward-word
 bindkey '^[f' my-forward-word	# 本当は C-. を使いたい。
 
 if [ "$OS_KIND" = "Darwin" ]; then
-	# C-x C-p で直前の履歴をクリップボードにコピー
-	pbcopy-last-history(){
-		zle up-line-or-history
-		print -rn $BUFFER | pbcopy
-		zle kill-whole-line
-	}
-	zle -N pbcopy-last-history
-	bindkey '^x^p' pbcopy-last-history
+  # C-x C-p で直前の履歴をクリップボードにコピー
+  pbcopy-last-history(){
+	zle up-line-or-history
+	print -rn $BUFFER | pbcopy
+	zle kill-whole-line
+  }
+  zle -N pbcopy-last-history
+  bindkey '^x^p' pbcopy-last-history
 fi
 
 # ファイル名で補完させる。
@@ -370,15 +370,15 @@ bindkey '^w'	kill-region
 # Aliases
 #---------------------------------------------------------------------
 if [ "$OS_KIND" = Darwin ]; then
-	alias emacs=$EMACS
+  alias emacs=$EMACS
 fi
 
 # if exists hub; then
-# 	eval "$(hub alias -s)"
+#   eval "$(hub alias -s)"
 # fi
 
 if exists peco; then
-	alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//"`'
+  alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//"`'
 fi
 
 alias -g G='2>&1 | grep'
@@ -400,7 +400,7 @@ alias rootinstalllog="echo 'find /usr/local -cnewer timestamp | sort'"
 alias v="vagrant"
 
 if [ -d $HOME/.zsh/aliases ]; then
-	for i in $HOME/.zsh/aliases/*; do source $i; done
+  for i in $HOME/.zsh/aliases/*; do source $i; done
 fi
 
 # Local Variables:
