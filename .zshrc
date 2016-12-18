@@ -252,15 +252,6 @@ if exists peco; then
   }
   zle -N peco-git-recent-all-branches
   bindkey '^x^n' peco-git-recent-all-branches
-
-  function peco_ghn_open() {
-	local url=$(ghn list | peco --query "$LBUFFER")
-	if [ -n "$url" ]; then
-	  open ${url}
-	fi
-  }
-  zle -N peco_ghn_open
-  bindkey '^x^o' peco_ghn_open
 fi
 
 #---------------------------------------------------------------------
