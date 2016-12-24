@@ -63,6 +63,7 @@
 (package-install 'highlight-symbol)
 (package-install 'hl-line+)
 (package-install 'keyfreq)
+(package-install 'lua-mode)
 (package-install 'markdown-mode)
 (package-install 'mkdown)
 (package-install 'navi2ch)
