@@ -6,7 +6,7 @@ brew update
 outdated=`brew outdated`
 
 if [ -n "$outdated" ]; then
-	cat <<EOF
+  cat <<EOF
 
 The following package(s) will upgrade.
 
@@ -16,13 +16,13 @@ Are you sure?
 If you don't want to upgrade, please type Ctrl-c now.
 EOF
 
-	read dummy
+  read dummy
 
-	brew upgrade
+  brew upgrade
 fi
 
 if [ $(hostname) = "masutaka-pc.local" ]; then
-	PRIVATE_MACHINE=1
+  PRIVATE_MACHINE=1
 fi
 
 brew install ack
@@ -66,13 +66,13 @@ brew install wget
 brew install xz
 
 if [ -n "$PRIVATE_MACHINE" ]; then
-	brew install bzr	    # gowebbook `$ go get github.com/stretchr/gomniauth/...`
-	brew install nsq        # gowebbook
-	brew install postgresql
-	brew install redis
+  brew install bzr	# gowebbook `$ go get github.com/stretchr/gomniauth/...`
+  brew install nsq	# gowebbook
+  brew install postgresql
+  brew install redis
 else
-	brew install lha
-	brew install rpm2cpio
+  brew install lha
+  brew install rpm2cpio
 fi
 
 cat <<EOF
@@ -103,15 +103,15 @@ brew cask install vagrant
 brew cask install virtualbox
 
 if [ -n "$PRIVATE_MACHINE" ]; then
-	brew cask install google-drive
-	brew cask install hammerspoon
-	brew cask install handbrake
-	brew cask install lyn
-	brew cask install ripit
-	brew cask install skype
-	brew cask install vlc
+  brew cask install google-drive
+  brew cask install hammerspoon
+  brew cask install handbrake
+  brew cask install lyn
+  brew cask install ripit
+  brew cask install skype
+  brew cask install vlc
 else
-	brew cask install discord
-	brew cask install mysqlworkbench
-	brew cask install the-unarchiver
+  brew cask install discord
+  brew cask install mysqlworkbench
+  brew cask install the-unarchiver
 fi
