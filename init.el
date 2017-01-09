@@ -957,7 +957,8 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   (require 'flymake)
 
   (defun flymake-jsl-init ()
-    (list "jsl" (list "-process" (flymake-init-create-temp-buffer-copy
+    (list "jsl" (list "-conf" (expand-file-name "~/jsl.conf")
+		      "-process" (flymake-init-create-temp-buffer-copy
 				  'flymake-create-temp-inplace))))
 
   (add-to-list 'flymake-allowed-file-name-masks
