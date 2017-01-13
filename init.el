@@ -1018,7 +1018,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;;; Mac port patch
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; http://masutaka.net/chalow/2015-01-04-1.html
+;;; http://masutaka.net/chalow/2015-01-04-1.html
 
 (defun mac-selected-keyboard-input-source-change-hook-func ()
   ;; 入力モードが英語の時はカーソルの色をfirebrickに、日本語の時はblackにする
@@ -1030,6 +1030,49 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 ;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
 (mac-auto-ascii-mode 1)
+
+;;; http://qiita.com/takaxp/items/a86ee2aacb27c7c3a902
+
+(defvar mac-win-last-ime-status 'off) ;; {'off|'on}
+
+(defun mac-win-save-last-ime-status ()
+  (setq mac-win-last-ime-status
+        (if (string-match "\\.Roman$" (mac-input-source))
+            'off 'on)))
+
+(defun mac-win-restore-ime ()
+  (when (and mac-auto-ascii-mode (eq mac-win-last-ime-status 'on))
+    (mac-select-input-source
+     "com.google.inputmethod.Japanese.base"))) ;; Google IME 以外は要修正
+
+(defun advice:mac-auto-ascii-setup-input-source (&optional _prompt)
+  "Extension to store IME status"
+  (mac-win-save-last-ime-status))
+
+(advice-add 'mac-auto-ascii-setup-input-source :before
+            #'advice:mac-auto-ascii-setup-input-source)
+
+(defun mac-win-restore-ime-target-commands ()
+  (when (and mac-auto-ascii-mode
+             (eq mac-win-last-ime-status 'on))
+    (mapc (lambda (command)
+            (when (string-match
+                   (format "^%s" command) (format "%s" this-command))
+              (mac-select-input-source
+               "com.google.inputmethod.Japanese.base"))) ;; Google IME 以外は要修正
+          mac-win-target-commands)))
+
+(add-hook 'pre-command-hook 'mac-win-restore-ime-target-commands)
+
+;; M-x でのコマンド選択でもIMEを戻せる．
+;; ただし，移動先で q が効かないことがある（要改善）
+(add-hook 'minibuffer-setup-hook 'mac-win-save-last-ime-status)
+(add-hook 'minibuffer-exit-hook 'mac-win-restore-ime)
+
+;; 自動で ASCII入力から日本語入力に引き戻したい関数（デフォルト設定）
+(defvar mac-win-target-commands
+  '(list
+    find-file save-buffer other-window delete-window split-window))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mark
