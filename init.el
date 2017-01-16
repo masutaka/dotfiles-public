@@ -109,7 +109,7 @@
 With argument, do this that many times."
   (interactive "p")
   (delete-region (point) (progn (forward-word arg) (point))))
- 
+
 (defun backward-delete-word (arg)
   "Delete characters backward until encountering the end of a word.
 With argument, do this that many times."
@@ -183,7 +183,7 @@ With argument, do this that many times."
       (with-temp-buffer
         (progn
           (insert-file-contents fullname)
-          (setq lisp 
+          (setq lisp
                 (condition-case nil
                     (read (current-buffer))
                   (error ()))))))
@@ -384,7 +384,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
       (set-fontset-font nil 'katakana-jisx0201 jp-fontspec)
       (set-fontset-font nil 'japanese-jisx0213.2004-1 jp-fontspec)
       (set-fontset-font nil 'japanese-jisx0213-2 jp-fontspec)
-      (set-fontset-font nil '(#x0370 . #x03FF) fontspec)	; ギリシャ文字 
+      (set-fontset-font nil '(#x0370 . #x03FF) fontspec)	; ギリシャ文字
       (set-fontset-font nil '(#xE000 . #xF8FF) apple-fontspec)	; アップルマークとか
       )
     ;; フォントサイズの比を設定
@@ -1031,19 +1031,15 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
 (mac-auto-ascii-mode 1)
 
+;;; "Emacs 25.1 を EMP版で快適に使う"
 ;;; http://qiita.com/takaxp/items/a86ee2aacb27c7c3a902
+;;;
+;;; mac-auto-ascii-mode が Enable かつ日本語入力 ON の時、
+;;; M-x や C-x C-f 等の後に日本語入力 OFF になる問題を救う。
 
 (defvar mac-win-last-ime-status 'off) ;; {'off|'on}
 
-(defun mac-win-save-last-ime-status ()
-  (setq mac-win-last-ime-status
-        (if (string-match "\\.Roman$" (mac-input-source))
-            'off 'on)))
-
-(defun mac-win-restore-ime ()
-  (when (and mac-auto-ascii-mode (eq mac-win-last-ime-status 'on))
-    (mac-select-input-source
-     "com.google.inputmethod.Japanese.base"))) ;; Google IME 以外は要修正
+(defconst mac-win-kana-input-method "com.google.inputmethod.Japanese.base")
 
 (defun advice:mac-auto-ascii-setup-input-source (&optional _prompt)
   "Extension to store IME status"
@@ -1052,27 +1048,41 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (advice-add 'mac-auto-ascii-setup-input-source :before
             #'advice:mac-auto-ascii-setup-input-source)
 
-(defun mac-win-restore-ime-target-commands ()
-  (when (and mac-auto-ascii-mode
-             (eq mac-win-last-ime-status 'on))
-    (mapc (lambda (command)
-            (when (string-match
-                   (format "^%s" command) (format "%s" this-command))
-              (mac-select-input-source
-               "com.google.inputmethod.Japanese.base"))) ;; Google IME 以外は要修正
-          mac-win-target-commands)))
+(defun mac-win-save-last-ime-status ()
+  (setq mac-win-last-ime-status
+        (if (string-match "\\.\\(Roman\\|US\\)$" (mac-input-source))
+            'off 'on)))
 
-(add-hook 'pre-command-hook 'mac-win-restore-ime-target-commands)
+(defun mac-win-restore-ime ()
+  (if (mac-win-need-restore-ime)
+      (mac-select-input-source mac-win-kana-input-method)))
 
-;; M-x でのコマンド選択でもIMEを戻せる．
-;; ただし，移動先で q が効かないことがある（要改善）
+(defun mac-win-need-restore-ime ()
+  (and mac-auto-ascii-mode (eq mac-win-last-ime-status 'on)))
+
+;; M-x 等でミニバッファから元のバッファに戻った後に、日本語入力状態を
+;; リストアする。
 (add-hook 'minibuffer-setup-hook 'mac-win-save-last-ime-status)
 (add-hook 'minibuffer-exit-hook 'mac-win-restore-ime)
 
-;; 自動で ASCII入力から日本語入力に引き戻したい関数（デフォルト設定）
 (defvar mac-win-target-commands
-  '(list
-    find-file save-buffer other-window delete-window split-window))
+  '(find-file save-buffer other-window split-window delete-window
+    delete-other-windows clmemo helm-for-files))
+
+(defun mac-win-restore-ime-target-commands ()
+  (if (and (mac-win-need-restore-ime)
+	   (mac-win-target-commands-match))
+      (mac-select-input-source mac-win-kana-input-method)))
+
+(defun mac-win-target-commands-match ()
+  (remove-if-not
+   (lambda (c)
+     (string-match (format "^%s" c) (format "%s" this-command)))
+   mac-win-target-commands))
+
+;; `mac-win-target-commands' と前方一致する関数の終了後に、日本語入力
+;; 状態をリストアする
+(add-hook 'pre-command-hook 'mac-win-restore-ime-target-commands)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mark
