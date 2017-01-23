@@ -38,8 +38,6 @@ brew install gnu-sed
 brew install gnupg2
 brew install go
 brew install heroku-toolbelt
-brew install homebrew/binary/jsl
-brew install homebrew/binary/kindlegen
 brew install hub
 brew install icu4c # gem octodown and qiita-markdown-cli
 brew install imagemagick
@@ -93,6 +91,8 @@ brew cask install google-cloud-sdk
 brew cask install google-japanese-ime
 brew cask install grandperspective
 brew cask install imageoptim
+brew cask install jsl
+brew cask install kindlegen
 brew cask install launchbar
 brew cask install licecap
 brew cask install quicksilver
