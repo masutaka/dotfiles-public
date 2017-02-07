@@ -91,7 +91,6 @@ brew cask install google-cloud-sdk
 brew cask install google-japanese-ime
 brew cask install grandperspective
 brew cask install imageoptim
-brew cask install jsl
 brew cask install kindlegen
 brew cask install launchbar
 brew cask install licecap
