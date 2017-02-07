@@ -62,6 +62,7 @@
 (package-install 'helm-swoop)
 (package-install 'highlight-symbol)
 (package-install 'hl-line+)
+(package-install 'js2-mode)
 (package-install 'keyfreq)
 (package-install 'lua-mode)
 (package-install 'markdown-mode)
@@ -896,6 +897,32 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (add-hook 'Info-mode-hook 'Info-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; JavaScript
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;;; js2-mode
+
+(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+
+(setq-default js2-basic-offset 2)
+(setq js2-include-browser-externs nil)
+(setq js2-mode-show-parse-errors nil)
+(setq js2-mode-show-strict-warnings nil)
+(setq js2-highlight-external-variables nil)
+(setq js2-include-jslint-globals nil)
+
+(defun js2-mode-hook-func ()
+  (flycheck-mode 1)
+  (setq indent-tabs-mode nil))
+(add-hook 'js2-mode-hook 'js2-mode-hook-func)
+
+;;; coffee-mode
+
+(defun coffee-mode-hook-func ()
+ (setq coffee-tab-width 2))
+(add-hook 'coffee-mode-hook 'coffee-mode-hook-func)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; keisen.el -- provide facility for drawing ruled-line
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -910,7 +937,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (define-key global-map (kbd "C-s-<down>") 'keisen-down-move)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Ruby, PHP, HTML, CSS, JavaScript
+;;; Ruby, PHP, HTML, CSS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'php-mode)
@@ -950,34 +977,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (defadvice flymake-post-syntax-check
   (before flymake-force-check-was-interrupted activate)
   (setq flymake-check-was-interrupted t))
-
-;; js-mode
-(when (executable-find "jsl")
-
-  (require 'flymake)
-
-  (defun flymake-jsl-init ()
-    (list "jsl" (list "-conf" (expand-file-name "~/jsl.conf")
-		      "-process" (flymake-init-create-temp-buffer-copy
-				  'flymake-create-temp-inplace))))
-
-  (add-to-list 'flymake-allowed-file-name-masks
-	       '("\\.js\\'" flymake-jsl-init flymake-simple-cleanup flymake-get-real-file-name))
-
-  (add-to-list 'flymake-err-line-patterns
-	       '("^\\(.+\\)(\\([0-9]+\\)): \\(.*warning\\|SyntaxError\\): \\(.*\\)" 1 2 nil 4))
-
-  (defun js-mode-hook-func ()
-    (flymake-mode 1)
-    (setq indent-tabs-mode nil))
-  (add-hook 'js-mode-hook 'js-mode-hook-func))
-
-(setq js-indent-level 2)
-
-(defun coffee-mode-hook-func ()
- (setq coffee-tab-width 2))
-
-(add-hook 'coffee-mode-hook 'coffee-mode-hook-func)
 
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
 (add-to-list 'auto-mode-alist '("Gemfile\\'" . ruby-mode))
