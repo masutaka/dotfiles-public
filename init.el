@@ -900,6 +900,10 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;;; JavaScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;;; json
+
+(setq js-indent-level 2)
+
 ;;; js2-mode
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
