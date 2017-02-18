@@ -80,7 +80,6 @@ EOF
 read dummy
 
 brew cask install appcleaner
-brew cask install atom
 brew cask install bitbar
 brew cask install docker
 brew cask install dropbox
