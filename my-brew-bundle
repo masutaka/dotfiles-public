@@ -81,6 +81,7 @@ read dummy
 
 brew cask install appcleaner
 brew cask install bitbar
+brew cask install discord
 brew cask install docker
 brew cask install dropbox
 brew cask install firefox
@@ -107,7 +108,6 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   brew cask install skype
   brew cask install vlc
 else
-  brew cask install discord
   brew cask install mysqlworkbench
   brew cask install the-unarchiver
 fi
