@@ -900,15 +900,10 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;;; JavaScript
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; json
-
-(setq js-indent-level 2)
-
 ;;; js2-mode
 
 (add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
 
-(setq-default js2-basic-offset 2)
 (setq js2-include-browser-externs nil)
 (setq js2-mode-show-parse-errors nil)
 (setq js2-mode-show-strict-warnings nil)
@@ -917,6 +912,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 (defun js2-mode-hook-func ()
   (flycheck-mode 1)
+  (setq js2-basic-offset 2)
   (setq indent-tabs-mode nil))
 (add-hook 'js2-mode-hook 'js2-mode-hook-func)
 
