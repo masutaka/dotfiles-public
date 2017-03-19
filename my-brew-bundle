@@ -54,7 +54,6 @@ brew install terminal-notifier
 brew install terraform
 brew install tree
 brew install unrar
-brew install webkit2png # $ webkit2png -TF http://masutaka.net
 brew install wget
 brew install xz
 
@@ -87,6 +86,8 @@ brew cask install imageoptim
 brew cask install kindlegen
 brew cask install launchbar
 brew cask install licecap
+brew cask install mysqlworkbench
+brew cask install psequel
 brew cask install quicksilver
 brew cask install railwaycat/emacsmacport/emacs-mac
 brew cask install trailer
@@ -101,6 +102,5 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   brew cask install skype
   brew cask install vlc
 else
-  brew cask install mysqlworkbench
   brew cask install the-unarchiver
 fi
