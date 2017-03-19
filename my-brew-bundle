@@ -46,9 +46,6 @@ brew install lv
 brew install mackerelio/mackerel-agent/mkr
 brew install markdown
 brew install mercurial
-brew install mongodb
-brew install mysql
-brew install nginx
 brew install openssl # El Capitan doesn't have
 brew install packer
 brew install peco
@@ -65,8 +62,6 @@ brew install xz
 if [ -n "$PRIVATE_MACHINE" ]; then
   brew install bzr	# gowebbook `$ go get github.com/stretchr/gomniauth/...`
   brew install nsq	# gowebbook
-  brew install postgresql
-  brew install redis
 else
   brew install lha
   brew install rpm2cpio
