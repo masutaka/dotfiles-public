@@ -273,6 +273,21 @@ if [ "$TERM" = "screen" ]; then
 fi
 
 #---------------------------------------------------------------------
+# zplug
+#---------------------------------------------------------------------
+
+if [ "$OS_KIND" = "Darwin" ]; then
+  zplug 'bfirsh/whalebrew', from:gh-r, as:command, use:'*Darwin*x86_64*'
+  zplug 'wata727/tflint', from:gh-r, as:command, use:'*darwin*amd64*'
+
+  if ! zplug check; then
+	zplug install
+  fi
+
+  zplug load
+fi
+
+#---------------------------------------------------------------------
 # Function
 #---------------------------------------------------------------------
 
