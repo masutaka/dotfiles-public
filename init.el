@@ -662,6 +662,13 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;; `C' コマンドでコピーした時、ファイルの更新時刻を変える。
 (setq dired-copy-preserve-time nil)
 
+;; for ! (dired-do-shell-command)
+(if machine-mac
+    (setq dired-guess-shell-alist-user
+	  '(("\\.tif\\'" "open")
+	    ("\\.png\\'" "open")
+	    ("\\.jpe?g\\'" "open"))))
+
 ;; Dired で今日変更したファイルを色づけ
 (when window-system
   (defface dired-todays-face '((t (:foreground "forest green"))) nil)
