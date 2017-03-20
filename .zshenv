@@ -23,15 +23,18 @@ esac
 
 export GOPATH=$HOME/go:$HOME
 export PATH=$HOME/.nodebrew/current/bin:$HOME/.plenv/bin:$HOME/.rbenv/bin:$PATH
-export PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 export NODE_PATH=$(npm root -g 2> /dev/null)
 eval "$(plenv init -)"
 eval "$(rbenv init -)"
 eval "$(direnv hook zsh)"
+export PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 
 if type ghg > /dev/null; then
   export PATH=$(ghg bin):$PATH
 fi
+
+export ZPLUG_HOME=/usr/local/opt/zplug
+source $ZPLUG_HOME/init.zsh
 
 # New File => 644, New Dir => 755
 umask 022
@@ -45,6 +48,8 @@ export MYSQL_PS1="(\u@`hostname`) [\d] > "
 export LANG=en_US.UTF-8
 
 export LESS="-g -i -M -R -S -W -z-4 -x4"
+
+export WHALEBREW_INSTALL_PATH=$HOME/bin
 
 # Local Variables:
 # coding: utf-8
