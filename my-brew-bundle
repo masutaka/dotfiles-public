@@ -60,6 +60,7 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   :
 else
   brew install lha
+  brew install mysql
   brew install rpm2cpio
 fi
 
