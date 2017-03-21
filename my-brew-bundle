@@ -43,7 +43,7 @@ brew install lv
 brew install mackerelio/mackerel-agent/mkr
 brew install markdown
 brew install mercurial
-brew install openssl # El Capitan doesn't have
+brew install openssl # macOS doesn't have it.
 brew install packer
 brew install peco
 brew install pkg-config # gem ref
