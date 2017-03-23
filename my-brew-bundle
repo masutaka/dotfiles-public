@@ -38,6 +38,7 @@ brew install go
 brew install heroku-toolbelt
 brew install hub
 brew install imagemagick
+brew install jid
 brew install jq
 brew install lv
 brew install mackerelio/mackerel-agent/mkr
