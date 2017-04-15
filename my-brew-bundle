@@ -72,6 +72,7 @@ EOF
 
 read dummy
 
+brew cask install alfred
 brew cask install appcleaner
 brew cask install bitbar
 brew cask install discord
@@ -85,7 +86,6 @@ brew cask install google-japanese-ime
 brew cask install grandperspective
 brew cask install imageoptim
 brew cask install kindlegen
-brew cask install launchbar
 brew cask install licecap
 brew cask install mysqlworkbench
 brew cask install psequel
