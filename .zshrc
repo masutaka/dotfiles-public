@@ -291,6 +291,30 @@ fi
 # Function
 #---------------------------------------------------------------------
 
+# Usage: $ fingerprints <filename>
+# https://gist.github.com/hvr/662196
+function fingerprints {
+  IGNORE_LINES="^#|^$"
+
+  (
+	while read line; do
+	  echo $line >! /tmp/pubkey
+      if [[ "$line" =~ $IGNORE_LINES ]]; then
+        continue
+      fi
+      printf "%-16s => " $(cut -f 3 -d ' ' /tmp/pubkey)
+
+	  # Changed default fingerprint hash from OpenSSH 6.8/6.8p1
+	  if [ "$OS_KIND" = "Darwin" ]; then
+		ssh-keygen -l -E md5 -f /tmp/pubkey
+	  else
+		ssh-keygen -l -f /tmp/pubkey
+	  fi
+	done
+	rm -f /tmp/pubkey
+  ) < $1
+}
+
 function urlencode() {
   echo $(php -r "echo rawurlencode('$1');")
 }
