@@ -26,11 +26,10 @@ export PATH=$HOME/.nodebrew/current/bin:$HOME/.plenv/bin:$HOME/.rbenv/bin:$PATH
 export NODE_PATH=$(npm root -g 2> /dev/null)
 eval "$(plenv init -)"
 eval "$(rbenv init -)"
-eval "$(direnv hook zsh)"
 export PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 
-if type ghg > /dev/null; then
-  export PATH=$(ghg bin):$PATH
+if type direnv > /dev/null; then
+  eval "$(direnv hook zsh)"
 fi
 
 if [ "$OS_KIND" = "Darwin" ]; then
