@@ -33,8 +33,10 @@ if type ghg > /dev/null; then
   export PATH=$(ghg bin):$PATH
 fi
 
-export ZPLUG_HOME=/usr/local/opt/zplug
-source $ZPLUG_HOME/init.zsh
+if [ "$OS_KIND" = "Darwin" ]; then
+  export ZPLUG_HOME=/usr/local/opt/zplug
+  source $ZPLUG_HOME/init.zsh
+fi
 
 # New File => 644, New Dir => 755
 umask 022
