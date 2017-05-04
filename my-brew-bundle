@@ -90,7 +90,7 @@ brew cask install licecap
 brew cask install mysqlworkbench
 brew cask install psequel
 brew cask install quicksilver
-brew cask install railwaycat/emacsmacport/emacs-mac
+brew cask install railwaycat/emacsmacport/emacs-mac-official-icon
 brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
