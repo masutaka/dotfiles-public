@@ -23,7 +23,6 @@
 
 (defconst day-name-alist '(("Sun" . "日") ("Mon" . "月") ("Tue" . "火")
 			   ("Wed" . "水") ("Thu" . "木") ("Fri" . "金") ("Sat" . "土")))
-(defconst day-name-jp-list (mapcar (lambda (cell) (cdr cell)) day-name-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; package.el
@@ -1490,9 +1489,7 @@ do nothing. And suppress the output from `message' and
 
 ;; 時間の書式
 (setq display-time-string-forms
-      '(year "年" month "月" day "日("
-	     (cdr (assoc dayname day-name-alist))
-	     ") " 24-hours ":" minutes (if mail " Mail" "")))
+      '((format-time-string "%Y/%m/%d (%a) " now)  24-hours ":" minutes (if mail " Mail" "")))
 
 ;; 時間を表示
 (display-time)
