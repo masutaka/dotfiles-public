@@ -11,14 +11,9 @@
 
 (defconst hostname (downcase (car (split-string (system-name) "\\."))))
 
-(defconst here-is-feedforce (equal hostname "masutaka-pro"))
-
 (defconst machine-linux (eq system-type 'gnu/linux) "Linux")
-(defconst machine-mac (eq system-type 'darwin) "Mac")
+(defconst machine-mac (eq system-type 'darwin) "macOS")
 
-(defconst running-24 (eq emacs-major-version 24) "running emacs 24.xx")
-
-(defconst my-download-directory "~/tmp" "The directory for download.")
 (defconst my-elisp-directory (expand-file-name "elisp" user-emacs-directory) "The directory for my elisp file.")
 
 (defconst day-name-alist '(("Sun" . "日") ("Mon" . "月") ("Tue" . "火")
