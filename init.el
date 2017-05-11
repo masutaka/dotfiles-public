@@ -40,6 +40,7 @@
 (package-install 'eldoc-extension)
 (package-install 'elscreen)
 (package-install 'flycheck)
+(package-install 'flycheck-rust)
 (package-install 'git-dwim)
 (package-install 'github-browse-file)
 (package-install 'go-autocomplete)
@@ -67,7 +68,9 @@
 (package-install 'org-tree-slide)
 (package-install 'php-mode)
 (package-install 'quickrun)
+(package-install 'racer)
 (package-install 'rspec-mode)
+(package-install 'rust-mode)
 (package-install 'savekill)
 (package-install 'scratch-log)
 (package-install 'sequential-command)
@@ -1013,6 +1016,22 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (add-hook 'haml-mode-hook 'haml-mode-hook-func)
 
 (setq auto-mode-alist (cons '("\\.haml\\'" . haml-mode) auto-mode-alist))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Rust
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(with-eval-after-load 'rust-mode (flycheck-rust-setup))
+
+(setq rust-format-on-save t)
+
+(defun rust-mode-hook-func ()
+  ;;(eldoc-mode)
+  (flycheck-rust-setup)
+  (flycheck-mode 1)
+  ;;(racer-mode)
+  )
+(add-hook 'rust-mode-hook 'rust-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mac port patch
