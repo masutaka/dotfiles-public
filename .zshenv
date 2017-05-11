@@ -22,7 +22,7 @@ Linux)
 esac
 
 export GOPATH=$HOME/go:$HOME
-export PATH=$HOME/.nodebrew/current/bin:$HOME/.plenv/bin:$HOME/.rbenv/bin:$PATH
+export PATH=$HOME/.nodebrew/current/bin:$HOME/.plenv/bin:$HOME/.rbenv/bin:$HOME/.cargo/bin:$PATH
 export NODE_PATH=$(npm root -g 2> /dev/null)
 eval "$(plenv init -)"
 eval "$(rbenv init -)"
