@@ -26,6 +26,7 @@ if [ $(hostname) = "masutaka-pc.local" ]; then
 fi
 
 brew install ack
+brew install amazon-ecs-cli
 brew install aspell
 brew install awscli
 brew install binutils
