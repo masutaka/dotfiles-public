@@ -41,7 +41,7 @@ if [ "$OS_KIND" = Darwin ]; then
 else
   PROMPT='%B%U%M%u:%/ $%b '
 fi
-RPROMPT="[%T]%1(v|%F{green}%1v%f|)"
+RPROMPT="[%*]%1(v|%F{green}%1v%f|)"
 
 # 履歴を保存するファイル
 HISTFILE=$HOME/.zhistory
