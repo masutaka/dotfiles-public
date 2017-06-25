@@ -50,6 +50,7 @@
 (package-install 'helm)
 (package-install 'helm-bundle-show)
 (package-install 'helm-descbinds)
+;;(package-install 'helm-elscreen)
 (package-install 'helm-ghq)
 (package-install 'helm-github-stars)
 (package-install 'helm-hatena-bookmark)
@@ -66,6 +67,7 @@
 (package-install 'nginx-mode)
 (package-install 'open-junk-file)
 (package-install 'org-tree-slide)
+(package-install 'package-lint)
 (package-install 'php-mode)
 (package-install 'quickrun)
 (package-install 'racer)
@@ -79,6 +81,9 @@
 (package-install 'web-mode)
 (package-install 'wgrep)
 (package-install 'yaml-mode)
+
+;; temporary
+(autoload 'helm-elscreen "~/src/github.com/masutaka/helm-elscreen/helm-elscreen" "Elscreen support" t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Advices and Functions
