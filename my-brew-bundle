@@ -41,7 +41,6 @@ brew install hub
 brew install imagemagick
 brew install jid
 brew install jq
-brew install kubernetes-cli
 brew install lv
 brew install mackerelio/mackerel-agent/mkr
 brew install markdown
