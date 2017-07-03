@@ -170,6 +170,24 @@ function vcs_info_precmd() {
 add-zsh-hook precmd vcs_info_precmd
 
 #---------------------------------------------------------------------
+# zplug
+#---------------------------------------------------------------------
+
+# 後述の bindkey '^xn' peco-git-recent-branches が _next_tags で
+# 置き換えられてしまうので、ここに置く。
+
+if [ "$OS_KIND" = "Darwin" ]; then
+  zplug 'bfirsh/whalebrew', from:gh-r, as:command, use:'*Darwin*x86_64*'
+  zplug 'wata727/tflint', from:gh-r, as:command, use:'*darwin*amd64*'
+
+  if ! zplug check; then
+	zplug install
+  fi
+
+  zplug load
+fi
+
+#---------------------------------------------------------------------
 # peco
 #---------------------------------------------------------------------
 
@@ -270,21 +288,6 @@ if [ "$TERM" = "screen" ]; then
 	echo -ne "\ek$(basename $(pwd))\e\\"
   }
   add-zsh-hook precmd screen_mode_line_precmd
-fi
-
-#---------------------------------------------------------------------
-# zplug
-#---------------------------------------------------------------------
-
-if [ "$OS_KIND" = "Darwin" ]; then
-  zplug 'bfirsh/whalebrew', from:gh-r, as:command, use:'*Darwin*x86_64*'
-  zplug 'wata727/tflint', from:gh-r, as:command, use:'*darwin*amd64*'
-
-  if ! zplug check; then
-	zplug install
-  fi
-
-  zplug load
 fi
 
 #---------------------------------------------------------------------
