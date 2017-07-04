@@ -178,6 +178,7 @@ add-zsh-hook precmd vcs_info_precmd
 
 if [ "$OS_KIND" = "Darwin" ]; then
   zplug 'bfirsh/whalebrew', from:gh-r, as:command, use:'*Darwin*x86_64*'
+  zplug 'kubernetes/minikube', from:gh-r, as:command, use:'*darwin-amd64'
   zplug 'wata727/tflint', from:gh-r, as:command, use:'*darwin*amd64*'
 
   if ! zplug check; then
