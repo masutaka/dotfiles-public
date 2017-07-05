@@ -91,6 +91,14 @@
 
 (require 'cl)
 
+;; https://stackoverflow.com/questions/23378271/how-do-i-display-ansi-color-codes-in-emacs-for-any-mode
+(defun display-ansi-colors ()
+  "Display ANSI color codes in current buffer"
+  (interactive)
+  (require 'ansi-color)
+  (let ((inhibit-read-only t))
+    (ansi-color-apply-on-region (point-min) (point-max))))
+
 (defun duplicate-thing (n)
   "http://d.hatena.ne.jp/syohex/20120325/1332641491"
   (interactive "p")
