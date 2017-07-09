@@ -988,7 +988,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (set-face-foreground 'web-mode-html-attr-name-face "Blue4")
 (set-face-foreground 'web-mode-symbol-face "Gold4")
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode) t)
+(add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
 
 ;; http://d.hatena.ne.jp/sugyan/20100705/1278306885
 (defadvice flymake-post-syntax-check
