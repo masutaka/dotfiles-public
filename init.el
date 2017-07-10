@@ -50,7 +50,7 @@
 (package-install 'helm)
 (package-install 'helm-bundle-show)
 (package-install 'helm-descbinds)
-;;(package-install 'helm-elscreen)
+(package-install 'helm-elscreen)
 (package-install 'helm-ghq)
 (package-install 'helm-github-stars)
 (package-install 'helm-hatena-bookmark)
@@ -81,9 +81,6 @@
 (package-install 'web-mode)
 (package-install 'wgrep)
 (package-install 'yaml-mode)
-
-;; temporary
-(autoload 'helm-elscreen "~/src/github.com/masutaka/helm-elscreen/helm-elscreen" "Elscreen support" t)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Advices and Functions
@@ -980,6 +977,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (define-key php-mode-map (kbd "C-c C-]") 'end-of-defun)
 
 (defun web-mode-hook-func ()
+  (setq web-mode-auto-quote-style nil)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-markup-indent-offset 2)
   (setq indent-tabs-mode nil))
