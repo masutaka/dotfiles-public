@@ -977,7 +977,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (define-key php-mode-map (kbd "C-c C-]") 'end-of-defun)
 
 (defun web-mode-hook-func ()
-  (setq web-mode-auto-quote-style nil)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-markup-indent-offset 2)
   (setq indent-tabs-mode nil))
