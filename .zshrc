@@ -35,13 +35,23 @@ function svndiff() {
 # Shell variables
 #---------------------------------------------------------------------
 
+function aws_prompt() {
+  local profile=default
+
+  if [ -n "$AWS_PROFILE" ]; then
+	profile=$AWS_PROFILE
+  fi
+
+  echo "%F{yellow}(aws:${profile})%f"
+}
+
 # プロンプト(man zshmisc)
 if [ "$OS_KIND" = Darwin ]; then
-  PROMPT='%B%U%m%u:%/ $%b '
+  PROMPT='%B%U%m%u:%~ $%b '
 else
-  PROMPT='%B%U%M%u:%/ $%b '
+  PROMPT='%B%U%M%u:%~ $%b '
 fi
-RPROMPT="[%*]%1(v|%F{green}%1v%f|)"
+RPROMPT='[%*]$(aws_prompt)%1(v|%F{green}%1v%f|)'
 
 # 履歴を保存するファイル
 HISTFILE=$HOME/.zhistory
@@ -94,7 +104,7 @@ setopt notify
 #setopt print_exit_value
 
 # プロンプトに環境変数やエスケープシーケンスを含める。
-#setopt prompt_subst
+setopt prompt_subst
 
 # 既にpushdしたディレクトリはダブらせずにディレクトリスタックの先頭に持って来る。
 setopt pushd_ignore_dups
