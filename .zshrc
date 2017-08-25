@@ -63,7 +63,7 @@ HISTSIZE=1000000
 SAVEHIST=1000000
 
 # 新規メールが来ても、メッセージを出さない。
-MAILCHECK=0
+#MAILCHECK=0
 
 FPATH=$HOME/.zsh/functions:/usr/local/share/zsh/site-functions:$FPATH
 
