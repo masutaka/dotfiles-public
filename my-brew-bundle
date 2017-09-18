@@ -31,6 +31,7 @@ brew install aspell
 brew install awscli
 brew install binutils
 brew install ctop
+brew install dep
 brew install direnv
 brew install ghq
 brew install git
