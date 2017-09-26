@@ -43,6 +43,8 @@ umask 022
 # No core files by default
 ulimit -S -c 0 > /dev/null 2>&1
 
+export AWS_REGION=ap-northeast-1
+
 export MYSQL_PS1="(\u@`hostname`) [\d] > "
 
 # Avoid ack warning
