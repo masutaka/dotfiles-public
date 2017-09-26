@@ -1635,6 +1635,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-o") nil)
 (define-key global-map (kbd "s-s") 'helm-swoop)
 (define-key global-map (kbd "s-t") 'my-create-window)
+(define-key global-map (kbd "s-v") 'yank)
 (define-key global-map (kbd "s-w") nil)
 (define-key global-map (kbd "s-y") 'duplicate-thing)
 (define-key global-map (kbd "s-C-j") 'scroll-up-one-line-both-window)
