@@ -53,6 +53,7 @@ brew install peco
 brew install pkg-config # gem ref
 brew install readline # Ruby
 brew install shellcheck
+brew install tcnksm/ghr/ghr
 brew install terminal-notifier
 brew install terraform
 brew install tree
