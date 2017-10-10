@@ -347,9 +347,7 @@ if [ "$OS_KIND" = "Darwin" ]; then
 
 	result=$(hub ci-status -v $commit)
 
-	if [ $? = 3 ]; then
-	  echo $result
-	else
+	if [ $? = 0 ]; then
 	  open $(echo $result | awk '{print $NF}')
 	fi
   }
