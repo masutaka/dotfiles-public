@@ -30,6 +30,7 @@
 (package-initialize)
 (package-refresh-contents)
 
+(package-install 'async)
 (package-install 'auto-complete)
 (package-install 'blgrep)
 (package-install 'clmemo)
@@ -423,9 +424,59 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;; Remove locate
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
 
+;;; helm-github-stars.el
+
+(require 'async)
+
+(defvar my-helm-github-stars-interval (* 1 60 60)
+  "Number of seconds to call `my-helm-github-stars-async-generate-cache-file'.")
+
+(defvar my-helm-github-stars-timer nil
+  "Timer object for GitHub Stars caching will be stored here.
+DO NOT SET VALUE MANUALLY.")
+
+(setq helm-github-stars-name-length 50)
+
+(defun my-helm-github-stars-async-generate-cache-file ()
+  "Generate `helm-github-stars-cache-file' in the child emacs process"
+  (async-start
+   `(lambda ()
+      (let ((start-time (current-time)))
+	(require 'package)
+	(add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+	(package-initialize)
+	(require 'helm-github-stars)
+	(setq helm-github-stars-token ,(my-lisp-load "helm-github-stars-token"))
+	(hgs/generate-cache-file)
+	start-time))
+   (lambda (start-time)
+     (let ((now (current-time)))
+       (message "[GH] Success to GET my GitHub Stars and Repos (%0.1fsec) at %s."
+		(time-to-seconds (time-subtract now start-time))
+		(format-time-string "%Y-%m-%d %H:%M:%S" now))))))
+
+(defun my-helm-github-stars-set-timer ()
+  "Set helm-github-stars timer."
+  (setq my-helm-github-stars-timer
+	(run-at-time "0 sec"
+		     my-helm-github-stars-interval
+		     #'my-helm-github-stars-async-generate-cache-file)))
+
+(defun my-helm-github-stars-cancel-timer ()
+  "Cancel helm-github-stars timer."
+  (when my-helm-github-stars-timer
+    (cancel-timer my-helm-github-stars-timer)
+    (setq my-helm-github-stars-timer nil)))
+
+(my-helm-github-stars-set-timer)
+
+;;; helm-hatena-bookmark.el
+
 (setq helm-hatena-bookmark-username "masutaka26")
 (setq helm-hatena-bookmark-debug-mode t)
 (helm-hatena-bookmark-initialize)
+
+;;; helm-qiita.el
 
 (setq helm-qiita-username "masutaka")
 (setq helm-qiita-organization "feedforce")
@@ -433,14 +484,16 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (setq helm-qiita-debug-mode t)
 (helm-qiita-initialize)
 
-(setq helm-github-stars-token (my-lisp-load "helm-github-stars-token"))
-(setq helm-github-stars-name-length 50)
-(setq helm-github-stars-refetch-time 0.5)
+;;; My bookmark
 
 (defun helm-my-bookmark ()
   "Search Hatena:Bookmark and Qiita Stocks using `helm'."
   (interactive)
-  (helm :sources '(helm-hatena-bookmark-source helm-qiita-source)
+  (helm :sources '(helm-hatena-bookmark-source
+		   helm-qiita-source
+		   hgs/helm-c-source-stars
+		   hgs/helm-c-source-repos
+		   hgs/helm-c-source-search)
 	:prompt "Find Bookmark: "))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
