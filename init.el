@@ -1679,7 +1679,6 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-a") 'helm-imenu)
 (define-key global-map (kbd "s-b") 'helm-my-bookmark)
 (define-key global-map (kbd "s-e") 'helm-elscreen)
-;;(define-key global-map (kbd "s-g") 'helm-github-stars)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
