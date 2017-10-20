@@ -426,6 +426,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 ;;; helm-github-stars.el
 
+(require 'helm-github-stars)
 (require 'async)
 
 (defvar my-helm-github-stars-interval (* 1 60 60)
