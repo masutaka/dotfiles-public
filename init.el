@@ -428,7 +428,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 (require 'helm-github-stars)
 
-(defvar my-helm-github-stars-interval (* 1 60 60)
+(defvar my-helm-github-stars-interval (* 3 60 60)
   "Number of seconds to call `my-helm-github-stars-async-generate-cache-file'.")
 
 (defvar my-helm-github-stars-timer nil
@@ -473,6 +473,7 @@ DO NOT SET VALUE MANUALLY.")
 ;;; helm-hatena-bookmark.el
 
 (setq helm-hatena-bookmark-username "masutaka26")
+(setq helm-hatena-bookmark-interval (* 3 60 60))
 (setq helm-hatena-bookmark-debug-mode t)
 (helm-hatena-bookmark-initialize)
 
@@ -481,6 +482,7 @@ DO NOT SET VALUE MANUALLY.")
 (setq helm-qiita-username "masutaka")
 (setq helm-qiita-organization "feedforce")
 (setq helm-qiita-access-token (my-lisp-load "helm-qiita-access-token"))
+(setq helm-qiita-interval (* 3 60 60))
 (setq helm-qiita-debug-mode t)
 (helm-qiita-initialize)
 
