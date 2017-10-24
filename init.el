@@ -410,6 +410,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'helm-config)
+(require 'helm-for-files)
 (require 'helm-imenu)
 (require 'helm-ghq)
 
