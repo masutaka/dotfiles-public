@@ -1406,7 +1406,8 @@ do nothing. And suppress the output from `message' and
 
 (setq codic-api-token (my-lisp-load "codic-api-token"))
 
-(global-auto-revert-mode 1)
+;; Comment out. This maybe make little freeze emacs?
+;;(global-auto-revert-mode 1)
 
 ;; for distnoted patch
 (setq use-dialog-box nil)
