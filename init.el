@@ -1409,6 +1409,9 @@ do nothing. And suppress the output from `message' and
 ;; Comment out. This maybe make little freeze emacs?
 ;;(global-auto-revert-mode 1)
 
+;; Instead of the global-auto-revert-mode
+(setq revert-without-query '(".+"))
+
 ;; for distnoted patch
 (setq use-dialog-box nil)
 
