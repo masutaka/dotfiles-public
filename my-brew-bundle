@@ -84,6 +84,7 @@ read dummy
 
 brew cask install alfred
 brew cask install appcleaner
+brew cask install atok
 brew cask install bitbar
 brew cask install brave
 brew cask install discord
