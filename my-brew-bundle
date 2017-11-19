@@ -72,6 +72,7 @@ else
   brew install lha
   brew install mysql
   brew install phantomjs
+  brew install postgresql
   brew install rpm2cpio
 fi
 
