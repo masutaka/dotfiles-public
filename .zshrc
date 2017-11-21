@@ -208,7 +208,6 @@ if exists peco; then
 	exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
 	BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
 	CURSOR=$#BUFFER         # move cursor
-	zle clear-screen
   }
   zle -N peco_select_history
   bindkey '^R' peco_select_history
@@ -219,7 +218,6 @@ if exists peco; then
 	  BUFFER="cd ${selected_dir}"
 	  zle accept-line
 	fi
-	zle clear-screen
   }
   zle -N peco_bundle_show
   bindkey '^xy' peco_bundle_show
@@ -234,7 +232,6 @@ if exists peco; then
 	  BUFFER="cd ${selected_dir}"
 	  zle accept-line
 	fi
-	zle clear-screen
   }
   zle -N peco_helm
   bindkey '^x^b' peco_helm
@@ -266,7 +263,6 @@ if exists peco; then
 	  BUFFER="git checkout ${selected_branch}"
 	  zle accept-line
 	fi
-	zle clear-screen
   }
   zle -N peco-git-recent-branches
   bindkey '^xn' peco-git-recent-branches
@@ -277,7 +273,6 @@ if exists peco; then
 	  BUFFER="git checkout -t ${selected_branch}"
 	  zle accept-line
 	fi
-	zle clear-screen
   }
   zle -N peco-git-recent-all-branches
   bindkey '^x^n' peco-git-recent-all-branches
