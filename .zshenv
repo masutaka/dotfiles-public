@@ -54,6 +54,9 @@ export LESS="-g -i -M -R -S -W -z-4 -x4"
 
 export WHALEBREW_INSTALL_PATH=$HOME/bin
 
+# /etc/zprofile 等の /etc 以下のファイルを読み込ませない
+setopt no_global_rcs
+
 # Local Variables:
 # coding: utf-8
 # mode: shell-script
