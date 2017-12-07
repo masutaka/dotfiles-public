@@ -98,7 +98,6 @@ brew cask install google-chrome
 brew cask install google-cloud-sdk
 brew cask install google-japanese-ime
 brew cask install grandperspective
-brew cask install horos
 brew cask install imageoptim
 brew cask install kindlegen
 brew cask install licecap
@@ -111,6 +110,7 @@ brew cask install virtualbox
 
 if [ -n "$PRIVATE_MACHINE" ]; then
   brew cask install handbrake
+  brew cask install horos
   brew cask install lyn
   brew cask install ripit
   brew cask install skype
