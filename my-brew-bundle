@@ -35,7 +35,6 @@ brew install ctop
 brew install dep
 brew install direnv
 brew install ghq
-brew install git
 brew install gnu-sed
 brew install gnupg2
 brew install go
