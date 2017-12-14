@@ -46,12 +46,10 @@ brew install imagemagick
 brew install jid
 brew install jq
 brew install lv
-brew install mackerelio/mackerel-agent/mkr
 brew install markdown
 brew install masutaka/github-nippou/github-nippou
 brew install mercurial
 brew install openssl # macOS doesn't have it.
-brew install packer
 brew install peco
 brew install pkg-config # gem ref
 brew install pstree
@@ -72,7 +70,9 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   :
 else
   brew install lha
+  brew install mackerelio/mackerel-agent/mkr
   brew install mysql
+  brew install packer
   brew install phantomjs
   brew install postgresql
   brew install rpm2cpio
