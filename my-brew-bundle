@@ -35,6 +35,7 @@ brew install ctop
 brew install dep
 brew install direnv
 brew install ghq
+brew install git # for diff-highlight
 brew install gnu-sed
 brew install gnupg2
 brew install go
@@ -103,7 +104,6 @@ brew cask install kindlegen
 brew cask install licecap
 brew cask install mysqlworkbench
 brew cask install psequel
-brew cask install racket
 brew cask install railwaycat/emacsmacport/emacs-mac-official-icon
 brew cask install trailer
 brew cask install vagrant
@@ -118,4 +118,5 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   brew cask install vlc
 else
   brew cask install the-unarchiver
+  brew cask install racket
 fi
