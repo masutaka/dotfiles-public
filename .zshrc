@@ -16,7 +16,7 @@ function go-update() {
 }
 
 function kd() {
-  ls -alF $* | more
+  ls -alF $* | more -e
 }
 
 function psme() {
