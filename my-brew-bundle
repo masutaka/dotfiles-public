@@ -101,6 +101,7 @@ brew cask install grandperspective
 brew cask install imageoptim
 brew cask install kindlegen
 brew cask install licecap
+brew cask install minikube
 brew cask install mysqlworkbench
 brew cask install psequel
 brew cask install railwaycat/emacsmacport/emacs-mac-official-icon
