@@ -42,6 +42,7 @@ brew install go
 brew install heroku-toolbelt
 brew install highlight
 brew install hub
+brew install hugo
 brew install imagemagick
 brew install jid
 brew install jq
@@ -67,7 +68,7 @@ brew install xz
 brew install zplug
 
 if [ -n "$PRIVATE_MACHINE" ]; then
-  :
+  brew install youtube-dl
 else
   brew install lha
   brew install mackerelio/mackerel-agent/mkr
