@@ -18,6 +18,7 @@ EOF
 
   read dummy
 
+  brew cleanup
   brew upgrade
 fi
 
