@@ -41,7 +41,7 @@ fi
 umask 022
 
 # No core files by default
-ulimit -S -c 0 > /dev/null 2>&1
+ulimit -S -c 0
 
 export AWS_REGION=ap-northeast-1
 
