@@ -22,8 +22,8 @@ Linux)
 esac
 
 export GOPATH=$HOME/go:$HOME
-export PATH=$HOME/.nodebrew/current/bin:$HOME/.plenv/bin:$HOME/.rbenv/bin:$HOME/.cargo/bin:$PATH
-export NODE_PATH=$(npm root -g 2> /dev/null)
+export PATH=$HOME/.nodenv/bin:$HOME/.plenv/bin:$HOME/.rbenv/bin:$HOME/.cargo/bin:$PATH
+eval "$(nodenv init -)"
 eval "$(plenv init --no-rehash -)"
 eval "$(rbenv init --no-rehash -)"
 export PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
