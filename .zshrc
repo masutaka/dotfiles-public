@@ -4,6 +4,14 @@
 # Functions
 #---------------------------------------------------------------------
 
+function brew-all-deps() {
+  brew list | while read cask; do
+	echo -n $fg[blue] $cask $fg[white]
+	brew deps $cask | awk '{printf(" %s", $0)}'
+	echo
+  done
+}
+
 function exists() {
   type $1 > /dev/null
 }
