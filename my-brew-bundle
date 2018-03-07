@@ -51,7 +51,7 @@ brew install lv
 brew install markdown
 brew install masutaka/github-nippou/github-nippou
 brew install mercurial
-brew install openssl # macOS doesn't have it.
+brew install openssl # macOS doesn't have this.
 brew install peco
 brew install pkg-config # gem ref
 brew install pstree
