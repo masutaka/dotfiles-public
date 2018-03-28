@@ -1322,6 +1322,31 @@ It also updates `seq-start-position'."
 (add-hook 'sql-interactive-mode-hook 'sql-interactive-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; terraform-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun open-terraform-document ()
+  "Open the document of terraform under the cursor"
+  (interactive)
+  (let ((regexp "^\\(data\\|resource\\) \"\\([a-z]+\\)_\\([^\"]+\\)\"")
+	(type) (provider) (name))
+    (save-excursion
+      (re-search-backward "^[a-z]" (point-min) t)
+      (when (re-search-forward regexp (point-at-eol) t)
+	(setq type (match-string-no-properties 1)
+	      provider (match-string-no-properties 2)
+	      name (match-string-no-properties 3))))
+    (if (and type provider name)
+	(browse-url (format "https://www.terraform.io/docs/providers/%s/%s/%s.html"
+			    provider (substring type 0 1) name))
+      (message "Unknown terraform DSL"))))
+
+(with-eval-after-load "terraform"
+  (define-key terraform-mode-map (kbd "C-c C-o") 'open-terraform-document))
+
+(add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; view-mode --- peruse file or buffer without editing
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1398,8 +1423,6 @@ do nothing. And suppress the output from `message' and
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 
 ;; Avoid to write `package-selected-packages` in init.el
 (load (setq custom-file (expand-file-name "custom.el" user-emacs-directory)))
