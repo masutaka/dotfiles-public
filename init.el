@@ -1717,15 +1717,18 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
-(define-key global-map (kbd "s-n") nil)
+(define-key global-map (kbd "s-n") 'make-frame-command)
 (define-key global-map (kbd "s-o") nil)
 (define-key global-map (kbd "s-s") 'helm-swoop)
 (define-key global-map (kbd "s-t") 'my-create-window)
 (define-key global-map (kbd "s-v") 'yank)
-(define-key global-map (kbd "s-w") nil)
+(define-key global-map (kbd "s-w") 'delete-frame)
 (define-key global-map (kbd "s-y") 'duplicate-thing)
 (define-key global-map (kbd "s-C-j") 'scroll-up-one-line-both-window)
 (define-key global-map (kbd "s-C-k") 'scroll-down-one-line-both-window)
+
+;; custom of the Meta-? key (not Escape key)
+(define-key global-map (kbd "<M-tab>") 'other-frame)
 
 ;; custom of the ctl-q-map
 (defvar ctl-q-map (make-keymap))
