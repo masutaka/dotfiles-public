@@ -1341,7 +1341,7 @@ It also updates `seq-start-position'."
 			    provider (substring type 0 1) name))
       (message "Unknown terraform DSL"))))
 
-(with-eval-after-load "terraform"
+(with-eval-after-load "terraform-mode"
   (define-key terraform-mode-map (kbd "C-c C-o") 'open-terraform-document))
 
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
