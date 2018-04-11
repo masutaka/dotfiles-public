@@ -47,6 +47,7 @@
 (package-install 'go-autocomplete)
 (package-install 'go-eldoc)
 (package-install 'go-mode)
+(package-install 'graphql-mode)
 (package-install 'haml-mode)
 (package-install 'helm)
 (package-install 'helm-bundle-show)
@@ -933,6 +934,28 @@ DO NOT SET VALUE MANUALLY.")
 (setq gofmt-command "goimports")
 
 (add-hook 'before-save-hook 'gofmt-before-save)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; graphql-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun my-graphql-format-buffer ()
+  "Rewrite current buffer in a canonical format using prettier."
+  (interactive)
+  (shell-command
+   (format "%s --write %s"
+	   (shell-quote-argument (executable-find "prettier"))
+	   (shell-quote-argument (expand-file-name buffer-file-name))))
+  (revert-buffer t t t))
+
+(define-minor-mode my-graphql-format-on-save-mode
+  "Run my-graphql-format-buffer before saving current buffer."
+  :lighter ""
+  (if my-graphql-format-on-save-mode
+      (add-hook 'before-save-hook #'my-graphql-format-buffer nil t)
+    (remove-hook 'before-save-hook #'my-graphql-format-buffer t)))
+
+(add-hook 'graphql-mode-hook #'my-graphql-format-on-save-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Grep
