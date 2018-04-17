@@ -1452,8 +1452,7 @@ do nothing. And suppress the output from `message' and
 
 (setq codic-api-token (my-lisp-load "codic-api-token"))
 
-;; Comment out. This maybe make little freeze emacs?
-;;(global-auto-revert-mode 1)
+(global-auto-revert-mode 1)
 
 ;; Instead of the global-auto-revert-mode
 (setq revert-without-query '(".+"))
