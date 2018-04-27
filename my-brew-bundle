@@ -122,6 +122,7 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   brew cask install skype
   brew cask install vlc
 else
+  brew cask install filezilla
   brew cask install the-unarchiver
   brew cask install timemachinescheduler
   brew cask install timer
