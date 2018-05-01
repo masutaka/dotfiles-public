@@ -110,6 +110,7 @@ brew cask install minikube
 brew cask install mysqlworkbench
 brew cask install psequel
 brew cask install railwaycat/emacsmacport/emacs-mac-official-icon
+brew cask install timemachinescheduler
 brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
@@ -124,6 +125,5 @@ if [ -n "$PRIVATE_MACHINE" ]; then
 else
   brew cask install filezilla
   brew cask install the-unarchiver
-  brew cask install timemachinescheduler
   brew cask install timer
 fi
