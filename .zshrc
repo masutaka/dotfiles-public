@@ -23,9 +23,15 @@ function go-update() {
   done
 }
 
-function kd() {
-  ls -alF $* | more -e
-}
+if [ "$OS_KIND" = Darwin ]; then
+  function kd() {
+	ls -alF $* | more -e
+  }
+else
+  function kd() {
+	ls -alF $* | more
+  }
+fi
 
 function psme() {
   ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
