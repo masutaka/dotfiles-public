@@ -70,6 +70,7 @@ brew install xz
 brew install zplug
 
 if [ -n "$PRIVATE_MACHINE" ]; then
+  brew install postgresql
   brew install youtube-dl
 else
   brew install chromedriver
@@ -79,7 +80,6 @@ else
   brew install mysql
   brew install packer
   brew install phantomjs
-  brew install postgresql
   brew install rpm2cpio
 fi
 
