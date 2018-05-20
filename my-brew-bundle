@@ -124,6 +124,6 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   brew cask install vlc
 else
   brew cask install filezilla
-  brew cask install the-unarchiver
-  brew cask install timer
+  brew cask install the-unarchiver # もう要らないかも
+  brew cask install timer          # もう要らないかも
 fi
