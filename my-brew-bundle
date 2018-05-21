@@ -76,12 +76,10 @@ if [ -n "$PRIVATE_MACHINE" ]; then
 else
   brew install chromedriver
   brew install graphviz
-  brew install lha
   brew install mackerelio/mackerel-agent/mkr
   brew install mysql
   brew install packer
   brew install phantomjs
-  brew install rpm2cpio
 fi
 
 cat <<EOF
@@ -125,6 +123,4 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   brew cask install vlc
 else
   brew cask install filezilla
-  brew cask install the-unarchiver # もう要らないかも
-  brew cask install timer          # もう要らないかも
 fi
