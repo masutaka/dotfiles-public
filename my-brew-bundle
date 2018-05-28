@@ -56,6 +56,7 @@ brew install minamijoyo/tfschema/tfschema
 brew install openssl # macOS doesn't have this.
 brew install peco
 brew install pkg-config # gem ref
+brew install postgresql
 brew install pstree
 brew install readline # Ruby
 brew install shellcheck
@@ -71,7 +72,6 @@ brew install xz
 brew install zplug
 
 if [ -n "$PRIVATE_MACHINE" ]; then
-  brew install postgresql
   brew install youtube-dl
 else
   brew install chromedriver
