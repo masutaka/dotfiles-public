@@ -103,6 +103,7 @@ brew cask install google-cloud-sdk
 brew cask install google-japanese-ime
 brew cask install grandperspective
 brew cask install imageoptim
+brew cask install kindle
 brew cask install kindlegen
 brew cask install licecap
 brew cask install minikube
