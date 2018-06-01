@@ -668,6 +668,10 @@ DO NOT SET VALUE MANUALLY.")
 ;;; Dictionary
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Workaround. See http://suzuki.tdiary.net/20161226.html
+(if (>= emacs-major-version 26)
+    (setq default-fill-column (default-value 'fill-column)))
+
 (require 'sdic)
 (setq sdic-window-height 20)
 
@@ -708,8 +712,6 @@ DO NOT SET VALUE MANUALLY.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (with-eval-after-load "diff-mode"
-  (set-face-foreground 'diff-added-face "blue1")
-  (set-face-foreground 'diff-removed-face "red")
   (define-key diff-mode-map (kbd "M-0") 'my-delete-current-window)
   (define-key diff-mode-map (kbd "M-2") 'my-create-window)
   (define-key diff-mode-map (kbd "M-o") 'my-next-window))
@@ -868,7 +870,7 @@ DO NOT SET VALUE MANUALLY.")
   (set-face-background 'mode-line "gold")
   (set-face-foreground 'mode-line-inactive "black")
   (set-face-background 'mode-line-inactive "CornflowerBlue")
-  (set-face-background 'show-paren-match-face "gray60")
+  (set-face-background 'show-paren-match "gray60")
 
   (if (string= (face-attribute 'default :background) "black")
       (set-face-background 'fringe "gray40"))
