@@ -1,0 +1,126 @@
+#!/bin/sh
+
+echo "brew updating..."
+
+brew update
+outdated=`brew outdated`
+
+if [ -n "$outdated" ]; then
+  cat <<EOF
+
+The following package(s) will upgrade.
+
+$outdated
+
+Are you sure?
+If you don't want to upgrade, please type Ctrl-c now.
+EOF
+
+  read dummy
+
+  brew cleanup
+  brew cask cleanup
+  brew upgrade
+fi
+
+if [ $(hostname) = "masutaka-pc.local" ]; then
+  PRIVATE_MACHINE=1
+fi
+
+brew install ack
+brew install amazon-ecs-cli
+brew install aspell
+brew install awscli
+brew install awslogs
+brew install binutils
+brew install ctop
+brew install dep
+brew install direnv
+brew install ghq
+brew install git # for diff-highlight
+brew install gnu-sed
+brew install gnupg2
+brew install go
+brew install heroku-toolbelt
+brew install highlight
+brew install hub
+brew install hugo
+brew install imagemagick
+brew install jid
+brew install jq
+brew install lv
+brew install markdown
+brew install masutaka/github-nippou/github-nippou
+brew install mercurial
+brew install minamijoyo/tfschema/tfschema
+brew install openssl # macOS doesn't have this.
+brew install peco
+brew install pkg-config # gem ref
+brew install postgresql
+brew install pstree
+brew install readline # Ruby
+brew install shellcheck
+brew install tcnksm/ghr/ghr
+brew install terminal-notifier
+brew install terraform
+brew install tmux
+brew install tree
+brew install tsub/s3-edit/s3-edit
+brew install unrar
+brew install wget
+brew install xz
+brew install zplug
+
+if [ -n "$PRIVATE_MACHINE" ]; then
+  brew install youtube-dl
+else
+  brew install chromedriver
+  brew install graphviz
+  brew install mackerelio/mackerel-agent/mkr
+  brew install mysql
+  brew install packer
+  brew install phantomjs
+fi
+
+cat <<EOF
+Do you want to install brew casks?
+If you don't want to install, please type Ctrl-c now.
+EOF
+
+read dummy
+
+brew cask install alfred
+brew cask install appcleaner
+brew cask install bitbar
+brew cask install discord
+brew cask install docker
+brew cask install dropbox
+brew cask install firefox
+brew cask install flash-player
+brew cask install google-chrome
+brew cask install google-cloud-sdk
+brew cask install google-japanese-ime
+brew cask install grandperspective
+brew cask install imageoptim
+brew cask install kindle
+brew cask install kindlegen
+brew cask install licecap
+brew cask install minikube
+brew cask install mysqlworkbench
+brew cask install psequel
+brew cask install railwaycat/emacsmacport/emacs-mac
+brew cask install timemachinescheduler
+brew cask install trailer
+brew cask install vagrant
+brew cask install virtualbox
+
+if [ -n "$PRIVATE_MACHINE" ]; then
+  brew cask install handbrake
+  brew cask install horos
+  brew cask install lyn
+  brew cask install ripit
+  brew cask install skype
+  brew cask install vlc
+else
+  brew cask install filezilla
+fi
