@@ -875,13 +875,9 @@ DO NOT SET VALUE MANUALLY.")
   (if (string= (face-attribute 'default :background) "black")
       (set-face-background 'fringe "gray40"))
 
-  ;; For M-x cvs-update
-  (with-eval-after-load "pcvs-info"
-    (set-face-foreground 'cvs-handled-face "gold4"))
-
   ;; For sh script
   (with-eval-after-load "sh-script"
-    (set-face-foreground 'sh-heredoc-face "goldenrod4")
+    (set-face-foreground 'sh-heredoc "goldenrod4")
     (set-face-foreground 'sh-quoted-exec "medium orchid")))
  (t
   (set-face-foreground 'minibuffer-prompt "black")
