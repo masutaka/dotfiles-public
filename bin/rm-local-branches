@@ -1,0 +1,23 @@
+#!/bin/sh
+
+BASE_BRANCH=master
+if [ -n "$1" -a "$1" != "-f" ]; then
+	BASE_BRANCH=$1
+	shift
+fi
+
+if [ "$1" = "-f" ]; then
+	DO=1
+fi
+
+exe() {
+	if [ "$DO" = "1" ]; then
+		eval $@
+	else
+		echo $@
+	fi
+}
+
+for BRANCH in $(git branch --merged origin/$BASE_BRANCH | fgrep -vw master | fgrep -vw $BASE_BRANCH | awk '{print $1}'); do
+	exe git branch -d $BRANCH
+done

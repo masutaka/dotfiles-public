@@ -1,0 +1,10 @@
+{
+    "Style": {
+        "Selected": ["on_white"],
+        "Query": ["red", "bold"]
+    },
+
+    "Keymap": {
+        "C-c": "peco.Cancel"
+    }
+}
