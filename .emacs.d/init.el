@@ -574,6 +574,21 @@ DO NOT SET VALUE MANUALLY.")
 ;;; ChangeLogメモ
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Workaround
+(if (>= emacs-major-version 26)
+    (defvar clmemo-font-lock-keywords
+      '(;;
+	;; Date lines, with weekday
+	("^\\sw.........[0-9:+ ]*\\((...)\\)?"
+	 (0 'change-log-date)
+	 ("\\([^<(]+?\\)[ \t]*[(<]\\([A-Za-z0-9_.-]+@[A-Za-z0-9_.-]+\\)[>)]" nil nil
+	  (1 'change-log-name)
+	  (2 'change-log-email)))
+	;;
+	;; Date
+	("\\[[0-9-]+\\]" (0 'clmemo-inline-date-face)))
+      "Additional expressions to highlight in ChangeLog Memo mode."))
+
 (with-eval-after-load "add-log" (require 'clmemo))
 (autoload 'clgrep "clgrep" "grep mode for ChangeLog Memo file" t)
 
