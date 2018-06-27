@@ -2,7 +2,6 @@ aws-sdk
 doctoc
 eslint
 gulp
-npm
 prettier
 textlint
 textlint-rule-preset-japanese
