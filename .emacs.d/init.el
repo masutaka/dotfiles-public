@@ -42,7 +42,6 @@
 (package-install 'elscreen)
 (package-install 'flycheck)
 (package-install 'flycheck-rust)
-(package-install 'git-dwim)
 (package-install 'github-browse-file)
 (package-install 'go-autocomplete)
 (package-install 'go-eldoc)
@@ -922,12 +921,6 @@ DO NOT SET VALUE MANUALLY.")
 (define-key ctl-x-map (kbd "v s") 'egg-status)
 (define-key ctl-x-map (kbd "v l") 'egg-log)
 
-;;; git-dwim
-
-(require 'git-dwim)
-
-(define-key ctl-x-map (kbd "v b") 'git-branch-next-action)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Go
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1770,6 +1763,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "C-q") ctl-q-map)
 (define-key ctl-q-map (kbd ".") (if (featurep 'mi-config) 'mode-info-find-tag))
 (define-key ctl-q-map (kbd "c") 'copy-this-buffer-file-name)
+(define-key ctl-q-map (kbd "e") 'erase-buffer)
 (define-key ctl-q-map (kbd "g b") 'github-browse-file-blame)
 (define-key ctl-q-map (kbd "g f") 'github-browse-file)
 (define-key ctl-q-map (kbd "C-a") 'text-scale-adjust)
