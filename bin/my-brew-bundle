@@ -39,7 +39,7 @@ brew install direnv
 brew install ghq
 brew install git # for diff-highlight
 brew install gnu-sed
-brew install gnupg2
+brew install gnupg
 brew install go
 brew install heroku
 brew install highlight
