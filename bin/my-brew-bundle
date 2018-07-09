@@ -41,7 +41,7 @@ brew install git # for diff-highlight
 brew install gnu-sed
 brew install gnupg2
 brew install go
-brew install heroku-toolbelt
+brew install heroku
 brew install highlight
 brew install hub
 brew install hugo
@@ -76,7 +76,6 @@ if [ -n "$PRIVATE_MACHINE" ]; then
 else
   brew install chromedriver
   brew install graphviz
-  brew install mackerelio/mackerel-agent/mkr
   brew install mysql
   brew install packer
   brew install phantomjs
