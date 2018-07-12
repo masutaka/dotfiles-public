@@ -9,5 +9,7 @@
 --type-add=php=.ctp
 --type-add=puppet=.pp
 --type-add=slim=.slim
+--type-add=svg=.svg
 --type-add=terraform=.tf
 --type-add=trans=.po
+--type=nosvg
