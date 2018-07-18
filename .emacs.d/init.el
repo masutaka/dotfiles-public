@@ -969,8 +969,8 @@ DO NOT SET VALUE MANUALLY.")
 
 (setq grep-find-command '("ack --nogroup --nocolor -k " . 28))
 (setq grep-find-history
-      '("find . -type f -name '*' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"
-	"ack --nogroup --nocolor --ignore-dir=vendor/bundle -k "))
+      '("LANG=ja_JP.sjis grep -n \"$(echo '検索文字列' | nkf -s)\" * | nkf -w"
+	"find . -type f -name '*' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; hl-line+

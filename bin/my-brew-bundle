@@ -77,6 +77,7 @@ else
   brew install chromedriver
   brew install graphviz
   brew install mysql
+  brew install nkf
   brew install packer
   brew install phantomjs
 fi
