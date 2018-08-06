@@ -83,10 +83,6 @@
 (package-install 'wgrep)
 (package-install 'yaml-mode)
 
-;; temporary
-(package-install 'promise)
-(package-install 'async-await)
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Advices and Functions
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

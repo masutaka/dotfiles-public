@@ -53,6 +53,7 @@ brew install markdown
 brew install masutaka/github-nippou/github-nippou
 brew install mercurial
 brew install minamijoyo/tfschema/tfschema
+brew install nkf
 brew install openssl # macOS doesn't have this.
 brew install peco
 brew install pkg-config # gem ref
@@ -74,7 +75,6 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   brew install youtube-dl
 else
   brew install chromedriver
-  brew install nkf
   brew install packer
   brew install postgresql
 fi
