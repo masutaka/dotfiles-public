@@ -74,7 +74,6 @@ brew install zplug
 if [ -n "$PRIVATE_MACHINE" ]; then
   brew install youtube-dl
 else
-  brew install chromedriver
   brew install packer
   brew install postgresql
 fi
@@ -119,6 +118,7 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   brew cask install skype
   brew cask install vlc
 else
+  brew cask install chromedriver
   brew cask install filezilla
   brew cask install zoomus
 fi
