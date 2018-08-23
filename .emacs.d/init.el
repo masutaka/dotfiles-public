@@ -917,6 +917,9 @@ DO NOT SET VALUE MANUALLY.")
 (define-key ctl-x-map (kbd "v s") 'egg-status)
 (define-key ctl-x-map (kbd "v l") 'egg-log)
 
+;; temporary for EC Booster
+(setq egg-log-HEAD-max-len 400)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Go
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

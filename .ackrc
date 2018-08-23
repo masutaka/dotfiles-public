@@ -3,6 +3,7 @@
 --ignore-dir=vendor/
 --type-add=gemspec=.gemspec
 --type-add=haml=.haml
+--type-add=jsx=.jsx
 --type-add=markdown=.md
 --type-add=slim=.slim
 --type-add=svg=.svg
