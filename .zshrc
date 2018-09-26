@@ -17,7 +17,7 @@ function exists() {
 }
 
 function go-update() {
-  for i in `cat $HOME/src/github.com/masutaka/dotfiles/anyenvs/go.txt`; do
+  for i in $(cat $HOME/src/github.com/masutaka/dotfiles/anyenvs/go.txt); do
 	echo $i
 	go get -u $i
   done
@@ -272,7 +272,7 @@ if exists peco; then
   }
 
   function peco-pkill() {
-	for pid in `ps aux | peco | awk '{ print $2 }'`; do
+	for pid in $(ps aux | peco | awk '{ print $2 }'); do
 	  kill $pid
 	  echo "Killed ${pid}"
 	done
@@ -446,7 +446,7 @@ fi
 # fi
 
 if exists peco; then
-  alias -g B='`git branch | peco | sed -e "s/^\*[ ]*//"`'
+  alias -g B='$(git branch | peco | sed -e "s/^\*[ ]*//")'
 fi
 
 alias -g G='2>&1 | grep'

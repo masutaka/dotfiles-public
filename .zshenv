@@ -1,6 +1,6 @@
 # masutaka's original .zshenv for zsh 5.0.5 later
 
-OS_KIND=`uname`
+OS_KIND=$(uname)
 
 #---------------------------------------------------------------------
 # Environment variables
@@ -46,7 +46,7 @@ ulimit -S -c 0
 
 export AWS_REGION=ap-northeast-1
 
-export MYSQL_PS1="(\u@`hostname`) [\d] > "
+export MYSQL_PS1="(\u@$(hostname)) [\d] > "
 
 # Avoid ack warning
 export LANG=en_US.UTF-8
