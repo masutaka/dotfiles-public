@@ -1,0 +1,3 @@
+[ -d bin ] && [ -f Gemfile.lock ] && PATH_add bin || :
+[ -d node_modules/.bin ] && PATH_add node_modules/.bin || :
+[ -d vendor/bundle/bin ] && [ -f Gemfile.lock ] && PATH_add vendor/bundle/bin || :
