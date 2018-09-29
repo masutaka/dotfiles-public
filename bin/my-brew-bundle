@@ -75,7 +75,6 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   brew install youtube-dl
 else
   brew install packer
-  brew install postgresql
 fi
 
 cat <<EOF
