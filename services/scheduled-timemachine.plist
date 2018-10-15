@@ -7,9 +7,9 @@
     <string>net.masutaka.scheduled-timemachine</string>
     <key>ProgramArguments</key>
     <array>
-      <string>bash</string>
+      <string>sh</string>
       <string>-c</string>
-      <string>sudo tmutil disable && tmutil startbackup -b</string>
+      <string>date; sudo tmutil disable && pmset -g ps | grep -q 'AC Power' && tmutil startbackup -b; echo</string>
     </array>
     <key>StandardOutPath</key>
     <string>/Users/masutaka/.Trash/scheduled-timemachine.log</string>
