@@ -106,7 +106,6 @@ brew cask install minikube
 brew cask install mysqlworkbench
 brew cask install psequel
 brew cask install railwaycat/emacsmacport/emacs-mac
-brew cask install timemachinescheduler
 brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
