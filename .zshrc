@@ -452,9 +452,6 @@ fi
 alias -g G='2>&1 | grep'
 alias -g L='2>&1 | less'
 
-alias be="bundle exec"
-alias ce="carton exec"
-
 alias cp="cp -i"
 alias mv="mv -i"
 alias rm="rm -i"
@@ -463,9 +460,6 @@ alias cdg="cd \$(git rev-parse --show-toplevel)"
 alias expandurl="perl -MLWP::UserAgent -lE 'say LWP::UserAgent->new->head(shift)->request->uri'"
 alias g="git"
 alias hall="history -E -i 1"
-alias ll="kd"
-alias rootinstalllog="echo 'find /usr/local -cnewer timestamp | sort'"
-alias v="vagrant"
 
 # Local Variables:
 # coding: utf-8
