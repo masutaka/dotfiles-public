@@ -457,8 +457,9 @@ alias mv="mv -i"
 alias rm="rm -i"
 
 alias cdg="cd \$(git rev-parse --show-toplevel)"
+alias d=docker
 alias expandurl="perl -MLWP::UserAgent -lE 'say LWP::UserAgent->new->head(shift)->request->uri'"
-alias g="git"
+alias g=git
 alias hall="history -E -i 1"
 
 # Local Variables:
