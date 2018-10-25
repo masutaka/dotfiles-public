@@ -3,7 +3,6 @@ gem-src
 activesupport
 bundler
 gem-search
-git-browse-remote
 pry
 rubocop
 ruby-lint
