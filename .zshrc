@@ -5,7 +5,7 @@
 #---------------------------------------------------------------------
 
 function brew-all-deps() {
-  brew list | while read cask; do
+  for cask in $(brew list); do
 	echo -n $fg[blue] $cask $fg[white]
 	brew deps $cask | awk '{printf(" %s", $0)}'
 	echo
