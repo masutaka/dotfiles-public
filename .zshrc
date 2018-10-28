@@ -79,8 +79,6 @@ SAVEHIST=1000000
 # 新規メールが来ても、メッセージを出さない。
 #MAILCHECK=0
 
-FPATH=$HOME/.zsh/functions:/usr/local/share/zsh/site-functions:$FPATH
-
 #---------------------------------------------------------------------
 # Shell options
 #---------------------------------------------------------------------
@@ -148,15 +146,11 @@ zstyle ':completion:*:processes' command 'ps x -o pid,s,args'
 ## 補完時に大文字小文字を区別しない。
 zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 
-# 補間候補を C-fとかC-nとかで選択できる。
+# 補完候補を C-fとかC-nとかで選択できる。
 zstyle ':completion:*:default' menu select=1
 
-# /usr(/local)?/share/zsh/4.0.6/functions 以下にある補間コレクションを使う。
+# $FPATH 以下にある補完コレクションを使う。
 autoload -Uz compinit; compinit -u
-
-if [ -f /usr/local/share/zsh/site-functions/go ]; then
-  source /usr/local/share/zsh/site-functions/go
-fi
 
 # for hook
 autoload -Uz add-zsh-hook
