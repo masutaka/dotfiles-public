@@ -33,7 +33,7 @@ if type direnv > /dev/null; then
   eval "$(direnv hook zsh)"
 fi
 
-if [ "$OS_KIND" = "Darwin" ]; then
+if [ -d /usr/local/opt/zplug ]; then
   export ZPLUG_HOME=/usr/local/opt/zplug
   source $ZPLUG_HOME/init.zsh
 fi

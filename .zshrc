@@ -194,7 +194,7 @@ add-zsh-hook precmd vcs_info_precmd
 # 後述の bindkey '^xn' peco-git-recent-branches が _next_tags で
 # 置き換えられてしまうので、ここに置く。
 
-if [ "$OS_KIND" = "Darwin" ]; then
+if exists zplug; then
   zplug 'bfirsh/whalebrew', from:gh-r, as:command, use:'*Darwin*x86_64*'
   zplug 'wantedly/dockertags', from:gh-r, as:command, use:'*darwin*amd64*'
   zplug 'wata727/tflint', from:gh-r, as:command, use:'*darwin*amd64*'
