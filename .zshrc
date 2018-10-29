@@ -5,9 +5,9 @@
 #---------------------------------------------------------------------
 
 function brew-all-deps() {
-  for cask in $(brew list); do
-	echo -n $fg[blue] $cask $fg[white]
-	brew deps $cask | awk '{printf(" %s", $0)}'
+  for formula in $(brew list); do
+	echo -n $fg[blue] $formula $fg[white]
+	brew deps $formula | awk '{printf(" %s", $0)}'
 	echo
   done
 }
