@@ -620,12 +620,10 @@ DO NOT SET VALUE MANUALLY.")
 	 (entry-id 1)
 	 (current (point))
 	 (filename (file-name-nondirectory (buffer-file-name)))
+	 (scheme
+	  (if (equal filename "clmemo.txt") "https" "http"))
 	 (base-url
-	  (cond
-	   ((equal filename "clmemo.txt")
-	    "masutaka.net/chalow")
-	   (t
-	    "0.0.0.0:8080/chalow-ura"))))
+	  (if (equal filename "clmemo.txt") "masutaka.net/chalow" "0.0.0.0:8080/chalow-ura")))
     (save-excursion
       (setq date (and (re-search-backward date-regexp (point-min) t)
 		      (match-string-no-properties 1))))
@@ -638,8 +636,8 @@ DO NOT SET VALUE MANUALLY.")
 	      (throw 'loop t)
 	    (setq entry-id (+ entry-id 1))))))
     (if date
-	(browse-url (format "http://%s/%s-%d.html"
-			    base-url date entry-id)))))
+	(browse-url (format "%s://%s/%s-%d.html"
+			    scheme base-url date entry-id)))))
 
 (setq user-full-name "Takashi Masuda")
 (setq user-mail-address "masutaka.net@gmail.com")
