@@ -18,6 +18,6 @@ exe() {
 	fi
 }
 
-for BRANCH in $(git branch --merged origin/$BASE_BRANCH | fgrep -vw master | fgrep -vw $BASE_BRANCH | awk '{print $1}'); do
+for BRANCH in $(git branch --merged origin/$BASE_BRANCH | grep -Fvw master | grep -Fvw $BASE_BRANCH | awk '{print $1}'); do
 	exe git branch -d $BRANCH
 done

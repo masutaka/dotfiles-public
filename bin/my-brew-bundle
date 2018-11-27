@@ -33,6 +33,7 @@ brew install awscli
 brew install awslogs
 brew install binutils
 brew install circleci
+brew install coreutils
 brew install ctop
 brew install dep
 brew install direnv
