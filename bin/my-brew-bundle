@@ -3,7 +3,7 @@
 echo "brew updating..."
 
 brew update
-outdated=`brew outdated`
+outdated=$(brew outdated)
 
 if [ -n "$outdated" ]; then
   cat <<EOF
