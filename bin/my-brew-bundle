@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -eu
 
 echo "brew updating..."
 
@@ -43,6 +43,7 @@ brew install gnu-sed
 brew install gnupg
 brew install go
 brew install goreleaser/tap/goreleaser
+brew install hadolint
 brew install heroku/brew/heroku
 brew install highlight
 brew install hub
