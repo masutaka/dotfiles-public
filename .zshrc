@@ -435,9 +435,9 @@ if [ "$OS_KIND" = Darwin ]; then
   alias emacs=$EMACS
 fi
 
-# if exists hub; then
-#   eval "$(hub alias -s)"
-# fi
+if exists hub; then
+  eval "$(hub alias -s)"
+fi
 
 if exists peco; then
   alias -g B='$(git branch | peco | sed -e "s/^\*[ ]*//")'
