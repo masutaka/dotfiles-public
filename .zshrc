@@ -45,6 +45,16 @@ function svndiff() {
   svn diff $* | vim -R -
 }
 
+if [ "$OS_KIND" = Darwin ]; then
+  function epoch2date() {
+	date -r $1 +%Y-%m-%dT%H:%M:%S%z
+  }
+else
+  function epoch2date() {
+	date --date="@$1" +%Y-%m-%dT%H:%M:%S%z
+  }
+fi
+
 #---------------------------------------------------------------------
 # Shell variables
 #---------------------------------------------------------------------
