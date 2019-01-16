@@ -367,6 +367,17 @@ function urldecode() {
   echo $(php -r "echo rawurldecode('$1');")
 }
 
+function userstack() {
+  access_key_file=$HOME/.config/userstack/access_key
+
+  if [ ! -f "$access_key_file" ]; then
+	echo "$access_key_file not found."
+	return 1
+  fi
+
+  curl -s "http://api.userstack.com/detect?access_key=$(cat $access_key_file)&ua=$(urlencode $1)" | jq .
+}
+
 if [ "$OS_KIND" = "Darwin" ]; then
   # http://qiita.com/kyanny/items/0797d37cab6327fba2c4
   function ciopen() {
