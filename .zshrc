@@ -375,7 +375,12 @@ function userstack() {
 	return 1
   fi
 
-  curl -s "http://api.userstack.com/detect?access_key=$(cat $access_key_file)&ua=$(urlencode $1)" | jq .
+  legacy=$2
+  if [ -z "$legacy" ]; then
+	 legacy=0 # 0 or 1
+  fi
+
+  curl -s "http://api.userstack.com/detect?access_key=$(cat $access_key_file)&ua=$(urlencode $1)&legacy=$legacy" | jq .
 }
 
 if [ "$OS_KIND" = "Darwin" ]; then
