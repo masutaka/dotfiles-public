@@ -1369,6 +1369,9 @@ It also updates `seq-start-position'."
 
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 
+;; GitHub Actions
+(add-to-list 'auto-mode-alist '("\\.workflow\\'" . terraform-mode))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; view-mode --- peruse file or buffer without editing
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

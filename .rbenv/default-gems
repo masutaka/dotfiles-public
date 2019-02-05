@@ -1,7 +1,6 @@
 gem-src
 
 activesupport
-bundler
 gem-search
 pry
 rubocop
