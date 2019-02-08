@@ -705,15 +705,31 @@ DO NOT SET VALUE MANUALLY.")
   (browse-url
    (concat "dict:///" (url-hexify-string word))))
 
+(defun trs (word)
+  "Display the meaning of word using trs"
+  (interactive (list (sdic-read-from-minibuffer)))
+  (set-buffer (get-buffer-create sdic-buffer-name))
+  (or (string= mode-name sdic-mode-name) (sdic-mode))
+  (setq buffer-read-only nil)
+  (erase-buffer)
+  (insert (format "$ trs dictionary %s\n\n" word))
+  (call-process "trs" nil sdic-buffer-name t "dictionary" word)
+  (display-ansi-colors)
+  (setq buffer-read-only t)
+  (set-buffer-modified-p nil)
+  (sdic-display-buffer 0))
+
 (defun my-dictionary (arg)
   (interactive "P")
   (cond
-   ((equal arg '(16))
+   ((equal arg '(64))
     (dictionary-app (sdic-read-from-minibuffer)))
-   ((equal arg '(4))
+   ((equal arg '(16))
     (sdic-describe-word (sdic-read-from-minibuffer)))
+   ((equal arg '(4))
+    (dictionary-search (sdic-read-from-minibuffer)))
    (t
-    (dictionary-search (sdic-read-from-minibuffer)))))
+    (trs (sdic-read-from-minibuffer)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Diff-mode
