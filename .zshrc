@@ -165,6 +165,9 @@ autoload -Uz compinit; compinit -u
 # for hook
 autoload -Uz add-zsh-hook
 
+# Command Completion for AWS CLI
+source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
+
 #---------------------------------------------------------------------
 # cdr
 #---------------------------------------------------------------------
