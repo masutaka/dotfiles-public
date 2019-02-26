@@ -77,7 +77,7 @@ if [ -n "$PRIVATE_MACHINE" ]; then
   brew install youtube-dl
 else
   brew install packer
-  brew install postgresql
+  brew install postgresql@10
 fi
 
 cat <<EOF
@@ -123,5 +123,6 @@ else
   brew cask install abstract
   brew cask install chromedriver
   brew cask install cyberduck
+  brew cask install smcfancontrol
   brew cask install zoomus
 fi

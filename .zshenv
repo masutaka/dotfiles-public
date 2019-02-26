@@ -7,7 +7,7 @@ OS_KIND=$(uname)
 #---------------------------------------------------------------------
 case "$OS_KIND" in
 Darwin)
-  export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+  export PATH=/usr/local/opt/postgresql@10/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
   export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
   export EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
@@ -43,8 +43,6 @@ umask 022
 
 # No core files by default
 ulimit -S -c 0
-
-export AWS_REGION=ap-northeast-1
 
 export MYSQL_PS1="(\u@$(hostname)) [\d] > "
 
