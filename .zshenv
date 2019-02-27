@@ -18,7 +18,6 @@ Darwin)
   fi
   ;;
 Linux)
-  export LDFLAGS="-s"
   ;;
 *)
   echo "Unkonwn OS" > /dev/stderr
