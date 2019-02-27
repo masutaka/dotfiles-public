@@ -60,7 +60,6 @@ brew install openssl # macOS doesn't have this.
 brew install peco
 brew install pkg-config # gem ref
 brew install pstree
-brew install readline # Ruby
 brew install shellcheck
 brew install tcnksm/ghr/ghr
 brew install tcptraceroute
