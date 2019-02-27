@@ -57,6 +57,9 @@ export LESS="-g -i -M -R -S -W -z-4 -x4"
 
 export WHALEBREW_INSTALL_PATH=$HOME/bin
 
+# Don't automatically cleanup on reinstall, install or upgrade
+export HOMEBREW_NO_INSTALL_CLEANUP=yes
+
 # /etc/zprofile 等の /etc 以下のファイルを読み込ませない
 setopt no_global_rcs
 
