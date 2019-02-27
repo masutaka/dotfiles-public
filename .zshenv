@@ -7,11 +7,15 @@ OS_KIND=$(uname)
 #---------------------------------------------------------------------
 case "$OS_KIND" in
 Darwin)
-  export PATH=/usr/local/opt/postgresql@10/bin:/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin:/usr/X11/bin
+  export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
   export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
   export EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+
+  if [ -d /usr/local/opt/postgresql@10/bin ]; then
+	PATH=/usr/local/opt/postgresql@10/bin:$PATH
+  fi
   ;;
 Linux)
   export LDFLAGS="-s"
