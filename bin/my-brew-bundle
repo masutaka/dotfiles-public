@@ -23,7 +23,9 @@ EOF
 fi
 
 if [ $(hostname) = "masutaka-pc.local" ]; then
-  PRIVATE_MACHINE=1
+  PRIVATE_MACHINE=yes
+else
+  PRIVATE_MACHINE=no
 fi
 
 brew install ack
@@ -73,7 +75,7 @@ brew install wget
 brew install xz
 brew install zplug
 
-if [ -n "$PRIVATE_MACHINE" ]; then
+if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install youtube-dl
 else
   brew install packer
@@ -112,7 +114,7 @@ brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
 
-if [ -n "$PRIVATE_MACHINE" ]; then
+if [ "$PRIVATE_MACHINE" = yes ]; then
   brew cask install handbrake
   brew cask install horos
   brew cask install lyn
