@@ -39,6 +39,7 @@ brew install coreutils
 brew install ctop
 brew install dep
 brew install direnv
+brew install gawk
 brew install ghq
 brew install git # for diff-highlight
 brew install gnu-sed
@@ -100,6 +101,7 @@ brew cask install google-chrome
 brew cask install google-cloud-sdk
 brew cask install google-japanese-ime
 brew cask install grandperspective
+brew cask install graphiql
 brew cask install imageoptim
 brew cask install kindle
 brew cask install kindlegen
