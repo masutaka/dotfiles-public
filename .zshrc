@@ -431,7 +431,7 @@ if [ "$OS_KIND" = "Darwin" ]; then
   # C-x C-p で直前の履歴をクリップボードにコピー
   pbcopy-last-history(){
 	zle up-line-or-history
-	print -rn $BUFFER | pbcopy
+	print -rn "\$ $BUFFER" | pbcopy
 	zle kill-whole-line
   }
   zle -N pbcopy-last-history
