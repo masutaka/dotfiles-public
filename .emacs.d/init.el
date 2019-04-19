@@ -623,7 +623,7 @@ DO NOT SET VALUE MANUALLY.")
 	 (scheme
 	  (if (equal filename "clmemo.txt") "https" "http"))
 	 (base-url
-	  (if (equal filename "clmemo.txt") "masutaka.net/chalow" "0.0.0.0:8080/chalow-ura")))
+	  (if (equal filename "clmemo.txt") "masutaka.net/chalow" "localhost:8080/chalow-ura")))
     (save-excursion
       (setq date (and (re-search-backward date-regexp (point-min) t)
 		      (match-string-no-properties 1))))
