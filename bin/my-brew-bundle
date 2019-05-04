@@ -37,7 +37,6 @@ brew install binutils
 brew install circleci
 brew install coreutils
 brew install ctop
-brew install dep
 brew install direnv
 brew install gawk
 brew install ghq
