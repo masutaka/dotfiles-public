@@ -40,6 +40,7 @@ brew install ctop
 brew install direnv
 brew install gawk
 brew install ghq
+brew install ghr
 brew install git # for diff-highlight
 brew install gnu-sed
 brew install gnupg
@@ -63,7 +64,6 @@ brew install peco
 brew install pkg-config # gem ref
 brew install pstree
 brew install shellcheck
-brew install tcnksm/ghr/ghr
 brew install tcptraceroute
 brew install terraform
 brew install tmux
