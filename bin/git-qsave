@@ -1,0 +1,7 @@
+#!/bin/sh
+
+if [ -n "`git diff`" ]; then
+	git commit -a -m "temporary commit"
+fi
+
+### End of file
