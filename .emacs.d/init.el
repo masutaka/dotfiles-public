@@ -425,6 +425,17 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;; Remove locate
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
 
+;;; helm-esa.el
+
+(require 'helm-esa "~/src/github.com/masutaka/emacs-helm-esa/helm-esa") ;; temporary
+
+(setq helm-esa-team-name "feedforce")
+(setq helm-esa-access-token (my-lisp-load "helm-esa-access-token"))
+(setq helm-esa-search-query "watched:true -in:日報")
+(setq helm-esa-interval (* 3 60 60))
+(setq helm-esa-debug-mode t)
+(helm-esa-initialize)
+
 ;;; helm-github-stars.el
 
 (require 'helm-github-stars)
@@ -493,6 +504,7 @@ DO NOT SET VALUE MANUALLY.")
   "Search Hatena:Bookmark and Qiita Stocks using `helm'."
   (interactive)
   (helm :sources '(helm-hatena-bookmark-source
+		   helm-esa-source
 		   helm-qiita-source
 		   hgs/helm-c-source-stars
 		   hgs/helm-c-source-repos
