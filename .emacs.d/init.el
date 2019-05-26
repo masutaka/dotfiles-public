@@ -419,7 +419,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 ;; Add ghq to after buffers-list
 (setq helm-for-files-preferred-list (delete 'helm-source-buffers-list helm-for-files-preferred-list))
-(add-to-list 'helm-for-files-preferred-list 'helm-source-ghq)
+(add-to-list 'helm-for-files-preferred-list 'helm-ghq-source)
 (add-to-list 'helm-for-files-preferred-list 'helm-source-buffers-list)
 
 ;; Remove locate
