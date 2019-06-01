@@ -3,5 +3,6 @@ gem-src
 activesupport
 gem-search
 pry
+pry-byebug
 rubocop
 ruby-lint

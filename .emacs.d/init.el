@@ -653,7 +653,7 @@ DO NOT SET VALUE MANUALLY.")
 (setq user-full-name "Takashi Masuda")
 (setq user-mail-address "masutaka.net@gmail.com")
 
-(setq clmemo-file-name (expand-file-name "~/clmemo.txt"))
+(setq clmemo-file-name (expand-file-name "~/src/github.com/masutaka/masutaka.net/chalow/clmemo.txt"))
 
 ;; For chalow
 (setq clmemo-subtitle-char "[")
