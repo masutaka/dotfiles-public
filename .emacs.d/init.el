@@ -52,6 +52,7 @@
 (package-install 'helm-bundle-show)
 (package-install 'helm-descbinds)
 (package-install 'helm-elscreen)
+(package-install 'helm-esa)
 (package-install 'helm-ghq)
 (package-install 'helm-github-stars)
 (package-install 'helm-hatena-bookmark)
@@ -426,8 +427,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
 
 ;;; helm-esa.el
-
-(require 'helm-esa "~/src/github.com/masutaka/emacs-helm-esa/helm-esa") ;; temporary
 
 (setq helm-esa-team-name "feedforce")
 (setq helm-esa-access-token (my-lisp-load "helm-esa-access-token"))
