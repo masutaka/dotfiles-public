@@ -39,6 +39,7 @@
 (package-install 'dockerfile-mode)
 (package-install 'egg)
 (package-install 'eldoc-extension)
+(package-install 'elm-mode)
 (package-install 'elscreen)
 (package-install 'flycheck)
 (package-install 'flycheck-rust)
@@ -856,6 +857,12 @@ DO NOT SET VALUE MANUALLY.")
   (setcar (cdr (assq 'eldoc-mode minor-mode-alist)) ""))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; elm-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-hook 'elm-mode-hook #'elm-format-on-save-mode)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Elscreen
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1477,7 +1484,7 @@ do nothing. And suppress the output from `message' and
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Avoid to write `package-selected-packages` in init.el
-(load (setq custom-file (expand-file-name "custom.el" user-emacs-directory)))
+(load (setq custom-file (expand-file-name "custom" user-emacs-directory)))
 
 (setq codic-api-token (my-lisp-load "codic-api-token"))
 
