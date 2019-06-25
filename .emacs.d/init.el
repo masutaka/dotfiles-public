@@ -1484,7 +1484,7 @@ do nothing. And suppress the output from `message' and
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; Avoid to write `package-selected-packages` in init.el
-(load (setq custom-file (expand-file-name "custom" user-emacs-directory)))
+(load (setq custom-file (expand-file-name "custom.el" user-emacs-directory)))
 
 (setq codic-api-token (my-lisp-load "codic-api-token"))
 
