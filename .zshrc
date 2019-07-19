@@ -160,13 +160,23 @@ zstyle ':completion:*' matcher-list 'm:{a-z}={A-Z}'
 zstyle ':completion:*:default' menu select=1
 
 # $FPATH 以下にある補完コレクションを使う。
-autoload -Uz compinit; compinit -u
+autoload -Uz compinit && compinit -u
 
 # for hook
 autoload -Uz add-zsh-hook
 
 # Command Completion for AWS CLI
 source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
+
+#---------------------------------------------------------------------
+# asdf
+#---------------------------------------------------------------------
+
+source $HOME/.asdf/asdf.sh
+source $HOME/.asdf/completions/asdf.bash
+
+export ASDF_CONFIG_FILE=$HOME/.config/asdf/asdfrc
+export ASDF_DEFAULT_TOOL_VERSIONS_FILENAME=$HOME/.config/asdf/tool-versions
 
 #---------------------------------------------------------------------
 # cdr

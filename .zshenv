@@ -26,10 +26,8 @@ esac
 
 export GOPATH=$HOME/go:$HOME
 export GEMSRC_USE_GHQ=1
-export PATH=$HOME/.nodenv/bin:$HOME/.plenv/bin:$HOME/.rbenv/bin:$HOME/.tfenv/bin:$HOME/.cargo/bin:$PATH
-eval "$(nodenv init -)"
+export PATH=$HOME/.plenv/bin:$HOME/.cargo/bin:$PATH
 eval "$(plenv init --no-rehash -)"
-eval "$(rbenv init --no-rehash -)"
 export PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 
 if type direnv > /dev/null; then

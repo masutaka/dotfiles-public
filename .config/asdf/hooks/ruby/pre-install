@@ -1,0 +1,7 @@
+#!/usr/bin/env zsh
+
+echo "[pre-install] Installing ruby $1"
+
+export RUBY_CONFIGURE_OPTS='--disable-install-doc --with-readline-dir=/usr'
+
+echo "[pre-install] Configure options: $RUBY_CONFIGURE_OPTS"
