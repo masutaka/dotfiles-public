@@ -57,7 +57,6 @@
 (package-install 'helm-ghq)
 (package-install 'helm-github-stars)
 (package-install 'helm-hatena-bookmark)
-(package-install 'helm-qiita)
 (package-install 'helm-swoop)
 (package-install 'highlight-symbol)
 (package-install 'hl-line+)
@@ -488,15 +487,6 @@ DO NOT SET VALUE MANUALLY.")
 (setq helm-hatena-bookmark-debug-mode t)
 (helm-hatena-bookmark-initialize)
 
-;;; helm-qiita.el
-
-(setq helm-qiita-username "masutaka")
-(setq helm-qiita-organization "feedforce")
-(setq helm-qiita-access-token (my-lisp-load "helm-qiita-access-token"))
-(setq helm-qiita-interval (* 3 60 60))
-(setq helm-qiita-debug-mode t)
-(helm-qiita-initialize)
-
 ;;; My bookmark
 
 (defun helm-my-bookmark ()
@@ -504,7 +494,6 @@ DO NOT SET VALUE MANUALLY.")
   (interactive)
   (helm :sources '(helm-hatena-bookmark-source
 		   helm-esa-source
-		   helm-qiita-source
 		   hgs/helm-c-source-stars
 		   hgs/helm-c-source-repos
 		   hgs/helm-c-source-search)
