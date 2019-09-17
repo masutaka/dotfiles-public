@@ -1,37 +1,16 @@
 
 
-# ==== Emojis ====
-# 🎉  :tada: 盛大に祝うべき大きな機能追加
-# ✨  :sparkles: 小さな機能追加
-# 👍  :+1: 機能改善
-# ♻️  :recycle: リファクタリング
-# 🚮 or 👋 or 🔥 :put_litter_in_its_place: or :wave: or :fire: 不要な機能・使われなくなった機能の削除
-# 🐛  :bug: バグ修正
-# ✅  :white_check_mark: 落ちたテストの修正
-# ✏️  :pencil: ドキュメントの修正・コメントの修正
-# 🔧  :wrench: 設定の修正
-# ⚠️  :warning: 非推奨な変更（ワークアラウンド等）
-# 👕  :shirt: Lintエラーの修正
-# 📈  :chart_with_upwards_trend: パフォーマンス改善
-# 🆙  :up: ライブラリのアップデート
-# ➕  :heavy_plus_sign: ライブラリの追加
-# ➖  :heavy_minus_sign: ライブラリの削除
-# 🚧  :construction: WIPのコミット
-
-# ==== Format ====
-# :emoji: Subject
+# feat: add hat wobble
+# ^--^  ^------------^
+# |     |
+# |     +-> Summary in present tense.
+# |
+# +-------> Type: chore, docs, feat, fix, refactor, style, or test.
 #
-# Commit body...
-
-# ==== The Seven Rules ====
-# 1. Separate subject from body with a blank line
-# 2. Limit the subject line to 50 characters
-# 3. Capitalize the subject line
-# 4. Do not end the subject line with a period
-# 5. Use the imperative mood in the subject line
-# 6. Wrap the body at 72 characters
-# 7. Use the body to explain what and why vs. how
-#
-# How to Write a Git Commit Message http://chris.beams.io/posts/git-commit/
-
-# for https://github.com/feedforce/datafeed-maker/wiki/Contributing-guide
+# chore: add Oyster build script
+# docs: explain hat wobble
+# feat: add beta sequence
+# fix: remove broken confirmation message
+# refactor: share logic between 4d3d3d3 and flarhgunnstow
+# style: convert tabs to spaces
+# test: ensure Tayne retains clothing
