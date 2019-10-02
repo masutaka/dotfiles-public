@@ -177,6 +177,7 @@ source $HOME/.asdf/completions/asdf.bash
 
 export ASDF_CONFIG_FILE=$HOME/.config/asdf/asdfrc
 export ASDF_DEFAULT_TOOL_VERSIONS_FILENAME=$HOME/.config/asdf/tool-versions
+export ASDF_RUBY_BUILD_VERSION=master
 
 #---------------------------------------------------------------------
 # cdr
