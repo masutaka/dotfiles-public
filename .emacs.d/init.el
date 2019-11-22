@@ -1247,14 +1247,9 @@ DO NOT SET VALUE MANUALLY.")
   (interactive)
   (shell-command (format "octodown %s" (buffer-file-name))))
 
-(defun qiitadown ()
-  (interactive)
-  (shell-command (format "qiitadown.sh %s" (buffer-file-name))))
-
 (with-eval-after-load "markdown-mode"
   (define-key markdown-mode-map (kbd "C-c C-c p") 'my-markdown-preview)
   (define-key markdown-mode-map (kbd "C-c C-c C-c") 'octodown)
-  (define-key markdown-mode-map (kbd "C-c C-c C-q") 'qiitadown)
   (define-key markdown-mode-map (kbd "C-c C-m") 'browse-url-at-point))
 
 (defun markdown-mode-hook-func ()
