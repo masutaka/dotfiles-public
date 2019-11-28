@@ -49,7 +49,6 @@ brew install hadolint
 brew install heroku/brew/heroku
 brew install highlight
 brew install hub
-brew install hugo
 brew install imagemagick
 brew install jid
 brew install jq
@@ -76,9 +75,9 @@ brew install xz
 brew install zplug
 
 if [ "$PRIVATE_MACHINE" = yes ]; then
+  brew install hugo
   brew install youtube-dl
 else
-  brew install packer
   brew install postgresql@10
 fi
 
