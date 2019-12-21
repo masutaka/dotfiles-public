@@ -5,6 +5,7 @@
 --type-add=haml=.haml
 --type-add=jsx=.jsx
 --type-add=markdown=.md
+--type-add=proto=.proto
 --type-add=slim=.slim
 --type-add=svg=.svg
 --type-add=terraform=.tf
