@@ -473,6 +473,7 @@ bindkey '^w'	kill-region
 #---------------------------------------------------------------------
 if [ "$OS_KIND" = Darwin ]; then
   alias emacs=$EMACS
+  alias kindlegen=/Applications/Kindle\ Previewer\ 3.app/Contents/MacOS/lib/fc/bin/kindlegen
 fi
 
 if exists hub; then

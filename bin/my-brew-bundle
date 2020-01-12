@@ -102,7 +102,7 @@ brew cask install grandperspective
 brew cask install graphiql
 brew cask install imageoptim
 brew cask install kindle
-brew cask install kindlegen
+brew cask install kindle-previewer
 brew cask install licecap
 brew cask install minikube
 brew cask install mysqlworkbench
