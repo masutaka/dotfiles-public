@@ -7,7 +7,7 @@ OS_KIND=$(uname)
 #---------------------------------------------------------------------
 case "$OS_KIND" in
 Darwin)
-  export PATH=/usr/local/bin:/usr/bin:/bin:/usr/sbin:/sbin
+  export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
   export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
   export EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
