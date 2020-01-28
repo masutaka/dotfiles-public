@@ -415,6 +415,8 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (require 'helm-imenu)
 (require 'helm-ghq)
 
+(setq helm-buffer-max-length 50)
+
 ;; C-c F1 などのインターフェイスを提供。
 (helm-descbinds-mode)
 

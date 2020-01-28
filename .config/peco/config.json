@@ -5,6 +5,7 @@
     },
 
     "Keymap": {
-        "C-c": "peco.Cancel"
+        "C-c": "peco.Cancel",
+        "C-k": "peco.KillEndOfLine"
     }
 }
