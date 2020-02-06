@@ -515,7 +515,9 @@ DO NOT SET VALUE MANUALLY.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (let ((target-dir (expand-file-name "~/"))
-      (dest-dir (expand-file-name "~/.Trash/")))
+      (dest-dir (expand-file-name "tmp" user-emacs-directory)))
+
+  (make-directory dest-dir)
 
   ;; 自動保存ファイル(#ファイル名#)の作成先変更
   (add-to-list 'auto-save-file-name-transforms
