@@ -175,8 +175,8 @@ source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
 source $HOME/.asdf/asdf.sh
 source $HOME/.asdf/completions/asdf.bash
 
-export ASDF_CONFIG_FILE=$HOME/.config/asdf/asdfrc
-export ASDF_DEFAULT_TOOL_VERSIONS_FILENAME=$HOME/.config/asdf/tool-versions
+export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/asdf/asdfrc"
+export ASDF_DEFAULT_TOOL_VERSIONS_FILENAME="${XDG_CONFIG_HOME:-$HOME/.config}/asdf/tool-versions"
 export ASDF_RUBY_BUILD_VERSION=master
 
 #---------------------------------------------------------------------
@@ -382,7 +382,7 @@ function urldecode() {
 }
 
 function userstack() {
-  access_key_file=$HOME/.config/userstack/access_key
+  access_key_file="${XDG_CONFIG_HOME:-$HOME/.config}/userstack/access_key"
 
   if [ ! -f "$access_key_file" ]; then
 	echo "$access_key_file not found."
