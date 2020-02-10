@@ -76,6 +76,7 @@ brew install zplug
 
 if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install hugo
+  brew install k1LoW/tap/connected
   brew install youtube-dl
 else
   brew install postgresql@10
