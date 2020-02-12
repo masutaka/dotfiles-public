@@ -38,6 +38,7 @@ brew install circleci
 brew install coreutils
 brew install ctop
 brew install direnv
+brew install dive
 brew install gawk
 brew install ghq
 brew install ghr
