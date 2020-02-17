@@ -113,6 +113,7 @@ brew cask install railwaycat/emacsmacport/emacs-mac
 brew cask install trailer
 brew cask install vagrant
 brew cask install virtualbox
+brew cask install visual-studio-code
 
 if [ "$PRIVATE_MACHINE" = yes ]; then
   brew cask install handbrake
