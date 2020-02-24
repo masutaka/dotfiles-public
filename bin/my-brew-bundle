@@ -45,7 +45,6 @@ brew install ghr
 brew install git # for diff-highlight
 brew install gnu-sed
 brew install gnupg
-brew install goreleaser/tap/goreleaser
 brew install hadolint
 brew install heroku/brew/heroku
 brew install highlight
