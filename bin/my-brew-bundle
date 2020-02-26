@@ -63,6 +63,7 @@ brew install nkf
 brew install openssl # macOS doesn't have this.
 brew install peco
 brew install pkg-config # gem ref
+brew install protobuf
 brew install pstree
 brew install shellcheck
 brew install tcptraceroute
