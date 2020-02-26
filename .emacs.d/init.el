@@ -71,6 +71,7 @@
 (package-install 'org-tree-slide)
 (package-install 'package-lint)
 (package-install 'php-mode)
+(package-install 'protobuf-mode)
 (package-install 'quickrun)
 (package-install 'racer)
 (package-install 'rspec-mode)
