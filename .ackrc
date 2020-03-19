@@ -1,5 +1,4 @@
 --ignore-dir=.yardoc/
---ignore-dir=doc/
 --ignore-dir=vendor/
 --type-add=gemspec=.gemspec
 --type-add=haml=.haml
