@@ -524,7 +524,7 @@ DO NOT SET VALUE MANUALLY.")
   ;; 自動保存ファイル(#ファイル名#)の作成先変更
   (add-to-list 'auto-save-file-name-transforms
                `(,(concat target-dir "\\([^/]*/\\)*\\([^/]*\\)$")
-                 ,(concat dest-dir "\\2")
+                 ,(concat dest-dir "/\\2")
 		 t))
 
   ;; バックアップファイル(ファイル名~)の作成先変更
