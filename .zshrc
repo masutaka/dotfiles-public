@@ -219,9 +219,7 @@ add-zsh-hook precmd vcs_info_precmd
 # 置き換えられてしまうので、ここに置く。
 
 if exists zplug; then
-  zplug 'bfirsh/whalebrew', from:gh-r, as:command, use:'*Darwin*x86_64*'
   zplug 'wantedly/dockertags', from:gh-r, as:command, use:'*darwin*amd64*'
-  zplug 'wata727/tflint', from:gh-r, as:command, use:'*darwin*amd64*'
 
   if ! zplug check; then
 	zplug install

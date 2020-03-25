@@ -68,6 +68,7 @@ brew install protoc-gen-grpc-web
 brew install pstree
 brew install shellcheck
 brew install tcptraceroute
+brew install tflint
 brew install tmux
 brew install tree
 brew install unrar
