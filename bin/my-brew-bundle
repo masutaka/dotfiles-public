@@ -95,6 +95,7 @@ read dummy
 brew cask install alfred
 brew cask install appcleaner
 brew cask install bitbar
+brew cask install deepl
 brew cask install discord
 brew cask install docker
 brew cask install dropbox
