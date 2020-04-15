@@ -494,6 +494,7 @@ alias d=docker
 alias expandurl="perl -MLWP::UserAgent -lE 'say LWP::UserAgent->new->head(shift)->request->uri'"
 alias g=git
 alias hall="history -E -i 1"
+alias slack-status="direnv exec $HOME/src/github.com/masutaka/slack-status $HOME/src/github.com/masutaka/slack-status/slack.rb"
 
 # Local Variables:
 # coding: utf-8
