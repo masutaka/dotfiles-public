@@ -130,7 +130,6 @@ else
   brew cask install abstract
   brew cask install chromedriver
   brew cask install cyberduck
-  brew cask install google-drive-file-stream
   brew cask install microsoft-edge
   brew cask install smcfancontrol
 fi
