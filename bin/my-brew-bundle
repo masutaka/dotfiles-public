@@ -57,7 +57,6 @@ brew install markdown
 brew install masutaka/github-nippou/github-nippou
 brew install mercurial
 brew install minamijoyo/tfschema/tfschema
-brew install minamijoyo/tfupdate/tfupdate
 brew install mizukmb/homebrew-esa-nippou/esa-nippou
 brew install nkf
 brew install openssl # macOS doesn't have this.
