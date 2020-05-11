@@ -127,6 +127,34 @@ With argument, do this that many times."
   (interactive "p")
   (delete-word (- arg)))
 
+(defun esa-expand-link ()
+  "Replace #<NUMBER> (e.g. #123) under the cursor to esa link of markdown"
+  (interactive)
+  (let ((access-token (my-lisp-load "esa-expand-link"))
+	(team-name "feedforce")
+	(post-number (thing-at-point 'number 'no-properties)))
+    (request
+      (format "https://api.esa.io/v1/teams/%s/posts/%d" team-name post-number)
+      :headers `(("Authorization" . ,(concat "Bearer " access-token)))
+      :parser 'json-read
+      :success (cl-function
+		(lambda (&key data response &allow-other-keys)
+		  (let ((number (cdr (assoc 'number data))) ;; e.g. 67364
+			(full-name ;; e.g. 日報/2020/05/08 (金)/masutaka #リモートワーク
+			 (let ((str (cdr (assoc 'full_name data))))
+			   (while (string-match "&#35;" str) ;; replace all "&#35;" to "#"
+			     (setq str (replace-match "#" t t str)))
+			   (while (string-match "&#47;" str) ;; replace all "&#47;" to "/"
+			     (setq str (replace-match "/" t t str)))
+			   str))
+			(url (cdr (assoc 'url data))))
+		    (delete-region (point) (re-search-backward "#" (point-min) t))
+		    (insert (format "[#%d: %s](%s)" number full-name url)))))
+      :error (cl-function
+	      (lambda (&key error-thrown response &allow-other-keys)
+		(message "[esa-expand-link] Fail %S to GET %s"
+			 error-thrown (request-response-url response)))))))
+
 (defadvice find-alternate-file
   (around revival-point activate)
   "ファイルを読み直す時だけ、カーソル位置を保持する。"
@@ -1762,6 +1790,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-b") 'helm-my-bookmark)
 (define-key global-map (kbd "s-e") 'helm-elscreen)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
+(define-key global-map (kbd "s-i") 'esa-expand-link)
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
