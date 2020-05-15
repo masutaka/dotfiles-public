@@ -135,6 +135,7 @@ With argument, do this that many times."
 	(post-number (thing-at-point 'number 'no-properties)))
     (request
       (format "https://api.esa.io/v1/teams/%s/posts/%d" team-name post-number)
+      :sync t
       :headers `(("Authorization" . ,(concat "Bearer " access-token)))
       :parser 'json-read
       :success (cl-function
@@ -1809,7 +1810,6 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "C-q") ctl-q-map)
 (define-key ctl-q-map (kbd ".") (if (featurep 'mi-config) 'mode-info-find-tag))
 (define-key ctl-q-map (kbd "c") 'copy-this-buffer-file-name)
-(define-key ctl-q-map (kbd "e") 'erase-buffer)
 (define-key ctl-q-map (kbd "g b") 'github-browse-file-blame)
 (define-key ctl-q-map (kbd "g f") 'github-browse-file)
 (define-key ctl-q-map (kbd "C-a") 'text-scale-adjust)
@@ -1834,7 +1834,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-t") 'linum-mode)
 (define-key ctl-q-map (kbd "C-u") 'sort-lines)
 (define-key ctl-q-map (kbd "C-v") 'mark-whole-buffer)
-;;(define-key ctl-q-map (kbd "C-w") nil)
+(define-key ctl-q-map (kbd "C-w") 'erase-buffer)
 (define-key ctl-q-map (kbd "C-x") 'dec2hex-hex2dec)
 (define-key ctl-q-map (kbd "C-y") 'quote-yank)
 ;;(define-key ctl-q-map (kbd "C-z") nil)
