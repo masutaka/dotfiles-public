@@ -68,7 +68,6 @@
 (package-install 'navi2ch)
 (package-install 'nginx-mode)
 (package-install 'open-junk-file)
-(package-install 'org-tree-slide)
 (package-install 'package-lint)
 (package-install 'php-mode)
 (package-install 'protobuf-mode)
@@ -1523,15 +1522,6 @@ do nothing. And suppress the output from `message' and
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)
-
-(when (require 'org-tree-slide nil t)
-  (setq org-tree-slide-heading-emphasis t)
-  (define-key global-map (kbd "<f5>") 'org-tree-slide-mode)
-  (define-key global-map (kbd "S-<f5>") 'org-tree-slide-skip-done-toggle))
-
-(defun org-mode-hook-func ()
-  (define-key org-mode-map (kbd "C-,") 'backward-word))
-(add-hook 'org-mode-hook 'org-mode-hook-func)
 
 ;; ファイル名補完時、常に大文字小文字を区別しない。
 (setq read-file-name-completion-ignore-case t)

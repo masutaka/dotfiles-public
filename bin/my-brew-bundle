@@ -74,12 +74,12 @@ brew install unrar
 brew install watch
 brew install wget
 brew install xz
+brew install youtube-dl
 brew install zplug
 
 if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install hugo
   brew install k1LoW/tap/connected
-  brew install youtube-dl
 else
   brew install postgresql@10
 fi
