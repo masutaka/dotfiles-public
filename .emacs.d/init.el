@@ -48,7 +48,6 @@
 (package-install 'go-eldoc)
 (package-install 'go-mode)
 (package-install 'graphql-mode)
-(package-install 'haml-mode)
 (package-install 'helm)
 (package-install 'helm-bundle-show)
 (package-install 'helm-descbinds)
@@ -1055,7 +1054,7 @@ DO NOT SET VALUE MANUALLY.")
 
 ;;; js2-mode
 
-(add-to-list 'auto-mode-alist '("\\.js\\'" . js2-mode))
+(add-to-list 'auto-mode-alist '("\\.[jg]s\\'" . js2-mode))
 
 (setq js2-include-browser-externs nil)
 (setq js2-mode-show-parse-errors nil)
@@ -1159,12 +1158,6 @@ DO NOT SET VALUE MANUALLY.")
   (setq indent-tabs-mode nil)
   (setq show-trailing-whitespace t))
 (add-hook 'sgml-mode-hook 'sgml-mode-hook-func)
-
-(defun haml-mode-hook-func ()
-  (setq show-trailing-whitespace t))
-(add-hook 'haml-mode-hook 'haml-mode-hook-func)
-
-(setq auto-mode-alist (cons '("\\.haml\\'" . haml-mode) auto-mode-alist))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rust
@@ -1419,9 +1412,6 @@ It also updates `seq-start-position'."
   (define-key terraform-mode-map (kbd "C-c C-o") 'open-terraform-document))
 
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
-
-;; GitHub Actions
-(add-to-list 'auto-mode-alist '("\\.workflow\\'" . terraform-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; view-mode --- peruse file or buffer without editing
