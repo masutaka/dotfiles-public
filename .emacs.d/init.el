@@ -1065,7 +1065,8 @@ DO NOT SET VALUE MANUALLY.")
 (defun js2-mode-hook-func ()
   (flycheck-mode 1)
   (setq js2-basic-offset 2)
-  (setq indent-tabs-mode nil))
+  (setq indent-tabs-mode nil)
+  (setq show-trailing-whitespace t))
 (add-hook 'js2-mode-hook 'js2-mode-hook-func)
 
 ;;; coffee-mode
