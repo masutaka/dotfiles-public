@@ -138,8 +138,7 @@ With argument, do this that many times."
       :parser 'json-read
       :success (cl-function
 		(lambda (&key data response &allow-other-keys)
-		  (let ((number (cdr (assoc 'number data))) ;; e.g. 67364
-			(wip (if (eq (cdr (assoc 'wip data)) t) "[WIP] " ""))
+		  (let ((wip (if (eq (cdr (assoc 'wip data)) t) "[WIP] " ""))
 			(full-name ;; e.g. 日報/2020/05/08 (金)/masutaka #リモートワーク
 			 (let ((str (cdr (assoc 'full_name data))))
 			   (while (string-match "&#35;" str) ;; replace all "&#35;" to "#"
@@ -149,7 +148,7 @@ With argument, do this that many times."
 			   str))
 			(url (cdr (assoc 'url data))))
 		    (delete-region (point) (re-search-backward "#" (point-min) t))
-		    (insert (format "[#%d: %s%s](%s)" number wip full-name url)))))
+		    (insert (format "[%s%s](%s)" wip full-name url)))))
       :error (cl-function
 	      (lambda (&key error-thrown response &allow-other-keys)
 		(message "[esa-expand-link] Fail %S to GET %s"
