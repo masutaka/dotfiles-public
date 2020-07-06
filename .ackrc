@@ -3,6 +3,7 @@
 --type-add=gemspec=.gemspec
 --type-add=haml=.haml
 --type-add=jsx=.jsx
+--type-add=lookml=.lkml
 --type-add=markdown=.md
 --type-add=proto=.proto
 --type-add=slim=.slim
