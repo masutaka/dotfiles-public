@@ -85,13 +85,6 @@ else
   brew install postgresql@10
 fi
 
-cat <<EOF
-Do you want to install brew casks?
-If you don't want to install, please type Ctrl-c now.
-EOF
-
-read dummy
-
 brew cask install alfred
 brew cask install appcleaner
 brew cask install bitbar
