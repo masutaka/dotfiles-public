@@ -1362,6 +1362,7 @@ It also updates `seq-start-position'."
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (tab-bar-mode 1)
+(tab-bar-history-mode 1)
 
 (defun my-tab-clone (&optional arg)
   (interactive "P")
@@ -1744,6 +1745,9 @@ do nothing. And suppress the output from `message' and
 (define-key esc-map (kbd "C-y") (lambda () (interactive) (yank-pop -1)))
 
 ;; custom of the Super-? key (see term/ns-win.el)
+
+(define-key global-map (kbd "s-[") 'tab-bar-history-back)
+(define-key global-map (kbd "s-]") 'tab-bar-history-forward)
 (define-key global-map (kbd "s-{") 'tab-previous)
 (define-key global-map (kbd "s-}") 'tab-next)
 (define-key global-map (kbd "s-0") 'delete-window)
@@ -1840,7 +1844,6 @@ do nothing. And suppress the output from `message' and
 ;; custom of the ctl-z-map
 (defvar ctl-z-map (make-keymap))
 (define-key global-map (kbd "C-z") ctl-z-map)
-(define-key ctl-z-map (kbd "0") 'tab-select)
 (define-key ctl-z-map (kbd "1") 'tab-select)
 (define-key ctl-z-map (kbd "2") 'tab-select)
 (define-key ctl-z-map (kbd "3") 'tab-select)
