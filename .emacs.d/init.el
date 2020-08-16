@@ -40,7 +40,6 @@
 (package-install 'egg)
 (package-install 'eldoc-extension)
 (package-install 'elm-mode)
-(package-install 'elscreen)
 (package-install 'flycheck)
 (package-install 'flycheck-rust)
 (package-install 'github-browse-file)
@@ -51,7 +50,6 @@
 (package-install 'helm)
 (package-install 'helm-bundle-show)
 (package-install 'helm-descbinds)
-(package-install 'helm-elscreen)
 (package-install 'helm-esa)
 (package-install 'helm-ghq)
 (package-install 'helm-github-stars)
@@ -769,9 +767,9 @@ DO NOT SET VALUE MANUALLY.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (with-eval-after-load "diff-mode"
-  (define-key diff-mode-map (kbd "M-0") 'my-delete-current-window)
-  (define-key diff-mode-map (kbd "M-2") 'my-create-window)
-  (define-key diff-mode-map (kbd "M-o") 'my-next-window))
+  (define-key diff-mode-map (kbd "M-0") 'tab-close)
+  (define-key diff-mode-map (kbd "M-2") 'tab-new)
+  (define-key diff-mode-map (kbd "M-o") 'tab-next))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Dired (directory-browsing commands)
@@ -835,9 +833,9 @@ DO NOT SET VALUE MANUALLY.")
   (define-key dired-mode-map (kbd "v") 'dired-find-alternate-file)
   (define-key dired-mode-map (kbd "w") 'dired-eww-find-file)
   (define-key dired-mode-map (kbd "C-t") 'call-last-kbd-macro)
-  (define-key dired-mode-map (kbd "M-{") 'my-prev-window)
-  (define-key dired-mode-map (kbd "M-}") 'my-next-window)
-  (define-key dired-mode-map (kbd "M-o") 'my-next-window))
+  (define-key dired-mode-map (kbd "M-{") 'tab-previous)
+  (define-key dired-mode-map (kbd "M-}") 'tab-next)
+  (define-key dired-mode-map (kbd "M-o") 'tab-next))
 (add-hook 'dired-mode-hook 'dired-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -883,36 +881,6 @@ DO NOT SET VALUE MANUALLY.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (add-hook 'elm-mode-hook #'elm-format-on-save-mode)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Elscreen
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'elscreen)
-
-(elscreen-start)
-
-(defcustom elscreen-navi2ch-mode-to-nickname-alist
-  '(("^navi2ch-" . "Navi2ch"))
-  "*Alist composed of the pair of mode-name and corresponding screen-name."
-  :type '(alist :key-type string :value-type (choice string function))
-  :tag "Navi2ch major-mode to screen nickname alist"
-  :set (lambda (symbol value)
-	 (custom-set-default symbol value)
-	 (elscreen-rebuild-mode-to-nickname-alist))
-  :group 'navi2ch)
-(elscreen-set-mode-to-nickname-alist 'elscreen-navi2ch-mode-to-nickname-alist)
-
-(defalias 'my-create-window 'elscreen-create)
-(defalias 'my-delete-current-window 'elscreen-kill)
-(defalias 'my-next-window 'elscreen-next)
-(defalias 'my-prev-window 'elscreen-previous)
-
-;; 閉じるボタンは右側
-(setq elscreen-tab-display-kill-screen 'right)
-
-(define-key elscreen-map (kbd "C-l") 'elscreen-clone)
-(define-key elscreen-map (kbd "C-SPC") 'elscreen-toggle)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; font-lock-mode
@@ -1390,6 +1358,21 @@ It also updates `seq-start-position'."
 (add-hook 'sql-interactive-mode-hook 'sql-interactive-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; tab-bar.el
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(tab-bar-mode 1)
+
+(defun my-tab-clone (&optional arg)
+  (interactive "P")
+  (let ((tab-bar-new-tab-choice t))
+    (tab-new arg)))
+
+(setq tab-bar-new-tab-choice "*scratch*")
+(setq tab-bar-new-tab-to 'rightmost)
+(setq tab-bar-tab-hints t)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; terraform-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1719,7 +1702,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key global-map (kbd "C-w") 'kill-region)
 ;;(define-key global-map (kbd "C-x") ctl-x-map)
 ;;(define-key global-map (kbd "C-y") 'yank)
-;;(define-key global-map (kbd "C-z") Prefix Command)
+;;(define-key global-map (kbd "C-z") ctl-z-map)
 (define-key global-map (kbd "C-,") 'backward-word)
 (define-key global-map (kbd "C-.") 'forward-word)
 
@@ -1729,9 +1712,9 @@ do nothing. And suppress the output from `message' and
 (define-key esc-map (kbd "<") 'my-beginning-of-buffer)
 (define-key esc-map (kbd ">") 'my-end-of-buffer)
 (define-key esc-map (kbd "?") 'help)
-(define-key esc-map (kbd "0") 'my-delete-current-window)
-(define-key esc-map (kbd "2") 'my-create-window)
-(define-key esc-map (kbd "O") 'my-prev-window)
+(define-key esc-map (kbd "0") 'tab-close)
+(define-key esc-map (kbd "2") 'tab-new)
+(define-key esc-map (kbd "O") 'tab-previous)
 (define-key esc-map (kbd "a") 'yomi)
 (define-key esc-map (kbd "b") 'backward-word)
 (define-key esc-map (kbd "c") 'compile)
@@ -1746,7 +1729,7 @@ do nothing. And suppress the output from `message' and
 (define-key esc-map (kbd "l") nil)	;; downcase-word
 ;;(define-key esc-map (kbd "m") 'back-to-indentation)
 (define-key esc-map (kbd "n") 'forward-paragraph)
-(define-key esc-map (kbd "o") 'my-next-window)
+(define-key esc-map (kbd "o") 'tab-next)
 (define-key esc-map (kbd "p") 'backward-paragraph)
 ;;(define-key esc-map (kbd "q") 'fill-paragraph)
 (define-key esc-map (kbd "r") 'toggle-read-only)
@@ -1761,8 +1744,8 @@ do nothing. And suppress the output from `message' and
 (define-key esc-map (kbd "C-y") (lambda () (interactive) (yank-pop -1)))
 
 ;; custom of the Super-? key (see term/ns-win.el)
-(define-key global-map (kbd "s-{") 'my-prev-window)
-(define-key global-map (kbd "s-}") 'my-next-window)
+(define-key global-map (kbd "s-{") 'tab-previous)
+(define-key global-map (kbd "s-}") 'tab-next)
 (define-key global-map (kbd "s-0") 'delete-window)
 (define-key global-map (kbd "s-1") 'delete-other-windows)
 (define-key global-map (kbd "s-2") 'split-window-below)
@@ -1770,7 +1753,6 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-9") 'delete-other-windows-vertically)
 (define-key global-map (kbd "s-a") 'helm-imenu)
 (define-key global-map (kbd "s-b") 'helm-my-bookmark)
-(define-key global-map (kbd "s-e") 'helm-elscreen)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
 (define-key global-map (kbd "s-i") 'esa-expand-link)
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
@@ -1779,7 +1761,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key global-map (kbd "s-n") nil)
 (define-key global-map (kbd "s-o") nil)
 (define-key global-map (kbd "s-s") 'helm-swoop)
-(define-key global-map (kbd "s-t") 'my-create-window)
+(define-key global-map (kbd "s-t") 'tab-new)
 (define-key global-map (kbd "s-v") 'yank)
 ;;(define-key global-map (kbd "s-w") 'kill-ring-save)
 (define-key global-map (kbd "s-y") 'duplicate-thing)
@@ -1854,6 +1836,27 @@ do nothing. And suppress the output from `message' and
 ;;(define-key ctl-x-map (kbd "C-x") 'exchange-point-and-mark)
 ;;(define-key ctl-x-map (kbd "C-y") nil)
 (define-key ctl-x-map (kbd "C-z") nil)
+
+;; custom of the ctl-z-map
+(defvar ctl-z-map (make-keymap))
+(define-key global-map (kbd "C-z") ctl-z-map)
+(define-key ctl-z-map (kbd "0") 'tab-select)
+(define-key ctl-z-map (kbd "1") 'tab-select)
+(define-key ctl-z-map (kbd "2") 'tab-select)
+(define-key ctl-z-map (kbd "3") 'tab-select)
+(define-key ctl-z-map (kbd "4") 'tab-select)
+(define-key ctl-z-map (kbd "5") 'tab-select)
+(define-key ctl-z-map (kbd "6") 'tab-select)
+(define-key ctl-z-map (kbd "7") 'tab-select)
+(define-key ctl-z-map (kbd "8") 'tab-select)
+(define-key ctl-z-map (kbd "9") 'tab-select)
+(define-key ctl-z-map (kbd "k") 'tab-close)
+(define-key ctl-z-map (kbd "C-c") 'tab-new)
+(define-key ctl-z-map (kbd "C-k") 'tab-close)
+(define-key ctl-z-map (kbd "C-l") 'my-tab-clone)
+(define-key ctl-z-map (kbd "C-n") 'tab-next)
+(define-key ctl-z-map (kbd "C-p") 'tab-previous)
+(define-key ctl-z-map (kbd "C-SPC") 'tab-recent)
 
 ;;; Local Variables:
 ;;; mode: emacs-lisp
