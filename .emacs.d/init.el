@@ -1844,6 +1844,7 @@ do nothing. And suppress the output from `message' and
 ;; custom of the ctl-z-map
 (defvar ctl-z-map (make-keymap))
 (define-key global-map (kbd "C-z") ctl-z-map)
+(define-key ctl-z-map (kbd "0") (lambda () (interactive) (tab-select 1)))
 (define-key ctl-z-map (kbd "1") 'tab-select)
 (define-key ctl-z-map (kbd "2") 'tab-select)
 (define-key ctl-z-map (kbd "3") 'tab-select)
