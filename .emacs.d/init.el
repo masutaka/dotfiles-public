@@ -1757,6 +1757,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-9") 'delete-other-windows-vertically)
 (define-key global-map (kbd "s-a") 'helm-imenu)
 (define-key global-map (kbd "s-b") 'helm-my-bookmark)
+(define-key global-map (kbd "s-e") 'tab-list)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
 (define-key global-map (kbd "s-i") 'esa-expand-link)
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
