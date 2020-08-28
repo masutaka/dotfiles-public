@@ -1476,6 +1476,9 @@ do nothing. And suppress the output from `message' and
 ;;; Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; Looker
+(add-to-list 'auto-mode-alist '("\\.lkml\\'" . default-generic-mode))
+
 ;; Avoid to write `package-selected-packages` in init.el
 (load (setq custom-file (expand-file-name "custom.el" user-emacs-directory)))
 
