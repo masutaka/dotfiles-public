@@ -146,7 +146,7 @@ With argument, do this that many times."
 			   str))
 			(url (cdr (assoc 'url data))))
 		    (delete-region (point) (re-search-backward "#" (point-min) t))
-		    (insert (format "[%s%s](%s)" wip full-name url)))))
+		    (insert (format ":esa: [%s%s](%s)" wip full-name url)))))
       :error (cl-function
 	      (lambda (&key error-thrown response &allow-other-keys)
 		(message "[esa-expand-link] Fail %S to GET %s"
