@@ -82,6 +82,7 @@ if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install hugo
   brew install k1LoW/tap/connected
 else
+  brew install lha
   brew install postgresql@10
 fi
 
