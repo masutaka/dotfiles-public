@@ -107,8 +107,6 @@ brew cask install mysqlworkbench
 brew cask install psequel
 brew cask install railwaycat/emacsmacport/emacs-mac
 brew cask install trailer
-brew cask install vagrant
-brew cask install virtualbox
 brew cask install visual-studio-code
 brew cask install zoomus
 
@@ -125,4 +123,6 @@ else
   brew cask install cyberduck
   brew cask install microsoft-edge
   brew cask install smcfancontrol  # https://getbitbar.com/plugins/System/cpu-temperature.5s.sh
+  brew cask install vagrant
+  brew cask install virtualbox
 fi
