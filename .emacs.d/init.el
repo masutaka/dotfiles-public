@@ -1372,6 +1372,7 @@ It also updates `seq-start-position'."
 (setq tab-bar-new-tab-choice "*scratch*")
 (setq tab-bar-new-tab-to 'rightmost)
 (setq tab-bar-tab-hints t)
+(setq tab-bar-tab-name-function #'tab-bar-tab-name-truncated)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; terraform-mode
