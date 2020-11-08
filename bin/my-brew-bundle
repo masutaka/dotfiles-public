@@ -79,6 +79,7 @@ brew install youtube-dl
 brew install zplug
 
 if [ "$PRIVATE_MACHINE" = yes ]; then
+  brew install ffmpeg
   brew install hugo
   brew install k1LoW/tap/connected
 else
