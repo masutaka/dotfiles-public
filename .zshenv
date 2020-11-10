@@ -10,6 +10,7 @@ Darwin)
   export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
   export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
   export EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
+  export CLOUDSDK_PYTHON=python3.8
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 
