@@ -108,7 +108,7 @@ brew cask install psequel
 brew cask install railwaycat/emacsmacport/emacs-mac
 brew cask install trailer
 brew cask install visual-studio-code
-brew cask install zoomus
+brew cask install zoom
 
 if [ "$PRIVATE_MACHINE" = yes ]; then
   brew cask install handbrake
