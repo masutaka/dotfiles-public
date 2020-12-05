@@ -103,7 +103,6 @@ brew cask install imageoptim
 brew cask install kindle
 brew cask install kindle-previewer
 brew cask install licecap
-brew cask install minikube
 brew cask install mysqlworkbench
 brew cask install psequel
 brew cask install railwaycat/emacsmacport/emacs-mac
