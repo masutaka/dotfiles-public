@@ -1399,6 +1399,8 @@ It also updates `seq-start-position'."
 
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 
+(set-face-foreground 'terraform--resource-name-face "deep pink")
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; view-mode --- peruse file or buffer without editing
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
