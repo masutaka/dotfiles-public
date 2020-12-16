@@ -1395,11 +1395,10 @@ It also updates `seq-start-position'."
       (message "Unknown terraform DSL"))))
 
 (with-eval-after-load "terraform-mode"
+  (set-face-foreground 'terraform--resource-name-face "deep pink")
   (define-key terraform-mode-map (kbd "C-c C-o") 'open-terraform-document))
 
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
-
-(set-face-foreground 'terraform--resource-name-face "deep pink")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; view-mode --- peruse file or buffer without editing

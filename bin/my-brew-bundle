@@ -87,42 +87,42 @@ else
   brew install postgresql@10
 fi
 
-brew cask install alfred
-brew cask install appcleaner
-brew cask install bitbar
-brew cask install deepl
-brew cask install discord
-brew cask install docker
-brew cask install dropbox
-brew cask install firefox
-brew cask install google-chrome
-brew cask install google-cloud-sdk
-brew cask install google-japanese-ime
-brew cask install grandperspective
-brew cask install imageoptim
-brew cask install kindle
-brew cask install kindle-previewer
-brew cask install licecap
-brew cask install mysqlworkbench
-brew cask install psequel
-brew cask install railwaycat/emacsmacport/emacs-mac
-brew cask install trailer
-brew cask install visual-studio-code
-brew cask install zoom
+brew install --cask alfred
+brew install --cask appcleaner
+brew install --cask bitbar
+brew install --cask deepl
+brew install --cask discord
+brew install --cask docker
+brew install --cask dropbox
+brew install --cask firefox
+brew install --cask google-chrome
+brew install --cask google-cloud-sdk
+brew install --cask google-japanese-ime
+brew install --cask grandperspective
+brew install --cask imageoptim
+brew install --cask kindle
+brew install --cask kindle-previewer
+brew install --cask licecap
+brew install --cask mysqlworkbench
+brew install --cask psequel
+brew install --cask railwaycat/emacsmacport/emacs-mac
+brew install --cask trailer
+brew install --cask visual-studio-code
+brew install --cask zoom
 
 if [ "$PRIVATE_MACHINE" = yes ]; then
-  brew cask install handbrake
-  brew cask install horos
-  brew cask install lyn
-  brew cask install ripit
-  brew cask install skype
-  brew cask install vlc
+  brew install --cask handbrake
+  brew install --cask horos
+  brew install --cask lyn
+  brew install --cask ripit
+  brew install --cask skype
+  brew install --cask vlc
 else
-  brew cask install abstract
-  brew cask install chromedriver
-  brew cask install cyberduck
-  brew cask install microsoft-edge
-  brew cask install smcfancontrol  # https://getbitbar.com/plugins/System/cpu-temperature.5s.sh
-  brew cask install vagrant
-  brew cask install virtualbox
+  brew install --cask abstract
+  brew install --cask chromedriver
+  brew install --cask cyberduck
+  brew install --cask microsoft-edge
+  brew install --cask smcfancontrol  # https://getbitbar.com/plugins/System/cpu-temperature.5s.sh
+  brew install --cask vagrant
+  brew install --cask virtualbox
 fi
