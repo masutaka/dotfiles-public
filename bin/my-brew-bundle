@@ -108,7 +108,6 @@ brew install --cask psequel
 brew install --cask railwaycat/emacsmacport/emacs-mac
 brew install --cask trailer
 brew install --cask visual-studio-code
-brew install --cask zoom
 
 if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install --cask handbrake
@@ -125,4 +124,5 @@ else
   brew install --cask smcfancontrol  # https://getbitbar.com/plugins/System/cpu-temperature.5s.sh
   brew install --cask vagrant
   brew install --cask virtualbox
+  brew install --cask zoom
 fi
