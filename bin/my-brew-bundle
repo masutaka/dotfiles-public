@@ -66,7 +66,6 @@ brew install pkg-config # gem ref
 brew install protobuf
 brew install protoc-gen-grpc-web
 brew install pstree
-brew install rsync # Avoid garbled characters of `-v` option
 brew install shellcheck
 brew install tcptraceroute
 brew install tflint
@@ -83,6 +82,7 @@ if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install ffmpeg
   brew install hugo
   brew install k1LoW/tap/connected
+  brew install rsync # Avoid garbled characters of `-v` option
 else
   brew install lha
   brew install postgresql@10
