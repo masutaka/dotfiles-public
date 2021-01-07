@@ -61,6 +61,7 @@
 (package-install 'keyfreq)
 (package-install 'lua-mode)
 (package-install 'markdown-mode)
+(package-install 'memory-usage)
 (package-install 'mkdown)
 (package-install 'navi2ch)
 (package-install 'nginx-mode)
