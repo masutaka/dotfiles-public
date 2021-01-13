@@ -1865,8 +1865,10 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-z-map (kbd "C-c") 'tab-new)
 (define-key ctl-z-map (kbd "C-k") 'tab-close)
 (define-key ctl-z-map (kbd "C-l") 'my-tab-clone)
+(define-key ctl-z-map (kbd "C-m") 'tab-move)
 (define-key ctl-z-map (kbd "C-n") 'tab-next)
 (define-key ctl-z-map (kbd "C-p") 'tab-previous)
+(define-key ctl-z-map (kbd "C-z") (lambda () (interactive) (tab-move -1)))
 (define-key ctl-z-map (kbd "C-SPC") 'tab-recent)
 
 ;;; Local Variables:
