@@ -63,7 +63,6 @@
 (package-install 'markdown-mode)
 (package-install 'memory-usage)
 (package-install 'mkdown)
-(package-install 'navi2ch)
 (package-install 'nginx-mode)
 (package-install 'open-junk-file)
 (package-install 'package-lint)
@@ -1530,9 +1529,6 @@ do nothing. And suppress the output from `message' and
 ;; emacsclient
 (require 'server)
 (unless (server-running-p) (server-start))
-
-;; Navigator for 2ch for Emacsen
-(autoload 'navi2ch "navi2ch" "Navigator for 2ch for Emacs" t)
 
 ;; ファイルローカル変数を使っていいか、いちいち問い合わせない。
 (setq safe-local-variable-values
