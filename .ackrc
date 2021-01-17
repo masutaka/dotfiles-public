@@ -1,3 +1,4 @@
+--ignore-dir=.terraform/
 --ignore-dir=.yardoc/
 --ignore-dir=vendor/
 --type-add=gemspec=.gemspec
