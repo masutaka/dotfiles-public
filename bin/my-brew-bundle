@@ -114,7 +114,6 @@ if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install --cask handbrake
   brew install --cask horos
   brew install --cask lyn
-  brew install --cask ripit
   brew install --cask skype
   brew install --cask vlc
 else
