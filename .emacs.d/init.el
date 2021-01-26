@@ -590,11 +590,11 @@ DO NOT SET VALUE MANUALLY.")
   (define-key c-mode-base-map (kbd "C-c C-o") 'ff-find-other-file)
   (define-key c-mode-base-map (kbd "C-c C-[") 'beginning-of-defun)
   (define-key c-mode-base-map (kbd "C-c C-]") 'end-of-defun))
-(add-hook 'c-mode-common-hook 'c-mode-common-hook-func)
+(add-hook 'c-mode-common-hook #'c-mode-common-hook-func)
 
 (defun c++-mode-hook-func ()
   (define-key c++-mode-map (kbd "M-;") 'comment-dwim-like-c-mode))
-(add-hook 'c++-mode-hook 'c++-mode-hook-func)
+(add-hook 'c++-mode-hook #'c++-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; ChangeLogメモ
@@ -685,7 +685,7 @@ DO NOT SET VALUE MANUALLY.")
 ;; 行末のスペースやタブに色づけして警告する。
 (defun change-log-mode-hook-func ()
   (setq show-trailing-whitespace t))
-(add-hook 'change-log-mode-hook 'change-log-mode-hook-func)
+(add-hook 'change-log-mode-hook #'change-log-mode-hook-func)
 
 (with-eval-after-load "clmemo"
   ;; 日本語の曜日も正しく色付けするように変更。
@@ -836,7 +836,7 @@ DO NOT SET VALUE MANUALLY.")
   (define-key dired-mode-map (kbd "M-{") 'tab-previous)
   (define-key dired-mode-map (kbd "M-}") 'tab-next)
   (define-key dired-mode-map (kbd "M-o") 'tab-next))
-(add-hook 'dired-mode-hook 'dired-mode-hook-func)
+(add-hook 'dired-mode-hook #'dired-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Elisp
@@ -866,11 +866,11 @@ DO NOT SET VALUE MANUALLY.")
 (defun emacs-lisp-mode-hook-func ()
   (elisp-mode-common-hook-func)
   (checkdoc-minor-mode))
-(add-hook 'emacs-lisp-mode-hook 'emacs-lisp-mode-hook-func)
+(add-hook 'emacs-lisp-mode-hook #'emacs-lisp-mode-hook-func)
 
 (defun lisp-interaction-mode-hook-func ()
   (elisp-mode-common-hook-func))
-(add-hook 'lisp-interaction-mode-hook 'lisp-interaction-mode-hook-func)
+(add-hook 'lisp-interaction-mode-hook #'lisp-interaction-mode-hook-func)
 
 ;; モードラインの "ElDoc" の表示はいらない。
 (with-eval-after-load "eldoc"
@@ -949,14 +949,14 @@ DO NOT SET VALUE MANUALLY.")
     (setq tab-width 2)
     (go-eldoc-setup)
     (flycheck-mode 1))
-  (add-hook 'go-mode-hook 'go-mode-hook-func)
+  (add-hook 'go-mode-hook #'go-mode-hook-func)
 
   (define-key go-mode-map (kbd "M-.") 'godef-jump)
   (define-key go-mode-map (kbd "M-,") 'pop-tag-mark))
 
 (setq gofmt-command "goimports")
 
-(add-hook 'before-save-hook 'gofmt-before-save)
+(add-hook 'before-save-hook #'gofmt-before-save)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; graphql-mode
@@ -983,6 +983,9 @@ DO NOT SET VALUE MANUALLY.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Grep
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq next-error-highlight 3)
+(setq next-error-highlight-no-select 3)
 
 (setq grep-find-command '("ack --nogroup --nocolor -k " . 28))
 (setq grep-find-history
@@ -1014,7 +1017,7 @@ DO NOT SET VALUE MANUALLY.")
 (defun Info-mode-hook-func ()
   (define-key Info-mode-map (kbd "j") 'scroll-up-one-line)
   (define-key Info-mode-map (kbd "k") 'scroll-down-one-line))
-(add-hook 'Info-mode-hook 'Info-mode-hook-func)
+(add-hook 'Info-mode-hook #'Info-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; JavaScript
@@ -1035,13 +1038,13 @@ DO NOT SET VALUE MANUALLY.")
   (setq js2-basic-offset 2)
   (setq indent-tabs-mode nil)
   (setq show-trailing-whitespace t))
-(add-hook 'js2-mode-hook 'js2-mode-hook-func)
+(add-hook 'js2-mode-hook #'js2-mode-hook-func)
 
 ;;; coffee-mode
 
 (defun coffee-mode-hook-func ()
  (setq coffee-tab-width 2))
-(add-hook 'coffee-mode-hook 'coffee-mode-hook-func)
+(add-hook 'coffee-mode-hook #'coffee-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; keisen.el -- provide facility for drawing ruled-line
@@ -1074,7 +1077,7 @@ DO NOT SET VALUE MANUALLY.")
   (c-set-offset 'arglist-close 0)
   (c-set-offset 'statement-cont 'c-lineup-math)
   (flymake-mode 1))
-(add-hook 'php-mode-hook 'php-mode-hook-func)
+(add-hook 'php-mode-hook #'php-mode-hook-func)
 
 (setq php-search-url "http://jp.php.net/ja/")
 (setq php-manual-url "http://jp.php.net/manual/ja/")
@@ -1087,7 +1090,7 @@ DO NOT SET VALUE MANUALLY.")
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-markup-indent-offset 2)
   (setq indent-tabs-mode nil))
-(add-hook 'web-mode-hook 'web-mode-hook-func)
+(add-hook 'web-mode-hook #'web-mode-hook-func)
 
 (set-face-foreground 'web-mode-html-attr-name-face "Blue4")
 (set-face-foreground 'web-mode-symbol-face "Gold4")
@@ -1121,12 +1124,12 @@ DO NOT SET VALUE MANUALLY.")
   ;; (setq flycheck-checker 'ruby-rubocop)
   ;; (flycheck-mode 1)
   (setq show-trailing-whitespace t))
-(add-hook 'ruby-mode-hook 'ruby-mode-hook-func)
+(add-hook 'ruby-mode-hook #'ruby-mode-hook-func)
 
 (defun sgml-mode-hook-func ()
   (setq indent-tabs-mode nil)
   (setq show-trailing-whitespace t))
-(add-hook 'sgml-mode-hook 'sgml-mode-hook-func)
+(add-hook 'sgml-mode-hook #'sgml-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rust
@@ -1142,7 +1145,7 @@ DO NOT SET VALUE MANUALLY.")
   (flycheck-mode 1)
   ;;(racer-mode)
   )
-(add-hook 'rust-mode-hook 'rust-mode-hook-func)
+(add-hook 'rust-mode-hook #'rust-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mac port patch
@@ -1156,7 +1159,7 @@ DO NOT SET VALUE MANUALLY.")
 			"firebrick" "black")))
 
 (add-hook 'mac-selected-keyboard-input-source-change-hook
-	  'mac-selected-keyboard-input-source-change-hook-func)
+	  #'mac-selected-keyboard-input-source-change-hook-func)
 
 ;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
 (mac-auto-ascii-mode 1)
@@ -1192,8 +1195,8 @@ DO NOT SET VALUE MANUALLY.")
 
 ;; M-x 等でミニバッファから元のバッファに戻った後に、日本語入力状態を
 ;; リストアする。
-(add-hook 'minibuffer-setup-hook 'mac-win-save-last-ime-status)
-(add-hook 'minibuffer-exit-hook 'mac-win-restore-ime)
+(add-hook 'minibuffer-setup-hook #'mac-win-save-last-ime-status)
+(add-hook 'minibuffer-exit-hook #'mac-win-restore-ime)
 
 (defvar mac-win-target-commands
   '(find-file save-buffer other-window split-window delete-window
@@ -1212,7 +1215,7 @@ DO NOT SET VALUE MANUALLY.")
 
 ;; `mac-win-target-commands' と前方一致する関数の終了後に、日本語入力
 ;; 状態をリストアする
-(add-hook 'pre-command-hook 'mac-win-restore-ime-target-commands)
+(add-hook 'pre-command-hook #'mac-win-restore-ime-target-commands)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mark
@@ -1253,7 +1256,7 @@ DO NOT SET VALUE MANUALLY.")
   (setq show-trailing-whitespace t)
   (setq markdown-css-paths (list mkdown-css-file-name))
   (electric-indent-local-mode 0))
-(add-hook 'markdown-mode-hook 'markdown-mode-hook-func)
+(add-hook 'markdown-mode-hook #'markdown-mode-hook-func)
 
 (add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
@@ -1265,7 +1268,20 @@ DO NOT SET VALUE MANUALLY.")
   (defun help-mode-hook-func ()
     (define-key help-map (kbd "F") 'mode-info-describe-function)
     (define-key help-map (kbd "V") 'mode-info-describe-variable))
-  (add-hook 'help-mode-hook 'help-mode-hook-func))
+  (add-hook 'help-mode-hook #'help-mode-hook-func))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; occur
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun my-occur-return ()
+  (switch-to-buffer-other-window "*Occur*"))
+
+(add-hook 'occur-hook #'my-occur-return)
+(add-hook 'occur-mode-find-occurrence-hook #'my-occur-return)
+
+(define-key occur-mode-map (kbd "n") 'occur-next-error)
+(define-key occur-mode-map (kbd "p") (lambda () (interactive) (occur-next-error -1)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; open-junk-file
@@ -1327,7 +1343,7 @@ It also updates `seq-start-position'."
 (setq comint-input-ring-size 1024)
 
 ;; パスワードを打つ時に見えなくさせる。
-(add-hook 'comint-output-filter-functions 'comint-watch-for-password-prompt)
+(add-hook 'comint-output-filter-functions #'comint-watch-for-password-prompt)
 
 ;;(setq comint-input-ring-file-name "~/.zhistory")
 
@@ -1343,7 +1359,7 @@ It also updates `seq-start-position'."
   (define-key shell-mode-map (kbd "M-h") 'backward-delete-word)
   (define-key shell-mode-map (kbd "M-n") 'comint-next-matching-input-from-input)
   (define-key shell-mode-map (kbd "M-p") 'comint-previous-matching-input-from-input))
-(add-hook 'shell-mode-hook 'shell-mode-hook-func)
+(add-hook 'shell-mode-hook #'shell-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sql-mode
@@ -1355,7 +1371,7 @@ It also updates `seq-start-position'."
 
 (defun sql-interactive-mode-hook-func ()
   (toggle-truncate-lines 1))
-(add-hook 'sql-interactive-mode-hook 'sql-interactive-mode-hook-func)
+(add-hook 'sql-interactive-mode-hook #'sql-interactive-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; tab-bar.el
@@ -1422,7 +1438,7 @@ It also updates `seq-start-position'."
   (define-key view-mode-map (kbd "G") 'view-goto-line-last)
   (define-key view-mode-map (kbd "j") 'View-scroll-line-forward)
   (define-key view-mode-map (kbd "k") 'View-scroll-line-backward))
-(add-hook 'view-mode-hook 'view-mode-hook-func)
+(add-hook 'view-mode-hook #'view-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; auto-mode
@@ -1518,7 +1534,7 @@ do nothing. And suppress the output from `message' and
 
 (setq shell-history-file "~/.zhistory")
 
-;;(add-hook 'before-save-hook 'delete-trailing-whitespace)
+;;(add-hook 'before-save-hook #'delete-trailing-whitespace)
 
 ;; C-x C-c で終了する前に y or n で問い合わせてくれる。
 (setq confirm-kill-emacs 'y-or-n-p)
@@ -1644,14 +1660,14 @@ do nothing. And suppress the output from `message' and
     (unless (string-match (car ange-ftp-name-format) (buffer-file-name))
       ad-do-it)))
 (add-hook 'after-save-hook
-	  'executable-make-buffer-file-executable-if-script-p)
+	  #'executable-make-buffer-file-executable-if-script-p)
 
 (defun sh-mode-hook-func ()
   (setq sh-basic-offset 2)
   (setq sh-indentation 2)
   ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t))
-(add-hook 'sh-mode-hook 'sh-mode-hook-func)
+(add-hook 'sh-mode-hook #'sh-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Key Binding
