@@ -1277,8 +1277,8 @@ DO NOT SET VALUE MANUALLY.")
 (defun my-occur-return ()
   (switch-to-buffer-other-window "*Occur*"))
 
-(add-hook 'occur-hook #'my-occur-return)
-(add-hook 'occur-mode-find-occurrence-hook #'my-occur-return)
+;;(add-hook 'occur-hook #'my-occur-return)
+;;(add-hook 'occur-mode-find-occurrence-hook #'my-occur-return)
 
 (define-key occur-mode-map (kbd "n") 'occur-next-error)
 (define-key occur-mode-map (kbd "p") (lambda () (interactive) (occur-next-error -1)))

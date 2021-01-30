@@ -83,9 +83,6 @@ if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install hugo
   brew install k1LoW/tap/connected
   brew install rsync # Avoid garbled characters of `-v` option
-else
-  brew install lha
-  brew install postgresql@10
 fi
 
 brew install --cask alfred
