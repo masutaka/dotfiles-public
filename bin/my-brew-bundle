@@ -29,7 +29,6 @@ else
 fi
 
 brew install ack
-brew install amazon-ecs-cli
 brew install aspell
 brew install aws/tap/aws-sam-cli
 brew install awscli
@@ -39,49 +38,37 @@ brew install circleci
 brew install coreutils
 brew install ctop
 brew install direnv
-brew install dive
 brew install gawk
 brew install ghq
 brew install ghr
 brew install git # for diff-highlight
 brew install gnu-sed
 brew install gnupg
-brew install hadolint
 brew install heroku/brew/heroku
 brew install highlight
 brew install hub
 brew install imagemagick
-brew install jid
 brew install jq
 brew install lv
 brew install markdown
 brew install masutaka/github-nippou/github-nippou
 brew install mercurial
-brew install minamijoyo/tfschema/tfschema
 brew install mizukmb/homebrew-esa-nippou/esa-nippou
 brew install nkf
 brew install openssl # macOS doesn't have this.
 brew install peco
 brew install pkg-config # gem ref
-brew install protobuf
-brew install protoc-gen-grpc-web
 brew install pstree
-brew install shellcheck
 brew install tcptraceroute
-brew install tflint
 brew install tmux
 brew install tree
-brew install unrar
 brew install watch
 brew install wget
 brew install xz
 brew install youtube-dl
-brew install zplug
 
 if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install ffmpeg
-  brew install hugo
-  brew install k1LoW/tap/connected
   brew install rsync # Avoid garbled characters of `-v` option
 fi
 
@@ -98,14 +85,10 @@ brew install --cask google-cloud-sdk
 brew install --cask google-japanese-ime
 brew install --cask grandperspective
 brew install --cask imageoptim
-brew install --cask kindle
 brew install --cask kindle-previewer
 brew install --cask licecap
-brew install --cask mysqlworkbench
-brew install --cask psequel
 brew install --cask railwaycat/emacsmacport/emacs-mac
 brew install --cask trailer
-brew install --cask visual-studio-code
 
 if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install --cask handbrake
@@ -114,10 +97,7 @@ if [ "$PRIVATE_MACHINE" = yes ]; then
   brew install --cask skype
   brew install --cask vlc
 else
-  brew install --cask abstract
-  brew install --cask chromedriver
   brew install --cask cyberduck
-  brew install --cask microsoft-edge
   brew install --cask smcfancontrol  # https://getbitbar.com/plugins/System/cpu-temperature.5s.sh
   brew install --cask vagrant
   brew install --cask virtualbox

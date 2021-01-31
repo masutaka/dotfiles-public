@@ -212,23 +212,6 @@ function vcs_info_precmd() {
 add-zsh-hook precmd vcs_info_precmd
 
 #---------------------------------------------------------------------
-# zplug
-#---------------------------------------------------------------------
-
-# 後述の bindkey '^xn' peco-git-recent-branches が _next_tags で
-# 置き換えられてしまうので、ここに置く。
-
-if exists zplug; then
-  zplug 'wantedly/dockertags', from:gh-r, as:command, use:'*darwin*amd64*'
-
-  if ! zplug check; then
-	zplug install
-  fi
-
-  zplug load
-fi
-
-#---------------------------------------------------------------------
 # Install Manually
 #---------------------------------------------------------------------
 
@@ -333,15 +316,6 @@ if [ "$TERM" = "screen" ]; then
   }
   add-zsh-hook precmd screen_mode_line_precmd
 fi
-
-#---------------------------------------------------------------------
-# tfschema
-#---------------------------------------------------------------------
-
-# zplug の設定より後ろにする必要がある
-
-autoload -U +X bashcompinit && bashcompinit
-complete -o nospace -C /usr/local/bin/tfschema tfschema
 
 #---------------------------------------------------------------------
 # Function
