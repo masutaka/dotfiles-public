@@ -61,6 +61,7 @@
 (package-install 'keyfreq)
 (package-install 'lua-mode)
 (package-install 'markdown-mode)
+(package-install 'markdown-preview-mode)
 (package-install 'mkdown)
 (package-install 'nginx-mode)
 (package-install 'open-junk-file)
@@ -1231,6 +1232,8 @@ DO NOT SET VALUE MANUALLY.")
 ;;; markdown
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+(setq markdown-preview-stylesheets '("http://thomasf.github.io/solarized-css/solarized-light.min.css"))
+
 (defun my-markdown-preview ()
   "Run `markdown-command' on the current buffer and view output in browser."
   (interactive)
@@ -1246,8 +1249,9 @@ DO NOT SET VALUE MANUALLY.")
   (shell-command (format "octodown %s" (buffer-file-name))))
 
 (with-eval-after-load "markdown-mode"
-  (define-key markdown-mode-map (kbd "C-c C-c p") 'my-markdown-preview)
-  (define-key markdown-mode-map (kbd "C-c C-c C-c") 'octodown)
+  (define-key markdown-mode-command-map (kbd "p") 'my-markdown-preview)
+  (define-key markdown-mode-command-map (kbd "C-c") 'octodown)
+  (define-key markdown-mode-command-map (kbd "C-p") 'markdown-preview-mode)
   (define-key markdown-mode-map (kbd "C-c C-m") 'browse-url-at-point))
 
 (defun markdown-mode-hook-func ()
@@ -1256,8 +1260,6 @@ DO NOT SET VALUE MANUALLY.")
   (setq markdown-css-paths (list mkdown-css-file-name))
   (electric-indent-local-mode 0))
 (add-hook 'markdown-mode-hook #'markdown-mode-hook-func)
-
-(add-to-list 'auto-mode-alist '("\\.md\\'" . markdown-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; mode-info
