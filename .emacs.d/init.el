@@ -61,7 +61,6 @@
 (package-install 'keyfreq)
 (package-install 'lua-mode)
 (package-install 'markdown-mode)
-(package-install 'memory-usage)
 (package-install 'mkdown)
 (package-install 'nginx-mode)
 (package-install 'open-junk-file)
