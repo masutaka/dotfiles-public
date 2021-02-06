@@ -1251,32 +1251,6 @@ DO NOT SET VALUE MANUALLY.")
   end-of-line seq-return)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Shell-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; 履歴の数
-(setq comint-input-ring-size 1024)
-
-;; パスワードを打つ時に見えなくさせる。
-(add-hook 'comint-output-filter-functions #'comint-watch-for-password-prompt)
-
-;;(setq comint-input-ring-file-name "~/.zhistory")
-
-(defun shell-mode-hook-func ()
-  ;; エスケープシーケンスを理解するようになる。
-  (ansi-color-for-comint-mode-on)
-  ;; 実行したコマンドをエコーさせない。
-  (setq comint-process-echoes t)
-  (define-key shell-mode-map (kbd "<down>") 'comint-next-matching-input-from-input)
-  (define-key shell-mode-map (kbd "<up>") 'comint-previous-matching-input-from-input)
-  (define-key shell-mode-map (kbd "C-c C-i") 'helm-complete-shell-history)
-  (define-key shell-mode-map (kbd "M-?") 'help-for-help)
-  (define-key shell-mode-map (kbd "M-h") 'backward-delete-word)
-  (define-key shell-mode-map (kbd "M-n") 'comint-next-matching-input-from-input)
-  (define-key shell-mode-map (kbd "M-p") 'comint-previous-matching-input-from-input))
-(add-hook 'shell-mode-hook #'shell-mode-hook-func)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sql-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1501,7 +1475,7 @@ do nothing. And suppress the output from `message' and
 (setq help-char ??)
 
 ;; *Messages*バッファの最大行数
-(setq message-log-max 256)
+(setq message-log-max 2000)
 
 ;; 非選択 window での中抜きカーソル表示をやめる。
 (setq-default cursor-in-non-selected-windows nil)
