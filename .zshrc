@@ -212,14 +212,6 @@ function vcs_info_precmd() {
 add-zsh-hook precmd vcs_info_precmd
 
 #---------------------------------------------------------------------
-# Install Manually
-#---------------------------------------------------------------------
-
-if ! exists trs; then
-   curl https://raw.githubusercontent.com/kogai/trs/master/install.sh -Ssf | sh
-fi
-
-#---------------------------------------------------------------------
 # peco
 #---------------------------------------------------------------------
 

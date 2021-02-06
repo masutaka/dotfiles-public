@@ -62,7 +62,6 @@
 (package-install 'lua-mode)
 (package-install 'markdown-mode)
 (package-install 'markdown-preview-mode)
-(package-install 'mkdown)
 (package-install 'nginx-mode)
 (package-install 'open-junk-file)
 (package-install 'package-lint)
@@ -96,7 +95,7 @@
     (ansi-color-apply-on-region (point-min) (point-max))))
 
 (defun duplicate-thing (n)
-  "http://d.hatena.ne.jp/syohex/20120325/1332641491"
+  "https://syohex.hatenablog.com/entry/20120325/1332641491"
   (interactive "p")
   (save-excursion
     (let (start end)
@@ -405,7 +404,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   ;; 画像ファイルを表示
   (auto-image-file-mode t)
 
-  ;; http://d.hatena.ne.jp/setoryohei/20110117/1295336454
+  ;; https://setoryohei.hatenadiary.org/entry/20110117/1295336454
   (when machine-mac
     ;; フレームのフォントを設定
     (let* ((size 14) ; ASCIIフォントのサイズ [9/10/12/14/15/17/19/20/...]
@@ -707,60 +706,24 @@ DO NOT SET VALUE MANUALLY.")
 ;;; Dictionary
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;; Workaround. See http://suzuki.tdiary.net/20161226.html
+;; Workaround. See https://suzuki.tdiary.net/20161226.html
 (if (>= emacs-major-version 26)
     (setq default-fill-column (default-value 'fill-column)))
 
 (require 'sdic)
 (setq sdic-window-height 20)
 
-(defvar dict-bin "/Users/masutaka/src/hg.pqrs.org/commandline-dictionary-app/src/dict"
-  "a path of commandline-dictionary-app")
-
-(defun dictionary-app (word)
-  "Display the meaning of word using Dictionary.app."
-  (interactive (list (sdic-read-from-minibuffer)))
-  (set-buffer (get-buffer-create sdic-buffer-name))
-  (or (string= mode-name sdic-mode-name) (sdic-mode))
-  (setq buffer-read-only nil)
-  (erase-buffer)
-  (insert (format "============================================================\n%s\n" word))
-  (call-process dict-bin
-		nil sdic-buffer-name t word
-		"Japanese-English" "Japanese" "Japanese Synonyms")
-  (setq buffer-read-only t)
-  (set-buffer-modified-p nil)
-  (sdic-display-buffer 0))
-
 (defun dictionary-search (word)
   (browse-url
    (concat "dict:///" (url-hexify-string word))))
 
-(defun trs (word)
-  "Display the meaning of word using trs"
-  (interactive (list (sdic-read-from-minibuffer)))
-  (set-buffer (get-buffer-create sdic-buffer-name))
-  (or (string= mode-name sdic-mode-name) (sdic-mode))
-  (setq buffer-read-only nil)
-  (erase-buffer)
-  (insert (format "$ trs dictionary %s\n\n" word))
-  (call-process "trs" nil sdic-buffer-name t "dictionary" word)
-  (display-ansi-colors)
-  (setq buffer-read-only t)
-  (set-buffer-modified-p nil)
-  (sdic-display-buffer 0))
-
 (defun my-dictionary (arg)
   (interactive "P")
   (cond
-   ((equal arg '(64))
-    (dictionary-app (sdic-read-from-minibuffer)))
-   ((equal arg '(16))
-    (sdic-describe-word (sdic-read-from-minibuffer)))
    ((equal arg '(4))
-    (dictionary-search (sdic-read-from-minibuffer)))
+    (sdic-describe-word (sdic-read-from-minibuffer)))
    (t
-    (trs (sdic-read-from-minibuffer)))))
+    (dictionary-search (sdic-read-from-minibuffer)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Diff-mode
@@ -1079,8 +1042,8 @@ DO NOT SET VALUE MANUALLY.")
   (flymake-mode 1))
 (add-hook 'php-mode-hook #'php-mode-hook-func)
 
-(setq php-search-url "http://jp.php.net/ja/")
-(setq php-manual-url "http://jp.php.net/manual/ja/")
+(setq php-search-url "https://www.php.net/search.php")
+(setq php-manual-url "https://www.php.net/manual/ja/")
 
 (define-key php-mode-map (kbd "C-.") 'forward-word)
 (define-key php-mode-map (kbd "C-c C-[") 'beginning-of-defun)
@@ -1097,7 +1060,7 @@ DO NOT SET VALUE MANUALLY.")
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
 
-;; http://d.hatena.ne.jp/sugyan/20100705/1278306885
+;; https://memo.sugyan.com/entry/20100705/1278306885
 (defadvice flymake-post-syntax-check
   (before flymake-force-check-was-interrupted activate)
   (setq flymake-check-was-interrupted t))
@@ -1120,7 +1083,7 @@ DO NOT SET VALUE MANUALLY.")
     (self-insert-command (prefix-numeric-value arg))))
 
 (defun ruby-mode-hook-func ()
-  ;; http://qiita.com/aKenjiKato/items/9ff1a153691e947113bb
+  ;; https://qiita.com/katoken-0215/items/9ff1a153691e947113bb
   ;; (setq flycheck-checker 'ruby-rubocop)
   ;; (flycheck-mode 1)
   (setq show-trailing-whitespace t))
@@ -1151,7 +1114,7 @@ DO NOT SET VALUE MANUALLY.")
 ;;; Mac port patch
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; http://masutaka.net/chalow/2015-01-04-1.html
+;;; https://masutaka.net/chalow/2015-01-04-1.html
 
 (defun mac-selected-keyboard-input-source-change-hook-func ()
   ;; 入力モードが英語の時はカーソルの色をfirebrickに、日本語の時はblackにする
@@ -1165,7 +1128,7 @@ DO NOT SET VALUE MANUALLY.")
 (mac-auto-ascii-mode 1)
 
 ;;; "Emacs 25.1 を EMP版で快適に使う"
-;;; http://qiita.com/takaxp/items/a86ee2aacb27c7c3a902
+;;; https://qiita.com/takaxp/items/a86ee2aacb27c7c3a902
 ;;;
 ;;; mac-auto-ascii-mode が Enable かつ日本語入力 ON の時、
 ;;; M-x や C-x C-f 等の後に日本語入力 OFF になる問題を救う。
@@ -1232,32 +1195,17 @@ DO NOT SET VALUE MANUALLY.")
 ;;; markdown
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(setq markdown-preview-stylesheets '("http://thomasf.github.io/solarized-css/solarized-light.min.css"))
-
-(defun my-markdown-preview ()
-  "Run `markdown-command' on the current buffer and view output in browser."
-  (interactive)
-  (let ((output-file (convert-standard-filename
-		      (make-temp-file
-		       (expand-file-name "my-markdown" temporary-file-directory)
-		       nil ".html"))))
-    (browse-url (markdown-export output-file))
-    (kill-buffer (get-file-buffer output-file))))
-
-(defun octodown ()
-  (interactive)
-  (shell-command (format "octodown %s" (buffer-file-name))))
+(let ((stylesheet "https://thomasf.github.io/solarized-css/solarized-light.min.css"))
+  (setq markdown-css-paths (list stylesheet))
+  (setq markdown-preview-stylesheets (list stylesheet)))
 
 (with-eval-after-load "markdown-mode"
-  (define-key markdown-mode-command-map (kbd "p") 'my-markdown-preview)
-  (define-key markdown-mode-command-map (kbd "C-c") 'octodown)
   (define-key markdown-mode-command-map (kbd "C-p") 'markdown-preview-mode)
   (define-key markdown-mode-map (kbd "C-c C-m") 'browse-url-at-point))
 
 (defun markdown-mode-hook-func ()
   (setq indent-tabs-mode nil)
   (setq show-trailing-whitespace t)
-  (setq markdown-css-paths (list mkdown-css-file-name))
   (electric-indent-local-mode 0))
 (add-hook 'markdown-mode-hook #'markdown-mode-hook-func)
 
