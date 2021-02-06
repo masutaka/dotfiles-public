@@ -67,7 +67,6 @@
 (package-install 'package-lint)
 (package-install 'php-mode)
 (package-install 'protobuf-mode)
-(package-install 'quickrun)
 (package-install 'racer)
 (package-install 'rspec-mode)
 (package-install 'rust-mode)
@@ -1072,7 +1071,7 @@ DO NOT SET VALUE MANUALLY.")
 
 (setq ruby-insert-encoding-magic-comment nil)
 
-;; work around
+;; workaround
 ;; http://blog.livedoor.jp/ooboofo3/archives/53748087.html
 (with-eval-after-load "ruby-mode"
   (defun ruby-electric-brace (arg)
@@ -1240,43 +1239,10 @@ DO NOT SET VALUE MANUALLY.")
 (setq open-junk-file-format "~/Dropbox/junk/%Y-%m-%d-%H%M%S.")
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; quickrun.el
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(when (require 'quickrun nil t)
-  (define-key global-map (kbd "<f8>") 'quickrun))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sequential-command.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'sequential-command)
-
-;;; workaround
-;;; seq-count() conflicts with seq.el
-
-(defun sequential-command-count ()
-  "Returns number of times `this-command' was executed.
-It also updates `seq-start-position'."
-  (if (eq last-command this-command)
-      (cl-incf seq-store-count)
-    (setq seq-start-position  (cons (point) (window-start))
-          seq-store-count     0)))
-
-(defmacro define-sequential-command (name &rest commands)
-  "Define a command whose behavior is changed by sequence of calls of the same command."
-  (let ((cmdary (apply 'vector commands)))
-    `(defun ,name ()
-       ,(concat "Sequential command of "
-                (mapconcat
-                 (lambda (cmd) (format "`%s'" (symbol-name cmd)))
-                 commands " and ")
-                ".")
-       (interactive)
-       (call-interactively
-        (aref ,cmdary (mod (sequential-command-count) ,(length cmdary)))))))
-
-;;; definitions
 
 (define-sequential-command my-beginning-of-line
   beginning-of-line back-to-indentation seq-return)
