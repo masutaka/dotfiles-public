@@ -34,7 +34,6 @@
 (package-install 'auto-complete)
 (package-install 'blgrep)
 (package-install 'clmemo)
-(package-install 'codic)
 (package-install 'coffee-mode)
 (package-install 'dockerfile-mode)
 (package-install 'egg)
@@ -1209,16 +1208,6 @@ DO NOT SET VALUE MANUALLY.")
 (add-hook 'markdown-mode-hook #'markdown-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; mode-info
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(when (and (require 'mi-config nil t) (require 'mi-fontify nil t))
-  (defun help-mode-hook-func ()
-    (define-key help-map (kbd "F") 'mode-info-describe-function)
-    (define-key help-map (kbd "V") 'mode-info-describe-variable))
-  (add-hook 'help-mode-hook #'help-mode-hook-func))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; occur
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1388,8 +1377,6 @@ do nothing. And suppress the output from `message' and
 
 ;; Avoid to write `package-selected-packages` in init.el
 (load (setq custom-file (expand-file-name "custom.el" user-emacs-directory)))
-
-(setq codic-api-token (my-lisp-load "codic-api-token"))
 
 (global-auto-revert-mode 1)
 
@@ -1683,7 +1670,6 @@ do nothing. And suppress the output from `message' and
 ;; custom of the ctl-q-map
 (defvar ctl-q-map (make-keymap))
 (define-key global-map (kbd "C-q") ctl-q-map)
-(define-key ctl-q-map (kbd ".") (if (featurep 'mi-config) 'mode-info-find-tag))
 (define-key ctl-q-map (kbd "c") 'copy-this-buffer-file-name)
 (define-key ctl-q-map (kbd "g b") 'github-browse-file-blame)
 (define-key ctl-q-map (kbd "g f") 'github-browse-file)
