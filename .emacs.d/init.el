@@ -463,7 +463,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 (require 'helm-github-stars)
 
-(defvar my-helm-github-stars-interval (* 3 60 60)
+(defvar my-helm-github-stars-interval (* 6 60 60)
   "Number of seconds to call `my-helm-github-stars-async-generate-cache-file'.")
 
 (defvar my-helm-github-stars-timer nil
