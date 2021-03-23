@@ -38,6 +38,7 @@ umask 022
 # No core files by default
 ulimit -S -c 0
 
+export BIGQUERYRC=$HOME/.config/bq/bigqueryrc
 export MYSQL_PS1="(\u@$(hostname)) [\d] > "
 
 # Avoid ack warning
@@ -53,8 +54,6 @@ export LANG=en_US.UTF-8
 # -z-4 ページスクロール時、画面の行数-4行だけスクロール
 # -x4  tab-stop を 4 とする
 export LESS="-g -i -M -R -S -W -X -z-4 -x4"
-
-export WHALEBREW_INSTALL_PATH=$HOME/bin
 
 # Don't automatically cleanup on reinstall, install or upgrade
 export HOMEBREW_NO_INSTALL_CLEANUP=yes
