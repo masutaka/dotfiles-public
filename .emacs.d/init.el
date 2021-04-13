@@ -1114,69 +1114,70 @@ DO NOT SET VALUE MANUALLY.")
 
 ;;; https://masutaka.net/chalow/2015-01-04-1.html
 
-(defun mac-selected-keyboard-input-source-change-hook-func ()
-  ;; 入力モードが英語の時はカーソルの色をfirebrickに、日本語の時はblackにする
-  (set-cursor-color (if (string-match "\\.US$" (mac-input-source))
-			"firebrick" "black")))
+(when machine-mac
+  (defun mac-selected-keyboard-input-source-change-hook-func ()
+    ;; 入力モードが英語の時はカーソルの色をfirebrickに、日本語の時はblackにする
+    (set-cursor-color (if (string-match "\\.US$" (mac-input-source))
+			  "firebrick" "black")))
 
-(add-hook 'mac-selected-keyboard-input-source-change-hook
-	  #'mac-selected-keyboard-input-source-change-hook-func)
+  (add-hook 'mac-selected-keyboard-input-source-change-hook
+	    #'mac-selected-keyboard-input-source-change-hook-func)
 
-;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
-(mac-auto-ascii-mode 1)
+  ;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
+  (mac-auto-ascii-mode 1)
 
-;;; "Emacs 25.1 を EMP版で快適に使う"
-;;; https://qiita.com/takaxp/items/a86ee2aacb27c7c3a902
-;;;
-;;; mac-auto-ascii-mode が Enable かつ日本語入力 ON の時、
-;;; M-x や C-x C-f 等の後に日本語入力 OFF になる問題を救う。
+  ;; "Emacs 25.1 を EMP版で快適に使う"
+  ;; https://qiita.com/takaxp/items/a86ee2aacb27c7c3a902
+  ;;
+  ;; mac-auto-ascii-mode が Enable かつ日本語入力 ON の時、
+  ;; M-x や C-x C-f 等の後に日本語入力 OFF になる問題を救う。
 
-(defvar mac-win-last-ime-status 'off) ;; {'off|'on}
+  (defvar mac-win-last-ime-status 'off) ;; {'off|'on}
 
-(defconst mac-win-kana-input-method "com.google.inputmethod.Japanese.base")
+  (defconst mac-win-kana-input-method "com.google.inputmethod.Japanese.base")
 
-(defun advice:mac-auto-ascii-setup-input-source (&optional _prompt)
-  "Extension to store IME status"
-  (mac-win-save-last-ime-status))
+  (defun advice:mac-auto-ascii-setup-input-source (&optional _prompt)
+    "Extension to store IME status"
+    (mac-win-save-last-ime-status))
 
-(advice-add 'mac-auto-ascii-setup-input-source :before
-            #'advice:mac-auto-ascii-setup-input-source)
+  (advice-add 'mac-auto-ascii-setup-input-source :before
+              #'advice:mac-auto-ascii-setup-input-source)
 
-(defun mac-win-save-last-ime-status ()
-  (setq mac-win-last-ime-status
-        (if (string-match "\\.\\(Roman\\|US\\)$" (mac-input-source))
-            'off 'on)))
+  (defun mac-win-save-last-ime-status ()
+    (setq mac-win-last-ime-status
+          (if (string-match "\\.\\(Roman\\|US\\)$" (mac-input-source))
+              'off 'on)))
 
-(defun mac-win-restore-ime ()
-  (if (mac-win-need-restore-ime)
-      (mac-select-input-source mac-win-kana-input-method)))
+  (defun mac-win-restore-ime ()
+    (if (mac-win-need-restore-ime)
+	(mac-select-input-source mac-win-kana-input-method)))
 
-(defun mac-win-need-restore-ime ()
-  (and mac-auto-ascii-mode (eq mac-win-last-ime-status 'on)))
+  (defun mac-win-need-restore-ime ()
+    (and mac-auto-ascii-mode (eq mac-win-last-ime-status 'on)))
 
-;; M-x 等でミニバッファから元のバッファに戻った後に、日本語入力状態を
-;; リストアする。
-(add-hook 'minibuffer-setup-hook #'mac-win-save-last-ime-status)
-(add-hook 'minibuffer-exit-hook #'mac-win-restore-ime)
+  ;; M-x 等でミニバッファから元のバッファに戻った後に、日本語入力状態を
+  ;; リストアする。
+  (add-hook 'minibuffer-setup-hook #'mac-win-save-last-ime-status)
+  (add-hook 'minibuffer-exit-hook #'mac-win-restore-ime)
 
-(defvar mac-win-target-commands
-  '(find-file save-buffer other-window split-window delete-window
-    delete-other-windows clmemo helm-for-files))
+  (defvar mac-win-target-commands
+    '(find-file save-buffer other-window split-window delete-window
+		delete-other-windows clmemo helm-for-files))
 
-(defun mac-win-restore-ime-target-commands ()
-  (if (and (mac-win-need-restore-ime)
-	   (mac-win-target-commands-match))
-      (mac-select-input-source mac-win-kana-input-method)))
+  (defun mac-win-restore-ime-target-commands ()
+    (if (and (mac-win-need-restore-ime)
+	     (mac-win-target-commands-match))
+	(mac-select-input-source mac-win-kana-input-method)))
 
-(defun mac-win-target-commands-match ()
-  (remove-if-not
-   (lambda (c)
-     (string-match (format "^%s" c) (format "%s" this-command)))
-   mac-win-target-commands))
+  (defun mac-win-target-commands-match ()
+    (remove-if-not
+     (lambda (c)
+       (string-match (format "^%s" c) (format "%s" this-command)))
+     mac-win-target-commands))
 
-;; `mac-win-target-commands' と前方一致する関数の終了後に、日本語入力
-;; 状態をリストアする
-(add-hook 'pre-command-hook #'mac-win-restore-ime-target-commands)
+  ;; `mac-win-target-commands' と前方一致する関数の終了後に、日本語入力
+  ;; 状態をリストアする
+  (add-hook 'pre-command-hook #'mac-win-restore-ime-target-commands))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mark
