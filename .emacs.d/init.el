@@ -34,10 +34,8 @@
 (package-install 'auto-complete)
 (package-install 'blgrep)
 (package-install 'clmemo)
-(package-install 'coffee-mode)
 (package-install 'dockerfile-mode)
 (package-install 'egg)
-(package-install 'eldoc-extension)
 (package-install 'elm-mode)
 (package-install 'flycheck)
 (package-install 'flycheck-rust)
@@ -55,7 +53,6 @@
 (package-install 'helm-hatena-bookmark)
 (package-install 'helm-swoop)
 (package-install 'highlight-symbol)
-(package-install 'hl-line+)
 (package-install 'js2-mode)
 (package-install 'keyfreq)
 (package-install 'lua-mode)
@@ -1000,12 +997,6 @@ DO NOT SET VALUE MANUALLY.")
   (setq indent-tabs-mode nil)
   (setq show-trailing-whitespace t))
 (add-hook 'js2-mode-hook #'js2-mode-hook-func)
-
-;;; coffee-mode
-
-(defun coffee-mode-hook-func ()
- (setq coffee-tab-width 2))
-(add-hook 'coffee-mode-hook #'coffee-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; keisen.el -- provide facility for drawing ruled-line
