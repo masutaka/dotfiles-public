@@ -4,14 +4,6 @@
 # Functions
 #---------------------------------------------------------------------
 
-function brew-all-deps() {
-  for formula in $(brew list --formula); do
-	echo -n $fg[blue] $formula $fg[white]
-	brew deps $formula | awk '{printf(" %s", $0)}'
-	echo
-  done
-}
-
 function exists() {
   type $1 > /dev/null
 }
@@ -22,16 +14,6 @@ function go-update() {
 	go get -u $i
   done
 }
-
-if [ "$OS_KIND" = Darwin ]; then
-  function kd() {
-	ls -alF $* | more -e
-  }
-else
-  function kd() {
-	ls -alF $* | more
-  }
-fi
 
 function psme() {
   ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
@@ -46,12 +28,28 @@ function svndiff() {
 }
 
 if [ "$OS_KIND" = Darwin ]; then
+  function brew-all-deps() {
+	for formula in $(brew list --formula); do
+	  echo -n $fg[blue] $formula $fg[white]
+	  brew deps $formula | awk '{printf(" %s", $0)}'
+	  echo
+	done
+  }
+
   function epoch2date() {
 	date -r $1 +%Y-%m-%dT%H:%M:%S%z
+  }
+
+  function kd() {
+	ls -alF $* | more -e
   }
 else
   function epoch2date() {
 	date --date="@$1" +%Y-%m-%dT%H:%M:%S%z
+  }
+
+  function kd() {
+	ls -alF $* | more
   }
 fi
 
@@ -165,15 +163,22 @@ autoload -Uz compinit && compinit -u
 # for hook
 autoload -Uz add-zsh-hook
 
-# Command Completion for AWS CLI
-source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
+if exists aws; then
+  # Command Completion for AWS CLI
+  #source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
+fi
 
 #---------------------------------------------------------------------
 # asdf
 #---------------------------------------------------------------------
 
 source $HOME/.asdf/asdf.sh
-source $HOME/.asdf/completions/asdf.bash
+
+# なぜか Manjaro だとこのエラーが発生する。一旦 Disable にする。
+# /home/masutaka/.asdf/completions/asdf.bash:68: command not found: complete
+if [ "$OS_KIND" != Linux ]; then
+  source $HOME/.asdf/completions/asdf.bash
+fi
 
 export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/asdf/asdfrc"
 export ASDF_DEFAULT_TOOL_VERSIONS_FILENAME="${XDG_CONFIG_HOME:-$HOME/.config}/asdf/tool-versions"

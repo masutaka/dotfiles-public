@@ -16,8 +16,12 @@ Darwin)
   if [ -d /usr/local/opt/postgresql@10/bin ]; then
 	PATH=/usr/local/opt/postgresql@10/bin:$PATH
   fi
+
+  # Don't automatically cleanup on reinstall, install or upgrade
+  export HOMEBREW_NO_INSTALL_CLEANUP=yes
   ;;
 Linux)
+  export EDITOR=emacsclient
   ;;
 *)
   echo "Unkonwn OS" > /dev/stderr
@@ -54,9 +58,6 @@ export LANG=en_US.UTF-8
 # -z-4 ページスクロール時、画面の行数-4行だけスクロール
 # -x4  tab-stop を 4 とする
 export LESS="-g -i -M -R -S -W -X -z-4 -x4"
-
-# Don't automatically cleanup on reinstall, install or upgrade
-export HOMEBREW_NO_INSTALL_CLEANUP=yes
 
 # /etc/zprofile 等の /etc 以下のファイルを読み込ませない
 setopt no_global_rcs
