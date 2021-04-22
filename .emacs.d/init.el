@@ -58,6 +58,7 @@
 (package-install 'lua-mode)
 (package-install 'markdown-mode)
 (package-install 'markdown-preview-mode)
+(package-install 'mozc)
 (package-install 'nginx-mode)
 (package-install 'open-junk-file)
 (package-install 'package-lint)
@@ -1011,6 +1012,25 @@ DO NOT SET VALUE MANUALLY.")
 (define-key global-map (kbd "C-s-<left>") 'keisen-left-move)
 (define-key global-map (kbd "C-s-<up>") 'keisen-up-move)
 (define-key global-map (kbd "C-s-<down>") 'keisen-down-move)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Mozc
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(when machine-linux
+  (require 'mozc)
+  (setq default-input-method "japanese-mozc")
+
+  (defun input-method-activate-hook-func ()
+    (set-face-background 'cursor "black"))
+  (add-hook 'input-method-activate-hook #'input-method-activate-hook-func)
+
+  (defun input-method-deactivate-hook-func ()
+    (set-face-background 'cursor "firebrick"))
+  (add-hook 'input-method-deactivate-hook #'input-method-deactivate-hook-func)
+
+  (define-key global-map (kbd "S-SPC") 'toggle-input-method)
+  (define-key mozc-mode-map (kbd "S-SPC") 'toggle-input-method))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Ruby, PHP, HTML, CSS
