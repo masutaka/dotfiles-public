@@ -28,7 +28,6 @@ else
   PRIVATE_MACHINE=no
 fi
 
-brew install ack
 brew install aspell
 brew install aws/tap/aws-sam-cli
 brew install awscli
