@@ -853,6 +853,7 @@ DO NOT SET VALUE MANUALLY.")
   (set-face-foreground 'default "black")
   (set-face-background 'default "#E2DDC3")
   (set-face-background 'cursor "firebrick")
+  (set-face-background 'region "lightGoldenrod2")
   (set-face-foreground 'font-lock-builtin-face "forest green")
   (set-face-foreground 'font-lock-string-face (if (string= (face-attribute 'default :background) "black") "gray65" "gray35"))
   (set-face-foreground 'font-lock-variable-name-face "DarkGoldenrod")
@@ -1029,8 +1030,8 @@ DO NOT SET VALUE MANUALLY.")
     (set-face-background 'cursor "firebrick"))
   (add-hook 'input-method-deactivate-hook #'input-method-deactivate-hook-func)
 
-  (define-key global-map (kbd "S-SPC") 'toggle-input-method)
-  (define-key mozc-mode-map (kbd "S-SPC") 'toggle-input-method))
+  (define-key global-map (kbd "s-SPC") 'toggle-input-method)
+  (define-key mozc-mode-map (kbd "s-SPC") 'toggle-input-method))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Ruby, PHP, HTML, CSS
@@ -1133,6 +1134,9 @@ DO NOT SET VALUE MANUALLY.")
 
   (add-hook 'mac-selected-keyboard-input-source-change-hook
 	    #'mac-selected-keyboard-input-source-change-hook-func)
+
+  (setq mac-command-modifier 'super)
+  (setq mac-option-modifier 'meta)
 
   ;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
   (mac-auto-ascii-mode 1)
@@ -1563,9 +1567,6 @@ do nothing. And suppress the output from `message' and
 
 (keyboard-translate ?\C-h ?\C-?)  ; translate `C-h' to DEL
 (keyboard-translate ?\C-? ?\C-h)  ; translate DEL to `C-h'.
-
-(setq mac-command-modifier 'super)
-(setq mac-option-modifier 'meta)
 
 (define-key isearch-mode-map (kbd "C-k") 'isearch-edit-string)
 (define-key isearch-mode-map (kbd "DEL") 'isearch-delete-char)
