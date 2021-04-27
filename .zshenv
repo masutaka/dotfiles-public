@@ -32,6 +32,10 @@ export GOPATH=$HOME/go:$HOME
 export GEMSRC_USE_GHQ=1
 export PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 
+export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
+export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
+export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
+
 if type direnv > /dev/null; then
   eval "$(direnv hook zsh)"
 fi
@@ -61,6 +65,16 @@ export LESS="-g -i -M -R -S -W -X -z-4 -x4"
 
 # /etc/zprofile 等の /etc 以下のファイルを読み込ませない
 setopt no_global_rcs
+
+#---------------------------------------------------------------------
+# asdf
+#---------------------------------------------------------------------
+
+source $HOME/.asdf/asdf.sh
+
+export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME}/asdf/asdfrc"
+export ASDF_DEFAULT_TOOL_VERSIONS_FILENAME="${XDG_CONFIG_HOME}/asdf/tool-versions"
+export ASDF_RUBY_BUILD_VERSION=master
 
 # Local Variables:
 # coding: utf-8

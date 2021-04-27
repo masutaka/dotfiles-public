@@ -172,17 +172,11 @@ fi
 # asdf
 #---------------------------------------------------------------------
 
-source $HOME/.asdf/asdf.sh
-
 # なぜか Manjaro だとこのエラーが発生する。一旦 Disable にする。
 # /home/masutaka/.asdf/completions/asdf.bash:68: command not found: complete
 if [ "$OS_KIND" != Linux ]; then
   source $HOME/.asdf/completions/asdf.bash
 fi
-
-export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME:-$HOME/.config}/asdf/asdfrc"
-export ASDF_DEFAULT_TOOL_VERSIONS_FILENAME="${XDG_CONFIG_HOME:-$HOME/.config}/asdf/tool-versions"
-export ASDF_RUBY_BUILD_VERSION=master
 
 #---------------------------------------------------------------------
 # cdr
@@ -190,12 +184,12 @@ export ASDF_RUBY_BUILD_VERSION=master
 
 autoload -Uz chpwd_recent_dirs cdr
 add-zsh-hook chpwd chpwd_recent_dirs
-mkdir -p "${XDG_CACHE_HOME:-$HOME/.cache}/shell"
+mkdir -p "${XDG_CACHE_HOME}/shell"
 zstyle ':completion:*:*:cdr:*:*' menu selection
 zstyle ':completion:*' recent-dirs-insert both
 zstyle ':chpwd:*' recent-dirs-max 500
 zstyle ':chpwd:*' recent-dirs-default true
-zstyle ':chpwd:*' recent-dirs-file "${XDG_CACHE_HOME:-$HOME/.cache}/shell/chpwd-recent-dirs"
+zstyle ':chpwd:*' recent-dirs-file "${XDG_CACHE_HOME}/shell/chpwd-recent-dirs"
 zstyle ':chpwd:*' recent-dirs-pushd true
 
 #---------------------------------------------------------------------
@@ -351,7 +345,7 @@ function urldecode() {
 }
 
 function userstack() {
-  access_key_file="${XDG_CONFIG_HOME:-$HOME/.config}/userstack/access_key"
+  access_key_file="${XDG_CONFIG_HOME}/userstack/access_key"
 
   if [ ! -f "$access_key_file" ]; then
 	echo "$access_key_file not found."
