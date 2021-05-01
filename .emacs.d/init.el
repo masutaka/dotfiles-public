@@ -1584,6 +1584,13 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "<up>") 'previous-line)
 (define-key global-map (kbd "<down>") 'next-line)
 
+(when machine-linux
+  ;; "<M-f1> is undefined" というエラー通知がウザいので黙らせる。
+  (define-key global-map (kbd "<M-f1>") 'ignore) ;; Windows Key
+  ;; なぜか Ctrl-Tap が反応してウザいので黙らせる。
+  (define-key global-map (kbd "<C-mouse-1>") 'ignore)
+  (define-key global-map (kbd "<C-down-mouse-1>") 'ignore))
+
 ;; custom of the C-? key
 (define-key global-map (kbd "C-a") 'my-beginning-of-line)
 ;;(define-key global-map (kbd "C-b") 'backward-char)
