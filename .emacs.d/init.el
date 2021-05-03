@@ -1520,9 +1520,9 @@ do nothing. And suppress the output from `message' and
 ;; 折り返すカラム数
 ;;(setq-default fill-column 70)
 
-;; -nw 起動時は、menu-bar 非表示
-(unless window-system
-  (menu-bar-mode 0))
+;; Linux または -nw 起動時は、menu-bar 非表示
+(if (or machine-linux (not window-system))
+    (menu-bar-mode 0))
 
 ;; 行番号の表示
 (line-number-mode t)
