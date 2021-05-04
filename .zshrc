@@ -4,6 +4,11 @@
 # Functions
 #---------------------------------------------------------------------
 
+function backup-elpa() {
+  local f=elpa-$(date '+%Y%m%d%H%M%S').tar.gz
+  (cd $HOME/.emacs.d && tar czf "$f" elpa && trash "$f")
+}
+
 function exists() {
   type $1 > /dev/null
 }
@@ -191,7 +196,7 @@ fi
 
 # なぜか Manjaro だとこのエラーが発生する。一旦 Disable にする。
 # /home/masutaka/.asdf/completions/asdf.bash:68: command not found: complete
-if [ "$OS_KIND" != Linux ]; then
+if [ "$OS_KIND" = Darwin ]; then
   source $HOME/.asdf/completions/asdf.bash
 fi
 
@@ -418,16 +423,19 @@ function my-forward-word() {
 zle -N my-forward-word
 bindkey '^[f' my-forward-word	# 本当は C-. を使いたい。
 
+# C-x C-p で直前の履歴をクリップボードにコピー
 if [ "$OS_KIND" = "Darwin" ]; then
-  # C-x C-p で直前の履歴をクリップボードにコピー
-  pbcopy-last-history(){
-	zle up-line-or-history
-	print -rn "\$ $BUFFER" | pbcopy
-	zle kill-whole-line
-  }
-  zle -N pbcopy-last-history
-  bindkey '^x^p' pbcopy-last-history
+  COPY2CLIPBOARD="pbcopy"
+else
+  COPY2CLIPBOARD="xsel -b"
 fi
+function copy-last-history() {
+  zle up-line-or-history
+  print -rn "\$ $BUFFER" | eval "$COPY2CLIPBOARD"
+  zle kill-whole-line
+}
+zle -N copy-last-history
+bindkey '^x^p' copy-last-history
 
 # ファイル名で補完させる。
 function _du() { _files }
