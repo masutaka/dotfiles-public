@@ -9,7 +9,6 @@ case "$OS_KIND" in
 Darwin)
   export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
   export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
-  export EMACS=/Applications/Emacs.app/Contents/MacOS/Emacs
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 
@@ -28,10 +27,11 @@ Linux)
   ;;
 esac
 
+# GOPATH を設定しつつ、直下の bin をパスに通す。
 export GOPATH=$HOME/go:$HOME
-export GEMSRC_USE_GHQ=1
 export PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 
+export GEMSRC_USE_GHQ=1
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
 export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
@@ -39,6 +39,9 @@ export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 if type direnv > /dev/null; then
   eval "$(direnv hook zsh)"
 fi
+
+# 重複したパスを取り除く
+typeset -U PATH
 
 # New File => 644, New Dir => 755
 umask 022

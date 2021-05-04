@@ -1520,9 +1520,9 @@ do nothing. And suppress the output from `message' and
 ;; 折り返すカラム数
 ;;(setq-default fill-column 70)
 
-;; Linux または -nw 起動時は、menu-bar 非表示
-(if (or machine-linux (not window-system))
-    (menu-bar-mode 0))
+;; -nw 起動時は、menu-bar 非表示
+(unless window-system
+  (menu-bar-mode 0))
 
 ;; 行番号の表示
 (line-number-mode t)
@@ -1560,6 +1560,11 @@ do nothing. And suppress the output from `message' and
   ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t))
 (add-hook 'sh-mode-hook #'sh-mode-hook-func)
+
+(defun python-mode-hook-func ()
+  ;; 行末のスペースやタブに色づけして警告する。
+  (setq show-trailing-whitespace t))
+(add-hook 'python-mode-hook #'python-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Key Binding

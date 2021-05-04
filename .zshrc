@@ -23,6 +23,23 @@ function psnot() {
   ps auxw$1 | egrep -v "^$USER" | sort -k 2 -n
 }
 
+function rm-local-branches() {
+  local base_branch=master
+  if [ -n "$1" -a "$1" != "-f" ]; then
+	base_branch=$1
+	shift
+  fi
+
+  local git="echo git"
+  if [ "$1" = "-f" ]; then
+	git="git"
+  fi
+
+  for b in $(git branch --merged "origin/$base_branch" | grep -Fvw master | grep -Fvw "$base_branch" | awk '{print $1}'); do
+	eval "$git branch -d $b"
+  done
+}
+
 function svndiff() {
   svn diff $* | vim -R -
 }
@@ -49,7 +66,7 @@ else
   }
 
   function kd() {
-	ls -alF $* | more
+	LC_COLLATE=C ls -alF $* | more
   }
 fi
 
@@ -435,8 +452,10 @@ bindkey '^w'	kill-region
 # Aliases
 #---------------------------------------------------------------------
 if [ "$OS_KIND" = Darwin ]; then
-  alias emacs=$EMACS
+  alias emacs=/Applications/Emacs.app/Contents/MacOS/Emacs
   alias kindlegen=/Applications/Kindle\ Previewer\ 3.app/Contents/lib/fc/bin/kindlegen
+else
+  alias emacs="LC_COLLATE=C emacs"
 fi
 
 if exists hub; then
