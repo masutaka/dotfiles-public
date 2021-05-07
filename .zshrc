@@ -185,20 +185,18 @@ autoload -Uz compinit && compinit -u
 # for hook
 autoload -Uz add-zsh-hook
 
-if exists aws; then
-  # Command Completion for AWS CLI
-  #source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
+# Command Completion for AWS CLI
+if [ -r /usr/local/share/zsh/site-functions/aws_zsh_completer.sh ]; then # macOS
+  source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
+elif [ -r /usr/bin/aws_zsh_completer.sh ]; then # Linux
+  source /usr/bin/aws_zsh_completer.sh
 fi
 
 #---------------------------------------------------------------------
 # asdf
 #---------------------------------------------------------------------
 
-# なぜか Manjaro だとこのエラーが発生する。一旦 Disable にする。
-# /home/masutaka/.asdf/completions/asdf.bash:68: command not found: complete
-if [ "$OS_KIND" = Darwin ]; then
-  source $HOME/.asdf/completions/asdf.bash
-fi
+source $HOME/.asdf/completions/asdf.bash
 
 #---------------------------------------------------------------------
 # cdr
