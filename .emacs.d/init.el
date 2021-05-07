@@ -400,8 +400,9 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   ;; 画像ファイルを表示
   (auto-image-file-mode t)
 
-  ;; https://setoryohei.hatenadiary.org/entry/20110117/1295336454
-  (when machine-mac
+  (cond
+   ;; https://setoryohei.hatenadiary.org/entry/20110117/1295336454
+   (machine-mac
     ;; フレームのフォントを設定
     (let* ((size 14) ; ASCIIフォントのサイズ [9/10/12/14/15/17/19/20/...]
 	   (asciifont "Menlo") ; ASCIIフォント
@@ -416,8 +417,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
       (set-fontset-font nil 'japanese-jisx0213.2004-1 jp-fontspec)
       (set-fontset-font nil 'japanese-jisx0213-2 jp-fontspec)
       (set-fontset-font nil '(#x0370 . #x03FF) fontspec)	; ギリシャ文字
-      (set-fontset-font nil '(#xE000 . #xF8FF) apple-fontspec)	; アップルマークとか
-      )
+      (set-fontset-font nil '(#xE000 . #xF8FF) apple-fontspec))	; アップルマークとか
     ;; フォントサイズの比を設定
     (dolist (elt '(("^-apple-hiragino.*" . 1.2)
 		   (".*osaka-bold.*" . 1.2)
@@ -425,7 +425,9 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 		   (".*courier-bold-.*-mac-roman" . 1.0)
 		   (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
 		   (".*monaco-bold-.*-mac-roman" . 0.9)))
-      (add-to-list 'face-font-rescale-alist elt))))
+      (add-to-list 'face-font-rescale-alist elt)))
+   (machine-linux
+    (set-face-attribute 'default nil :family "Noto Sans Mono CJK JP" :height 120))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; helm.el
