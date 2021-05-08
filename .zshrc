@@ -196,7 +196,11 @@ fi
 # asdf
 #---------------------------------------------------------------------
 
-source $HOME/.asdf/completions/asdf.bash
+# なぜか Manjaro だとこのエラーが発生する。一旦 Disable にする。
+# /home/masutaka/.asdf/completions/asdf.bash:68: command not found: complete
+if [ "$OS_KIND" = Darwin ]; then
+  source $HOME/.asdf/completions/asdf.bash
+fi
 
 #---------------------------------------------------------------------
 # cdr
@@ -332,28 +336,16 @@ fi
 # Function
 #---------------------------------------------------------------------
 
-# Usage: $ fingerprints <filename>
+# Usage: $ fingerprints <".pub" or authorized_keys>
 # https://gist.github.com/hvr/662196
 function fingerprints {
-  IGNORE_LINES="^#|^$"
-
-  (
-	while read line; do
-	  echo $line >! /tmp/pubkey
-      if [[ "$line" =~ $IGNORE_LINES ]]; then
-        continue
-      fi
-      printf "%-16s => " $(cut -f 3 -d ' ' /tmp/pubkey)
-
-	  # Changed default fingerprint hash from OpenSSH 6.8/6.8p1
-	  if [ "$OS_KIND" = "Darwin" ]; then
-		ssh-keygen -l -E md5 -f /tmp/pubkey
-	  else
-		ssh-keygen -l -f /tmp/pubkey
-	  fi
-	done
-	rm -f /tmp/pubkey
-  ) < $1
+  while read key; do
+    if [[ "$key" =~ "^#|^$" ]]; then
+      continue
+    fi
+    printf "%-16s => " $(echo "$key" | cut -f 3 -d ' ')
+    echo "$key" | ssh-keygen -l -E md5 -f -
+  done < $1
 }
 
 function urlencode() {
