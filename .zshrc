@@ -51,6 +51,7 @@ function svndiff() {
 
 if [ "$OS_KIND" = Darwin ]; then
   function brew-all-deps() {
+	autoload -U colors && colors
 	for formula in $(brew list --formula); do
 	  echo -n $fg[blue] $formula $fg[white]
 	  brew deps $formula | awk '{printf(" %s", $0)}'
