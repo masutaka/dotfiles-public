@@ -7,7 +7,7 @@ OS_KIND=$(uname)
 #---------------------------------------------------------------------
 case "$OS_KIND" in
 Darwin)
-  export PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
+  PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
   export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
@@ -26,7 +26,7 @@ esac
 
 # GOPATH を設定しつつ、直下の bin をパスに通す。
 export GOPATH=$HOME/go:$HOME
-export PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
+PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 
 export GEMSRC_USE_GHQ=1
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
@@ -75,6 +75,8 @@ source $HOME/.asdf/asdf.sh
 export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME}/asdf/asdfrc"
 export ASDF_DEFAULT_TOOL_VERSIONS_FILENAME="${XDG_CONFIG_HOME}/asdf/tool-versions"
 export ASDF_RUBY_BUILD_VERSION=master
+
+FPATH=${ASDF_DIR}/completions:$FPATH
 
 # Local Variables:
 # coding: utf-8

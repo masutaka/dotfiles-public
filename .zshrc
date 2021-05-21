@@ -185,18 +185,6 @@ elif [ -r /usr/bin/aws_zsh_completer.sh ]; then # Linux
 fi
 
 #---------------------------------------------------------------------
-# asdf
-#---------------------------------------------------------------------
-
-# なぜか Manjaro だとこのエラーが発生する。一旦 Disable にする。
-# /home/masutaka/.asdf/completions/asdf.bash:68: command not found: complete
-# -> autoload -U +X bashcompinit && bashcompinit で定義されるっぽい。
-# -> source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
-if [ "$OS_KIND" = Darwin ]; then
-  source $HOME/.asdf/completions/asdf.bash
-fi
-
-#---------------------------------------------------------------------
 # cdr
 #---------------------------------------------------------------------
 
