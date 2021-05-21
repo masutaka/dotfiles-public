@@ -50,15 +50,6 @@ function svndiff() {
 }
 
 if [ "$OS_KIND" = Darwin ]; then
-  function brew-all-deps() {
-	autoload -U colors && colors
-	for formula in $(brew list --formula); do
-	  echo -n $fg[blue] $formula $fg[white]
-	  brew deps $formula | awk '{printf(" %s", $0)}'
-	  echo
-	done
-  }
-
   function epoch2date() {
 	date -r $1 +%Y-%m-%dT%H:%M:%S%z
   }
@@ -199,6 +190,8 @@ fi
 
 # なぜか Manjaro だとこのエラーが発生する。一旦 Disable にする。
 # /home/masutaka/.asdf/completions/asdf.bash:68: command not found: complete
+# -> autoload -U +X bashcompinit && bashcompinit で定義されるっぽい。
+# -> source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
 if [ "$OS_KIND" = Darwin ]; then
   source $HOME/.asdf/completions/asdf.bash
 fi
@@ -216,6 +209,39 @@ zstyle ':chpwd:*' recent-dirs-max 500
 zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-file "${XDG_CACHE_HOME}/shell/chpwd-recent-dirs"
 zstyle ':chpwd:*' recent-dirs-pushd true
+
+#---------------------------------------------------------------------
+# Homebrew
+#---------------------------------------------------------------------
+
+if [ "$OS_KIND" = Darwin ]; then
+  # Don't automatically cleanup on reinstall, install or upgrade
+  export HOMEBREW_NO_INSTALL_CLEANUP=yes
+
+  function my-brew-upgrade() {
+	echo "brew updating..."
+
+	brew update
+	outdated=$(brew outdated)
+
+	if [ -n "$outdated" ]; then
+	  cat <<EOF
+
+The following package(s) will upgrade.
+
+$outdated
+
+Are you sure?
+If you don't want to upgrade, please type Ctrl-c now.
+EOF
+
+	  read dummy
+
+	  brew cleanup
+	  brew upgrade
+	fi
+  }
+fi
 
 #---------------------------------------------------------------------
 # show vcs branch name to $RPROMPT

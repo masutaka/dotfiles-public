@@ -15,9 +15,6 @@ Darwin)
   if [ -d /usr/local/opt/postgresql@10/bin ]; then
 	PATH=/usr/local/opt/postgresql@10/bin:$PATH
   fi
-
-  # Don't automatically cleanup on reinstall, install or upgrade
-  export HOMEBREW_NO_INSTALL_CLEANUP=yes
   ;;
 Linux)
   export EDITOR=emacsclient
