@@ -14,7 +14,7 @@ function exists() {
 }
 
 function go-update() {
-  for i in $(cat $HOME/src/github.com/masutaka/dotfiles/anyenvs/go.txt); do
+  for i in $(cat $HOME/src/github.com/masutaka/dotfiles/go.txt); do
 	echo $i
 	go get -u $i
   done
