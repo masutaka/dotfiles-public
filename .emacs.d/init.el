@@ -429,17 +429,12 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
     ;; "Options > Set Default Font..." is helpful for knowing font name.
     (let* ((asciifont "Noto Sans Mono CJK JP") ; ASCIIフォント
 	   (jpfont "Noto Sans Mono CJK JP")    ; 日本語フォント
-	   (height 120)
+	   (height 110)
 	   (jp-fontspec (font-spec :family jpfont)))
-    (set-face-attribute 'default nil :family asciifont :height height)
-    (set-fontset-font nil 'katakana-jisx0201 jp-fontspec)
-    (set-fontset-font nil 'japanese-jisx0213.2004-1 jp-fontspec)
-    (set-fontset-font nil 'japanese-jisx0213-2 jp-fontspec)))))
-
-;; (add-to-list 'face-font-rescale-alist '(".+Noto Sans Mono CJK JP.+" . 0.5))
-;;
-;; Default:
-;; (setq face-font-rescale-alist '(("-cdac$" . 1.3)))
+      (set-face-attribute 'default nil :family asciifont :height height)
+      (set-fontset-font nil 'katakana-jisx0201 jp-fontspec)
+      (set-fontset-font nil 'japanese-jisx0213.2004-1 jp-fontspec)
+      (set-fontset-font nil 'japanese-jisx0213-2 jp-fontspec)))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; helm.el
