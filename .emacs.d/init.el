@@ -401,9 +401,8 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   (auto-image-file-mode t)
 
   (cond
-   ;; https://setoryohei.hatenadiary.org/entry/20110117/1295336454
    (machine-mac
-    ;; フレームのフォントを設定
+    ;; https://setoryohei.hatenadiary.org/entry/20110117/1295336454
     (let* ((size 14) ; ASCIIフォントのサイズ [9/10/12/14/15/17/19/20/...]
 	   (asciifont "Menlo") ; ASCIIフォント
 	   (jpfont "Hiragino Maru Gothic ProN") ; 日本語フォント
@@ -427,7 +426,20 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 		   (".*monaco-bold-.*-mac-roman" . 0.9)))
       (add-to-list 'face-font-rescale-alist elt)))
    (machine-linux
-    (set-face-attribute 'default nil :family "Noto Sans Mono CJK JP" :height 120))))
+    ;; "Options > Set Default Font..." is helpful for knowing font name.
+    (let* ((asciifont "Noto Sans Mono CJK JP") ; ASCIIフォント
+	   (jpfont "Noto Sans Mono CJK JP")    ; 日本語フォント
+	   (height 120)
+	   (jp-fontspec (font-spec :family jpfont)))
+    (set-face-attribute 'default nil :family asciifont :height height)
+    (set-fontset-font nil 'katakana-jisx0201 jp-fontspec)
+    (set-fontset-font nil 'japanese-jisx0213.2004-1 jp-fontspec)
+    (set-fontset-font nil 'japanese-jisx0213-2 jp-fontspec)))))
+
+;; (add-to-list 'face-font-rescale-alist '(".+Noto Sans Mono CJK JP.+" . 0.5))
+;;
+;; Default:
+;; (setq face-font-rescale-alist '(("-cdac$" . 1.3)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; helm.el
