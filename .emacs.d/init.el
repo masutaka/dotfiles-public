@@ -458,6 +458,9 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;; Remove locate
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
 
+;; 常に日本語入力 OFF でミニバッファに入る
+(if machine-linux (add-hook 'helm-before-action-hook #'deactivate-input-method))
+
 ;;; helm-esa.el
 
 (setq helm-esa-team-name "feedforce")
