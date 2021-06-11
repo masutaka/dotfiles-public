@@ -118,9 +118,9 @@ With argument, do this that many times."
   (interactive "p")
   (delete-word (- arg)))
 
-(defun esa-expand-link ()
+(defun esa-expand-link (arg)
   "Replace #<NUMBER> (e.g. #123) under the cursor to esa link of markdown"
-  (interactive)
+  (interactive "P")
   (let ((access-token (my-lisp-load "esa-expand-link"))
 	(team-name "feedforce")
 	(post-number (thing-at-point 'number 'no-properties)))
@@ -132,8 +132,12 @@ With argument, do this that many times."
       :success (cl-function
 		(lambda (&key data response &allow-other-keys)
 		  (let ((wip (if (eq (cdr (assoc 'wip data)) t) "[WIP] " ""))
-			(full-name ;; e.g. 日報/2020/05/08 (金)/masutaka #リモートワーク
-			 (let ((str (cdr (assoc 'full_name data))))
+			(url-text
+			 (let ((str (cdr (assoc
+					  (if (equal arg '(4))
+					      'full_name ;; e.g. 日報/2020/05/08 (金)/masutaka #リモートワーク
+					    'name)       ;; e.g. masutaka
+					  data))))
 			   (while (string-match "&#35;" str) ;; replace all "&#35;" to "#"
 			     (setq str (replace-match "#" t t str)))
 			   (while (string-match "&#47;" str) ;; replace all "&#47;" to "/"
@@ -141,7 +145,7 @@ With argument, do this that many times."
 			   str))
 			(url (cdr (assoc 'url data))))
 		    (delete-region (point) (re-search-backward "#" (point-min) t))
-		    (insert (format ":esa: [%s%s](%s)" wip full-name url)))))
+		    (insert (format ":esa: [%s%s](%s)" wip url-text url)))))
       :error (cl-function
 	      (lambda (&key error-thrown response &allow-other-keys)
 		(message "[esa-expand-link] Fail %S to GET %s"
