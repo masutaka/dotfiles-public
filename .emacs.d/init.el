@@ -868,7 +868,7 @@ DO NOT SET VALUE MANUALLY.")
 
   (set-face-foreground 'default "black")
   (set-face-background 'default "#E2DDC3")
-  (set-face-background 'cursor "firebrick")
+  (set-face-background 'cursor "black")
   (set-face-background 'region "lightGoldenrod2")
   (set-face-foreground 'font-lock-builtin-face "forest green")
   (set-face-foreground 'font-lock-string-face (if (string= (face-attribute 'default :background) "black") "gray65" "gray35"))
@@ -1039,11 +1039,11 @@ DO NOT SET VALUE MANUALLY.")
   (setq default-input-method "japanese-mozc")
 
   (defun input-method-activate-hook-func ()
-    (set-face-background 'cursor "black"))
+    (set-face-background 'cursor "DarkOrange2"))
   (add-hook 'input-method-activate-hook #'input-method-activate-hook-func)
 
   (defun input-method-deactivate-hook-func ()
-    (set-face-background 'cursor "firebrick"))
+    (set-face-background 'cursor "black"))
   (add-hook 'input-method-deactivate-hook #'input-method-deactivate-hook-func)
 
   (define-key global-map (kbd "s-SPC") 'toggle-input-method)
