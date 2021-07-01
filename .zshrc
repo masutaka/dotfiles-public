@@ -50,7 +50,7 @@ function svndiff() {
 }
 
 if [ "$OS_KIND" = Darwin ]; then
-  function epoch2date() {
+  function unixtime2date() {
 	date -r $1 +%Y-%m-%dT%H:%M:%S%z
   }
 
@@ -58,7 +58,7 @@ if [ "$OS_KIND" = Darwin ]; then
 	ls -alF $* | more -e
   }
 else
-  function epoch2date() {
+  function unixtime2date() {
 	date --date="@$1" +%Y-%m-%dT%H:%M:%S%z
   }
 
