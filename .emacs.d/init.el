@@ -964,6 +964,7 @@ DO NOT SET VALUE MANUALLY.")
 
 ;; 30 秒間何もしないと、カレント行がハイライトする。
 (setq hl-line-idle-interval 30)
+(require 'hl-line+)
 (hl-line-toggle-when-idle 1)
 (face-spec-set 'hl-line '((((background light)) (:background "darkseagreen2")) (((background dark)) (:background "RoyalBlue4"))))
 
