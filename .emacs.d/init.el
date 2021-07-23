@@ -143,8 +143,8 @@ With argument, do this that many times."
 			(url-text
 			 (let ((str (cdr (assoc
 					  (if (equal arg '(4))
-					      'full_name ;; e.g. 日報/2020/05/08 (金)/masutaka #リモートワーク
-					    'name)       ;; e.g. masutaka
+					      'name     ;; e.g. masutaka
+					    'full_name) ;; e.g. 日報/2020/05/08 (金)/masutaka #リモートワーク
 					  data))))
 			   (while (string-match "&#35;" str) ;; replace all "&#35;" to "#"
 			     (setq str (replace-match "#" t t str)))
