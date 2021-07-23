@@ -11,8 +11,16 @@
 
 (defconst hostname (downcase (car (split-string (system-name) "\\."))))
 
-(defconst machine-linux (eq system-type 'gnu/linux) "Linux")
-(defconst machine-mac (eq system-type 'darwin) "macOS")
+(defconst machine-personal-p (equal "VivoBook" (system-name)) "Is this a personal computer?")
+(defconst machine-feedforce-p (string-match "^pc20" (system-name)) "Is this a feedforce computer?")
+
+(defconst os-linux-p (eq system-type 'gnu/linux) "Linux")
+(defconst os-mac-p (eq system-type 'darwin) "macOS")
+
+(defconst my-light-theme-p machine-feedforce-p "Is current theme is light?")
+(defconst my-cursor-color-for-light "black")
+(defconst my-cursor-color-for-dark "gray")
+(defconst my-cursor-color-for-im-enabled "DarkOrange2")
 
 (defconst my-elisp-directory (expand-file-name "elisp" user-emacs-directory) "The directory for my elisp file.")
 
@@ -374,7 +382,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; http://www.sakito.com/2010/05/mac-os-x-normalization.html
-(when machine-mac
+(when os-mac-p
   (require 'ucs-normalize)
   (set-file-name-coding-system 'utf-8-hfs)
   (setq locale-coding-system 'utf-8-hfs))
@@ -405,7 +413,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   (auto-image-file-mode t)
 
   (cond
-   (machine-mac
+   (os-mac-p
     ;; https://setoryohei.hatenadiary.org/entry/20110117/1295336454
     (let* ((size 14) ; ASCIIフォントのサイズ [9/10/12/14/15/17/19/20/...]
 	   (asciifont "Menlo") ; ASCIIフォント
@@ -429,7 +437,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 		   (".*monaco cy-bold-.*-mac-cyrillic" . 0.9)
 		   (".*monaco-bold-.*-mac-roman" . 0.9)))
       (add-to-list 'face-font-rescale-alist elt)))
-   (machine-linux
+   (os-linux-p
     ;; "Options > Set Default Font..." is helpful for knowing font name.
     (let* ((asciifont "Noto Sans Mono CJK JP") ; ASCIIフォント
 	   (jpfont "Noto Sans Mono CJK JP")    ; 日本語フォント
@@ -450,6 +458,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (require 'helm-ghq)
 
 (setq helm-buffer-max-length 50)
+(setq helm-candidate-number-limit 500)
 
 ;; C-c F1 などのインターフェイスを提供。
 (helm-descbinds-mode)
@@ -463,7 +472,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
 
 ;; 常に日本語入力 OFF でミニバッファに入る
-(if machine-linux (add-hook 'helm-before-action-hook #'deactivate-input-method))
+(if os-linux-p (add-hook 'helm-before-action-hook #'deactivate-input-method))
 
 ;;; helm-esa.el
 
@@ -763,7 +772,7 @@ DO NOT SET VALUE MANUALLY.")
 (setq dired-copy-preserve-time nil)
 
 ;; for ! (dired-do-shell-command)
-(if machine-mac
+(if os-mac-p
     (setq dired-guess-shell-alist-user
 	  '(("\\.tif\\'" "open")
 	    ("\\.png\\'" "open")
@@ -771,7 +780,8 @@ DO NOT SET VALUE MANUALLY.")
 
 ;; Dired で今日変更したファイルを色づけ
 (when window-system
-  (defface dired-todays-face '((t (:foreground "forest green"))) nil)
+  (defface dired-todays-face '((((background light)) (:foreground "forest green"))
+			       (((background dark)) (:foreground "green yellow"))) nil)
   (defvar dired-todays-face 'dired-todays-face)
 
   (defconst month-name-alist
@@ -858,37 +868,16 @@ DO NOT SET VALUE MANUALLY.")
 (add-hook 'elm-mode-hook #'elm-format-on-save-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; font-lock-mode
+;;; Face
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(global-font-lock-mode 1)
-
-(cond
- (window-system
-
-  (set-face-foreground 'default "black")
-  (set-face-background 'default "#E2DDC3")
-  (set-face-background 'cursor "black")
-  (set-face-background 'region "lightGoldenrod2")
-  (set-face-foreground 'font-lock-builtin-face "forest green")
-  (set-face-foreground 'font-lock-string-face (if (string= (face-attribute 'default :background) "black") "gray65" "gray35"))
-  (set-face-foreground 'font-lock-variable-name-face "DarkGoldenrod")
-  (set-face-foreground 'mode-line "black")
-  (set-face-background 'mode-line "gold")
-  (set-face-foreground 'mode-line-inactive "black")
-  (set-face-background 'mode-line-inactive "CornflowerBlue")
-  (set-face-background 'show-paren-match "gray60")
-
-  (if (string= (face-attribute 'default :background) "black")
-      (set-face-background 'fringe "gray40"))
-
-  ;; For sh script
-  (with-eval-after-load "sh-script"
-    (set-face-foreground 'sh-heredoc "goldenrod4")
-    (set-face-foreground 'sh-quoted-exec "medium orchid")))
- (t
-  (set-face-foreground 'minibuffer-prompt "black")
-  (set-face-foreground 'font-lock-comment-face "red")))
+(when window-system
+  (face-spec-set 'default (if my-light-theme-p '((t :foreground "black" :background "#E2DDC3")) '((t :foreground "#E1E1E0" :background "#2D3743"))))
+  (face-spec-set 'cursor `((((background light)) (:background ,my-cursor-color-for-light)) (((background dark)) (:background ,my-cursor-color-for-dark))))
+  (face-spec-set 'region '((((background light)) (:background "lightGoldenrod2")) (((background dark)) (:background "gray10"))))
+  (face-spec-set 'font-lock-string-face '((((background light)) (:foreground "gray35")) (((background dark)) (:foreground "gray65"))))
+  (face-spec-set 'sh-heredoc '((((background light)) (:foreground "goldenrod4"))))
+  (face-spec-set 'sh-quoted-exec '((((background light)) (:foreground "medium orchid")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; git
@@ -902,10 +891,11 @@ DO NOT SET VALUE MANUALLY.")
 (setq egg-enable-tooltip t)
 (setq egg-max-reflogs 0)
 
-(set-face-foreground 'egg-branch "blue")
-(set-face-foreground 'egg-branch-mono "blue")
-(set-face-foreground 'egg-help-key "blue")
-(set-face-foreground 'egg-term "blue")
+(face-spec-set 'egg-branch '((((background light)) (:foreground "blue")) (((background dark)) (:foreground "yellow3"))))
+(face-spec-set 'egg-branch-mono '((((background light)) (:foreground "blue")) (((background dark)) (:foreground "yellow3"))))
+(face-spec-set 'egg-diff-add '((((background dark)) (:foreground "light green"))))
+(face-spec-set 'egg-help-key '((((background light)) (:foreground "blue")) (((background dark)) (:foreground "yellow3"))))
+(face-spec-set 'egg-term '((((background light)) (:foreground "blue")) (((background dark)) (:foreground "yellow3"))))
 
 (define-key egg-status-buffer-mode-map (kbd "j") 'scroll-up-one-line)
 (define-key egg-status-buffer-mode-map (kbd "k") 'scroll-down-one-line)
@@ -973,10 +963,9 @@ DO NOT SET VALUE MANUALLY.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 ;; 30 秒間何もしないと、カレント行がハイライトする。
-(require 'hl-line+)
 (setq hl-line-idle-interval 30)
-(set-face-background 'hl-line "darkseagreen2")
-(toggle-hl-line-when-idle)
+(hl-line-toggle-when-idle 1)
+(face-spec-set 'hl-line '((((background light)) (:background "darkseagreen2")) (((background dark)) (:background "RoyalBlue4"))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Info package for Emacs
@@ -1034,7 +1023,7 @@ DO NOT SET VALUE MANUALLY.")
 ;;; Mozc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(when machine-linux
+(when os-linux-p
   (require 'mozc)
   (setq default-input-method "japanese-mozc")
 
@@ -1043,7 +1032,8 @@ DO NOT SET VALUE MANUALLY.")
   (add-hook 'input-method-activate-hook #'input-method-activate-hook-func)
 
   (defun input-method-deactivate-hook-func ()
-    (set-face-background 'cursor "black"))
+    (face-spec-set 'cursor `((((background light)) (:background ,my-cursor-color-for-light))
+			     (((background dark)) (:background ,my-cursor-color-for-dark)))))
   (add-hook 'input-method-deactivate-hook #'input-method-deactivate-hook-func)
 
   (define-key global-map (kbd "s-SPC") 'toggle-input-method)
@@ -1081,8 +1071,8 @@ DO NOT SET VALUE MANUALLY.")
   (setq indent-tabs-mode nil))
 (add-hook 'web-mode-hook #'web-mode-hook-func)
 
-(set-face-foreground 'web-mode-html-attr-name-face "Blue4")
-(set-face-foreground 'web-mode-symbol-face "Gold4")
+(face-spec-set 'web-mode-html-attr-name-face '((((background light)) (:foreground "Blue4"))))
+(face-spec-set 'web-mode-symbol-face '((((background light)) (:foreground "Gold4"))))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
 
@@ -1142,11 +1132,12 @@ DO NOT SET VALUE MANUALLY.")
 
 ;;; https://masutaka.net/chalow/2015-01-04-1.html
 
-(when machine-mac
+(when os-mac-p
   (defun mac-selected-keyboard-input-source-change-hook-func ()
     ;; 入力モードが英語の時はカーソルの色をfirebrickに、日本語の時はblackにする
     (set-cursor-color (if (string-match "\\.US$" (mac-input-source))
-			  "firebrick" "black")))
+			  my-cursor-color-for-im-enabled
+			(if my-light-theme-p my-cursor-color-for-light my-cursor-color-for-dark))))
 
   (add-hook 'mac-selected-keyboard-input-source-change-hook
 	    #'mac-selected-keyboard-input-source-change-hook-func)
@@ -1605,7 +1596,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "<up>") 'previous-line)
 (define-key global-map (kbd "<down>") 'next-line)
 
-(when machine-linux
+(when os-linux-p
   ;; Windows キーを単独で押して離した時の "<M-f1> is undefined" というエラーがウザいので黙らせる。
   (define-key global-map (kbd "<M-f1>") 'ignore))
 
@@ -1696,7 +1687,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
 ;;(define-key global-map (kbd "s-n") nil)
-(define-key global-map (kbd "s-o") nil)
+(define-key global-map (kbd "s-o") 'helm-occur)
 (define-key global-map (kbd "s-s") 'helm-swoop)
 (define-key global-map (kbd "s-t") 'tab-new)
 (define-key global-map (kbd "s-v") 'yank)
