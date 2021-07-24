@@ -1,6 +1,6 @@
 {
     "Style": {
-        "Selected": ["on_white"],
+        "Selected": ["on_black", "bold"],
         "Query": ["red", "bold"]
     },
 
