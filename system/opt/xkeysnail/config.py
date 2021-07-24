@@ -83,6 +83,8 @@ define_keymap(re.compile("Slack"), {
     K("Win-Shift-y"): K("C-Shift-y"),     # Set a status
     K("Win-a"): K("C-a"),                 # Select all
     K("Win-c"): K("C-c"),                 # Copy
+    K("Win-f"): K("C-f"),                 # Search current conversation
+    K("Win-g"): K("C-g"),                 # Search
     K("Win-k"): K("C-k"),                 # Jump to a conversation
     K("Win-v"): K("C-v"),                 # Paste
     K("Win-x"): K("C-x"),                 # Cut
