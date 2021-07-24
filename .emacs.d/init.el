@@ -870,7 +870,9 @@ DO NOT SET VALUE MANUALLY.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (when window-system
-  (face-spec-set 'default (if my-light-theme-p '((t :foreground "black" :background "#E2DDC3")) '((t :foreground "#E1E1E0" :background "#2D3743"))))
+  (let ((foreground (if my-light-theme-p "black" "#E1E1E0"))
+	(background (if my-light-theme-p "#E2DDC3" "#2D3743")))
+    (face-spec-set 'default `((t :foreground ,foreground :background ,background))))
   (face-spec-set 'cursor `((((background light)) (:background ,my-cursor-color-for-light)) (((background dark)) (:background ,my-cursor-color-for-dark))))
   (face-spec-set 'region '((((background light)) (:background "lightGoldenrod2")) (((background dark)) (:background "gray10"))))
   (face-spec-set 'font-lock-string-face '((((background light)) (:foreground "gray35")) (((background dark)) (:foreground "gray65"))))
