@@ -1135,8 +1135,8 @@ DO NOT SET VALUE MANUALLY.")
   (defun mac-selected-keyboard-input-source-change-hook-func ()
     ;; 入力モードに合わせてカーソル色を切り替える。
     (set-cursor-color (if (string-match "\\.US$" (mac-input-source))
-			  my-cursor-color-for-im-enabled
-			(if my-light-theme-p my-cursor-color-for-light my-cursor-color-for-dark))))
+			  (if my-light-theme-p my-cursor-color-for-light my-cursor-color-for-dark)
+			my-cursor-color-for-im-enabled)))
 
   (add-hook 'mac-selected-keyboard-input-source-change-hook
 	    #'mac-selected-keyboard-input-source-change-hook-func)
