@@ -1331,10 +1331,9 @@ DO NOT SET VALUE MANUALLY.")
 ;(setq view-read-only t)
 
 (with-eval-after-load "view"
+  ;; モードラインの " View" を目立たせる。
   (setcar (cdr (assq 'view-mode minor-mode-alist))
-	  (list (propertize " View"
-			    'face
-			    '(:foreground "white" :background "DeepPink1")))))
+	  (list (propertize " View" 'face '(:foreground "white" :background "DeepPink1")))))
 
 (defun view-mode-hook-func ()
   (define-key view-mode-map (kbd "G") 'view-goto-line-last)
@@ -1754,7 +1753,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-x-map (kbd "C-n") nil)
 (define-key ctl-x-map (kbd "C-o") 'other-window)
 ;;(define-key ctl-x-map (kbd "C-p") 'mark-page)
-(define-key ctl-x-map (kbd "C-q") 'facemenu-set-default)
+;;(define-key ctl-x-map (kbd "C-q") 'read-only-mode)
 ;;(define-key ctl-x-map (kbd "C-r") 'find-file-read-only)
 ;;(define-key ctl-x-map (kbd "C-s") 'save-buffer)
 ;;(define-key ctl-x-map (kbd "C-t") 'transpose-lines)
