@@ -16,40 +16,47 @@ define_modmap({
 
 # Keybindings for 1Password
 define_keymap(re.compile("1Password"), {
-    K("Win-a"): K("C-a"), # Select all
-    K("Win-c"): K("C-c"), # Copy
-    K("Win-v"): K("C-v"), # Paste
-    K("Win-x"): K("C-x"), # Cut
+    K("C-f"): K("SLASH"),   # Search
+    K("Win-a"): K("C-a"),   # Select all
+    K("Win-c"): K("C-c"),   # Copy
+    K("Win-f"): K("SLASH"), # Search
+    K("Win-v"): K("C-v"),   # Paste
+    K("Win-x"): K("C-x"),   # Cut
 }, "1Password")
 
 # Keybindings for Web browser
 define_keymap(re.compile("firefox|Google-chrome"), {
-    K("Win-Alt-c"): K("C-Shift-c"),              # the Elements panel of Developer tools
-    K("Win-Alt-i"): K("C-Shift-i"),              # Developer tools
-    K("Win-Alt-j"): K("C-Shift-j"),              # the Console panel of Developer tools
-    K("Win-Alt-u"): K("C-u"),                    # Show HTML source
-    K("Win-KEY_0"): K("C-KEY_0"),                # Reset size
-    K("Win-LEFT_BRACE"): K("Alt-LEFT"),          # Win+[ to move previous page
-    K("Win-MINUS"): K("C-MINUS"),                # Zoom out
-    K("Win-RIGHT_BRACE"): K("Alt-RIGHT"),        # Win+] to move next page
-    K("Win-Shift-EQUAL"): K("C-Shift-EQUAL"),    # Zoom in
-    K("Win-Shift-LEFT_BRACE"): K("C-Shift-TAB"), # Win+{ to switch previous tab
-    K("Win-Shift-RIGHT_BRACE"): K("C-TAB"),      # Win+} to switch next tab
-    K("Win-Shift-n"): K("C-Shift-n"),            # New secret window
-    K("Win-Shift-t"): K("C-Shift-t"),            # Reopen previously closed a tab
-    K("Win-a"): K("C-a"),                        # Select all
-    K("Win-c"): K("C-c"),                        # Copy
-    K("Win-f"): K("C-f"),                        # Search page
-    K("Win-g"): K("C-g"),                        # Search next
-    K("Win-l"): K("C-l"),                        # Switch to the address bar
-    K("Win-n"): K("C-n"),                        # New window
-    K("Win-p"): K("C-p"),                        # Print page
-    K("Win-r"): K("C-r"),                        # Reload
-    K("Win-t"): K("C-t"),                        # New tab
-    K("Win-v"): K("C-v"),                        # Paste
-    K("Win-w"): K("C-w"),                        # Close tab
-    K("Win-x"): K("C-x"),                        # Cut
+    K("Win-Alt-c"): K("C-Shift-c"),               # the Elements panel of Developer tools
+    K("Win-Alt-i"): K("C-Shift-i"),               # Developer tools
+    K("Win-Alt-j"): K("C-Shift-j"),               # the Console panel of Developer tools
+    K("Win-Alt-u"): K("C-u"),                     # Show HTML source
+    K("Win-KEY_0"): K("C-KEY_0"),                 # Reset size
+    K("Win-LEFT_BRACE"): K("Alt-LEFT"),           # Win+[ to move previous page
+    K("Win-MINUS"): K("C-MINUS"),                 # Zoom out
+    K("Win-RIGHT_BRACE"): K("Alt-RIGHT"),         # Win+] to move next page
+    K("Win-Shift-EQUAL"): K("C-Shift-EQUAL"),     # Zoom in
+    K("Win-Shift-LEFT_BRACE"): K("C-PAGE_UP"),    # Win+{ to switch previous tab
+    K("Win-Shift-RIGHT_BRACE"): K("C-PAGE_DOWN"), # Win+} to switch next tab
+    K("Win-Shift-n"): K("C-Shift-n"),             # New secret window
+    K("Win-Shift-t"): K("C-Shift-t"),             # Reopen previously closed a tab
+    K("Win-a"): K("C-a"),                         # Select all
+    K("Win-c"): K("C-c"),                         # Copy
+    K("Win-f"): K("C-f"),                         # Search page
+    K("Win-g"): K("C-g"),                         # Search next
+    K("Win-l"): K("C-l"),                         # Switch to the address bar
+    K("Win-n"): K("C-n"),                         # New window
+    K("Win-p"): K("C-p"),                         # Print page
+    K("Win-r"): K("C-r"),                         # Reload
+    K("Win-t"): K("C-t"),                         # New tab
+    K("Win-v"): K("C-v"),                         # Paste
+    K("Win-w"): K("C-w"),                         # Close tab
+    K("Win-x"): K("C-x"),                         # Cut
 }, "Web browser")
+
+# Keybindings for Web browser, Firefox
+define_keymap(re.compile("firefox"), {
+    K("Win-Shift-SPACE"): K("C-TAB"), # Cycles through tabs in recently used order
+}, "Firefox")
 
 # Keybindings for qpdfview
 define_keymap(re.compile("qpdfview"), {
@@ -96,6 +103,11 @@ define_keymap(re.compile("Thunar"), {
     K("Win-down"): K("enter"), # Win + ↓ to go to the directory under the cursor
     K("enter"): K("F2"),       # Rename file
 }, "Thunar (File Manager)")
+
+# Keybindings for Xfce4-Desktop
+define_keymap(re.compile("Xfdesktop"), {
+    K("enter"): K("F2"), # Rename file
+}, "Xfce4-Desktop")
 
 # Keybindings for Xfce4-terminal
 define_keymap(re.compile("Xfce4-terminal"), {
