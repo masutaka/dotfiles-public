@@ -20,6 +20,10 @@ function go-update() {
   done
 }
 
+function gzr () {
+  $ASDF_DIR/shims/gzr $@ --host feedforce.looker.com
+}
+
 function psme() {
   ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
 }
@@ -46,7 +50,7 @@ function rm-local-branches() {
 }
 
 function svndiff() {
-  svn diff $* | vim -R -
+  svn diff $@ | vim -R -
 }
 
 if [ "$OS_KIND" = Darwin ]; then
@@ -55,7 +59,7 @@ if [ "$OS_KIND" = Darwin ]; then
   }
 
   function kd() {
-	ls -alF $* | more -e
+	ls -alF $@ | more -e
   }
 else
   function unixtime2date() {
@@ -63,7 +67,7 @@ else
   }
 
   function kd() {
-	LC_COLLATE=C ls -alF $* | more
+	LC_COLLATE=C ls -alF $@ | more
   }
 fi
 
