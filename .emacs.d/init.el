@@ -469,8 +469,20 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;; Remove locate
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
 
-;; 常に日本語入力 OFF でミニバッファに入る
-(if os-linux-p (add-hook 'helm-before-action-hook #'deactivate-input-method))
+;; 日本語入力 OFF でミニバッファに入り、終わったら元に戻す。
+(when os-linux-p
+  (defvar my-previous-input-method nil)
+
+  (defun my-helm-before-initialize-hook-func ()
+    (setq my-previous-input-method current-input-method)
+    (deactivate-input-method))
+  (add-hook 'helm-before-initialize-hook #'my-helm-before-initialize-hook-func)
+
+  (defun my-helm-after-initialize-hook-func ()
+    (if my-previous-input-method
+	(activate-input-method my-previous-input-method)
+      (deactivate-input-method)))
+  (add-hook 'helm-after-initialize-hook #'my-helm-after-initialize-hook-func))
 
 ;;; helm-esa.el
 
