@@ -471,16 +471,16 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 ;; 日本語入力 OFF でミニバッファに入り、終わったら元に戻す。
 (when os-linux-p
-  (defvar my-previous-input-method nil)
+  (defvar my-last-input-method nil)
 
   (defun my-helm-before-initialize-hook-func ()
-    (setq my-previous-input-method current-input-method)
+    (setq my-last-input-method current-input-method)
     (deactivate-input-method))
   (add-hook 'helm-before-initialize-hook #'my-helm-before-initialize-hook-func)
 
   (defun my-helm-after-initialize-hook-func ()
-    (if my-previous-input-method
-	(activate-input-method my-previous-input-method)
+    (if my-last-input-method
+	(activate-input-method my-last-input-method)
       (deactivate-input-method)))
   (add-hook 'helm-after-initialize-hook #'my-helm-after-initialize-hook-func))
 
@@ -547,7 +547,7 @@ DO NOT SET VALUE MANUALLY.")
 
 ;;; My bookmark
 
-(defun helm-my-bookmark ()
+(defun my-helm-bookmark ()
   "Search Hatena:Bookmark and Qiita Stocks using `helm'."
   (interactive)
   (helm :sources '(helm-hatena-bookmark-source
@@ -1691,7 +1691,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-3") 'split-window-right)
 (define-key global-map (kbd "s-9") 'delete-other-windows-vertically)
 (define-key global-map (kbd "s-a") 'helm-imenu)
-(define-key global-map (kbd "s-b") 'helm-my-bookmark)
+(define-key global-map (kbd "s-b") 'my-helm-bookmark)
 (define-key global-map (kbd "s-e") 'tab-list)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
 (define-key global-map (kbd "s-i") 'esa-expand-link)
