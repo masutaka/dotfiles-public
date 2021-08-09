@@ -312,25 +312,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   (interactive)
   (toggle-variable 'require-final-newline))
 
-(defun yomi (arg)
-  "kakasi を使用して、カーソル下の漢字の読みがなを返します。
-\\[universal-argument] を付けると、chasen を使用します。
-\\[universal-argument]\\[universal-argument] を付けると、mecab を使用します。"
-  (interactive "P")
-  (let ((buf "*yomi*")
-	(command)
-	(string (read-string "kanji: " (current-word))))
-    (setq command
-	  (cond
-	   ((equal arg '(4))
-	    "chasen -j -F '\%y '")
-	   ((equal arg '(16))
-	    "mecab -O wakati | mecab -O yomi")
-	   (t
-	    "kakasi -JH")))
-    (shell-command (concat "echo \"" string "\" | " command) buf)
-    (kill-buffer buf)))
-
 (defun window-toggle-division ()
   "ウィンドウ 2 分割時に、縦分割<->横分割"
   (interactive)
@@ -1651,11 +1632,11 @@ do nothing. And suppress the output from `message' and
 (define-key esc-map (kbd "0") 'tab-close)
 (define-key esc-map (kbd "2") 'tab-new)
 (define-key esc-map (kbd "O") 'tab-previous)
-(define-key esc-map (kbd "a") 'yomi)
+;;(define-key esc-map (kbd "a") 'backward-sentence)
 (define-key esc-map (kbd "b") 'backward-word)
 (define-key esc-map (kbd "c") 'compile)
 ;;(define-key esc-map (kbd "d") 'kill-word)
-(define-key esc-map (kbd "e") 'grep)
+;;(define-key esc-map (kbd "e") 'forward-sentence)
 (define-key esc-map (kbd "f") 'forward-word)
 ;;(define-key esc-map (kbd "g") goto-map)
 (define-key esc-map (kbd "h") 'backward-delete-word)
@@ -1677,10 +1658,8 @@ do nothing. And suppress the output from `message' and
 (define-key esc-map (kbd "x") 'helm-M-x)
 (define-key esc-map (kbd "y") 'my-yank-pop)
 ;;(define-key esc-map (kbd "z") 'zap-to-char)
-(define-key esc-map (kbd "C-y") (lambda () (interactive) (yank-pop -1)))
 
 ;; custom of the Super-? key (see term/ns-win.el)
-
 (define-key global-map (kbd "s-[") 'tab-bar-history-back)
 (define-key global-map (kbd "s-]") 'tab-bar-history-forward)
 (define-key global-map (kbd "s-{") 'tab-previous)
@@ -1705,8 +1684,8 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-v") 'yank)
 ;;(define-key global-map (kbd "s-w") 'kill-ring-save)
 (define-key global-map (kbd "s-y") 'duplicate-thing)
-(define-key global-map (kbd "s-C-j") 'scroll-up-one-line-both-window)
-(define-key global-map (kbd "s-C-k") 'scroll-down-one-line-both-window)
+(define-key global-map (kbd "s-J") 'scroll-up-one-line-both-window)
+(define-key global-map (kbd "s-K") 'scroll-down-one-line-both-window)
 
 ;; custom of the ctl-q-map
 (defvar ctl-q-map (make-keymap))
@@ -1792,6 +1771,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-z-map (kbd "k") 'tab-close)
 (define-key ctl-z-map (kbd "C-b") (lambda () (interactive) (tab-move -1)))
 (define-key ctl-z-map (kbd "C-c") 'tab-new)
+(define-key ctl-z-map (kbd "C-e") 'grep)
 (define-key ctl-z-map (kbd "C-f") 'tab-move)
 (define-key ctl-z-map (kbd "C-k") 'tab-close)
 (define-key ctl-z-map (kbd "C-l") 'my-tab-clone)
