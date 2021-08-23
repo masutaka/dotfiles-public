@@ -67,34 +67,34 @@ define_keymap(re.compile("qpdfview"), {
 
 # Keybindings for Slack
 define_keymap(re.compile("Slack"), {
-    K("Win-KEY_1"): K("C-KEY_1"),         # Switch to workspace 1
-    K("Win-KEY_2"): K("C-KEY_2"),         # Switch to workspace 2
-    K("Win-KEY_3"): K("C-KEY_3"),         # Switch to workspace 3
-    K("Win-KEY_4"): K("C-KEY_4"),         # Switch to workspace 4
-    K("Win-KEY_5"): K("C-KEY_5"),         # Switch to workspace 5
-    K("Win-KEY_6"): K("C-KEY_6"),         # Switch to workspace 6
-    K("Win-KEY_7"): K("C-KEY_7"),         # Switch to workspace 7
-    K("Win-KEY_8"): K("C-KEY_8"),         # Switch to workspace 8
-    K("Win-KEY_9"): K("C-KEY_9"),         # Switch to workspace 9
-    K("Win-LEFT_BRACE"): K("Alt-LEFT"),   # Win+[ to move previous page
-    K("Win-RIGHT_BRACE"): K("Alt-RIGHT"), # Win+] to move next page
-    K("Win-Shift-d"): K("C-Shift-d"),     # Show/hide sidebar
-    K("Win-Shift-e"): K("C-Shift-e"),     # Directory
-    K("Win-Shift-f"): K("C-Shift-f"),     # Toggle full screen
-    K("Win-Shift-i"): K("C-Shift-i"),     # Channel info
-    K("Win-Shift-k"): K("C-Shift-k"),     # All DMs
-    K("Win-Shift-l"): K("C-Shift-l"),     # Browse channels
-    K("Win-Shift-m"): K("C-Shift-m"),     # Mentions & reactions
-    K("Win-Shift-s"): K("C-Shift-s"),     # Saved items
-    K("Win-Shift-t"): K("C-Shift-t"),     # Threads
-    K("Win-Shift-y"): K("C-Shift-y"),     # Set a status
-    K("Win-a"): K("C-a"),                 # Select all
-    K("Win-c"): K("C-c"),                 # Copy
-    K("Win-f"): K("C-f"),                 # Search current conversation
-    K("Win-g"): K("C-g"),                 # Search
-    K("Win-k"): K("C-k"),                 # Jump to a conversation
-    K("Win-v"): K("C-v"),                 # Paste
-    K("Win-x"): K("C-x"),                 # Cut
+    K("Win-Alt-Shift-c"): K("C-Alt-Shift-c"), # Code block
+    K("Win-LEFT_BRACE"): K("Alt-LEFT"),       # Win+[ to move previous page
+    K("Win-RIGHT_BRACE"): K("Alt-RIGHT"),     # Win+] to move next page
+    K("Win-Shift-KEY_7"): K("C-Shift-KEY_7"), # Ordered list
+    K("Win-Shift-KEY_8"): K("C-Shift-KEY_8"), # Bulleted list
+    K("Win-Shift-KEY_9"): K("C-Shift-KEY_9"), # Blockquote
+    K("Win-Shift-c"): K("C-Shift-c"),         # Code
+    K("Win-Shift-d"): K("C-Shift-d"),         # Show/hide sidebar
+    K("Win-Shift-e"): K("C-Shift-e"),         # Directory
+    K("Win-Shift-f"): K("C-Shift-f"),         # Toggle full screen
+    K("Win-Shift-i"): K("C-Shift-i"),         # Channel info
+    K("Win-Shift-k"): K("C-Shift-k"),         # All DMs
+    K("Win-Shift-l"): K("C-Shift-l"),         # Browse channels
+    K("Win-Shift-m"): K("C-Shift-m"),         # Mentions & reactions
+    K("Win-Shift-s"): K("C-Shift-s"),         # Saved items
+    K("Win-Shift-t"): K("C-Shift-t"),         # Threads
+    K("Win-Shift-u"): K("C-Shift-u"),         # Link
+    K("Win-Shift-x"): K("C-Shift-x"),         # Strikethrough
+    K("Win-Shift-y"): K("C-Shift-y"),         # Set a status
+    K("Win-a"): K("C-a"),                     # Select all
+    K("Win-b"): K("C-b"),                     # Bold
+    K("Win-c"): K("C-c"),                     # Copy
+    K("Win-f"): K("C-f"),                     # Search current conversation
+    K("Win-g"): K("C-g"),                     # Search
+    K("Win-i"): K("C-i"),                     # Itaric
+    K("Win-k"): K("C-k"),                     # Jump to a conversation
+    K("Win-v"): K("C-v"),                     # Paste
+    K("Win-x"): K("C-x"),                     # Cut
 }, "Slack")
 
 # Keybindings for Thunar (File Manager)
