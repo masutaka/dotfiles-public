@@ -815,6 +815,19 @@ DO NOT SET VALUE MANUALLY.")
 (add-hook 'dired-mode-hook #'dired-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Ediff
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; frame を新しく作らない。
+(setq ediff-window-setup-function 'ediff-setup-windows-plain)
+
+;; dark 用の face が見づらいので自分で設定する。
+(face-spec-set 'ediff-even-diff-A '((((background dark)) (:background "black" :extend t))))
+(face-spec-set 'ediff-even-diff-B '((((background dark)) (:background "dim gray" :extend t))))
+(face-spec-set 'ediff-odd-diff-A '((((background dark)) (:background "dim gray" :extend t))))
+(face-spec-set 'ediff-odd-diff-B '((((background dark)) (:background "black" :extend t))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Elisp
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1446,9 +1459,6 @@ do nothing. And suppress the output from `message' and
 
 ;; /bin/sh を使った ssh を使用する。
 (setq tramp-default-method "scpx")
-
-;; ediff で frame を新しく作らない。
-(setq ediff-window-setup-function 'ediff-setup-windows-plain)
 
 ;; *scratch* バッファのメッセージは表示させない。
 (setq initial-scratch-message nil)
