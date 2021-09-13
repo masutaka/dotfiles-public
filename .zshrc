@@ -20,10 +20,6 @@ function go-update() {
   done
 }
 
-function gzr () {
-  $ASDF_DIR/shims/gzr $@ --host feedforce.looker.com
-}
-
 function psme() {
   ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
 }
