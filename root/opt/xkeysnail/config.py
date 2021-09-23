@@ -105,6 +105,7 @@ define_keymap(re.compile("Thunar"), {
     K("Win-Shift-RIGHT_BRACE"): K("C-PAGE_DOWN"), # Win+} to switch next tab
     K("Win-down"): K("enter"),                    # Win + ↓ to go to the directory under the cursor
     K("Win-up"): K("Alt-up"),                     # Win + ↑ to go to the parent directory
+    K("Win-w"): K("C-w"),                         # Close tab
     K("enter"): K("F2"),                          # Rename file
 }, "Thunar (File Manager)")
 
