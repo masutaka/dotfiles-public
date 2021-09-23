@@ -99,9 +99,13 @@ define_keymap(re.compile("Slack"), {
 
 # Keybindings for Thunar (File Manager)
 define_keymap(re.compile("Thunar"), {
-    K("Win-up"): K("Alt-up"),  # Win + ↑ to go to the parent directory
-    K("Win-down"): K("enter"), # Win + ↓ to go to the directory under the cursor
-    K("enter"): K("F2"),       # Rename file
+    K("Win-LEFT_BRACE"): K("Alt-LEFT"),           # Win+[ to move previous page
+    K("Win-RIGHT_BRACE"): K("Alt-RIGHT"),         # Win+] to move next page
+    K("Win-Shift-LEFT_BRACE"): K("C-PAGE_UP"),    # Win+{ to switch previous tab
+    K("Win-Shift-RIGHT_BRACE"): K("C-PAGE_DOWN"), # Win+} to switch next tab
+    K("Win-down"): K("enter"),                    # Win + ↓ to go to the directory under the cursor
+    K("Win-up"): K("Alt-up"),                     # Win + ↑ to go to the parent directory
+    K("enter"): K("F2"),                          # Rename file
 }, "Thunar (File Manager)")
 
 # Keybindings for Xfce4-Desktop
