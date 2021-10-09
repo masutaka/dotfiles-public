@@ -37,7 +37,6 @@ define_keymap(re.compile("firefox|Google-chrome"), {
     K("Win-Shift-EQUAL"): K("C-Shift-EQUAL"),     # Zoom in
     K("Win-Shift-LEFT_BRACE"): K("C-PAGE_UP"),    # Win+{ to switch previous tab
     K("Win-Shift-RIGHT_BRACE"): K("C-PAGE_DOWN"), # Win+} to switch next tab
-    K("Win-Shift-n"): K("C-Shift-n"),             # New secret window
     K("Win-Shift-t"): K("C-Shift-t"),             # Reopen previously closed a tab
     K("Win-a"): K("C-a"),                         # Select all
     K("Win-c"): K("C-c"),                         # Copy
@@ -53,9 +52,15 @@ define_keymap(re.compile("firefox|Google-chrome"), {
     K("Win-x"): K("C-x"),                         # Cut
 }, "Web browser")
 
-# Keybindings for Web browser, Firefox
+# Keybindings for Chrome
+define_keymap(re.compile("Google-chrome"), {
+    K("Win-Shift-n"): K("C-Shift-n"), # New secret window
+}, "Web browser")
+
+# Keybindings for Firefox
 define_keymap(re.compile("firefox"), {
     K("Win-Shift-SPACE"): K("C-TAB"), # Cycles through tabs in recently used order
+    K("Win-Shift-n"): K("C-Shift-p"), # New private window
 }, "Firefox")
 
 # Keybindings for qpdfview
