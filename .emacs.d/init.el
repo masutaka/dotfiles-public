@@ -467,11 +467,12 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 ;;; helm-esa.el
 
-(setq helm-esa-team-name "feedforce")
-(setq helm-esa-access-token (my-lisp-load "helm-esa-access-token"))
-(setq helm-esa-search-query "watched:true kind:stock -in:\"(unsorted)\" -in:Archived -in:日報 -category:Templates")
-(setq helm-esa-debug-mode t)
-(helm-esa-initialize)
+(when machine-feedforce-p
+  (setq helm-esa-team-name "feedforce")
+  (setq helm-esa-access-token (my-lisp-load "helm-esa-access-token"))
+  (setq helm-esa-search-query "watched:true kind:stock -in:Archived -category:Templates")
+  (setq helm-esa-debug-mode t)
+  (helm-esa-initialize))
 
 ;;; helm-github-stars.el
 
@@ -532,7 +533,7 @@ DO NOT SET VALUE MANUALLY.")
   "Search Hatena:Bookmark and Qiita Stocks using `helm'."
   (interactive)
   (helm :sources '(helm-hatena-bookmark-source
-		   helm-esa-source
+		   ,@(if machine-feedforce-p helm-esa-source)
 		   hgs/helm-c-source-stars
 		   hgs/helm-c-source-repos
 		   hgs/helm-c-source-search)
