@@ -470,7 +470,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (when machine-feedforce-p
   (setq helm-esa-team-name "feedforce")
   (setq helm-esa-access-token (my-lisp-load "helm-esa-access-token"))
-  (setq helm-esa-search-query "watched:true kind:stock -in:Archived -category:Templates")
+  (setq helm-esa-search-query (my-lisp-load "helm-esa-search-query"))
   (setq helm-esa-debug-mode t)
   (helm-esa-initialize))
 
