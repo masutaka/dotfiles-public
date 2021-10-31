@@ -1300,6 +1300,11 @@ DO NOT SET VALUE MANUALLY.")
   (tab-select
    (string-to-number (read-from-minibuffer "tab number: " "10"))))
 
+(defun my-tab-select-last ()
+  "Switch to the last tab."
+  (interactive)
+  (tab-select (length (funcall tab-bar-tabs-function))))
+
 (setq tab-bar-new-tab-choice "*scratch*")
 (setq tab-bar-new-tab-to 'rightmost)
 (setq tab-bar-tab-hints t)
@@ -1775,7 +1780,7 @@ do nothing. And suppress the output from `message' and
 ;; custom of the ctl-z-map
 (defvar ctl-z-map (make-keymap))
 (define-key global-map (kbd "C-z") ctl-z-map)
-(define-key ctl-z-map (kbd "0") 'my-tab-select)
+(define-key ctl-z-map (kbd "0") 'my-tab-select-last)
 (define-key ctl-z-map (kbd "1") 'tab-select)
 (define-key ctl-z-map (kbd "2") 'tab-select)
 (define-key ctl-z-map (kbd "3") 'tab-select)
@@ -1790,6 +1795,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-z-map (kbd "C-c") 'tab-new)
 (define-key ctl-z-map (kbd "C-e") 'grep)
 (define-key ctl-z-map (kbd "C-f") 'tab-move)
+(define-key ctl-z-map (kbd "C-j") 'my-tab-select)
 (define-key ctl-z-map (kbd "C-k") 'tab-close)
 (define-key ctl-z-map (kbd "C-l") 'my-tab-clone)
 (define-key ctl-z-map (kbd "C-n") 'tab-next)
