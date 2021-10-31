@@ -1294,6 +1294,12 @@ DO NOT SET VALUE MANUALLY.")
   (let ((tab-bar-new-tab-choice t))
     (tab-new arg)))
 
+(defun my-tab-select ()
+  "Jump to any tab interactively. The purpose is to jump to tab number 10 or higher."
+  (interactive)
+  (tab-select
+   (string-to-number (read-from-minibuffer "tab number: " "10"))))
+
 (setq tab-bar-new-tab-choice "*scratch*")
 (setq tab-bar-new-tab-to 'rightmost)
 (setq tab-bar-tab-hints t)
@@ -1769,7 +1775,7 @@ do nothing. And suppress the output from `message' and
 ;; custom of the ctl-z-map
 (defvar ctl-z-map (make-keymap))
 (define-key global-map (kbd "C-z") ctl-z-map)
-(define-key ctl-z-map (kbd "0") (lambda () (interactive) (tab-select 1)))
+(define-key ctl-z-map (kbd "0") 'my-tab-select)
 (define-key ctl-z-map (kbd "1") 'tab-select)
 (define-key ctl-z-map (kbd "2") 'tab-select)
 (define-key ctl-z-map (kbd "3") 'tab-select)
