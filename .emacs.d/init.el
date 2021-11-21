@@ -72,6 +72,7 @@
 (package-install 'php-mode)
 (package-install 'protobuf-mode)
 (package-install 'racer)
+(package-install 'request)
 (package-install 'rspec-mode)
 (package-install 'rust-mode)
 (package-install 'savekill)
@@ -127,6 +128,7 @@ With argument, do this that many times."
 (defun esa-expand-link (arg)
   "Replace #<NUMBER> (e.g. #123) under the cursor to esa link of markdown"
   (interactive "P")
+  (require 'request)
   (let ((access-token (my-lisp-load "esa-expand-link"))
 	(team-name "feedforce")
 	(post-number (thing-at-point 'number 'no-properties)))
