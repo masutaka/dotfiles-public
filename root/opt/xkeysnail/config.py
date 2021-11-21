@@ -55,12 +55,14 @@ define_keymap(re.compile("firefox|Google-chrome"), {
 # Keybindings for Chrome
 define_keymap(re.compile("Google-chrome"), {
     K("Win-Shift-n"): K("C-Shift-n"), # New secret window
+    K("Win-y"): K("C-h"),             # Open the History page in a new tab
 }, "Web browser")
 
 # Keybindings for Firefox
 define_keymap(re.compile("firefox"), {
     K("Win-Shift-SPACE"): K("C-TAB"), # Cycles through tabs in recently used order
     K("Win-Shift-n"): K("C-Shift-p"), # New private window
+    K("Win-y"): K("C-Shift-h"),       # History sidebar
 }, "Firefox")
 
 # Keybindings for qpdfview
