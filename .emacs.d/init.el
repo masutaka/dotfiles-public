@@ -33,9 +33,6 @@
 
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-(package-initialize)
-(package-refresh-contents)
-
 (package-install 'async)
 (package-install 'auto-complete)
 (package-install 'blgrep)
