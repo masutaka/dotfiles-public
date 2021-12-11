@@ -9,8 +9,6 @@
 ;;; Constants
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst hostname (downcase (car (split-string (system-name) "\\."))))
-
 (defconst machine-personal-p (equal "VivoBook" (system-name)) "Is this a personal computer?")
 (defconst machine-feedforce-p (string-match "^pc20" (system-name)) "Is this a feedforce computer?")
 
@@ -643,6 +641,7 @@ DO NOT SET VALUE MANUALLY.")
 (defun mkchalow-ura (force)
   (interactive "P")
   (let (pro
+	(hostname (downcase (car (split-string (system-name) "\\."))))
 	(pnm "mkchalow-ura")
 	(buf " *mkchalow-ura*")
 	(cnm "mkchalow-ura")
