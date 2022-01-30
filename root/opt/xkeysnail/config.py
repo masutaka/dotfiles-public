@@ -22,6 +22,7 @@ define_keymap(re.compile("1Password"), {
     K("Win-f"): K("SLASH"), # Search
     K("Win-v"): K("C-v"),   # Paste
     K("Win-x"): K("C-x"),   # Cut
+    K("Win-z"): K("C-z"),   # Undo
 }, "1Password")
 
 # Keybindings for Web browser
@@ -50,6 +51,7 @@ define_keymap(re.compile("firefox|Google-chrome"), {
     K("Win-v"): K("C-v"),                         # Paste
     K("Win-w"): K("C-w"),                         # Close tab
     K("Win-x"): K("C-x"),                         # Cut
+    K("Win-z"): K("C-z"),                         # Undo
 }, "Web browser")
 
 # Keybindings for Chrome
@@ -102,6 +104,7 @@ define_keymap(re.compile("Slack"), {
     K("Win-k"): K("C-k"),                     # Jump to a conversation
     K("Win-v"): K("C-v"),                     # Paste
     K("Win-x"): K("C-x"),                     # Cut
+    K("Win-z"): K("C-z"),                     # Undo
 }, "Slack")
 
 # Keybindings for Thunar (File Manager)
