@@ -107,6 +107,15 @@ define_keymap(re.compile("Slack"), {
     K("Win-z"): K("C-z"),                     # Undo
 }, "Slack")
 
+# Keybindings for Discord
+define_keymap(re.compile("discord"), {
+    K("Win-a"): K("C-a"), # Select all
+    K("Win-c"): K("C-c"), # Copy
+    K("Win-v"): K("C-v"), # Paste
+    K("Win-x"): K("C-x"), # Cut
+    K("Win-z"): K("C-z"), # Undo
+}, "Discord")
+
 # Keybindings for Thunar (File Manager)
 define_keymap(re.compile("Thunar"), {
     K("Win-LEFT_BRACE"): K("Alt-LEFT"),           # Win+[ to move previous page
