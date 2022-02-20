@@ -1,0 +1,4 @@
+# -*- mode: ruby -*-
+
+IRB.conf[:HISTORY_FILE] = File.expand_path('irb_history', File.dirname(IRB.rc_file))
+IRB.conf[:SAVE_HISTORY] = 10000
