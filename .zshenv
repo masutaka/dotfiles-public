@@ -78,6 +78,10 @@ export ASDF_CONFIG_FILE="${XDG_CONFIG_HOME}/asdf/asdfrc"
 export ASDF_DEFAULT_TOOL_VERSIONS_FILENAME="${XDG_CONFIG_HOME}/asdf/tool-versions"
 export ASDF_RUBY_BUILD_VERSION=master
 
+export ASDF_GEM_DEFAULT_PACKAGES_FILE="${XDG_CONFIG_HOME}/asdf/default-gems"
+export ASDF_NPM_DEFAULT_PACKAGES_FILE="${XDG_CONFIG_HOME}/asdf/default-npm-packages"
+export ASDF_PERL_DEFAULT_PACKAGES_FILE="${XDG_CONFIG_HOME}/asdf/default-perl-modules"
+
 FPATH=${ASDF_DIR}/completions:$FPATH
 
 # Local Variables:
