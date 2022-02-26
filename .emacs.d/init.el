@@ -879,7 +879,7 @@ DO NOT SET VALUE MANUALLY.")
     (face-spec-set 'default `((t :foreground ,foreground :background ,background))))
   (face-spec-set 'cursor `((((background light)) (:background ,my-cursor-color-for-light)) (((background dark)) (:background ,my-cursor-color-for-dark))))
   (face-spec-set 'mode-line '((((background light)) (:background "gold")) (((background dark)) (:background "orange"))))
-  (face-spec-set 'region '((((background light)) (:background "lightGoldenrod2")) (((background dark)) (:background "gray10"))))
+  (face-spec-set 'region '((((background light)) (:background "lightGoldenrod2")) (((background dark)) (:background "goldenrod4"))))
   (face-spec-set 'font-lock-string-face '((((background light)) (:foreground "gray35")) (((background dark)) (:foreground "gray65"))))
   (face-spec-set 'sh-heredoc '((((background light)) (:foreground "goldenrod4"))))
   (face-spec-set 'sh-quoted-exec '((((background light)) (:foreground "medium orchid")))))
@@ -958,10 +958,12 @@ DO NOT SET VALUE MANUALLY.")
 (setq next-error-highlight 3)
 (setq next-error-highlight-no-select 3)
 
-(setq grep-find-command '("ack --nogroup --nocolor -k " . 28))
+(setq grep-command '("grep --color -nH --null -e ''"))
+
+(setq grep-find-command '("ack --nogroup --nocolor -k ''" . 29))
 (setq grep-find-history
       '("LANG=ja_JP.sjis grep -n \"$(echo '検索文字列' | nkf -s)\" * | nkf -w"
-	"find . -type f -name '*' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"))
+	"find . -type f -name '検索文字列' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; hl-line+
