@@ -1326,7 +1326,7 @@ DO NOT SET VALUE MANUALLY.")
 	      provider (match-string-no-properties 2)
 	      name (match-string-no-properties 3))))
     (if (and type provider name)
-	(browse-url (format "https://www.terraform.io/docs/providers/%s/%s/%s.html"
+	(browse-url (format "https://www.terraform.io/docs/providers/%s/%s/%s"
 			    provider (substring type 0 1) name))
       (message "Unknown terraform DSL"))))
 
