@@ -490,7 +490,6 @@ alias cdg="cd \$(git rev-parse --show-toplevel)"
 alias d=docker
 alias g=git
 alias hall="history -E -i 1"
-alias slack-status="direnv exec $HOME/src/github.com/masutaka/slack-status $HOME/src/github.com/masutaka/slack-status/slack.rb"
 
 # Local Variables:
 # coding: utf-8
