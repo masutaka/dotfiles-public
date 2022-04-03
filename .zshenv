@@ -28,6 +28,10 @@ esac
 export GOPATH=$HOME/go:$HOME
 PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 
+# pip に --user オプションを付けた時のインストール先を変えつつ、直下の bin をパスに通す。
+export PYTHONUSERBASE="${HOME}/python"
+PATH=${PYTHONUSERBASE}/bin:$PATH
+
 export GEMSRC_USE_GHQ=1
 export XDG_CACHE_HOME=${XDG_CACHE_HOME:-$HOME/.cache}
 export XDG_CONFIG_HOME=${XDG_CONFIG_HOME:-$HOME/.config}
