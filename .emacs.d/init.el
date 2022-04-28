@@ -1413,6 +1413,11 @@ do nothing. And suppress the output from `message' and
 ;;; Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; M-x align-regexp で Tab の代わりに Space を使う
+(defadvice align-regexp
+    (around align-regexp-with-spaces activate)
+  (let ((indent-tabs-mode nil)) ad-do-it))
+
 ;; Looker
 (add-to-list 'auto-mode-alist '("\\.lkml\\'" . default-generic-mode))
 
