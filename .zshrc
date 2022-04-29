@@ -465,7 +465,7 @@ bindkey '^w'	kill-region
 # Aliases
 #---------------------------------------------------------------------
 if [ "$OS_KIND" = Darwin ]; then
-  alias emacs=/Applications/Emacs.app/Contents/MacOS/Emacs
+  alias emacs="open -a Emacs"
   alias kindlegen=/Applications/Kindle\ Previewer\ 3.app/Contents/lib/fc/bin/kindlegen
 else
   alias emacs="LC_COLLATE=C emacs"
