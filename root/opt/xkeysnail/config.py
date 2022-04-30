@@ -135,7 +135,7 @@ define_keymap(re.compile("Xfdesktop"), {
 
 # Keybindings for Xfce4-terminal
 define_keymap(re.compile("Xfce4-terminal"), {
-    K("C-c"): K("C-Shift-c"),
+#   K("C-c"): K("C-Shift-c"),  # Comment out due to be not able to send Ctrl-c code
     K("C-v"): K("C-Shift-v"),
     K("Win-c"): K("C-Shift-c"),
     K("Win-v"): K("C-Shift-v"),

@@ -63,7 +63,7 @@ else
   }
 
   function kd() {
-	LC_COLLATE=C ls -alF $@ | more
+	LC_COLLATE=C ls -alF $@ | more -e
   }
 fi
 
