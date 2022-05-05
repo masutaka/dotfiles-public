@@ -960,7 +960,7 @@ DO NOT SET VALUE MANUALLY.")
 
 (setq grep-command '("grep --color -nH --null -e ''"))
 
-(setq grep-find-command '("ack --nogroup --nocolor -k ''" . 29))
+(setq grep-find-command '("ack --nogroup --nocolor --sort-files -k ''" . 42))
 (setq grep-find-history
       '("LANG=ja_JP.sjis grep -n \"$(echo '検索文字列' | nkf -s)\" * | nkf -w"
 	"find . -type f -name '検索文字列' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"))
@@ -1228,9 +1228,23 @@ DO NOT SET VALUE MANUALLY.")
   (setq markdown-css-paths (list stylesheet))
   (setq markdown-preview-stylesheets (list stylesheet)))
 
+(defun open-hugo ()
+  "Open the URL of the article matching the current markdown"
+  (interactive)
+  (let* ((post-regexp "content/posts/\\([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9]+\\)\\.md$")
+	 (stock-regexp "content/\\([^/]+\\)\\.md$")
+	 (matched
+	  (cond
+	   ((string-match post-regexp buffer-file-name)
+	    (browse-url (format "https://masutaka.net/%s/" (match-string-no-properties 1 buffer-file-name))))
+	   ((string-match stock-regexp buffer-file-name)
+	    (browse-url (format "https://masutaka.net/%s/" (match-string-no-properties 1 buffer-file-name)))))))
+    (if matched (browse-url (format "https://masutaka.net/%s/" matched)))))
+
 (with-eval-after-load "markdown-mode"
   (define-key markdown-mode-command-map (kbd "C-p") 'markdown-preview-mode)
-  (define-key markdown-mode-map (kbd "C-c C-m") 'browse-url-at-point))
+  (define-key markdown-mode-map (kbd "C-c C-m") 'browse-url-at-point)
+  (define-key markdown-mode-map (kbd "C-c C-o") 'open-hugo))
 
 (defun markdown-mode-hook-func ()
   (setq indent-tabs-mode nil)
