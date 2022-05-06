@@ -84,7 +84,5 @@ export ASDF_PERL_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-perl-modu
 FPATH=${ASDF_DIR}/completions:$FPATH
 
 # Local Variables:
-# coding: utf-8
-# mode: shell-script
 # tab-width: 4
 # End:

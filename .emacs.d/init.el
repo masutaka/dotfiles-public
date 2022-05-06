@@ -1482,12 +1482,6 @@ do nothing. And suppress the output from `message' and
 (require 'server)
 (unless (server-running-p) (server-start))
 
-;; ファイルローカル変数を使っていいか、いちいち問い合わせない。
-(setq safe-local-variable-values
-      '((make-backup-files . t)
-	(buffer-file-coding-system . euc-jp)
-	(clmemo-mode . t)))
-
 ;; /bin/sh を使った ssh を使用する。
 (setq tramp-default-method "scpx")
 
@@ -1821,7 +1815,5 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-z-map (kbd "C-SPC") 'tab-recent)
 
 ;;; Local Variables:
-;;; mode: emacs-lisp
-;;; coding: utf-8
 ;;; tab-width: 8
 ;;; End:

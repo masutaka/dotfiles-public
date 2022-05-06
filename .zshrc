@@ -492,7 +492,5 @@ alias g=git
 alias hall="history -E -i 1"
 
 # Local Variables:
-# coding: utf-8
-# mode: shell-script
 # tab-width: 4
 # End:
