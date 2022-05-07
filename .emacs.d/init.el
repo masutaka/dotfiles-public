@@ -655,7 +655,7 @@ DO NOT SET VALUE MANUALLY.")
 (defun open-chalow ()
   "Open the URL that is matched the article under the cursor"
   (interactive)
-  (let* ((date-regexp "^\\([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]\\)")
+  (let* ((date-regexp "^\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}\\)")
 	 (date)
 	 (entry-id 1)
 	 (current (point))
@@ -1228,18 +1228,18 @@ DO NOT SET VALUE MANUALLY.")
   (setq markdown-css-paths (list stylesheet))
   (setq markdown-preview-stylesheets (list stylesheet)))
 
-(defun open-hugo ()
+(defun open-hugo (arg)
   "Open the URL of the article matching the current markdown"
-  (interactive)
-  (let* ((post-regexp "content/posts/\\([0-9][0-9][0-9][0-9]-[0-9][0-9]-[0-9][0-9]-[0-9]+\\)\\.md$")
+  (interactive "P")
+  (let* ((post-regexp "content/posts/\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}-[0-9]+\\)\\.md$")
 	 (stock-regexp "content/\\([^/]+\\)\\.md$")
-	 (matched
-	  (cond
-	   ((string-match post-regexp buffer-file-name)
-	    (browse-url (format "https://masutaka.net/%s/" (match-string-no-properties 1 buffer-file-name))))
-	   ((string-match stock-regexp buffer-file-name)
-	    (browse-url (format "https://masutaka.net/%s/" (match-string-no-properties 1 buffer-file-name)))))))
-    (if matched (browse-url (format "https://masutaka.net/%s/" matched)))))
+	 (match-string (if (or (string-match post-regexp buffer-file-name)
+			       (string-match stock-regexp buffer-file-name))
+			   (match-string-no-properties 1 buffer-file-name))))
+    (if match-string
+	(browse-url (format
+		     (if arg "http://localhost:1313/%s/" "https://masutaka.net/%s/")
+		     match-string)))))
 
 (with-eval-after-load "markdown-mode"
   (define-key markdown-mode-command-map (kbd "C-p") 'markdown-preview-mode)
