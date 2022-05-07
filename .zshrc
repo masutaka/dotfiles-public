@@ -469,6 +469,7 @@ if [ "$OS_KIND" = Darwin ]; then
   alias kindlegen=/Applications/Kindle\ Previewer\ 3.app/Contents/lib/fc/bin/kindlegen
 else
   alias emacs="LC_COLLATE=C emacs"
+  alias pbcopy="xsel -b"
 fi
 
 if exists hub; then
