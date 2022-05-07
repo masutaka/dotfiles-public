@@ -22,9 +22,6 @@
 
 (defconst my-elisp-directory (expand-file-name "elisp" user-emacs-directory) "The directory for my elisp file.")
 
-(defconst day-name-alist '(("Sun" . "日") ("Mon" . "月") ("Tue" . "火")
-			   ("Wed" . "水") ("Thu" . "木") ("Fri" . "金") ("Sat" . "土")))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; package.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -630,9 +627,9 @@ DO NOT SET VALUE MANUALLY.")
   (around with-japanese-weekday activate)
   "ChangeLogメモに日本語の曜日を入れる。"
   (setq ad-return-value
-	(let ((system-time-locale "C"))
+	(let ((system-time-locale "ja_JP.UTF-8"))
 	  (concat (add-log-iso8601-time-string)
-		  " (" (cdr (assoc (format-time-string "%a") day-name-alist)) ")"))))
+		  " (" (format-time-string "%a") ")"))))
 
 (defun mkchalow-ura (force)
   (interactive "P")
@@ -682,7 +679,7 @@ DO NOT SET VALUE MANUALLY.")
 (setq user-full-name "Takashi Masuda")
 (setq user-mail-address "masutaka.net@gmail.com")
 
-(setq clmemo-file-name (expand-file-name "~/src/github.com/masutaka/masutaka.net/chalow/clmemo.txt"))
+(setq clmemo-file-name (expand-file-name "~/src/github.com/masutaka/masutaka.net/chalow/pclmemo.txt"))
 
 ;; For chalow
 (setq clmemo-subtitle-char "[")
