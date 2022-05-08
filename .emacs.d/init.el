@@ -15,7 +15,7 @@
 (defconst os-linux-p (eq system-type 'gnu/linux) "Linux")
 (defconst os-mac-p (eq system-type 'darwin) "macOS")
 
-(defconst my-light-theme-p machine-feedforce-p "Is current theme is light?")
+(defconst my-dark-mode-p machine-personal-p "Use Dark Mode?")
 (defconst my-cursor-color-for-light "black")
 (defconst my-cursor-color-for-dark "gray")
 (defconst my-cursor-color-for-im-enabled "DarkOrange2")
@@ -871,8 +871,8 @@ DO NOT SET VALUE MANUALLY.")
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (when window-system
-  (let ((foreground (if my-light-theme-p "black" "#E1E1E0"))
-	(background (if my-light-theme-p "#E2DDC3" "#2D3743")))
+  (let ((foreground (if my-dark-mode-p "#E1E1E0" "black"))
+	(background (if my-dark-mode-p "#2D3743" "#E2DDC3")))
     (face-spec-set 'default `((t :foreground ,foreground :background ,background))))
   (face-spec-set 'cursor `((((background light)) (:background ,my-cursor-color-for-light)) (((background dark)) (:background ,my-cursor-color-for-dark))))
   (face-spec-set 'mode-line '((((background light)) (:background "gold")) (((background dark)) (:background "orange"))))
@@ -1141,7 +1141,7 @@ DO NOT SET VALUE MANUALLY.")
   (defun mac-selected-keyboard-input-source-change-hook-func ()
     ;; 入力モードに合わせてカーソル色を切り替える。
     (set-cursor-color (if (string-match "\\.US$" (mac-input-source))
-			  (if my-light-theme-p my-cursor-color-for-light my-cursor-color-for-dark)
+			  (if my-dark-mode-p my-cursor-color-for-dark my-cursor-color-for-light)
 			my-cursor-color-for-im-enabled)))
 
   (add-hook 'mac-selected-keyboard-input-source-change-hook
