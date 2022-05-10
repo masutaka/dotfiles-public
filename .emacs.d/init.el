@@ -305,7 +305,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   (interactive)
   (toggle-variable 'require-final-newline))
 
-(defun window-toggle-division ()
+(defun toggle-window-division ()
   "ウィンドウ 2 分割時に、縦分割<->横分割"
   (interactive)
   (unless (= (count-windows 1) 2)
@@ -1733,7 +1733,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-f") 'forward-list)
 (define-key ctl-q-map (kbd "C-g") nil)
 ;;(define-key ctl-q-map (kbd "C-h") 'shell)		;;; => DEL
-(define-key ctl-q-map (kbd "C-i") 'window-toggle-division)
+(define-key ctl-q-map (kbd "C-i") 'toggle-window-division)
 (define-key ctl-q-map (kbd "C-j") 'open-junk-file)
 (define-key ctl-q-map (kbd "C-k") 'swap-buffers)
 (define-key ctl-q-map (kbd "C-l") 'move-to-window-line)
