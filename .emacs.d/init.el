@@ -88,34 +88,6 @@
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 
-(defun duplicate-thing (n)
-  "https://syohex.hatenablog.com/entry/20120325/1332641491"
-  (interactive "p")
-  (save-excursion
-    (let (start end)
-      (cond (mark-active
-             (setq start (region-beginning) end (region-end)))
-            (t
-             (beginning-of-line)
-             (setq start (point))
-             (forward-line)
-             (setq end (point))))
-      (kill-ring-save start end)
-      (dotimes (i (or n 1))
-        (yank)))))
-
-(defun delete-word (arg)
-  "Delete characters forward until encountering the end of a word.
-With argument, do this that many times."
-  (interactive "p")
-  (delete-region (point) (progn (forward-word arg) (point))))
-
-(defun backward-delete-word (arg)
-  "Delete characters backward until encountering the end of a word.
-With argument, do this that many times."
-  (interactive "p")
-  (delete-word (- arg)))
-
 (defun esa-expand-link (arg)
   "Replace #<NUMBER> (e.g. #123) under the cursor to esa link of markdown"
   (interactive "P")
@@ -158,15 +130,6 @@ With argument, do this that many times."
 			     (buffer-file-name))
 		    (point))))
     ad-do-it (if point (goto-char point))))
-
-(defun copy-this-buffer-file-name ()
-  "現在のバッファに対応したファイル名を kill-ring に先頭に詰める。
-対応したファイル名がなかったら nil を返す。"
-  (interactive)
-  (let ((bfn (buffer-file-name)))
-    (when (stringp bfn)
-      (kill-new bfn)
-      (message bfn))))
 
 (defun dec2hex-hex2dec (num)
   "10進数->16進数, 16進数->10進数"
@@ -282,12 +245,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   "2 分割している場合、両方の Window が 1 行スクロールアップします。"
   (interactive "p")
   (scroll-up-one-line num t))
-
-(defun shell-insert-result (command)
-  "shell-commandの結果を prompt&コマンド名付きでカーソル位置に挿入します。"
-  (interactive (list (read-shell-command "Shell command: ")))
-  (insert "% " command "\n")
-  (shell-command command t))
 
 (defun toggle-variable (var)
   "Toggle '(symbol-value var)'."
@@ -1671,7 +1628,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key esc-map (kbd "e") 'forward-sentence)
 (define-key esc-map (kbd "f") 'forward-word)
 ;;(define-key esc-map (kbd "g") goto-map)
-(define-key esc-map (kbd "h") 'backward-delete-word)
+(define-key esc-map (kbd "h") nil)
 ;;(define-key esc-map (kbd "i") 'tab-to-tab-stop)
 ;;(define-key esc-map (kbd "j") 'indent-new-comment-line)
 (define-key esc-map (kbd "k") 'kill-current-line)
@@ -1703,26 +1660,36 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-9") 'delete-other-windows-vertically)
 (define-key global-map (kbd "s-a") 'helm-imenu)
 (define-key global-map (kbd "s-b") 'my-helm-bookmark)
+;;(define-key global-map (kbd "s-c") nil)
+;;(define-key global-map (kbd "s-d") nil)
 (define-key global-map (kbd "s-e") 'tab-list)
+;;(define-key global-map (kbd "s-f") nil)
+;;(define-key global-map (kbd "s-g") nil)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
 (define-key global-map (kbd "s-i") 'esa-expand-link)
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
+;;(define-key global-map (kbd "s-m") nil)
 ;;(define-key global-map (kbd "s-n") nil)
 (define-key global-map (kbd "s-o") 'helm-occur)
+;;(define-key global-map (kbd "s-p") nil)
+;;(define-key global-map (kbd "s-q") nil)
+;;(define-key global-map (kbd "s-r") nil)
 (define-key global-map (kbd "s-s") 'helm-swoop)
 (define-key global-map (kbd "s-t") 'tab-new)
-(define-key global-map (kbd "s-v") 'yank)
-;;(define-key global-map (kbd "s-w") 'kill-ring-save)
-(define-key global-map (kbd "s-y") 'duplicate-thing)
+;;(define-key global-map (kbd "s-u") nil)
+;;(define-key global-map (kbd "s-v") nil)
+;;(define-key global-map (kbd "s-w") nil)
+;;(define-key global-map (kbd "s-x") nil)
+;;(define-key global-map (kbd "s-y") nil)
+;;(define-key global-map (kbd "s-z") nil)
 (define-key global-map (kbd "s-J") 'scroll-up-one-line-both-window)
 (define-key global-map (kbd "s-K") 'scroll-down-one-line-both-window)
 
 ;; custom of the ctl-q-map
 (defvar ctl-q-map (make-keymap))
 (define-key global-map (kbd "C-q") ctl-q-map)
-(define-key ctl-q-map (kbd "c") 'copy-this-buffer-file-name)
 (define-key ctl-q-map (kbd "g b") 'github-browse-file-blame)
 (define-key ctl-q-map (kbd "g f") 'github-browse-file)
 (define-key ctl-q-map (kbd "C-a") 'text-scale-adjust)
