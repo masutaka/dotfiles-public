@@ -1679,7 +1679,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-s") 'helm-swoop)
 (define-key global-map (kbd "s-t") 'tab-new)
 ;;(define-key global-map (kbd "s-u") nil)
-;;(define-key global-map (kbd "s-v") nil)
+(define-key global-map (kbd "s-v") 'yank) ;; for Alfred Snippets
 ;;(define-key global-map (kbd "s-w") nil)
 ;;(define-key global-map (kbd "s-x") nil)
 ;;(define-key global-map (kbd "s-y") nil)
