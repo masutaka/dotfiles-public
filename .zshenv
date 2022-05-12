@@ -12,13 +12,10 @@ export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 case "$OS_KIND" in
 Darwin)
   PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
-  export EDITOR=/Applications/Emacs.app/Contents/MacOS/bin/emacsclient
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
   source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
   ;;
 Linux)
-  export EDITOR=emacsclient
-
   # pip に --user オプションを付けた時のインストール先を変えつつ、直下の bin をパスに通す。
   export PYTHONUSERBASE="${HOME}/python"
   PATH=${PYTHONUSERBASE}/bin:$PATH
@@ -34,6 +31,7 @@ PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 
 export ACKRC="${XDG_CONFIG_HOME}/ack/ackrc"
 export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
+export EDITOR=emacsclient
 export GEMSRC_USE_GHQ=1
 export IRBRC="${XDG_CONFIG_HOME}/ruby/irbrc"
 export LANG=en_US.UTF-8 # Avoid ack warning
