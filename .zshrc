@@ -16,7 +16,7 @@ function exists() {
 function go-update() {
   for i in $(cat $HOME/src/github.com/masutaka/dotfiles/go.txt); do
 	echo $i
-	go get -u $i
+	go install $i
   done
 }
 
