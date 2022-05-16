@@ -4,31 +4,32 @@
 # Functions
 #---------------------------------------------------------------------
 
-function backup-elpa() {
+function backup-elpa () {
   local f=elpa-$(date '+%Y%m%d%H%M%S').tar.gz
   (cd $HOME/.emacs.d && tar czf "$f" elpa && trash "$f")
 }
 
-function exists() {
+function exists () {
   type $1 > /dev/null
 }
 
-function go-update() {
+function go-installs () {
   for i in $(cat $HOME/src/github.com/masutaka/dotfiles/go.txt); do
 	echo $i
 	go install $i
   done
 }
+alias go-updates=go-installs
 
-function psme() {
+function psme () {
   ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
 }
 
-function psnot() {
+function psnot () {
   ps auxw$1 | egrep -v "^$USER" | sort -k 2 -n
 }
 
-function rm-local-branches() {
+function rm-local-branches () {
   local base_branch=master
   if [ -n "$1" -a "$1" != "-f" ]; then
 	base_branch=$1
@@ -45,24 +46,24 @@ function rm-local-branches() {
   done
 }
 
-function svndiff() {
+function svndiff () {
   svn diff $@ | vim -R -
 }
 
 if [ "$OS_KIND" = Darwin ]; then
-  function unixtime2date() {
+  function unixtime2date () {
 	date -r $1 +%Y-%m-%dT%H:%M:%S%z
   }
 
-  function kd() {
+  function kd () {
 	ls -alF $@ | more -e
   }
 else
-  function unixtime2date() {
+  function unixtime2date () {
 	date --date="@$1" +%Y-%m-%dT%H:%M:%S%z
   }
 
-  function kd() {
+  function kd () {
 	LC_COLLATE=C ls -alF $@ | more -e
   }
 fi
@@ -71,7 +72,7 @@ fi
 # Shell variables
 #---------------------------------------------------------------------
 
-function aws_prompt() {
+function aws_prompt () {
   local profile=default
 
   if [ -n "$AWS_PROFILE" ]; then
@@ -206,7 +207,7 @@ if [ "$OS_KIND" = Darwin ]; then
   # Don't automatically cleanup on reinstall, install or upgrade
   export HOMEBREW_NO_INSTALL_CLEANUP=yes
 
-  function my-brew-upgrade() {
+  function my-brew-upgrade () {
 	echo "brew updating..."
 
 	brew update
@@ -242,7 +243,7 @@ zstyle ':vcs_info:*' actionformats '(%s:%b|%a)'
 zstyle ':vcs_info:(svn|bzr):*' branchformat '%b:r%r'
 zstyle ':vcs_info:bzr:*' use-simple true
 
-function vcs_info_precmd() {
+function vcs_info_precmd () {
   psvar=()
   LANG=en_US.UTF-8 vcs_info
   [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
@@ -254,7 +255,7 @@ add-zsh-hook precmd vcs_info_precmd
 #---------------------------------------------------------------------
 
 if exists peco; then
-  function peco_select_history() {
+  function peco_select_history () {
 	local tac
 	exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
 	BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
@@ -263,7 +264,7 @@ if exists peco; then
   zle -N peco_select_history
   bindkey '^R' peco_select_history
 
-  function peco_bundle_show() {
+  function peco_bundle_show () {
 	local selected_dir=$(bundle show | awk 'NR>1 {print $2}' | peco | xargs bundle show)
 	if [ -n "$selected_dir" ]; then
 	  BUFFER="cd ${selected_dir}"
@@ -300,7 +301,7 @@ if exists peco; then
 	(( $history_size == $#reply )) || chpwd_recent_filehandler $reply
   }
 
-  function peco-pkill() {
+  function peco-pkill () {
 	for pid in $(ps aux | peco | awk '{ print $2 }'); do
 	  kill $pid
 	  echo "Killed ${pid}"
@@ -336,12 +337,12 @@ fi
 if [ "$TERM" = "screen" ]; then
   # コマンド実行中はコマンド名を、未実行ならカレントディレクトリを表示する。
 
-  function screen_mode_line_preexec() {
+  function screen_mode_line_preexec () {
 	echo -ne "\ek#${1%% *}\e\\"
   }
   add-zsh-hook preexec screen_mode_line_preexec
 
-  function screen_mode_line_precmd() {
+  function screen_mode_line_precmd () {
 	echo -ne "\ek$(basename $(pwd))\e\\"
   }
   add-zsh-hook precmd screen_mode_line_precmd
@@ -363,15 +364,15 @@ function fingerprints {
   done < $1
 }
 
-function urlencode() {
+function urlencode () {
   echo $(php -r "echo rawurlencode('$1');")
 }
 
-function urldecode() {
+function urldecode () {
   echo $(php -r "echo rawurldecode('$1');")
 }
 
-function userstack() {
+function userstack () {
   access_key_file="${XDG_CONFIG_HOME}/userstack/access_key"
 
   if [ ! -f "$access_key_file" ]; then
@@ -389,7 +390,7 @@ function userstack() {
 
 if [ "$OS_KIND" = "Darwin" ]; then
   # http://qiita.com/kyanny/items/0797d37cab6327fba2c4
-  function ciopen() {
+  function ciopen () {
 	commit=head
 	if [ -n "$1" ]; then
 	  commit=$1
@@ -407,21 +408,21 @@ fi
 # Key binding
 #---------------------------------------------------------------------
 
-function my-backward-kill-word() {
+function my-backward-kill-word () {
   local WORDCHARS="${WORDCHARS:s#/#}"
   zle backward-kill-word
 }
 zle -N my-backward-kill-word
 bindkey '^[h' my-backward-kill-word
 
-function my-backward-word() {
+function my-backward-word () {
   local WORDCHARS="${WORDCHARS:s#/#}"
   zle backward-word
 }
 zle -N my-backward-word
 bindkey '^[b' my-backward-word	# 本当は C-, を使いたい。
 
-function my-forward-word() {
+function my-forward-word () {
   local WORDCHARS="${WORDCHARS:s#/#}"
   zle forward-word
 }
@@ -434,7 +435,7 @@ if [ "$OS_KIND" = "Darwin" ]; then
 else
   COPY2CLIPBOARD="xsel -b"
 fi
-function copy-last-history() {
+function copy-last-history () {
   zle up-line-or-history
   print -rn "\$ $BUFFER" | eval "$COPY2CLIPBOARD"
   zle kill-whole-line
@@ -443,7 +444,7 @@ zle -N copy-last-history
 bindkey '^x^p' copy-last-history
 
 # ファイル名で補完させる。
-function _du() { _files }
+function _du () { _files }
 
 # shell-mode風
 autoload -Uz history-search-end
