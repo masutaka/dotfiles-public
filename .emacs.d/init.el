@@ -818,12 +818,6 @@ DO NOT SET VALUE MANUALLY.")
   (setcar (cdr (assq 'eldoc-mode minor-mode-alist)) ""))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; elm-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(add-hook 'elm-mode-hook #'elm-format-on-save-mode)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Face
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1388,6 +1382,9 @@ do nothing. And suppress the output from `message' and
 
 ;; Looker
 (add-to-list 'auto-mode-alist '("\\.lkml\\'" . default-generic-mode))
+
+;; Elm
+(add-hook 'elm-mode-hook #'elm-format-on-save-mode)
 
 ;; Avoid to write `package-selected-packages` in init.el
 (load (setq custom-file (expand-file-name "custom.el" user-emacs-directory)))
