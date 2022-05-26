@@ -901,7 +901,7 @@ DO NOT SET VALUE MANUALLY.")
 
 (setq grep-command '("grep --color -nH --null -e ''"))
 
-(setq grep-find-command '("ack --nogroup --nocolor --sort-files -k ''" . 42))
+(setq grep-find-command '("ack --nogroup --nocolor --sort-files -kQ ''" . 42))
 (setq grep-find-history
       '("LANG=ja_JP.sjis grep -n \"$(echo '検索文字列' | nkf -s)\" * | nkf -w"
 	"find . -type f -name '検索文字列' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"))
