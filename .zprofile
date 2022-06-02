@@ -3,4 +3,6 @@
 #
 
 # all bourne shells should source /etc/profile
-#source /etc/profile
+if [ "$OS_KIND" = Linux ]; then
+   source /etc/profile
+fi
