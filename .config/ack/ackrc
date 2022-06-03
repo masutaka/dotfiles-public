@@ -1,7 +1,9 @@
+--follow
 --ignore-directory=.terraform/
 --ignore-directory=.yardoc/
 --ignore-directory=vendor/
 --nosvg
+--sort-files
 --type-add=haml:ext:haml
 --type-add=jsx:ext:jsx
 --type-add=lookml:ext:lkml
