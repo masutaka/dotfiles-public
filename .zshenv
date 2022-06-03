@@ -10,18 +10,21 @@ export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 case "$OS_KIND" in
 Darwin)
   PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
-  source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
-  source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+  GCLOUD_PREFIX=/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk
   ;;
 Linux)
   # pip に --user オプションを付けた時のインストール先を変えつつ、直下の bin をパスに通す。
   export PYTHONUSERBASE="${HOME}/python"
   PATH=${PYTHONUSERBASE}/bin:$PATH
+  GCLOUD_PREFIX=/opt/google-cloud-sdk
   ;;
 *)
   echo "Unkonwn OS" > /dev/stderr
   ;;
 esac
+
+source $GCLOUD_PREFIX/path.zsh.inc
+source $GCLOUD_PREFIX/completion.zsh.inc
 
 # GOPATH を設定しつつ、直下の bin をパスに通す。
 export GOPATH=$HOME/go:$HOME
