@@ -70,23 +70,12 @@ fi
 # Shell variables
 #---------------------------------------------------------------------
 
-function aws_prompt () {
-  local profile=${AWS_PROFILE:=default}
-  echo "%F{yellow}(AWS:${profile})%f"
-}
-
-function gcp_prompt () {
-  local profile=${CLOUDSDK_ACTIVE_CONFIG_NAME:=default}
-  echo "%F{039}(GCP:${profile})%f"
-}
-
 # プロンプト(man zshmisc)
 if [ "$OS_KIND" = Darwin ]; then
   PROMPT='%B%U%m%u:%~ $%b '
 else
   PROMPT='%B%U%M%u:%~ $%b '
 fi
-RPROMPT='[%*]$(aws_prompt)$(gcp_prompt)%1(v|%F{green}%1v%f|)'
 
 # 履歴を保存するファイル
 HISTFILE=$HOME/.zhistory
@@ -231,8 +220,20 @@ EOF
 fi
 
 #---------------------------------------------------------------------
-# show vcs branch name to $RPROMPT
+# RPROMPT
 #---------------------------------------------------------------------
+
+function aws_prompt () {
+  local profile=${AWS_PROFILE:=default}
+  echo "%F{yellow}(AWS:${profile})%f"
+}
+
+function gcp_prompt () {
+  local profile=${CLOUDSDK_ACTIVE_CONFIG_NAME:=default}
+  echo "%F{039}(GCP:${profile})%f"
+}
+
+# show vcs branch name to $RPROMPT
 
 autoload -Uz vcs_info
 zstyle ':vcs_info:*' enable git svn hg bzr
@@ -247,6 +248,13 @@ function vcs_info_precmd () {
   [[ -n "$vcs_info_msg_0_" ]] && psvar[1]="$vcs_info_msg_0_"
 }
 add-zsh-hook precmd vcs_info_precmd
+
+function vcs_prompt () {
+  echo '%1(v|%F{green}%1v%f|)'
+}
+
+# See also "$ man zshmisc"
+RPROMPT='[%*]$(aws_prompt)$(gcp_prompt)$(vcs_prompt)'
 
 #---------------------------------------------------------------------
 # peco
