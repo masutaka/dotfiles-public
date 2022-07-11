@@ -71,13 +71,13 @@ fi
 #---------------------------------------------------------------------
 
 function aws_prompt () {
-  local profile=default
+  local profile=${AWS_PROFILE:=default}
+  echo "%F{yellow}(AWS:${profile})%f"
+}
 
-  if [ -n "$AWS_PROFILE" ]; then
-	profile=$AWS_PROFILE
-  fi
-
-  echo "%F{yellow}(aws:${profile})%f"
+function gcp_prompt () {
+  local profile=${CLOUDSDK_ACTIVE_CONFIG_NAME:=default}
+  echo "%F{039}(GCP:${profile})%f"
 }
 
 # プロンプト(man zshmisc)
@@ -86,7 +86,7 @@ if [ "$OS_KIND" = Darwin ]; then
 else
   PROMPT='%B%U%M%u:%~ $%b '
 fi
-RPROMPT='[%*]$(aws_prompt)%1(v|%F{green}%1v%f|)'
+RPROMPT='[%*]$(aws_prompt)$(gcp_prompt)%1(v|%F{green}%1v%f|)'
 
 # 履歴を保存するファイル
 HISTFILE=$HOME/.zhistory
