@@ -225,7 +225,7 @@ fi
 
 function aws_prompt () {
   local profile=${AWS_PROFILE:=default}
-  echo "%F{yellow}(AWS:${profile})%f"
+  echo "%F{214}(AWS:${profile})%f"
 }
 
 function gcp_prompt () {
