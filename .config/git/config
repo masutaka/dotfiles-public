@@ -1,0 +1,47 @@
+[alias]
+	co = checkout
+	f = fetch
+	fetch-pulls = fetch origin +refs/pull/*:refs/remotes/pull/*
+	ls = branch
+	modified = diff --diff-filter=M
+	st = status
+	st2 = status -sb
+	tree = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
+[color]
+	ui = true
+[commit]
+	gpgsign = true
+	template = ~/.config/git/commit_template
+[diff]
+	algorithm = histogram
+[fetch]
+	prune = true
+	parallel = 4
+[ghq]
+	root = ~/go/src
+	root = ~/src
+[init]
+	defaultBranch = master
+[merge]
+	defaultToUpstream = true
+[pager]
+	branch = cat
+	diff = diff-highlight | less
+	log = diff-highlight | less
+	show = diff-highlight | less
+[pull]
+	rebase = false
+[push]
+	default = nothing
+[rebase]
+	autosquash = true
+[svn]
+	rmdir = true
+[user]
+	email = masutaka.net@gmail.com
+	name = Takashi Masuda
+	signingkey = 042423C1
+
+# Override in feedforce repository. To be written at the bottom.
+[includeIf "gitdir:~/src/github.com/feedforce/"]
+	path = ~/.config/git/config_feedforce
