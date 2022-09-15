@@ -476,7 +476,7 @@ DO NOT SET VALUE MANUALLY.")
   "Search Hatena:Bookmark and Qiita Stocks using `helm'."
   (interactive)
   (helm :sources `(helm-hatena-bookmark-source
-		   ,(if machine-feedforce-p 'helm-esa-source)
+		   ,@(if machine-feedforce-p '(helm-esa-source))
 		   hgs/helm-c-source-stars
 		   hgs/helm-c-source-repos
 		   hgs/helm-c-source-search)
