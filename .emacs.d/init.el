@@ -39,7 +39,6 @@
 (package-install 'graphql-mode)
 (package-install 'helm)
 (package-install 'helm-descbinds)
-(package-install 'helm-esa)
 (package-install 'helm-ghq)
 (package-install 'helm-github-stars)
 (package-install 'helm-hatena-bookmark)
@@ -408,15 +407,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
       (deactivate-input-method)))
   (add-hook 'helm-after-initialize-hook #'my-helm-after-initialize-hook-func))
 
-;;; helm-esa.el
-
-(when machine-feedforce-p
-  (setq helm-esa-team-name "feedforce")
-  (setq helm-esa-access-token (my-lisp-load "helm-esa-access-token"))
-  (setq helm-esa-search-query (my-lisp-load "helm-esa-search-query"))
-  (setq helm-esa-debug-mode t)
-  (helm-esa-initialize))
-
 ;;; helm-github-stars.el
 
 (require 'helm-github-stars)
@@ -476,7 +466,6 @@ DO NOT SET VALUE MANUALLY.")
   "Search Hatena:Bookmark and Qiita Stocks using `helm'."
   (interactive)
   (helm :sources `(helm-hatena-bookmark-source
-		   ,@(if machine-feedforce-p '(helm-esa-source))
 		   hgs/helm-c-source-stars
 		   hgs/helm-c-source-repos
 		   hgs/helm-c-source-search)
