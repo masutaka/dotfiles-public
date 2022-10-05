@@ -94,7 +94,7 @@
       :parser 'json-read
       :success (cl-function
 		(lambda (&key data response &allow-other-keys)
-		  (let ((wip (if (eq (cdr (assoc 'wip data)) t) "[WIP] " ""))
+		  (let ((wip (if (eq (cdr (assoc 'wip data)) t) "\\[WIP\\] " ""))
 			(url-text
 			 (let ((str (cdr (assoc
 					  (if (equal arg '(4))
