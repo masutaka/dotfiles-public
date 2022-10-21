@@ -394,22 +394,6 @@ function userstack () {
   curl -s "http://api.userstack.com/detect?access_key=$(cat $access_key_file)&ua=$(urlencode $1)&legacy=$legacy" | jq .
 }
 
-if [ "$OS_KIND" = "Darwin" ]; then
-  # http://qiita.com/kyanny/items/0797d37cab6327fba2c4
-  function ciopen () {
-	commit=head
-	if [ -n "$1" ]; then
-	  commit=$1
-	fi
-
-	result=$(hub ci-status -v $commit)
-
-	if [ $? = 0 ]; then
-	  open $(echo $result | awk '{print $NF}')
-	fi
-  }
-fi
-
 #---------------------------------------------------------------------
 # Key binding
 #---------------------------------------------------------------------
@@ -476,10 +460,6 @@ if [ "$OS_KIND" = Darwin ]; then
 else
   alias emacs="LC_COLLATE=C emacs"
   alias pbcopy="xsel -b"
-fi
-
-if exists hub; then
-  eval "$(hub alias -s)"
 fi
 
 if exists peco; then
