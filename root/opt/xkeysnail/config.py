@@ -60,6 +60,12 @@ define_keymap(re.compile("Google-chrome"), {
     K("Win-y"): K("C-h"),             # Open the History page in a new tab
 }, "Web browser")
 
+# Keybindings for ドキュメントビューアー
+define_keymap(re.compile("Evince"), {
+    K("Win-c"): K("C-c"), # Copy
+    K("Win-w"): K("C-w"), # Close window
+}, "ドキュメントビューアー")
+
 # Keybindings for Firefox
 define_keymap(re.compile("firefox"), {
     K("Win-Shift-SPACE"): K("C-TAB"), # Cycles through tabs in recently used order
