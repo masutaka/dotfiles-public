@@ -53,7 +53,6 @@
 (package-install 'open-junk-file)
 (package-install 'package-lint)
 (package-install 'php-mode)
-(package-install 'protobuf-mode)
 (package-install 'racer)
 (package-install 'request)
 (package-install 'rspec-mode)
@@ -373,9 +372,8 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;;; helm.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'helm-config)
+(load "helm-autoloads")
 (require 'helm-for-files)
-(require 'helm-imenu)
 (require 'helm-ghq)
 
 (setq helm-buffer-max-length 50)
@@ -391,6 +389,9 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 ;; Remove locate
 (setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
+
+;; Remap
+(define-key global-map [remap execute-extended-command] 'helm-M-x)
 
 ;; 日本語入力 OFF でミニバッファに入り、終わったら元に戻す。
 (when os-linux-p
@@ -528,7 +529,6 @@ DO NOT SET VALUE MANUALLY.")
   (c-set-offset 'statement-cont 'c-lineup-math)
   ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t)
-  (define-key c-mode-base-map (kbd "M-e") 'grep)
   (define-key c-mode-base-map (kbd "M-j") 'goto-line)
   (define-key c-mode-base-map (kbd "C-c C-c") nil)
   (define-key c-mode-base-map (kbd "C-c C-o") 'ff-find-other-file)
@@ -887,8 +887,6 @@ DO NOT SET VALUE MANUALLY.")
 
 (setq next-error-highlight 3)
 (setq next-error-highlight-no-select 3)
-
-(setq grep-command '("grep --color -nH --null -e ''"))
 
 (setq grep-find-command '("ack --nogroup --nocolor -kQ ''" . 30))
 (setq grep-find-history
@@ -1623,7 +1621,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key esc-map (kbd "u") 'upcase-word)
 ;;(define-key esc-map (kbd "v") 'scroll-down-command)
 ;;(define-key esc-map (kbd "w") 'kill-ring-save)
-(define-key esc-map (kbd "x") 'helm-M-x)
+;;(define-key esc-map (kbd "x") 'execute-extended-command)
 (define-key esc-map (kbd "y") 'my-yank-pop)
 ;;(define-key esc-map (kbd "z") 'zap-to-char)
 
@@ -1641,7 +1639,7 @@ do nothing. And suppress the output from `message' and
 (define-key global-map (kbd "s-b") 'my-helm-bookmark)
 ;;(define-key global-map (kbd "s-c") nil)
 ;;(define-key global-map (kbd "s-d") nil)
-(define-key global-map (kbd "s-e") 'tab-list)
+(define-key global-map (kbd "s-e") 'grep)
 ;;(define-key global-map (kbd "s-f") nil)
 ;;(define-key global-map (kbd "s-g") nil)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
@@ -1748,7 +1746,6 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-z-map (kbd "k") 'tab-close)
 (define-key ctl-z-map (kbd "C-b") (lambda () (interactive) (tab-move -1)))
 (define-key ctl-z-map (kbd "C-c") 'tab-new)
-(define-key ctl-z-map (kbd "C-e") 'grep)
 (define-key ctl-z-map (kbd "C-f") 'tab-move)
 (define-key ctl-z-map (kbd "C-j") 'my-tab-select)
 (define-key ctl-z-map (kbd "C-k") 'tab-close)
