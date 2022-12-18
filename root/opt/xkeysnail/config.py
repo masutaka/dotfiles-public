@@ -157,7 +157,6 @@ define_keymap(lambda wm_class: wm_class not in ("Emacs", "Xfce4-terminal"), {
     K("C-e"): K("end"),                   # End of line
     K("C-f"): K("right"),                 # Right
     K("C-h"): K("backspace"),             # Delete backward char
-    K("C-k"): [K("Shift-end"), K("C-x")], # Kill line
     K("C-m"): K("enter"),                 # Newline
     K("C-n"): K("down"),                  # Down
     K("C-p"): K("up"),                    # Up
