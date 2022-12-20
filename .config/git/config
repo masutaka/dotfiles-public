@@ -4,6 +4,7 @@
 	fetch-pulls = fetch origin +refs/pull/*:refs/remotes/pull/*
 	ls = branch
 	modified = diff --diff-filter=M
+	push = push --force-with-lease
 	st = status
 	st2 = status -sb
 	tree = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
@@ -33,6 +34,7 @@
 	rebase = false
 [push]
 	default = nothing
+	useForceIfIncludes = yes
 [rebase]
 	autosquash = true
 [svn]
