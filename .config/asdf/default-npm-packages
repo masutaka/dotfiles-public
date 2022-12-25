@@ -1,7 +1,5 @@
-@looker/look-at-me-sideways
 clasp
 eslint
-heroku
 prettier
 ts-node
 typescript
