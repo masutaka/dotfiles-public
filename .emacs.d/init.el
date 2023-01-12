@@ -3,7 +3,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defconst machine-personal-p (equal "VivoBook" (system-name)) "Is this a personal computer?")
-(defconst machine-feedforce-p (string-match "^pc20" (system-name)) "Is this a feedforce computer?")
+(defconst machine-work-p (string-match "^pc20" (system-name)) "Is this a work computer?")
 
 (defconst os-linux-p (eq system-type 'gnu/linux) "Linux")
 (defconst os-mac-p (eq system-type 'darwin) "macOS")
