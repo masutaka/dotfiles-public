@@ -79,40 +79,6 @@
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 
-(defun esa-expand-link (arg)
-  "Replace #<NUMBER> (e.g. #123) under the cursor to esa link of markdown"
-  (interactive "P")
-  (require 'request)
-  (let ((access-token (my-lisp-load "esa-expand-link"))
-	(team-name "feedforce")
-	(post-number (thing-at-point 'number 'no-properties)))
-    (request
-      (format "https://api.esa.io/v1/teams/%s/posts/%d" team-name post-number)
-      :sync t
-      :headers `(("Authorization" . ,(concat "Bearer " access-token)))
-      :parser 'json-read
-      :success (cl-function
-		(lambda (&key data response &allow-other-keys)
-		  (let ((wip (if (eq (cdr (assoc 'wip data)) t) "\\[WIP\\] " ""))
-			(url-text
-			 (let ((str (cdr (assoc
-					  (if (equal arg '(4))
-					      'name     ;; e.g. masutaka
-					    'full_name) ;; e.g. 日報/2020/05/08 (金)/masutaka #リモートワーク
-					  data))))
-			   (while (string-match "&#35;" str) ;; replace all "&#35;" to "#"
-			     (setq str (replace-match "#" t t str)))
-			   (while (string-match "&#47;" str) ;; replace all "&#47;" to "/"
-			     (setq str (replace-match "/" t t str)))
-			   str))
-			(url (cdr (assoc 'url data))))
-		    (delete-region (point) (re-search-backward "#" (point-min) t))
-		    (insert (format ":esa: [%s%s](%s)" wip url-text url)))))
-      :error (cl-function
-	      (lambda (&key error-thrown response &allow-other-keys)
-		(message "[esa-expand-link] Fail %S to GET %s"
-			 error-thrown (request-response-url response)))))))
-
 (defadvice find-alternate-file
   (around revival-point activate)
   "ファイルを読み直す時だけ、カーソル位置を保持する。"
@@ -167,14 +133,15 @@
   "Load lisp from FILENAME"
   (let ((fullname (expand-file-name (concat "spec/" filename) user-emacs-directory))
         lisp)
-    (when (file-readable-p fullname)
-      (with-temp-buffer
-        (progn
-          (insert-file-contents fullname)
-          (setq lisp
-                (condition-case nil
-                    (read (current-buffer))
-                  (error ()))))))
+    (unless (file-readable-p fullname)
+      (error (format "Cannot read %s" fullname)))
+    (with-temp-buffer
+      (progn
+        (insert-file-contents fullname)
+        (setq lisp
+              (condition-case nil
+                  (read (current-buffer))
+                (error ())))))
     lisp))
 
 (defun my-yank-pop ()
@@ -616,9 +583,9 @@ DO NOT SET VALUE MANUALLY.")
 			    scheme base-url date entry-id)))))
 
 (setq user-full-name "Takashi Masuda")
-(setq user-mail-address "masutaka.net@gmail.com")
+(setq user-mail-address (my-lisp-load "user-mail-address"))
 
-(setq clmemo-file-name (expand-file-name "~/src/github.com/masutaka/masutaka.net/chalow/pclmemo.txt"))
+(setq clmemo-file-name (my-lisp-load "clmemo-file-name"))
 
 ;; For chalow
 (setq clmemo-subtitle-char "[")
@@ -1643,7 +1610,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key global-map (kbd "s-f") nil)
 ;;(define-key global-map (kbd "s-g") nil)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
-(define-key global-map (kbd "s-i") 'esa-expand-link)
+;;(define-key global-map (kbd "s-i") nil)
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
