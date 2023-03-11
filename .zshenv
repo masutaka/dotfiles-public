@@ -17,8 +17,8 @@ Linux)
   # pip に --user オプションを付けた時のインストール先を変えつつ、直下の bin をパスに通す。
   export PYTHONUSERBASE="${HOME}/python"
   PATH=${PYTHONUSERBASE}/bin:$PATH
-  source /opt/google-cloud-sdk/path.zsh.inc
-  source /opt/google-cloud-sdk/completion.zsh.inc
+  source /opt/google-cloud-cli/path.zsh.inc
+  source /opt/google-cloud-cli/completion.zsh.inc
   ;;
 *)
   echo "Unkonwn OS" > /dev/stderr
