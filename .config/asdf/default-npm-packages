@@ -1,6 +1,2 @@
 @looker/look-at-me-sideways
-clasp
 eslint
-prettier
-ts-node
-typescript
