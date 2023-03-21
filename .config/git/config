@@ -43,7 +43,3 @@
 	email = masutaka.net@gmail.com
 	name = Takashi Masuda
 	signingkey = 042423C1
-
-# Override in feedforce repository. To be written at the bottom.
-[includeIf "gitdir:~/src/github.com/feedforce/"]
-	path = ~/.config/git/config_feedforce

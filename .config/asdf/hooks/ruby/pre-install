@@ -5,7 +5,7 @@ echo "[pre-install] Installing ruby $1"
 export RUBY_CONFIGURE_OPTS='--disable-install-doc'
 
 if [ $(uname) = 'Darwin' ]; then
-  RUBY_CONFIGURE_OPTS="$RUBY_CONFIGURE_OPTS --with-readline-dir=/usr"
+  RUBY_CONFIGURE_OPTS="$RUBY_CONFIGURE_OPTS --with-readline-dir=/usr --with-libyaml-dir=$(brew --prefix libyaml)"
 fi
 
 export RUBY_BUILD_OPTS='--verbose'

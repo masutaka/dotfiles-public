@@ -417,7 +417,7 @@ DO NOT SET VALUE MANUALLY.")
     (cancel-timer my-helm-github-stars-timer)
     (setq my-helm-github-stars-timer nil)))
 
-(my-helm-github-stars-set-timer)
+(if machine-personal-p (my-helm-github-stars-set-timer))
 
 ;;; helm-hatena-bookmark.el
 
@@ -431,10 +431,12 @@ DO NOT SET VALUE MANUALLY.")
 (defun my-helm-bookmark ()
   "Search Hatena:Bookmark and Qiita Stocks using `helm'."
   (interactive)
-  (helm :sources `(helm-hatena-bookmark-source
-		   hgs/helm-c-source-stars
-		   hgs/helm-c-source-repos
-		   hgs/helm-c-source-search)
+  (helm :sources (if machine-personal-p
+		     '(helm-hatena-bookmark-source
+		       hgs/helm-c-source-stars
+		       hgs/helm-c-source-repos
+		       hgs/helm-c-source-search)
+		   '(helm-hatena-bookmark-source))
 	:prompt "Find Bookmark: "))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1632,7 +1634,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-u") 'sort-lines)
 (define-key ctl-q-map (kbd "C-v") 'mark-whole-buffer)
 (define-key ctl-q-map (kbd "C-w") 'erase-buffer)
-(define-key ctl-q-map (kbd "C-x") 'dec2hex-hex2dec)
+;;(define-key ctl-q-map (kbd "C-x") nil)
 (define-key ctl-q-map (kbd "C-y") 'quote-yank)
 ;;(define-key ctl-q-map (kbd "C-z") nil)
 (define-key ctl-q-map (kbd "DEL") 'flyspell-region)

@@ -10,8 +10,12 @@ export XDG_DATA_HOME=${XDG_DATA_HOME:-$HOME/.local/share}
 case "$OS_KIND" in
 Darwin)
   PATH=/usr/local/bin:/usr/local/sbin:/usr/bin:/bin:/usr/sbin:/sbin
-  source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
-  source /usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
+
+  # Set PATH, MANPATH, etc., for Homebrew.
+  eval "$(/opt/homebrew/bin/brew shellenv)"
+
+  source ${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc
+  source ${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
   ;;
 Linux)
   # pip に --user オプションを付けた時のインストール先を変えつつ、直下の bin をパスに通す。
