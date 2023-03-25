@@ -77,6 +77,10 @@ else
   PROMPT='%B%U%M%u:%~ $%b '
 fi
 
+if [ "$OS_KIND" = Darwin ]; then
+  FPATH=${HOMEBREW_PREFIX}/share/zsh/site-functions:$FPATH
+fi
+
 # 履歴を保存するファイル
 HISTFILE=$HOME/.zhistory
 
@@ -166,10 +170,10 @@ autoload -Uz compinit && compinit -u
 autoload -Uz add-zsh-hook
 
 # Command Completion for AWS CLI
-if [ -r /usr/local/share/zsh/site-functions/aws_zsh_completer.sh ]; then # macOS
-  source /usr/local/share/zsh/site-functions/aws_zsh_completer.sh
-elif [ -r /usr/bin/aws_zsh_completer.sh ]; then # Linux
-  source /usr/bin/aws_zsh_completer.sh
+if [ "$OS_KIND" = Darwin ]; then
+  : #source ${HOMEBREW_PREFIX}/share/zsh/site-functions/aws_zsh_completer.sh
+else
+  source ${PYTHONUSERBASE}/bin/aws_zsh_completer.sh
 fi
 
 #---------------------------------------------------------------------
