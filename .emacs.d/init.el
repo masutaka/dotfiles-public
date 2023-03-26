@@ -434,8 +434,7 @@ DO NOT SET VALUE MANUALLY.")
   (helm :sources (if machine-personal-p
 		     '(helm-hatena-bookmark-source
 		       hgs/helm-c-source-stars
-		       hgs/helm-c-source-repos
-		       hgs/helm-c-source-search)
+		       hgs/helm-c-source-repos)
 		   '(helm-hatena-bookmark-source))
 	:prompt "Find Bookmark: "))
 
