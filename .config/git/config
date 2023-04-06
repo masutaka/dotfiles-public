@@ -2,9 +2,8 @@
 	co = checkout
 	f = fetch
 	fetch-pulls = fetch origin +refs/pull/*:refs/remotes/pull/*
-	ls = branch
 	modified = diff --diff-filter=M
-	push = push --force-with-lease
+	push = push --force-with-lease --force-if-includes
 	st = status
 	st2 = status -sb
 	tree = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'

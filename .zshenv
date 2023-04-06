@@ -18,9 +18,6 @@ Darwin)
   source ${HOMEBREW_PREFIX}/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc
   ;;
 Linux)
-  # pip に --user オプションを付けた時のインストール先を変えつつ、直下の bin をパスに通す。
-  export PYTHONUSERBASE="${HOME}/python"
-  PATH=${PYTHONUSERBASE}/bin:$PATH
   source /opt/google-cloud-cli/path.zsh.inc
   source /opt/google-cloud-cli/completion.zsh.inc
   ;;
@@ -32,6 +29,10 @@ esac
 # GOPATH を設定しつつ、直下の bin をパスに通す。
 export GOPATH=$HOME/go:$HOME
 PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
+
+# pip に --user オプションを付けた時のインストール先を変えつつ、直下の bin をパスに通す。
+export PYTHONUSERBASE="${HOME}/python"
+PATH=${PYTHONUSERBASE}/bin:$PATH
 
 export ACKRC="${XDG_CONFIG_HOME}/ack/ackrc"
 export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
