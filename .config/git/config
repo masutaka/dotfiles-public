@@ -3,7 +3,7 @@
 	f = fetch
 	fetch-pulls = fetch origin +refs/pull/*:refs/remotes/pull/*
 	modified = diff --diff-filter=M
-	push = push --force-with-lease --force-if-includes
+	push = push --force-with-lease # [^1]
 	st = status
 	st2 = status -sb
 	tree = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
@@ -33,7 +33,7 @@
 	rebase = false
 [push]
 	default = nothing
-	useForceIfIncludes = yes
+	useForceIfIncludes = true # [^1]
 [rebase]
 	autosquash = true
 [svn]
@@ -42,3 +42,5 @@
 	email = masutaka.net@gmail.com
 	name = Takashi Masuda
 	signingkey = 042423C1
+
+# [^1]: See also https://onk.hatenablog.jp/entry/2022/12/18/000000
