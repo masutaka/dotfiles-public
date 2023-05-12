@@ -202,6 +202,12 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   (interactive "p")
   (scroll-up-one-line num t))
 
+(defun sort-lines-nocase ()
+  "大文字小文字を無視した `sort-lines'"
+  (interactive)
+  (let ((sort-fold-case t))
+    (call-interactively 'sort-lines)))
+
 (defun toggle-variable (var)
   "Toggle '(symbol-value var)'."
   (set var (not (symbol-value var)))
