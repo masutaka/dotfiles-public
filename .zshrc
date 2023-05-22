@@ -319,6 +319,16 @@ if exists peco; then
   }
   alias pk="peco-pkill"
 
+  function peco-gcloud-configurations () {
+	local selected_branch=$(gcloud config configurations list | peco | grep -v '^NAME ' | cut -d ' ' -f1)
+	if [ -n "$selected_branch" ]; then
+	  BUFFER="export CLOUDSDK_ACTIVE_CONFIG_NAME=${selected_branch}"
+	  zle accept-line
+	fi
+  }
+  zle -N peco-gcloud-configurations
+  bindkey '^x^k' peco-gcloud-configurations
+
   function peco-git-recent-branches () {
 	local selected_branch=$(git branch --sort=-authordate -v | peco | sed -E -e 's/^[* ]+//' | cut -d ' ' -f1)
 	if [ -n "$selected_branch" ]; then
