@@ -44,10 +44,6 @@ function rm-local-branches () {
   done
 }
 
-function svndiff () {
-  svn diff $@ | vim -R -
-}
-
 if [ "$OS_KIND" = Darwin ]; then
   function unixtime2date () {
 	date -r $1 +%Y-%m-%dT%H:%M:%S%z
@@ -351,24 +347,6 @@ if exists peco; then
 fi
 
 #---------------------------------------------------------------------
-# screen mode-line
-#---------------------------------------------------------------------
-
-if [ "$TERM" = "screen" ]; then
-  # コマンド実行中はコマンド名を、未実行ならカレントディレクトリを表示する。
-
-  function screen_mode_line_preexec () {
-	echo -ne "\ek#${1%% *}\e\\"
-  }
-  add-zsh-hook preexec screen_mode_line_preexec
-
-  function screen_mode_line_precmd () {
-	echo -ne "\ek$(basename $(pwd))\e\\"
-  }
-  add-zsh-hook precmd screen_mode_line_precmd
-fi
-
-#---------------------------------------------------------------------
 # Function
 #---------------------------------------------------------------------
 
@@ -390,22 +368,6 @@ function urlencode () {
 
 function urldecode () {
   echo $(php -r "echo rawurldecode('$1');")
-}
-
-function userstack () {
-  access_key_file="${XDG_CONFIG_HOME}/userstack/access_key"
-
-  if [ ! -f "$access_key_file" ]; then
-	echo "$access_key_file not found."
-	return 1
-  fi
-
-  legacy=$2
-  if [ -z "$legacy" ]; then
-	 legacy=0 # 0 or 1
-  fi
-
-  curl -s "http://api.userstack.com/detect?access_key=$(cat $access_key_file)&ua=$(urlencode $1)&legacy=$legacy" | jq .
 }
 
 #---------------------------------------------------------------------
