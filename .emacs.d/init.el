@@ -914,7 +914,7 @@ DO NOT SET VALUE MANUALLY.")
   (setq default-input-method "japanese-mozc")
 
   (defun input-method-activate-hook-func ()
-    (set-face-background 'cursor "DarkOrange2"))
+    (set-face-background 'cursor my-cursor-color-for-im-enabled))
   (add-hook 'input-method-activate-hook #'input-method-activate-hook-func)
 
   (defun input-method-deactivate-hook-func ()
