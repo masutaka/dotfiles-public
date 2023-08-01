@@ -2,7 +2,7 @@
 ;;; Constants
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defconst machine-personal-p (equal "VivoBook" (system-name)) "Is this a personal computer?")
+(defconst machine-personal-p (string-match "\\(masutaka-air\\|VivoBook\\)" (system-name)) "Is this a personal computer?")
 (defconst machine-work-p (not machine-personal-p) "Is this a work computer?")
 
 (defconst os-linux-p (eq system-type 'gnu/linux) "Linux")
