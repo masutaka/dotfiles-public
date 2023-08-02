@@ -14,8 +14,10 @@ Darwin)
   # Set PATH, MANPATH, etc., for Homebrew.
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
-  source ${HOMEBREW_PREFIX}/share/google-cloud-sdk/path.zsh.inc
-  source ${HOMEBREW_PREFIX}/share/google-cloud-sdk/completion.zsh.inc
+  if [ -d "${HOMEBREW_PREFIX}/share/google-cloud-sdk" ]; then
+    source ${HOMEBREW_PREFIX}/share/google-cloud-sdk/path.zsh.inc
+    source ${HOMEBREW_PREFIX}/share/google-cloud-sdk/completion.zsh.inc
+  fi
   ;;
 Linux)
   source /opt/google-cloud-cli/path.zsh.inc

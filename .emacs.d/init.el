@@ -1019,9 +1019,12 @@ DO NOT SET VALUE MANUALLY.")
 ;;; https://masutaka.net/chalow/2015-01-04-1.html
 
 (when os-mac-p
+  (defun mac-input-source-ascii-p ()
+    (string-match "\\.\\(ABC\\|US\\)$" (mac-input-source)))
+
   (defun mac-selected-keyboard-input-source-change-hook-func ()
     ;; 入力モードに合わせてカーソル色を切り替える。
-    (set-cursor-color (if (string-match "\\.US$" (mac-input-source))
+    (set-cursor-color (if (mac-input-source-ascii-p)
 			  (if my-dark-mode-p my-cursor-color-for-dark my-cursor-color-for-light)
 			my-cursor-color-for-im-enabled)))
 
@@ -1042,7 +1045,7 @@ DO NOT SET VALUE MANUALLY.")
 
   (defvar mac-win-last-ime-status 'off) ;; {'off|'on}
 
-  (defconst mac-win-kana-input-method "com.google.inputmethod.Japanese.base")
+  (defconst mac-win-kana-input-method "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese")
 
   (defun advice:mac-auto-ascii-setup-input-source (&optional _prompt)
     "Extension to store IME status"
@@ -1053,7 +1056,7 @@ DO NOT SET VALUE MANUALLY.")
 
   (defun mac-win-save-last-ime-status ()
     (setq mac-win-last-ime-status
-          (if (string-match "\\.\\(Roman\\|US\\)$" (mac-input-source))
+          (if (mac-input-source-ascii-p)
               'off 'on)))
 
   (defun mac-win-restore-ime ()
