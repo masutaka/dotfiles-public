@@ -20,6 +20,10 @@
 [ghq]
 	root = ~/go/src
 	root = ~/src
+[gpg]
+	format = ssh
+[gpg "ssh"]
+	program = "/Applications/1Password.app/Contents/MacOS/op-ssh-sign"
 [init]
 	defaultBranch = master
 [merge]
@@ -41,6 +45,6 @@
 [user]
 	email = masutaka.net@gmail.com
 	name = Takashi Masuda
-	signingkey = 042423C1
+	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOyT9US42sPJA9J8JGoJ6qyec+3ZmcUXe8ylVKDCW/dx
 
 # [^1]: See also https://onk.hatenablog.jp/entry/2022/12/18/000000
