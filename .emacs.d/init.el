@@ -423,7 +423,7 @@ DO NOT SET VALUE MANUALLY.")
     (cancel-timer my-helm-github-stars-timer)
     (setq my-helm-github-stars-timer nil)))
 
-(my-helm-github-stars-set-timer)
+(if machine-personal-p (my-helm-github-stars-set-timer))
 
 ;;; helm-hatena-bookmark.el
 
@@ -437,9 +437,11 @@ DO NOT SET VALUE MANUALLY.")
 (defun my-helm-bookmark ()
   "Search Hatena:Bookmark and Qiita Stocks using `helm'."
   (interactive)
-  (helm :sources '(helm-hatena-bookmark-source
-		   hgs/helm-c-source-stars
-		   hgs/helm-c-source-repos)
+  (helm :sources (if machine-personal-p
+		     '(helm-hatena-bookmark-source
+		       hgs/helm-c-source-stars
+		       hgs/helm-c-source-repos)
+		   '(helm-hatena-bookmark-source))
 	:prompt "Find Bookmark: "))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
