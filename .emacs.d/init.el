@@ -8,7 +8,7 @@
 (defconst os-linux-p (eq system-type 'gnu/linux) "Linux")
 (defconst os-mac-p (eq system-type 'darwin) "macOS")
 
-(defconst my-dark-mode-p machine-personal-p "Use Dark Mode?")
+(defconst my-dark-mode-p t "Use Dark Mode?")
 (defconst my-cursor-color-for-light "black")
 (defconst my-cursor-color-for-dark "gray")
 (defconst my-cursor-color-for-im-enabled "DarkOrange2")
@@ -423,7 +423,7 @@ DO NOT SET VALUE MANUALLY.")
     (cancel-timer my-helm-github-stars-timer)
     (setq my-helm-github-stars-timer nil)))
 
-(if machine-personal-p (my-helm-github-stars-set-timer))
+(my-helm-github-stars-set-timer)
 
 ;;; helm-hatena-bookmark.el
 
@@ -437,11 +437,9 @@ DO NOT SET VALUE MANUALLY.")
 (defun my-helm-bookmark ()
   "Search Hatena:Bookmark and Qiita Stocks using `helm'."
   (interactive)
-  (helm :sources (if machine-personal-p
-		     '(helm-hatena-bookmark-source
-		       hgs/helm-c-source-stars
-		       hgs/helm-c-source-repos)
-		   '(helm-hatena-bookmark-source))
+  (helm :sources '(helm-hatena-bookmark-source
+		   hgs/helm-c-source-stars
+		   hgs/helm-c-source-repos)
 	:prompt "Find Bookmark: "))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
