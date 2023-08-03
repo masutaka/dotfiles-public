@@ -1045,7 +1045,7 @@ DO NOT SET VALUE MANUALLY.")
 
   (defvar mac-win-last-ime-status 'off) ;; {'off|'on}
 
-  (defconst mac-win-kana-input-method "com.apple.inputmethod.Kotoeri.RomajiTyping.Japanese")
+  (defconst mac-win-kana-input-method "com.google.inputmethod.Japanese.base")
 
   (defun advice:mac-auto-ascii-setup-input-source (&optional _prompt)
     "Extension to store IME status"
