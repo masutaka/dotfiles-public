@@ -8,7 +8,12 @@
 (defconst os-linux-p (eq system-type 'gnu/linux) "Linux")
 (defconst os-mac-p (eq system-type 'darwin) "macOS")
 
-(defconst my-dark-mode-p t "Use Dark Mode?")
+(defconst my-dark-mode-p
+  (if os-mac-p
+      (string-match (shell-command-to-string "defaults read -g AppleInterfaceStyle") "^Dark\n$")
+    t)
+  "On macOS, it automatically detects if it is dark mode or not. All other OSes are always fixed to dark mode.")
+
 (defconst my-cursor-color-for-light "black")
 (defconst my-cursor-color-for-dark "gray")
 (defconst my-cursor-color-for-im-enabled "DarkOrange2")
@@ -269,16 +274,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
       (normal-top-level-add-subdirs-to-load-path))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; set Kanji coding system
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; http://www.sakito.com/2010/05/mac-os-x-normalization.html
-(when os-mac-p
-  (require 'ucs-normalize)
-  (set-file-name-coding-system 'utf-8-hfs)
-  (setq locale-coding-system 'utf-8-hfs))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; common setup for Window-System
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -448,10 +443,12 @@ DO NOT SET VALUE MANUALLY.")
 ;;; auto-complete
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(require 'auto-complete-config)
-(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
-(ac-config-default)
-(setq ac-ignore-case nil)
+(use-package auto-complete-config
+  :bind (:map ac-mode-map
+	      ("M-TAB" . auto-complete))
+  :config
+  (ac-config-default)
+  (setq ac-ignore-case nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Backup
