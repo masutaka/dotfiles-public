@@ -5,13 +5,14 @@
 (defconst machine-personal-p (string-match "\\(masutaka-air\\|VivoBook\\)" (system-name)) "Is this a personal computer?")
 (defconst machine-work-p (not machine-personal-p) "Is this a work computer?")
 
-(defconst os-linux-p (eq system-type 'gnu/linux) "Linux")
 (defconst os-mac-p (eq system-type 'darwin) "macOS")
+(defconst os-linux-p (eq system-type 'gnu/linux) "Linux")
 
 (defconst my-dark-mode-p
-  (if os-mac-p
-      (string-match (shell-command-to-string "defaults read -g AppleInterfaceStyle") "^Dark\n$")
-    t)
+  (let ((cmd (cond
+	      (os-mac-p "defaults read -g AppleInterfaceStyle")
+	      (os-linux-p "xfconf-query -c xsettings -p /Net/ThemeName"))))
+    (string-match "dark" (shell-command-to-string cmd)))
   "On macOS, it automatically detects if it is dark mode or not. All other OSes are always fixed to dark mode.")
 
 (defconst my-cursor-color-for-light "black")
