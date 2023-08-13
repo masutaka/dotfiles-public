@@ -13,7 +13,7 @@
 	      (os-mac-p "defaults read -g AppleInterfaceStyle")
 	      (os-linux-p "xfconf-query -c xsettings -p /Net/ThemeName"))))
     (string-match "dark" (shell-command-to-string cmd)))
-  "On macOS, it automatically detects if it is dark mode or not. All other OSes are always fixed to dark mode.")
+  "On macOS and Linux (Xfce4), it automatically detects if it is dark mode or not.")
 
 (defconst my-cursor-color-for-light "black")
 (defconst my-cursor-color-for-dark "gray")
