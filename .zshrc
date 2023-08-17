@@ -28,7 +28,11 @@ function psnot () {
 }
 
 function rm-local-branches () {
-  local base_branch=master
+  local base_branch=main
+  if git rev-parse --verify master > /dev/null 2>&1; then
+	base_branch=master
+  fi
+
   if [ -n "$1" -a "$1" != "-f" ]; then
 	base_branch=$1
 	shift
@@ -39,7 +43,7 @@ function rm-local-branches () {
 	git="git"
   fi
 
-  for b in $(git branch --merged "origin/$base_branch" | grep -Fvw master | grep -Fvw "$base_branch" | awk '{print $1}'); do
+  for b in $(git branch --merged "origin/$base_branch" | grep -Fvw "$base_branch" | awk '{print $1}'); do
 	eval "$git branch -d $b"
   done
 }
