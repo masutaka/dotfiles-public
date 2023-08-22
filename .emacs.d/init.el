@@ -433,11 +433,9 @@ DO NOT SET VALUE MANUALLY.")
 (defun my-helm-bookmark ()
   "Search Hatena:Bookmark and Qiita Stocks using `helm'."
   (interactive)
-  (helm :sources (if machine-personal-p
-		     '(helm-hatena-bookmark-source
-		       hgs/helm-c-source-stars
-		       hgs/helm-c-source-repos)
-		   '(helm-hatena-bookmark-source))
+  (helm :sources '(helm-hatena-bookmark-source
+		   hgs/helm-c-source-stars
+		   hgs/helm-c-source-repos)
 	:prompt "Find Bookmark: "))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
