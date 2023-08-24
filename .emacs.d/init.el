@@ -48,7 +48,6 @@
 (package-install 'helm-hatena-bookmark)
 (package-install 'helm-swoop)
 (package-install 'highlight-symbol)
-(package-install 'js2-mode)
 (package-install 'keyfreq)
 (package-install 'markdown-mode)
 (package-install 'markdown-preview-mode)
@@ -867,27 +866,6 @@ DO NOT SET VALUE MANUALLY.")
 (add-hook 'Info-mode-hook #'Info-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; JavaScript
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;; js2-mode
-
-(add-to-list 'auto-mode-alist '("\\.[jg]s\\'" . js2-mode))
-
-(setq js2-include-browser-externs nil)
-(setq js2-mode-show-parse-errors nil)
-(setq js2-mode-show-strict-warnings nil)
-(setq js2-highlight-external-variables nil)
-(setq js2-include-jslint-globals nil)
-
-(defun js2-mode-hook-func ()
-  (flycheck-mode 1)
-  (setq js2-basic-offset 2)
-  (setq indent-tabs-mode nil)
-  (setq show-trailing-whitespace t))
-(add-hook 'js2-mode-hook #'js2-mode-hook-func)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; keisen.el -- provide facility for drawing ruled-line
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -948,6 +926,7 @@ DO NOT SET VALUE MANUALLY.")
 (define-key php-mode-map (kbd "C-c C-]") 'end-of-defun)
 
 (defun web-mode-hook-func ()
+  (setq web-mode-code-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-markup-indent-offset 2)
   (setq indent-tabs-mode nil))
@@ -957,6 +936,8 @@ DO NOT SET VALUE MANUALLY.")
 (face-spec-set 'web-mode-symbol-face '((((background light)) (:foreground "Gold4"))))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[jg]s\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 
 ;; https://memo.sugyan.com/entry/20100705/1278306885
 (defadvice flymake-post-syntax-check
@@ -1251,14 +1232,6 @@ DO NOT SET VALUE MANUALLY.")
 (add-hook 'view-mode-hook #'view-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; auto-mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'generic-x)
-
-(delete '("\\.js\\'" . javascript-generic-mode) auto-mode-alist)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; 履歴保存
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1303,6 +1276,9 @@ do nothing. And suppress the output from `message' and
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Misc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; 汎用 major-mode
+(require 'generic-x)
 
 ;; M-x align-regexp で Tab の代わりに Space を使う
 (defadvice align-regexp
