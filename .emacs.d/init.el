@@ -1182,6 +1182,9 @@ DO NOT SET VALUE MANUALLY.")
 (setq tab-bar-tab-hints t)
 (setq tab-bar-tab-name-function #'tab-bar-tab-name-truncated)
 
+;; 現在のタブを見やすくする
+(face-spec-set 'tab-bar-tab '((((background light)) (:background "gold")) (((background dark)) (:background "orange"))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; terraform-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
