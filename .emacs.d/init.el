@@ -443,12 +443,10 @@ DO NOT SET VALUE MANUALLY.")
 ;;; auto-complete
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(use-package auto-complete-config
-  :bind (:map ac-mode-map
-	      ("M-TAB" . auto-complete))
-  :config
-  (ac-config-default)
-  (setq ac-ignore-case nil))
+(require 'auto-complete-config)
+(define-key ac-mode-map (kbd "M-TAB") 'auto-complete)
+(ac-config-default)
+(setq ac-ignore-case nil)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Backup
