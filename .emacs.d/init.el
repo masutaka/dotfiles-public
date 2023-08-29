@@ -738,6 +738,8 @@ DO NOT SET VALUE MANUALLY.")
 (setq eval-expression-print-length nil)
 (setq eval-expression-print-level nil)
 (setq eval-expression-debug-on-error nil)
+(setq edebug-print-length nil)
+(setq edebug-print-level nil)
 
 (defun elisp-insert-kbd ()
   "入力したキーを (kbd \"hoge\") に翻訳してカーソル位置に挿入する。"
