@@ -89,6 +89,7 @@ export ASDF_RUBY_BUILD_VERSION=master
 export ASDF_GEM_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-gems"
 export ASDF_NPM_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-npm-packages"
 export ASDF_PERL_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-perl-modules"
+export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-python-packages"
 
 FPATH=${ASDF_DIR}/completions:$FPATH
 
