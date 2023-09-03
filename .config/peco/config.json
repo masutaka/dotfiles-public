@@ -1,7 +1,7 @@
 {
     "Style": {
-        "Selected": ["on_black", "bold"],
-        "Query": ["red", "bold"]
+        "Selected": ["on_magenta", "bold"],
+        "Query": ["cyan", "bold"]
     },
 
     "Keymap": {
