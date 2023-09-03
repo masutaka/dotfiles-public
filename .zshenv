@@ -19,6 +19,10 @@ Darwin)
 	PATH=${HOMEBREW_PREFIX}/opt/postgresql@15/bin:$PATH
   fi
 
+  if [ -d /Applications/SnowSQL.app/Contents/MacOS ]; then
+	PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
+  fi
+
   if [ -d "${HOMEBREW_PREFIX}/share/google-cloud-sdk" ]; then
     source ${HOMEBREW_PREFIX}/share/google-cloud-sdk/path.zsh.inc
     source ${HOMEBREW_PREFIX}/share/google-cloud-sdk/completion.zsh.inc
