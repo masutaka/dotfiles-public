@@ -1188,6 +1188,10 @@ DO NOT SET VALUE MANUALLY.")
   (toggle-truncate-lines 1))
 (add-hook 'sql-interactive-mode-hook #'sql-interactive-mode-hook-func)
 
+(defun sql-mode-hook-func ()
+  (setq show-trailing-whitespace t))
+(add-hook 'sql-mode-hook #'sql-mode-hook-func)
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; tab-bar.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
