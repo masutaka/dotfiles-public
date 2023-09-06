@@ -56,6 +56,7 @@ export GEMSRC_USE_GHQ=1
 export IRBRC="${XDG_CONFIG_HOME}/ruby/irbrc"
 export LANG=en_US.UTF-8 # Avoid ack warning
 export MYSQL_PS1="(\u@$(hostname)) [\d] > "
+export TF_PLUGIN_CACHE_DIR="${XDG_CACHE_HOME}/terraform/plugin-cache"
 
 # -g   検索したとき、ヒットした全ての文字列を反転するのではなく、現在カーソルがある行のみ反転する
 # -i   検索時に全部小文字で入力したときだけ、大文字小文字を無視する
