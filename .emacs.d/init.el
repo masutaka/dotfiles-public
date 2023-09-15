@@ -359,12 +359,11 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 (helm-descbinds-mode)
 
 ;; Add ghq to after buffers-list
-(setq helm-for-files-preferred-list (delete 'helm-source-buffers-list helm-for-files-preferred-list))
-(add-to-list 'helm-for-files-preferred-list 'helm-ghq-source)
-(add-to-list 'helm-for-files-preferred-list 'helm-source-buffers-list)
-
-;; Remove locate
-(setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
+(let* ((work-list helm-for-files-preferred-list)
+       (pos (cl-position 'helm-source-buffers-list work-list))
+       (front (cl-subseq work-list 0 (+ pos 1)))
+       (back (cl-subseq work-list (+ pos 1))))
+  (setq helm-for-files-preferred-list (append front (list 'helm-ghq-source) back)))
 
 ;; Remap
 (define-key global-map [remap execute-extended-command] 'helm-M-x)
