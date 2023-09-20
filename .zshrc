@@ -258,7 +258,11 @@ function vcs_prompt () {
 }
 
 # See also "$ man zshmisc"
-RPROMPT='[%*]$(aws_prompt)$(gcp_prompt)$(vcs_prompt)'
+if exists gcloud; then
+  RPROMPT='[%*]$(aws_prompt)$(gcp_prompt)$(vcs_prompt)'
+else
+  RPROMPT='[%*]$(aws_prompt)$(vcs_prompt)'
+fi
 
 #---------------------------------------------------------------------
 # peco
