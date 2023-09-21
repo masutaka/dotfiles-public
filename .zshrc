@@ -13,8 +13,8 @@ function exists () {
 
 function go-installs () {
   for i in $(cat $HOME/src/github.com/masutaka/dotfiles/go.txt); do
-	echo $i
-	go install $i
+    echo $i
+    go install $i
   done
 }
 alias go-updates=go-installs
@@ -30,39 +30,39 @@ function psnot () {
 function rm-local-branches () {
   local base_branch=main
   if git rev-parse --verify master > /dev/null 2>&1; then
-	base_branch=master
+    base_branch=master
   fi
 
   if [ -n "$1" -a "$1" != "-f" ]; then
-	base_branch=$1
-	shift
+    base_branch=$1
+    shift
   fi
 
   local git="echo git"
   if [ "$1" = "-f" ]; then
-	git="git"
+    git="git"
   fi
 
   for b in $(git branch --merged "origin/$base_branch" | grep -Fvw "$base_branch" | awk '{print $1}'); do
-	eval "$git branch -d $b"
+    eval "$git branch -d $b"
   done
 }
 
 if [ "$OS_KIND" = Darwin ]; then
   function unixtime2date () {
-	date -r $1 +%Y-%m-%dT%H:%M:%S%z
+    date -r $1 +%Y-%m-%dT%H:%M:%S%z
   }
 
   function kd () {
-	ls -alF $@ | more -e
+    ls -alF $@ | more -e
   }
 else
   function unixtime2date () {
-	date --date="@$1" +%Y-%m-%dT%H:%M:%S%z
+    date --date="@$1" +%Y-%m-%dT%H:%M:%S%z
   }
 
   function kd () {
-	LC_COLLATE=C ls -alF $@ | more -e
+    LC_COLLATE=C ls -alF $@ | more -e
   }
 fi
 
@@ -106,7 +106,7 @@ setopt auto_pushd
 setopt correct
 
 # {a-c} を a b c に展開する機能が使える。
-#setopt	brace_ccl
+#setopt brace_ccl
 
 # ワイルドカード拡張、ファイル名で #, ~, ^ の 3 文字を正規表現として扱う。(man zshexpn)
 setopt extended_glob
@@ -199,13 +199,13 @@ if [ "$OS_KIND" = Darwin ]; then
   export HOMEBREW_NO_INSTALL_CLEANUP=yes
 
   function my-brew-upgrade () {
-	echo "brew updating..."
+    echo "brew updating..."
 
-	brew update
-	outdated=$(brew outdated)
+    brew update
+    outdated=$(brew outdated)
 
-	if [ -n "$outdated" ]; then
-	  cat <<EOF
+    if [ -n "$outdated" ]; then
+      cat <<EOF
 
 The following package(s) will upgrade.
 
@@ -215,11 +215,11 @@ Are you sure?
 If you don't want to upgrade, please type Ctrl-c now.
 EOF
 
-	  read dummy
+      read dummy
 
-	  brew cleanup
-	  brew upgrade
-	fi
+      brew cleanup
+      brew upgrade
+    fi
   }
 fi
 
@@ -270,85 +270,85 @@ fi
 
 if exists peco; then
   function peco_select_history () {
-	local tac
-	exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
-	BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
-	CURSOR=$#BUFFER         # move cursor
+    local tac
+    exists gtac && tac="gtac" || { exists tac && tac="tac" || { tac="tail -r" } }
+    BUFFER=$(fc -l -n 1 | eval $tac | peco --query "$LBUFFER")
+    CURSOR=$#BUFFER         # move cursor
   }
   zle -N peco_select_history
   bindkey '^R' peco_select_history
 
   function peco_bundle_show () {
-	local selected_dir=$(bundle show | awk 'NR>1 {print $2}' | peco | xargs bundle show)
-	if [ -n "$selected_dir" ]; then
-	  BUFFER="cd ${selected_dir}"
-	  zle accept-line
-	fi
+    local selected_dir=$(bundle show | awk 'NR>1 {print $2}' | peco | xargs bundle show)
+    if [ -n "$selected_dir" ]; then
+      BUFFER="cd ${selected_dir}"
+      zle accept-line
+    fi
   }
   zle -N peco_bundle_show
   bindkey '^xy' peco_bundle_show
 
   function peco_helm () {
-	local IFS="
+    local IFS="
 "
-	my-compact-chpwd-recent-dirs
-	local selected_dir=$((ghq list --full-path | sed -e "s@$HOME@~@";
-						  cdr -l | perl -pne 's@^[0-9]+ +@@') | awk '!x[$0]++{print $0}' | peco)
-	if [ -n "$selected_dir" ]; then
-	  BUFFER="cd ${selected_dir}"
-	  zle accept-line
-	fi
+    my-compact-chpwd-recent-dirs
+    local selected_dir=$((ghq list --full-path | sed -e "s@$HOME@~@";
+                          cdr -l | perl -pne 's@^[0-9]+ +@@') | awk '!x[$0]++{print $0}' | peco)
+    if [ -n "$selected_dir" ]; then
+      BUFFER="cd ${selected_dir}"
+      zle accept-line
+    fi
   }
   zle -N peco_helm
   bindkey '^x^b' peco_helm
 
   # http://blog.n-z.jp/blog/2014-07-25-compact-chpwd-recent-dirs.html
   function my-compact-chpwd-recent-dirs () {
-	emulate -L zsh
-	setopt extendedglob
-	local -aU reply
-	integer history_size
-	autoload -Uz chpwd_recent_filehandler
-	chpwd_recent_filehandler
-	history_size=$#reply
-	reply=(${^reply}(N))
-	(( $history_size == $#reply )) || chpwd_recent_filehandler $reply
+    emulate -L zsh
+    setopt extendedglob
+    local -aU reply
+    integer history_size
+    autoload -Uz chpwd_recent_filehandler
+    chpwd_recent_filehandler
+    history_size=$#reply
+    reply=(${^reply}(N))
+    (( $history_size == $#reply )) || chpwd_recent_filehandler $reply
   }
 
   function peco-pkill () {
-	for pid in $(ps aux | peco | awk '{ print $2 }'); do
-	  kill $pid
-	  echo "Killed ${pid}"
-	done
+    for pid in $(ps aux | peco | awk '{ print $2 }'); do
+      kill $pid
+      echo "Killed ${pid}"
+    done
   }
   alias pk="peco-pkill"
 
   function peco-gcloud-configurations () {
-	local selected_branch=$(gcloud config configurations list | peco | grep -v '^NAME ' | cut -d ' ' -f1)
-	if [ -n "$selected_branch" ]; then
-	  BUFFER="export CLOUDSDK_ACTIVE_CONFIG_NAME=${selected_branch}"
-	  zle accept-line
-	fi
+    local selected_branch=$(gcloud config configurations list | peco | grep -v '^NAME ' | cut -d ' ' -f1)
+    if [ -n "$selected_branch" ]; then
+      BUFFER="export CLOUDSDK_ACTIVE_CONFIG_NAME=${selected_branch}"
+      zle accept-line
+    fi
   }
   zle -N peco-gcloud-configurations
   bindkey '^x^k' peco-gcloud-configurations
 
   function peco-git-recent-branches () {
-	local selected_branch=$(git branch --sort=-authordate -v | peco | sed -E -e 's/^[* ]+//' | cut -d ' ' -f1)
-	if [ -n "$selected_branch" ]; then
-	  BUFFER="git checkout ${selected_branch}"
-	  zle accept-line
-	fi
+    local selected_branch=$(git branch --sort=-authordate -v | peco | sed -E -e 's/^[* ]+//' | cut -d ' ' -f1)
+    if [ -n "$selected_branch" ]; then
+      BUFFER="git checkout ${selected_branch}"
+      zle accept-line
+    fi
   }
   zle -N peco-git-recent-branches
   bindkey '^xn' peco-git-recent-branches
 
   function peco-git-recent-all-branches () {
-	local selected_branch=$(git branch --sort=-authordate -v -a | peco | sed -E -e 's/^[* ]+//' | cut -d ' ' -f1)
-	if [ -n "$selected_branch" ]; then
-	  BUFFER="git checkout -t ${selected_branch}"
-	  zle accept-line
-	fi
+    local selected_branch=$(git branch --sort=-authordate -v -a | peco | sed -E -e 's/^[* ]+//' | cut -d ' ' -f1)
+    if [ -n "$selected_branch" ]; then
+      BUFFER="git checkout -t ${selected_branch}"
+      zle accept-line
+    fi
   }
   zle -N peco-git-recent-all-branches
   bindkey '^x^n' peco-git-recent-all-branches
@@ -394,14 +394,14 @@ function my-backward-word () {
   zle backward-word
 }
 zle -N my-backward-word
-bindkey '^[b' my-backward-word	# 本当は C-, を使いたい。
+bindkey '^[b' my-backward-word # 本当は C-, を使いたい。
 
 function my-forward-word () {
   local WORDCHARS="${WORDCHARS:s#/#}"
   zle forward-word
 }
 zle -N my-forward-word
-bindkey '^[f' my-forward-word	# 本当は C-. を使いたい。
+bindkey '^[f' my-forward-word  # 本当は C-. を使いたい。
 
 # C-x C-p で直前の履歴をクリップボードにコピー
 if [ "$OS_KIND" = "Darwin" ]; then
@@ -431,10 +431,10 @@ bindkey "^[n" history-beginning-search-forward-end
 #bindkey '^R' history-incremental-pattern-search-backward
 bindkey '^S' history-incremental-pattern-search-forward
 
-bindkey '^[?'	run-help		# カーソル下の manを表示。
-bindkey '^q^q'	quoted-insert
-bindkey '^v'	undefined-key
-bindkey '^w'	kill-region
+bindkey '^[?'  run-help      # カーソル下の manを表示。
+bindkey '^q^q' quoted-insert
+bindkey '^v'   undefined-key
+bindkey '^w'   kill-region
 
 #---------------------------------------------------------------------
 # Aliases
@@ -461,7 +461,3 @@ alias cdg="cd \$(git rev-parse --show-toplevel)"
 alias d=docker
 alias g=git
 alias hall="history -E -i 1"
-
-# Local Variables:
-# tab-width: 4
-# End:
