@@ -101,3 +101,7 @@ export ASDF_PERL_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-perl-modu
 export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-python-packages"
 
 FPATH=${ASDF_DIR}/completions:$FPATH
+
+# Local Variables:
+# tab-width: 8
+# End:

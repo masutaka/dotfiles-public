@@ -461,3 +461,7 @@ alias cdg="cd \$(git rev-parse --show-toplevel)"
 alias d=docker
 alias g=git
 alias hall="history -E -i 1"
+
+# Local Variables:
+# tab-width: 8
+# End:
