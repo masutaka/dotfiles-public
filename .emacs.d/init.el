@@ -365,6 +365,9 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
        (back (cl-subseq work-list (+ pos 1))))
   (setq helm-for-files-preferred-list (append front (list 'helm-ghq-source) back)))
 
+;; Remove locate
+(setq helm-for-files-preferred-list (delete 'helm-source-locate helm-for-files-preferred-list))
+
 ;; Remap
 (define-key global-map [remap execute-extended-command] 'helm-M-x)
 
