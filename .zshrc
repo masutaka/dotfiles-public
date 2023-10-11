@@ -29,14 +29,13 @@ function psnot () {
 
 function rm-local-branches () {
   local base_branch=main
-  if git rev-parse --verify master > /dev/null 2>&1; then
+  if [ -n "$MY_BASE_BRANCH" ]; then
+    base_branch=$MY_BASE_BRANCH
+  elif git rev-parse --verify master > /dev/null 2>&1; then
     base_branch=master
   fi
 
-  if [ -n "$1" -a "$1" != "-f" ]; then
-    base_branch=$1
-    shift
-  fi
+  echo "base_branch: $base_branch"
 
   local git="echo git"
   if [ "$1" = "-f" ]; then

@@ -1096,7 +1096,7 @@ DO NOT SET VALUE MANUALLY.")
 ;;; markdown
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(let ((stylesheet "https://thomasf.github.io/solarized-css/solarized-light.min.css"))
+(let ((stylesheet "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.css"))
   (setq markdown-css-paths (list stylesheet))
   (setq markdown-preview-stylesheets (list stylesheet)))
 
