@@ -1229,20 +1229,27 @@ DO NOT SET VALUE MANUALLY.")
 ;;; terraform-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
+;; TODO: import block と moved block にも対応させる。
+;; https://developer.hashicorp.com/terraform/language/import
+;; https://developer.hashicorp.com/terraform/language/modules/develop/refactoring
 (defun open-terraform-document ()
   "Open the document of terraform under the cursor"
   (interactive)
   (let ((regexp "^\\(data\\|resource\\) \"\\([a-z]+\\)_\\([^\"]+\\)\"")
-	(type) (provider) (name))
+	(type) (type-for-url) (provider) (name))
     (save-excursion
       (re-search-backward "^[a-z]" (point-min) t)
       (when (re-search-forward regexp (point-at-eol) t)
 	(setq type (match-string-no-properties 1)
 	      provider (match-string-no-properties 2)
 	      name (match-string-no-properties 3))))
-    (if (and type provider name)
-	(browse-url (format "https://www.terraform.io/docs/providers/%s/%s/%s"
-			    provider (substring type 0 1) name))
+    (setq type-for-url
+	  (cond
+	   ((equal type "resource") "resources")
+	   ((equal type "data") "data-sources")))
+    (if (and type-for-url provider name)
+	(browse-url (format "https://registry.terraform.io/providers/hashicorp/%s/latest/docs/%s/%s"
+			    provider type-for-url name))
       (message "Unknown terraform DSL"))))
 
 (with-eval-after-load "terraform-mode"
