@@ -369,14 +369,6 @@ function fingerprints {
   done < $1
 }
 
-function urlencode () {
-  echo $(php -r "echo rawurlencode('$1');")
-}
-
-function urldecode () {
-  echo $(php -r "echo rawurldecode('$1');")
-}
-
 #---------------------------------------------------------------------
 # Key binding
 #---------------------------------------------------------------------
