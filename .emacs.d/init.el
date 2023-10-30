@@ -1456,7 +1456,7 @@ do nothing. And suppress the output from `message' and
 (setq dabbrev-abbrev-char-regexp "[-a-zA-Z_]")
 
 ;; 折り返すカラム数
-;;(setq-default fill-column 70)
+(setq-default fill-column 120)
 
 ;; -nw 起動時は、menu-bar 非表示
 (unless window-system
