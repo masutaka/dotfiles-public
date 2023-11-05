@@ -15,6 +15,10 @@ Darwin)
   # Set PATH, MANPATH, etc., for Homebrew.
   eval "$(/opt/homebrew/bin/brew shellenv)"
 
+  if [ -d "${HOMEBREW_PREFIX}/opt/libpq/bin" ]; then
+    PATH=${HOMEBREW_PREFIX}/opt/libpq/bin:$PATH
+  fi
+
   if [ -d "${HOMEBREW_PREFIX}/opt/postgresql@15/bin" ]; then
     PATH=${HOMEBREW_PREFIX}/opt/postgresql@15/bin:$PATH
   fi
