@@ -679,6 +679,7 @@ DO NOT SET VALUE MANUALLY.")
 (if os-mac-p
     (setq dired-guess-shell-alist-user
 	  '(("\\.tif\\'" "open")
+	    ("\\.pdf\\'" "open")
 	    ("\\.png\\'" "open")
 	    ("\\.jpe?g\\'" "open"))))
 
