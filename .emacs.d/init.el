@@ -354,6 +354,7 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 
 (setq helm-buffer-max-length 50)
 (setq helm-candidate-number-limit 500)
+(setq helm-move-to-line-cycle-in-source nil) ;; C-n や C-p で、次や前の source に進む
 
 ;; C-c F1 などのインターフェイスを提供。
 (helm-descbinds-mode)
