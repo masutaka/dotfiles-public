@@ -40,6 +40,7 @@
 	useForceIfIncludes = true # [^1]
 [rebase]
 	autosquash = true
+	autostash = true
 [svn]
 	rmdir = true
 [user]
