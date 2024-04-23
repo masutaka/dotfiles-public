@@ -227,13 +227,17 @@ fi
 #---------------------------------------------------------------------
 
 function aws_prompt () {
-  local profile=${AWS_PROFILE:=default}
-  echo "%F{214}(AWS:${profile})%f"
+  if exists aws; then
+    local profile=${AWS_PROFILE:=default}
+    echo "%F{214}(AWS:${profile})%f"
+  fi
 }
 
 function gcp_prompt () {
-  local profile=${CLOUDSDK_ACTIVE_CONFIG_NAME:=default}
-  echo "%F{039}(GCP:${profile})%f"
+  if exists gcloud; then
+    local profile=${CLOUDSDK_ACTIVE_CONFIG_NAME:=default}
+    echo "%F{039}(GCP:${profile})%f"
+  fi
 }
 
 # show vcs branch name to $RPROMPT
@@ -257,11 +261,7 @@ function vcs_prompt () {
 }
 
 # See also "$ man zshmisc"
-if exists gcloud; then
-  RPROMPT='[%*]$(aws_prompt)$(gcp_prompt)$(vcs_prompt)'
-else
-  RPROMPT='[%*]$(aws_prompt)$(vcs_prompt)'
-fi
+RPROMPT='[%*]$(aws_prompt)$(gcp_prompt)$(vcs_prompt)'
 
 #---------------------------------------------------------------------
 # peco
