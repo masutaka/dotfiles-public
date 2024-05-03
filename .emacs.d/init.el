@@ -1238,20 +1238,22 @@ DO NOT SET VALUE MANUALLY.")
   "Open the document of terraform under the cursor"
   (interactive)
   (let ((regexp "^\\(data\\|resource\\) \"\\([a-z]+\\)_\\([^\"]+\\)\"")
-	(type) (type-for-url) (provider) (name))
+	(type) (type-for-url) (owner) (provider) (name))
     (save-excursion
       (re-search-backward "^[a-z]" (point-min) t)
       (when (re-search-forward regexp (point-at-eol) t)
 	(setq type (match-string-no-properties 1)
 	      provider (match-string-no-properties 2)
 	      name (match-string-no-properties 3))))
-    (setq type-for-url
+    (setq owner
+	  (if (equal provider "cloudflare") "cloudflare" "hashicorp")
+	  type-for-url
 	  (cond
 	   ((equal type "resource") "resources")
 	   ((equal type "data") "data-sources")))
     (if (and type-for-url provider name)
-	(browse-url (format "https://registry.terraform.io/providers/hashicorp/%s/latest/docs/%s/%s"
-			    provider type-for-url name))
+	(browse-url (format "https://registry.terraform.io/providers/%s/%s/latest/docs/%s/%s"
+			    owner provider type-for-url name))
       (message "Unknown terraform DSL"))))
 
 (with-eval-after-load "terraform-mode"
