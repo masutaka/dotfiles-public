@@ -417,7 +417,9 @@ DO NOT SET VALUE MANUALLY.")
 	 (let ((now (current-time)))
 	   (message "[GH] Success to GET my GitHub Stars and Repos (%0.1fsec) at %s."
 		    (time-to-seconds (time-subtract now start-time))
-		    (format-time-string "%Y-%m-%d %H:%M:%S" now)))))))
+		    (format-time-string "%Y-%m-%d %H:%M:%S" now)))))
+    (message "[GH] Skip at %s, since this laptop lid isnot opened."
+	     (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)))))
 
 (defun my-laptop-lid-is-opened-p ()
   "Is the laptop lid opened?"
