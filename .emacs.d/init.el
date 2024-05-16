@@ -402,27 +402,27 @@ DO NOT SET VALUE MANUALLY.")
 
 (defun my-helm-github-stars-async-generate-cache-file ()
   "Generate `helm-github-stars-cache-file' in the child emacs process"
-  (if (my-laptop-lid-is-opened-p)
-      (async-start
-       `(lambda ()
-	  (let ((start-time (current-time)))
-	    (require 'package)
-	    (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
-	    (package-initialize)
-	    (require 'helm-github-stars)
-	    (setq helm-github-stars-token ,(my-lisp-load "helm-github-stars-token"))
-	    (hgs/generate-cache-file)
-	    start-time))
-       (lambda (start-time)
-	 (let ((now (current-time)))
-	   (message "[GH] Success to GET my GitHub Stars and Repos (%0.1fsec) at %s."
-		    (time-to-seconds (time-subtract now start-time))
-		    (format-time-string "%Y-%m-%d %H:%M:%S" now)))))
-    (message "[GH] Skip at %s, since this laptop lid isnot opened."
-	     (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)))))
+  (if (my-laptop-is-sleeping-p)
+      (message "[GH] Skip, as this laptop seems to be sleeping at %s."
+	       (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)))
+    (async-start
+     `(lambda ()
+	(let ((start-time (current-time)))
+	  (require 'package)
+	  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
+	  (package-initialize)
+	  (require 'helm-github-stars)
+	  (setq helm-github-stars-token ,(my-lisp-load "helm-github-stars-token"))
+	  (hgs/generate-cache-file)
+	  start-time))
+     (lambda (start-time)
+       (let ((now (current-time)))
+	 (message "[GH] Success to GET my GitHub Stars and Repos (%0.1fsec) at %s."
+		  (time-to-seconds (time-subtract now start-time))
+		  (format-time-string "%Y-%m-%d %H:%M:%S" now)))))))
 
-(defun my-laptop-lid-is-opened-p ()
-  "Is the laptop lid opened?"
+(defun my-laptop-is-sleeping-p ()
+  "Is this laptop sleeping?"
   (interactive)
   (if os-mac-p
       (string-match-p "No" (shell-command-to-string "ioreg -r -k AppleClamshellState -d 4 | grep AppleClamshellState | grep No"))
