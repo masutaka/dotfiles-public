@@ -425,7 +425,7 @@ DO NOT SET VALUE MANUALLY.")
   "Is this laptop sleeping?"
   (interactive)
   (if os-mac-p
-      (string-match-p "No" (shell-command-to-string "ioreg -r -k AppleClamshellState -d 4 | grep AppleClamshellState | grep No"))
+      (string-match-p "Yes" (shell-command-to-string "ioreg -r -k AppleClamshellState -d 4 | grep AppleClamshellState | grep Yes"))
     t))
 
 (defun my-helm-github-stars-set-timer ()
