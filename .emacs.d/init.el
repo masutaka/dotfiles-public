@@ -423,7 +423,6 @@ DO NOT SET VALUE MANUALLY.")
 
 (defun my-laptop-is-sleeping-p ()
   "Is this laptop sleeping?"
-  (interactive)
   (if os-mac-p
       (string-match-p "Yes" (shell-command-to-string "ioreg -r -k AppleClamshellState -d 4 | grep AppleClamshellState | grep Yes"))
     t))
