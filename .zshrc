@@ -175,6 +175,11 @@ else
   source ${PYTHONUSERBASE}/bin/aws_zsh_completer.sh
 fi
 
+if exists az; then
+  autoload -U +X bashcompinit && bashcompinit
+  source ${HOMEBREW_PREFIX}/etc/bash_completion.d/az
+fi
+
 #---------------------------------------------------------------------
 # cdr
 #---------------------------------------------------------------------
