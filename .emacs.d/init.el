@@ -451,6 +451,13 @@ DO NOT SET VALUE MANUALLY.")
 (setq helm-hatena-bookmark-debug-mode t)
 (helm-hatena-bookmark-initialize)
 
+(defadvice helm-hatena-bookmark-http-request
+  (around helm-hatena-bookmark-run activate)
+  (if (my-laptop-is-sleeping-p)
+      (message "[B!] Skip, as this laptop seems to be sleeping at %s."
+	       (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)))
+    ad-do-it))
+
 ;;; My bookmark
 
 (defun my-helm-bookmark ()
