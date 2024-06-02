@@ -23,10 +23,6 @@ Darwin)
     PATH=${HOMEBREW_PREFIX}/opt/postgresql@15/bin:$PATH
   fi
 
-  if [ -d /Applications/SnowSQL.app/Contents/MacOS ]; then
-    PATH=/Applications/SnowSQL.app/Contents/MacOS:$PATH
-  fi
-
   if [ -d "${HOME}/.local/bin" ]; then
     PATH=$HOME/.local/bin:$PATH
   fi
