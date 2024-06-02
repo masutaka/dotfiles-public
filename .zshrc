@@ -238,10 +238,10 @@ function aws_prompt () {
   fi
 }
 
-function gcp_prompt () {
+function google_cloud_prompt () {
   if exists gcloud; then
     local profile=${CLOUDSDK_ACTIVE_CONFIG_NAME:=default}
-    echo "%F{039}(GCP:${profile})%f"
+    echo "%F{039}(GC:${profile})%f"
   fi
 }
 
@@ -266,7 +266,7 @@ function vcs_prompt () {
 }
 
 # See also "$ man zshmisc"
-RPROMPT='[%*]$(aws_prompt)$(gcp_prompt)$(vcs_prompt)'
+RPROMPT='[%*]$(aws_prompt)$(google_cloud_prompt)$(vcs_prompt)'
 
 #---------------------------------------------------------------------
 # peco
