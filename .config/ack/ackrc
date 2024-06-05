@@ -1,5 +1,6 @@
 --follow
 --ignore-directory=.terraform/
+--ignore-directory=.venv/
 --ignore-directory=.yardoc/
 --ignore-directory=vendor/
 --nosvg
