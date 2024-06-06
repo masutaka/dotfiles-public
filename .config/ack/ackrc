@@ -5,6 +5,7 @@
 --ignore-directory=vendor/
 --nosvg
 --sort-files
+--type-add=graphql:ext:graphql
 --type-add=haml:ext:haml
 --type-add=jsx:ext:jsx
 --type-add=lookml:ext:lkml
