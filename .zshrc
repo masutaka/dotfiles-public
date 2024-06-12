@@ -224,6 +224,8 @@ EOF
       brew cleanup
       brew upgrade
     fi
+
+    brew doctor
   }
 fi
 
