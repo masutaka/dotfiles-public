@@ -1,4 +1,4 @@
 # -*- mode: ruby -*-
 
-IRB.conf[:HISTORY_FILE] = File.join(File.dirname(IRB.rc_file), 'irb_history')
+IRB.conf[:HISTORY_FILE] = File.join(File.dirname(IRB.rc_file('rc')), 'irb_history')
 IRB.conf[:SAVE_HISTORY] = 10000

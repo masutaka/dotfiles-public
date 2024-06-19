@@ -932,6 +932,18 @@ DO NOT SET VALUE MANUALLY.")
   (define-key mozc-mode-map (kbd "s-SPC") 'toggle-input-method))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Python
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(with-eval-after-load "python-mode"
+  (define-key python-mode-map (kbd "C-c C-m") 'browse-url-at-point))
+
+(defun python-mode-hook-func ()
+  ;; 行末のスペースやタブに色づけして警告する。
+  (setq show-trailing-whitespace t))
+(add-hook 'python-mode-hook #'python-mode-hook-func)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Ruby, PHP, HTML, CSS
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1518,11 +1530,6 @@ do nothing. And suppress the output from `message' and
   ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t))
 (add-hook 'sh-mode-hook #'sh-mode-hook-func)
-
-(defun python-mode-hook-func ()
-  ;; 行末のスペースやタブに色づけして警告する。
-  (setq show-trailing-whitespace t))
-(add-hook 'python-mode-hook #'python-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Key Binding
