@@ -11,6 +11,18 @@ function exists () {
   type $1 > /dev/null
 }
 
+# Usage: $ fingerprints <".pub" or authorized_keys>
+# https://gist.github.com/hvr/662196
+function fingerprints {
+  while read key; do
+    if [[ "$key" =~ "^#|^$" ]]; then
+      continue
+    fi
+    printf "%-16s => " $(echo "$key" | cut -f 3 -d ' ')
+    echo "$key" | ssh-keygen -l -E md5 -f -
+  done < $1
+}
+
 function go-installs () {
   for i in $(cat $HOME/src/github.com/masutaka/dotfiles/go.txt); do
     echo $i
@@ -178,6 +190,15 @@ fi
 if exists az; then
   autoload -U +X bashcompinit && bashcompinit
   source ${HOMEBREW_PREFIX}/etc/bash_completion.d/az
+fi
+
+#---------------------------------------------------------------------
+# 1Password
+#---------------------------------------------------------------------
+
+# For OpenAI CLI
+if [ -r ${HOME}/.config/op/plugins.sh ]; then
+  source ${HOME}/.config/op/plugins.sh
 fi
 
 #---------------------------------------------------------------------
@@ -359,22 +380,6 @@ if exists peco; then
   zle -N peco-git-recent-all-branches
   bindkey '^x^n' peco-git-recent-all-branches
 fi
-
-#---------------------------------------------------------------------
-# Function
-#---------------------------------------------------------------------
-
-# Usage: $ fingerprints <".pub" or authorized_keys>
-# https://gist.github.com/hvr/662196
-function fingerprints {
-  while read key; do
-    if [[ "$key" =~ "^#|^$" ]]; then
-      continue
-    fi
-    printf "%-16s => " $(echo "$key" | cut -f 3 -d ' ')
-    echo "$key" | ssh-keygen -l -E md5 -f -
-  done < $1
-}
 
 #---------------------------------------------------------------------
 # Key binding
