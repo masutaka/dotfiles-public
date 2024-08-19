@@ -1,4 +1,5 @@
 --follow
+--ignore-directory=.docusaurus/
 --ignore-directory=.terraform/
 --ignore-directory=.venv/
 --ignore-directory=.yardoc/
