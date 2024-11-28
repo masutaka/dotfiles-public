@@ -1149,6 +1149,20 @@ DO NOT SET VALUE MANUALLY.")
   (setq markdown-css-paths (list stylesheet))
   (setq markdown-preview-stylesheets (list stylesheet)))
 
+(defun replace-markdown-image-to-html (&optional start end)
+  "Replace a single Markdown image syntax with an HTML image tag in the selected region or current line if no region is selected."
+  (interactive)
+  (save-excursion
+    ;; Determine the range: region or current line
+    (let* ((start (or start (line-beginning-position)))
+           (end (or end (line-end-position))))
+      (goto-char start)
+      (when (re-search-forward "!\\[\\([^]]*\\)\\](\\([^)]*\\))" end t)
+        (let ((alt-text (match-string 1))
+              (src-url (match-string 2)))
+          ;; Replace the match with the desired HTML format
+          (replace-match (format "<img alt=\"%s\" src=\"%s\" width=\"80%%\">" alt-text src-url) t t))))))
+
 (defun open-markdown (arg)
   "Open the URL of the article matching the current markdown"
   (interactive "P")
@@ -1187,7 +1201,8 @@ DO NOT SET VALUE MANUALLY.")
 (with-eval-after-load "markdown-mode"
   (define-key markdown-mode-command-map (kbd "C-p") 'markdown-preview-mode)
   (define-key markdown-mode-map (kbd "C-c C-m") 'browse-url-at-point)
-  (define-key markdown-mode-map (kbd "C-c C-o") 'open-markdown))
+  (define-key markdown-mode-map (kbd "C-c C-o") 'open-markdown)
+  (define-key markdown-mode-map (kbd "C-c C-r") 'replace-markdown-image-to-html))
 
 (defun markdown-mode-hook-func ()
   (setq indent-tabs-mode nil)
