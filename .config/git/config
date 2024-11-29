@@ -53,5 +53,9 @@
 	path = ~/.config/git/config_route06
 [includeIf "gitdir:~/src/github.com/r06-*/**"]
 	path = ~/.config/git/config_route06
+[includeIf "gitdir:~/src/github.com/giselles-ai/**"]
+	path = ~/.config/git/config_route06
+[includeIf "gitdir:~/src/github.com/liam-hq/**"]
+	path = ~/.config/git/config_route06
 
 # [^1]: See also https://onk.hatenablog.jp/entry/2022/12/18/000000
