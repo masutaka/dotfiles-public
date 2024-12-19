@@ -128,6 +128,13 @@
   (interactive)
   (goto-char (point-min)))
 
+(defun my-copy-whole-buffer-to-kill-ring ()
+  "Copy the whole buffer to the kill ring without moving the cursor."
+  (interactive)
+  (save-excursion
+    (kill-ring-save (point-min) (point-max)))
+  (message "The whole buffer was copied to the kill ring."))
+
 (defun my-end-of-buffer ()
   "\\[end-of-buffer] without markset"
   (interactive)
@@ -1732,7 +1739,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-s") 'toggle-truncate-lines)
 (define-key ctl-q-map (kbd "C-t") 'linum-mode)
 (define-key ctl-q-map (kbd "C-u") 'sort-lines)
-(define-key ctl-q-map (kbd "C-v") 'mark-whole-buffer)
+(define-key ctl-q-map (kbd "C-v") 'my-copy-whole-buffer-to-kill-ring)
 (define-key ctl-q-map (kbd "C-w") 'erase-buffer)
 ;;(define-key ctl-q-map (kbd "C-x") nil)
 (define-key ctl-q-map (kbd "C-y") 'quote-yank)
