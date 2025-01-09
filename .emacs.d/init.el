@@ -1168,7 +1168,7 @@ DO NOT SET VALUE MANUALLY.")
         (let ((alt-text (match-string 1))
               (src-url (match-string 2)))
           ;; Replace the match with the desired HTML format
-          (replace-match (format "<img alt=\"%s\" src=\"%s\" width=\"80%%\">" alt-text src-url) t t))))))
+          (replace-match (format "<img alt=\"%s\" src=\"%s\" width=\"80%%\" />" alt-text src-url) t t))))))
 
 (defun open-markdown (arg)
   "Open the URL of the article matching the current markdown"
