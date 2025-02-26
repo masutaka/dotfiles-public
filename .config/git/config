@@ -3,6 +3,7 @@
 	f = fetch
 	fetch-pulls = fetch origin +refs/pull/*:refs/remotes/pull/*
 	modified = diff --diff-filter=M
+	out = log @{u}..
 	push = push --force-with-lease # [^1]
 	st = status
 	st2 = status -sb
