@@ -1174,10 +1174,10 @@ DO NOT SET VALUE MANUALLY.")
   "Open the URL of the article matching the current markdown"
   (interactive "P")
   (if (string-match "github\\.com/route06/docs/\\(.+\\)\\.md$" buffer-file-name)
-      (open-github-pages)
+      (open-github-pages arg)
     (open-hugo arg)))
 
-(defun open-github-pages ()
+(defun open-github-pages (arg)
   "Open the URL of the GitHub Pages article matching the current markdown"
   (let* ((elements (split-string buffer-file-name "/"))
 	 (last-element (car (last elements)))
@@ -1191,7 +1191,9 @@ DO NOT SET VALUE MANUALLY.")
 	 (match-string (if (string-match "github\\.com/route06/docs/\\(.+\\)$" trimed-bfn)
 			  (match-string-no-properties 1 trimed-bfn))))
     (if match-string
-	(browse-url (format "https://docs.route06.co.jp/%s/" match-string)))))
+	(browse-url (format
+		     (if arg "http://localhost:3000/%s/" "https://docs.route06.co.jp/%s/")
+		     match-string)))))
 
 (defun open-hugo (arg)
   "Open the URL of the Hugo article matching the current markdown"
