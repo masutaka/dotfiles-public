@@ -104,6 +104,51 @@
 	    base 10))
     (message string num (string-to-number num base))))
 
+(defun github-expand-link ()
+  "Insert its title as an HTML comment after the GitHub issue/pr/discussion URL"
+  (interactive)
+  (require 'request)
+  (let* ((access-token (my-lisp-load "github-expand-link"))
+	 (url (thing-at-point 'url 'no-properties))
+	 (parts (split-string (url-filename (url-generic-parse-url url)) "/" t))
+	 (org (nth 0 parts))
+	 (repo (nth 1 parts))
+	 (type (nth 2 parts))
+	 (number (nth 3 parts)))
+    (if (equal type "discussions")
+	(request
+	  "https://api.github.com/graphql"
+	  :type "POST"
+	  :headers `(("Authorization" . ,(concat "Bearer " access-token)))
+	  :data (json-encode `(("query" . ,(format "query { repository(owner: \"%s\", name: \"%s\") { discussion(number: %d) { title } } }" org repo (string-to-number number)))))
+	  :parser 'json-read
+	  :sync t
+	  :success (cl-function
+		    (lambda (&key data response &allow-other-keys)
+		      (let ((title (alist-get 'title (alist-get 'discussion (alist-get 'repository (alist-get 'data data))))))
+			(end-of-line)
+			(insert (format " <!-- %s -->" title)))))
+	  :error (cl-function
+		  (lambda (&key error-thrown response &allow-other-keys)
+		    (message "[github-expand-link] Fail %S to POST %s"
+			     error-thrown (request-response-url response)))))
+      (request
+	(format "https://api.github.com/repos/%s/%s/issues/%s" org repo number)
+	:headers `(("Accept" . "application/vnd.github.v3+json")
+		   ("Authorization" . ,(concat "Bearer " access-token))
+		   ("X-GitHub-Api-Version" . "2022-11-28"))
+	:parser 'json-read
+	:sync t
+	:success (cl-function
+		  (lambda (&key data response &allow-other-keys)
+		    (let ((title (alist-get 'title data)))
+		      (end-of-line)
+		      (insert (format " <!-- %s -->" title)))))
+	:error (cl-function
+		(lambda (&key error-thrown response &allow-other-keys)
+		  (message "[github-expand-link] Fail %S to GET %s"
+			   error-thrown (request-response-url response))))))))
+
 (defun kill-current-line (&optional arg)
   "現在の行を改行ごと killします。"
   (interactive "P")
@@ -1694,7 +1739,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key global-map (kbd "s-f") nil)
 ;;(define-key global-map (kbd "s-g") nil)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
-;;(define-key global-map (kbd "s-i") nil)
+(define-key global-map (kbd "s-i") 'github-expand-link)
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
