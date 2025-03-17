@@ -108,7 +108,7 @@
   "Insert its title as an HTML comment after the GitHub issue/pr/discussion URL"
   (interactive)
   (require 'request)
-  (let* ((access-token (my-lisp-load "github-expand-link"))
+  (let* ((access-token (my-lisp-load "github-expand-link-token"))
 	 (url (thing-at-point 'url 'no-properties))
 	 (parts (split-string (url-filename (url-generic-parse-url url)) "/" t))
 	 (org (nth 0 parts))
