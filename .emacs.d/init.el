@@ -968,7 +968,9 @@ DO NOT SET VALUE MANUALLY.")
   (flycheck-mode 1)
   (setq js2-basic-offset 2)
   (setq indent-tabs-mode nil)
-  (setq show-trailing-whitespace t))
+  (setq show-trailing-whitespace t)
+  (define-key js2-mode-map (kbd "C-c C-[") 'beginning-of-defun)
+  (define-key js2-mode-map (kbd "C-c C-]") 'end-of-defun))
 (add-hook 'js2-mode-hook #'js2-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
