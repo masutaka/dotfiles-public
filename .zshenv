@@ -93,18 +93,15 @@ fi
 # asdf
 #---------------------------------------------------------------------
 
-source $HOME/.asdf/asdf.sh
+PATH=$HOME/.asdf/shims:$PATH
 
 MY_ASDF_CONFIG_HOME="${XDG_CONFIG_HOME}/asdf"
 export ASDF_CONFIG_FILE="${MY_ASDF_CONFIG_HOME}/asdfrc"
-export ASDF_RUBY_BUILD_VERSION=master
 
 export ASDF_GEM_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-gems"
 export ASDF_NPM_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-npm-packages"
 export ASDF_PERL_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-perl-modules"
 export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-python-packages"
-
-FPATH=${ASDF_DIR}/completions:$FPATH
 
 # Local Variables:
 # tab-width: 8
