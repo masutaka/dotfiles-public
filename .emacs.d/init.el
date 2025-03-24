@@ -108,46 +108,54 @@
   "Insert its title as an HTML comment after the GitHub issue/pr/discussion URL"
   (interactive)
   (require 'request)
-  (let* ((access-token (my-lisp-load "github-expand-link-token"))
-	 (url (thing-at-point 'url 'no-properties))
-	 (parts (split-string (url-filename (url-generic-parse-url url)) "/" t))
-	 (org (nth 0 parts))
-	 (repo (nth 1 parts))
-	 (type (nth 2 parts))
-	 (number (nth 3 parts)))
-    (if (equal type "discussions")
-	(request
-	  "https://api.github.com/graphql"
-	  :type "POST"
-	  :headers `(("Authorization" . ,(concat "Bearer " access-token)))
-	  :data (json-encode `(("query" . ,(format "query { repository(owner: \"%s\", name: \"%s\") { discussion(number: %d) { title } } }" org repo (string-to-number number)))))
-	  :parser 'json-read
-	  :sync t
-	  :success (cl-function
-		    (lambda (&key data response &allow-other-keys)
-		      (let ((title (alist-get 'title (alist-get 'discussion (alist-get 'repository (alist-get 'data data))))))
-			(end-of-line)
-			(insert (format " <!-- %s -->" title)))))
-	  :error (cl-function
-		  (lambda (&key error-thrown response &allow-other-keys)
-		    (message "[github-expand-link] Fail %S to POST %s"
-			     error-thrown (request-response-url response)))))
-      (request
-	(format "https://api.github.com/repos/%s/%s/issues/%s" org repo number)
-	:headers `(("Accept" . "application/vnd.github.v3+json")
-		   ("Authorization" . ,(concat "Bearer " access-token))
-		   ("X-GitHub-Api-Version" . "2022-11-28"))
-	:parser 'json-read
-	:sync t
-	:success (cl-function
-		  (lambda (&key data response &allow-other-keys)
-		    (let ((title (alist-get 'title data)))
-		      (end-of-line)
-		      (insert (format " <!-- %s -->" title)))))
-	:error (cl-function
-		(lambda (&key error-thrown response &allow-other-keys)
-		  (message "[github-expand-link] Fail %S to GET %s"
-			   error-thrown (request-response-url response))))))))
+  (let ((url (thing-at-point 'url 'no-properties)))
+    (if (not url)
+	(message "[github-expand-link] No URL at point")
+      (let* ((parsed-url (url-generic-parse-url url))
+	     (host (url-host parsed-url))
+	     (parts (split-string (url-filename parsed-url) "/" t)))
+	(if (and (string-match-p "github\\.com$" host) (>= (length parts) 4))
+	    (let ((access-token (my-lisp-load "github-expand-link-token"))
+		  (org (nth 0 parts))
+		  (repo (nth 1 parts))
+		  (type (nth 2 parts))
+		  (number (nth 3 parts)))
+	      (if (equal type "discussions")
+		  (request
+		    "https://api.github.com/graphql"
+		    :type "POST"
+		    :headers `(("Authorization" . ,(concat "Bearer " access-token)))
+		    :data (json-encode `(("query" . ,(format "query { repository(owner: \"%s\", name: \"%s\") { discussion(number: %d) { title } } }"
+							     (url-hexify-string org) (url-hexify-string repo) (string-to-number number)))))
+		    :parser 'json-read
+		    :sync t
+		    :success (cl-function
+			      (lambda (&key data response &allow-other-keys)
+				(let ((title (alist-get 'title (alist-get 'discussion (alist-get 'repository (alist-get 'data data))))))
+				  (end-of-line)
+				  (insert (format " <!-- %s -->" title)))))
+		    :error (cl-function
+			    (lambda (&key error-thrown response &allow-other-keys)
+			      (message "[github-expand-link] Fail %S to POST %s"
+				       error-thrown (request-response-url response)))))
+		(request
+		  (format "https://api.github.com/repos/%s/%s/issues/%s"
+			  (url-hexify-string org) (url-hexify-string repo) number)
+		  :headers `(("Accept" . "application/vnd.github.v3+json")
+			     ("Authorization" . ,(concat "Bearer " access-token))
+			     ("X-GitHub-Api-Version" . "2022-11-28"))
+		  :parser 'json-read
+		  :sync t
+		  :success (cl-function
+			    (lambda (&key data response &allow-other-keys)
+			      (let ((title (alist-get 'title data)))
+				(end-of-line)
+				(insert (format " <!-- %s -->" title)))))
+		  :error (cl-function
+			  (lambda (&key error-thrown response &allow-other-keys)
+			    (message "[github-expand-link] Fail %S to GET %s"
+				     error-thrown (request-response-url response)))))))
+	  (message "[github-expand-link] Not a valid GitHub issue/pr/discussion URL"))))))
 
 (defun kill-current-line (&optional arg)
   "現在の行を改行ごと killします。"
