@@ -9,9 +9,9 @@
 --type-add=haml:ext:haml
 --type-add=jsx:ext:jsx
 --type-add=lookml:ext:lkml
+--type-add=markdown:ext:mdx
 --type-add=proto:ext:proto
 --type-add=ruby:ext:gemspec
 --type-add=slim:ext:slim
---type-add=terraform:ext:tf
 --type-add=text:ext:text,txt
 --type-add=trans:ext:po
