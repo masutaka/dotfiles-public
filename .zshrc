@@ -88,9 +88,7 @@ else
   PROMPT='%B%U%M%u:%~ $%b '
 fi
 
-if [ "$OS_KIND" = Darwin ]; then
-  FPATH=${HOMEBREW_PREFIX}/share/zsh/site-functions:$FPATH
-fi
+FPATH=$HOME/.docker/completions:$FPATH
 
 # 履歴を保存するファイル
 HISTFILE=$HOME/.zhistory
