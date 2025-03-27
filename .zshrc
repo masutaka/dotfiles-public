@@ -179,9 +179,7 @@ autoload -Uz compinit && compinit -u
 autoload -Uz add-zsh-hook
 
 # Command Completion for AWS CLI
-if [ "$OS_KIND" = Darwin ]; then
-  : #source ${HOMEBREW_PREFIX}/share/zsh/site-functions/aws_zsh_completer.sh
-else
+if [ "$OS_KIND" = Linux ] && exists aws; then
   source ${PYTHONUSERBASE}/bin/aws_zsh_completer.sh
 fi
 
