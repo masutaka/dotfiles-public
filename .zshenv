@@ -19,10 +19,6 @@ Darwin)
     PATH=${HOMEBREW_PREFIX}/opt/libpq/bin:$PATH
   fi
 
-  if [ -d "${HOMEBREW_PREFIX}/opt/postgresql@15/bin" ]; then
-    PATH=${HOMEBREW_PREFIX}/opt/postgresql@15/bin:$PATH
-  fi
-
   if [ -d "${HOME}/.local/bin" ]; then
     PATH=$HOME/.local/bin:$PATH
   fi
