@@ -183,20 +183,6 @@ if [ "$OS_KIND" = Linux ] && exists aws; then
   source ${PYTHONUSERBASE}/bin/aws_zsh_completer.sh
 fi
 
-if exists az; then
-  autoload -U +X bashcompinit && bashcompinit
-  source ${HOMEBREW_PREFIX}/etc/bash_completion.d/az
-fi
-
-#---------------------------------------------------------------------
-# 1Password
-#---------------------------------------------------------------------
-
-# For OpenAI CLI
-if [ -r ${HOME}/.config/op/plugins.sh ]; then
-  source ${HOME}/.config/op/plugins.sh
-fi
-
 #---------------------------------------------------------------------
 # cdr
 #---------------------------------------------------------------------
