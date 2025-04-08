@@ -735,7 +735,7 @@ DO NOT SET VALUE MANUALLY.")
 
 (with-eval-after-load "diff-mode"
   (define-key diff-mode-map (kbd "M-0") 'tab-close)
-  (define-key diff-mode-map (kbd "M-2") 'my-tab-new)
+  (define-key diff-mode-map (kbd "M-2") 'tab-new)
   (define-key diff-mode-map (kbd "M-o") 'tab-next))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1317,6 +1317,11 @@ DO NOT SET VALUE MANUALLY.")
 (require 'open-junk-file)
 (setq open-junk-file-format (my-lisp-load "open-junk-file-format"))
 
+(defun my-open-junk-file (arg)
+  "Open junk file in a new tab if ARG is given."
+  (interactive "P")
+  (open-junk-file nil (if arg #'find-file-other-tab)))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sequential-command.el
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1356,16 +1361,6 @@ DO NOT SET VALUE MANUALLY.")
   (interactive "P")
   (let ((tab-bar-new-tab-choice t))
     (tab-new arg)))
-
-(defun my-tab-new (&optional arg)
-  "Create a new tab and open a timestamped junk file instead of the *scratch* buffer if ARG is given."
-  (interactive "P")
-  (tab-new)
-  (if arg
-    (let* ((file (format-time-string (concat open-junk-file-format "md") (current-time)))
-           (dir (file-name-directory file)))
-      (make-directory dir t)
-      (find-file file))))
 
 (defun my-tab-select ()
   "Jump to any tab interactively. The purpose is to jump to tab number 10 or higher."
@@ -1735,7 +1730,7 @@ do nothing. And suppress the output from `message' and
 (define-key esc-map (kbd ">") 'my-end-of-buffer)
 (define-key esc-map (kbd "?") 'help)
 (define-key esc-map (kbd "0") 'tab-close)
-(define-key esc-map (kbd "2") 'my-tab-new)
+(define-key esc-map (kbd "2") 'tab-new)
 (define-key esc-map (kbd "O") 'tab-previous)
 ;;(define-key esc-map (kbd "a") 'backward-sentence)
 (define-key esc-map (kbd "b") 'backward-word)
@@ -1817,7 +1812,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-g") nil)
 ;;(define-key ctl-q-map (kbd "C-h") 'shell)		;;; => DEL
 (define-key ctl-q-map (kbd "C-i") 'toggle-window-division)
-(define-key ctl-q-map (kbd "C-j") 'open-junk-file)
+(define-key ctl-q-map (kbd "C-j") 'my-open-junk-file)
 (define-key ctl-q-map (kbd "C-k") 'swap-buffers)
 (define-key ctl-q-map (kbd "C-l") 'move-to-window-line)
 (define-key ctl-q-map (kbd "C-m") 'comment-region)
