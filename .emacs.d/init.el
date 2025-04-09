@@ -185,8 +185,7 @@
 (defun my-copy-whole-buffer-to-kill-ring ()
   "Copy the whole buffer to the kill ring without moving the cursor."
   (interactive)
-  (save-excursion
-    (kill-ring-save (point-min) (point-max)))
+  (kill-new (buffer-string))
   (message "The whole buffer was copied to the kill ring."))
 
 (defun my-end-of-buffer ()
