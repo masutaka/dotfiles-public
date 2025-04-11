@@ -291,10 +291,10 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
   (toggle-variable 'require-final-newline))
 
 (defun toggle-window-division ()
-  "ウィンドウ 2 分割時に、縦分割<->横分割"
+  "Toggle between vertical and horizontal split when two windows are open"
   (interactive)
   (unless (= (count-windows 1) 2)
-    (error "ウィンドウが 2 分割されていません。"))
+    (error "The window is not split into two."))
   (let ((before-height)
 	(other-buf (window-buffer (next-window))))
     (setq before-height (window-height))
