@@ -1229,7 +1229,7 @@ DO NOT SET VALUE MANUALLY.")
 ;;; markdown
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(let ((stylesheet "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.2.0/github-markdown-dark.css"))
+(let ((stylesheet "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown-dark.min.css"))
   (setq markdown-css-paths (list stylesheet))
   (setq markdown-preview-stylesheets (list stylesheet)))
 
@@ -1295,6 +1295,8 @@ DO NOT SET VALUE MANUALLY.")
   (setq show-trailing-whitespace t)
   (electric-indent-local-mode 0))
 (add-hook 'markdown-mode-hook #'markdown-mode-hook-func)
+
+(add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; occur
