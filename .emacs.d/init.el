@@ -75,6 +75,7 @@
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'cl-lib)
+(require 'request)
 
 ;; https://stackoverflow.com/questions/23378271/how-do-i-display-ansi-color-codes-in-emacs-for-any-mode
 (defun display-ansi-colors ()
@@ -112,7 +113,6 @@ insert a comment at the end of the current line in the following format:
 - Issue URL <!-- Title --> (Done or In Progress)
 - PR/Discussion URL <!-- Title -->"
   (interactive)
-  (require 'request)
   (let ((url (thing-at-point 'url 'no-properties)))
     (if (not url)
 	(message "[github-expand-link] No URL at point")
