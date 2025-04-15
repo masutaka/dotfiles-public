@@ -106,7 +106,11 @@
     (message string num (string-to-number num base))))
 
 (defun github-expand-link ()
-  "Insert its title as an HTML comment after the GitHub issue/pr/discussion URL"
+  "Use the GitHub API to get the information and
+insert a comment at the end of the current line in the following format:
+
+- Issue URL <!-- Title --> (Done or In Progress)
+- PR/Discussion URL <!-- Title -->"
   (interactive)
   (require 'request)
   (let ((url (thing-at-point 'url 'no-properties)))
@@ -120,43 +124,32 @@
 		  (org (nth 0 parts))
 		  (repo (nth 1 parts))
 		  (type (nth 2 parts))
-		  (number (nth 3 parts)))
-	      (if (equal type "discussions")
-		  (request
-		    "https://api.github.com/graphql"
-		    :type "POST"
-		    :headers `(("Authorization" . ,(concat "Bearer " access-token)))
-		    :data (json-encode `(("query" . ,(format "query { repository(owner: \"%s\", name: \"%s\") { discussion(number: %d) { title } } }"
-							     (url-hexify-string org) (url-hexify-string repo) (string-to-number number)))))
-		    :parser 'json-read
-		    :sync t
-		    :success (cl-function
-			      (lambda (&key data response &allow-other-keys)
-				(let ((title (alist-get 'title (alist-get 'discussion (alist-get 'repository (alist-get 'data data))))))
-				  (end-of-line)
-				  (insert (format " <!-- %s -->" title)))))
-		    :error (cl-function
-			    (lambda (&key error-thrown response &allow-other-keys)
-			      (message "[github-expand-link] Fail %S to POST %s"
-				       error-thrown (request-response-url response)))))
-		(request
-		  (format "https://api.github.com/repos/%s/%s/issues/%s"
-			  (url-hexify-string org) (url-hexify-string repo) number)
-		  :headers `(("Accept" . "application/vnd.github.v3+json")
-			     ("Authorization" . ,(concat "Bearer " access-token))
-			     ("X-GitHub-Api-Version" . "2022-11-28"))
-		  :parser 'json-read
-		  :sync t
-		  :success (cl-function
-			    (lambda (&key data response &allow-other-keys)
-			      (let ((title (alist-get 'title data)))
-				(end-of-line)
-				(insert (format " <!-- %s -->" title)))))
-		  :error (cl-function
-			  (lambda (&key error-thrown response &allow-other-keys)
-			    (message "[github-expand-link] Fail %S to GET %s"
-				     error-thrown (request-response-url response)))))))
-	  (message "[github-expand-link] Not a valid GitHub issue/pr/discussion URL"))))))
+		  (number (nth 3 parts))
+		  (type-alist '(("issues" . "issue") ("pull" . "pullRequest") ("discussions" . "discussion"))))
+	      (request
+		"https://api.github.com/graphql"
+		:type "POST"
+		:headers `(("Authorization" . ,(concat "Bearer " access-token)))
+		:data (json-encode `(("query" . ,(format "query { repository(owner: \"%s\", name: \"%s\") { %s(number: %d) { %s } } }"
+							 (url-hexify-string org) (url-hexify-string repo)
+							 (cdr (assoc type type-alist)) (string-to-number number)
+							 (if (equal type "issues") "title state" "title")))))
+		:parser 'json-read
+		:sync t
+		:success (cl-function
+			  (lambda (&key data response &allow-other-keys)
+			    (let* ((body (car (alist-get 'repository (alist-get 'data data))))
+				   (title (alist-get 'title body))
+				   (state (alist-get 'state body)))
+			      (end-of-line)
+			      (insert (if state
+					  (format " <!-- %s --> (%s)" title (if (equal "CLOSED" state) "Done" "In Progress"))
+					(format " <!-- %s -->" title))))))
+		:error (cl-function
+			(lambda (&key error-thrown response &allow-other-keys)
+			  (message "[github-expand-link] Fail %S to POST %s"
+				   error-thrown (request-response-url response))))))
+	  (message "[github-expand-link] Not a valid GitHub Issue/PR/Discussion URL"))))))
 
 (defun kill-current-line (&optional arg)
   "現在の行を改行ごと killします。"
