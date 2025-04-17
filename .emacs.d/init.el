@@ -1031,23 +1031,10 @@ DO NOT SET VALUE MANUALLY.")
   (define-key mozc-mode-map (kbd "s-SPC") 'toggle-input-method))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Python
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(with-eval-after-load "python-mode"
-  (define-key python-mode-map (kbd "C-c C-m") 'browse-url-at-point))
-
-(defun python-mode-hook-func ()
-  ;; 行末のスペースやタブに色づけして警告する。
-  (setq show-trailing-whitespace t))
-(add-hook 'python-mode-hook #'python-mode-hook-func)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Ruby, PHP, HTML, CSS
+;;; PHP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (require 'php-mode)
-(require 'web-mode)
 
 (defun php-mode-hook-func ()
   (c-set-style "gnu")
@@ -1068,21 +1055,21 @@ DO NOT SET VALUE MANUALLY.")
 (define-key php-mode-map (kbd "C-c C-[") 'beginning-of-defun)
 (define-key php-mode-map (kbd "C-c C-]") 'end-of-defun)
 
-(defun web-mode-hook-func ()
-  (setq web-mode-css-indent-offset 2)
-  (setq web-mode-markup-indent-offset 2)
-  (setq indent-tabs-mode nil))
-(add-hook 'web-mode-hook #'web-mode-hook-func)
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Python
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(face-spec-set 'web-mode-html-attr-name-face '((((background light)) (:foreground "Blue4"))))
-(face-spec-set 'web-mode-symbol-face '((((background light)) (:foreground "Gold4"))))
-(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
+(with-eval-after-load "python-mode"
+  (define-key python-mode-map (kbd "C-c C-m") 'browse-url-at-point))
 
-;; https://memo.sugyan.com/entry/20100705/1278306885
-(defadvice flymake-post-syntax-check
-  (before flymake-force-check-was-interrupted activate)
-  (setq flymake-check-was-interrupted t))
+(defun python-mode-hook-func ()
+  ;; 行末のスペースやタブに色づけして警告する。
+  (setq show-trailing-whitespace t))
+(add-hook 'python-mode-hook #'python-mode-hook-func)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Ruby
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
 (add-to-list 'auto-mode-alist '("Gemfile\\'" . ruby-mode))
@@ -1107,11 +1094,6 @@ DO NOT SET VALUE MANUALLY.")
   ;; (flycheck-mode 1)
   (setq show-trailing-whitespace t))
 (add-hook 'ruby-mode-hook #'ruby-mode-hook-func)
-
-(defun sgml-mode-hook-func ()
-  (setq indent-tabs-mode nil)
-  (setq show-trailing-whitespace t))
-(add-hook 'sgml-mode-hook #'sgml-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rust
@@ -1432,6 +1414,34 @@ DO NOT SET VALUE MANUALLY.")
   (define-key view-mode-map (kbd "j") 'View-scroll-line-forward)
   (define-key view-mode-map (kbd "k") 'View-scroll-line-backward))
 (add-hook 'view-mode-hook #'view-mode-hook-func)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; web-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'web-mode)
+
+(defun web-mode-hook-func ()
+  (setq web-mode-css-indent-offset 2)
+  (setq web-mode-markup-indent-offset 2)
+  (setq indent-tabs-mode nil))
+(add-hook 'web-mode-hook #'web-mode-hook-func)
+
+(face-spec-set 'web-mode-html-attr-name-face '((((background light)) (:foreground "Blue4"))))
+(face-spec-set 'web-mode-symbol-face '((((background light)) (:foreground "Gold4"))))
+(add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
+
+;; https://memo.sugyan.com/entry/20100705/1278306885
+(defadvice flymake-post-syntax-check
+  (before flymake-force-check-was-interrupted activate)
+  (setq flymake-check-was-interrupted t))
+
+(defun sgml-mode-hook-func ()
+  (setq indent-tabs-mode nil)
+  (setq show-trailing-whitespace t))
+(add-hook 'sgml-mode-hook #'sgml-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; yaml-mode
