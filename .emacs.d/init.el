@@ -106,13 +106,17 @@
 	    base 10))
     (message string num (string-to-number num base))))
 
-(defun github-expand-link ()
+(defun github-expand-link (arg)
   "Use the GitHub API to get the information and
 insert a comment at the end of the current line in the following format:
 
+- Issue/PR/Discussion URL <!-- Title -->
+
+If ARG is given, it has the following format:
+
 - Issue URL <!-- Title --> (Done or In Progress)
 - PR/Discussion URL <!-- Title -->"
-  (interactive)
+  (interactive "P")
   (let ((url (thing-at-point 'url 'no-properties)))
     (if (not url)
 	(message "[github-expand-link] No URL at point")
@@ -142,7 +146,7 @@ insert a comment at the end of the current line in the following format:
 				   (title (alist-get 'title body))
 				   (state (alist-get 'state body)))
 			      (end-of-line)
-			      (insert (if state
+			      (insert (if (and arg state)
 					  (format " <!-- %s --> (%s)" title (if (equal "CLOSED" state) "Done" "In Progress"))
 					(format " <!-- %s -->" title))))))
 		:error (cl-function
