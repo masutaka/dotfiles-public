@@ -1,4 +1,7 @@
+--ignore-directory=.cache/
+--ignore-directory=.contentlayer/
 --ignore-directory=.docusaurus/
+--ignore-directory=.next/
 --ignore-directory=.terraform/
 --ignore-directory=.venv/
 --ignore-directory=.yardoc/
