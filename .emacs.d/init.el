@@ -1278,6 +1278,15 @@ DO NOT SET VALUE MANUALLY.")
 (add-to-list 'auto-mode-alist '("\\.mdx\\'" . markdown-mode))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; navi2ch
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(load (expand-file-name "navi2ch/navi2ch-autoloads" my-elisp-directory))
+
+(setq navi2ch-directory "~/Dropbox/navi2ch")
+(setq navi2ch-history-max-line nil)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; occur
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
