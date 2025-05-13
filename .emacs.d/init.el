@@ -1281,10 +1281,9 @@ DO NOT SET VALUE MANUALLY.")
 ;;; navi2ch
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(load (expand-file-name "navi2ch/navi2ch-autoloads" my-elisp-directory))
-
-(setq navi2ch-directory "~/Dropbox/navi2ch")
-(setq navi2ch-history-max-line nil)
+(when machine-personal-p
+  (load (expand-file-name "navi2ch/navi2ch-autoloads" my-elisp-directory))
+  (setq navi2ch-history-max-line nil))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; occur
