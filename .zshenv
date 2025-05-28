@@ -49,6 +49,11 @@ PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 export PYTHONUSERBASE="${HOME}/python"
 PATH=${PYTHONUSERBASE}/bin:$PATH
 
+# Rust
+if [ -r "$HOME/.cargo/env" ]; then
+  source "$HOME/.cargo/env"
+fi
+
 export ACKRC="${XDG_CONFIG_HOME}/ack/ackrc"
 export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
 export EDITOR=emacsclient
