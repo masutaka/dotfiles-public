@@ -10,6 +10,7 @@
 --sort-files
 --type-add=graphql:ext:graphql
 --type-add=haml:ext:haml
+--type-add=hcl:ext:hcl
 --type-add=jsx:ext:jsx
 --type-add=lookml:ext:lkml
 --type-add=markdown:ext:mdx
