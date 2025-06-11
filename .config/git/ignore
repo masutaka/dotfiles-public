@@ -4,7 +4,7 @@
 .DS_Store
 .ackrc
 .env
-.env.local
+.env*.local
 .envrc
 .idea
 .vscode
