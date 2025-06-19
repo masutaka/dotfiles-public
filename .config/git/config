@@ -1,4 +1,5 @@
 [alias]
+	b = branch
 	co = checkout
 	f = fetch
 	fetch-pulls = fetch origin +refs/pull/*:refs/remotes/pull/*
