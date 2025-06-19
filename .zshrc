@@ -425,7 +425,6 @@ bindkey '^w'   kill-region
 # Aliases
 #---------------------------------------------------------------------
 if [ "$OS_KIND" = Linux ]; then
-  alias emacs="LC_COLLATE=C emacs"
   alias pbcopy="xsel -b"
 fi
 
@@ -442,6 +441,7 @@ alias rm="rm -i"
 
 alias cdg="cd \$(git rev-parse --show-toplevel)"
 alias d=docker
+alias emacs="LC_COLLATE=C emacs"
 alias g=git
 alias hall="history -E -i 1"
 
