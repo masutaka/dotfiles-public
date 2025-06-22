@@ -944,9 +944,10 @@ DO NOT SET VALUE MANUALLY.")
 (setq next-error-highlight 3)
 (setq next-error-highlight-no-select 3)
 
-(setq grep-find-command '("ack --nogroup --nocolor -kQ ''" . 30))
+(setq grep-find-command '("rg --no-heading -.F ''" . 22))
 (setq grep-find-history
-      '("LANG=ja_JP.sjis grep -n \"$(echo '検索文字列' | nkf -s)\" * | nkf -w"
+      '("ack --nogroup --nocolor -kQ ''"
+	"LANG=ja_JP.sjis grep -n \"$(echo '検索文字列' | nkf -s)\" * | nkf -w"
 	"find . -type f -name '検索文字列' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;

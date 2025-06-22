@@ -1,0 +1,9 @@
+# Exclude directories.
+--glob=!.git/*
+--glob=!node_modules/*
+--glob=!vendor/*
+
+# Note that sorting results currently always forces ripgrep to abandon parallelism and run in a single thread.
+--sort=path
+
+--type-not=svg
