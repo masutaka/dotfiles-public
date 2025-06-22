@@ -1344,12 +1344,13 @@ DO NOT SET VALUE MANUALLY.")
 (tab-bar-history-mode 1)
 
 (defun my-tab-clone (&optional arg)
-  "Clone the current tab immediately to the right."
+  "Create a new tab by cloning the current one.
+If ARG is nil, insert the cloned tab immediately to the right of the current tab.
+If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmost position."
   (interactive "P")
-  (let ((tab-bar-new-tab-choice 'clone)   ; 複製モードにする
-        (tab-bar-new-tab-group t)         ; グループ情報を引き継ぐ
-        (tab-bar-new-tab-to 'right))      ; 挿入先を「右隣」に固定
-    (tab-bar-new-tab arg)))
+  (let ((tab-bar-new-tab-choice 'clone)			 ; 複製モードにする
+        (tab-bar-new-tab-to (if arg 'rightmost 'right))) ; 挿入先は右隣、引数指定時は最後
+    (tab-bar-new-tab)))
 
 (defun my-tab-select ()
   "Jump to any tab interactively. The purpose is to jump to tab number 10 or higher."
