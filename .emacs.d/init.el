@@ -1282,7 +1282,40 @@ DO NOT SET VALUE MANUALLY.")
 
 (when machine-personal-p
   (load (expand-file-name "navi2ch/navi2ch-autoloads" my-elisp-directory))
-  (setq navi2ch-history-max-line nil))
+  (setq navi2ch-history-max-line nil)
+
+  (defconst my-navi2ch-history-unread-regexp "^ +[0-9]+ +U")
+  (defconst my-navi2ch-board-unread-regexp   "^ *[0-9]+ +[+%][VC]")
+
+  (defun my-navi2ch-bm-previous-unread ()
+    (interactive)
+    (let ((regexp
+	   (cond
+	    ((eq major-mode 'navi2ch-board-mode)
+	     my-navi2ch-board-unread-regexp)
+	    ((or (eq major-mode 'navi2ch-bookmark-mode)
+		 (eq major-mode 'navi2ch-history-mode))
+	     my-navi2ch-history-unread-regexp))))
+      (if (and regexp (re-search-backward regexp (point-min) t))
+	  (beginning-of-line))))
+
+  (defun my-navi2ch-bm-next-unread ()
+    (interactive)
+    (let ((tmp-point (point))
+	  (regexp
+	   (cond
+	    ((eq major-mode 'navi2ch-board-mode)
+	     my-navi2ch-board-unread-regexp)
+	    ((or (eq major-mode 'navi2ch-bookmark-mode)
+		 (eq major-mode 'navi2ch-history-mode))
+	     my-navi2ch-history-unread-regexp))))
+      (end-of-line)
+      (if (and regexp (re-search-forward regexp (point-max) t))
+	  (beginning-of-line)
+	(goto-char tmp-point))))
+
+  (define-key navi2ch-global-view-map (kbd "N") 'my-navi2ch-bm-next-unread)
+  (define-key navi2ch-global-view-map (kbd "P") 'my-navi2ch-bm-previous-unread))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; occur
