@@ -1,0 +1,30 @@
+{
+  "permissions": {
+    "allow": [
+      "Bash(gemini:*)",
+      "Bash(grep:*)",
+      "Bash(jq:*)",
+      "Bash(ls:*)",
+      "Bash(mkdir:*)",
+      "Bash(rg:*)",
+      "WebFetch(domain:*)"
+    ],
+    "deny": [
+      "Bash(curl * | bash)",
+      "Bash(curl * | sh)",
+      "Bash(rm -rf .git)",
+      "Bash(rm -rf /)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~)",
+      "Bash(sudo rm:*)",
+      "Bash(wget * | bash)",
+      "Bash(wget * | sh)"
+    ]
+  },
+  "env": {
+    "BASH_DEFAULT_TIMEOUT_MS": "300000",
+    "BASH_MAX_TIMEOUT_MS": "1200000",
+    "SHELL": "/bin/zsh"
+  },
+  "enableAllProjectMcpServers": false
+}
