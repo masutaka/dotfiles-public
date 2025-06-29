@@ -361,6 +361,16 @@ if exists peco; then
   }
   zle -N peco-git-recent-all-branches
   bindkey '^x^n' peco-git-recent-all-branches
+
+  function peco-git-recent-worktrees () {
+    local selected_dir=$(git worktree list | peco | awk '{print $1}' | sed -e "s@$HOME@~@g")
+    if [ -n "$selected_dir" ]; then
+      BUFFER="cd $selected_dir"
+      zle accept-line
+    fi
+  }
+  zle -N peco-git-recent-worktrees
+  bindkey '^x^i' peco-git-recent-worktrees
 fi
 
 #---------------------------------------------------------------------

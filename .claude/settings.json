@@ -2,28 +2,27 @@
   "permissions": {
     "allow": [
       "Bash(gemini:*)",
-      "Bash(grep:*)",
       "Bash(jq:*)",
-      "Bash(ls:*)",
-      "Bash(mkdir:*)",
-      "Bash(rg:*)",
       "WebFetch(domain:*)"
     ],
     "deny": [
-      "Bash(curl * | bash)",
-      "Bash(curl * | sh)",
+      "Bash(curl:*)",
+      "Bash(git commit:*)",
+      "Bash(git push:*)",
+      "Bash(git rebase:*)",
+      "Bash(git reset:*)",
+      "Bash(nc:*)",
       "Bash(rm -rf .git)",
-      "Bash(rm -rf /)",
-      "Bash(rm -rf /*)",
-      "Bash(rm -rf ~)",
-      "Bash(sudo rm:*)",
-      "Bash(wget * | bash)",
-      "Bash(wget * | sh)"
+      "Bash(sudo:*)",
+      "Bash(wget:*)",
+      "Read(.env*)",
+      "Write(.env*)"
     ]
   },
   "env": {
     "BASH_DEFAULT_TIMEOUT_MS": "300000",
     "BASH_MAX_TIMEOUT_MS": "1200000",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
     "SHELL": "/bin/zsh"
   },
   "enableAllProjectMcpServers": false

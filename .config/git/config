@@ -9,6 +9,9 @@
 	st = status
 	st2 = status -sb
 	tree = log --graph --pretty='format:%C(yellow)%h%Creset %s %Cgreen(%an)%Creset %Cred%d%Creset'
+	wt-add = "!f() { if [ \"$1\" = \"-b\" ]; then git worktree add .gwts/$2 -b $2; else git worktree add .gwts/$1 $1; fi; }; f"
+	wt-ls = worktree list
+	wt-rm = "!f() { if [ \"$1\" = \"-f\" ]; then git worktree remove -f $2; else git worktree remove $1; fi; }; f"
 [color]
 	ui = true
 [commit]
