@@ -1,8 +1,12 @@
 {
   "permissions": {
     "allow": [
+      "Bash(find:*)",
       "Bash(gemini:*)",
+      "Bash(grep:*)",
       "Bash(jq:*)",
+      "Bash(rg:*)",
+      "Read(.env.example)",
       "WebFetch(domain:*)"
     ],
     "deny": [
@@ -15,7 +19,7 @@
       "Bash(rm -rf .git)",
       "Bash(sudo:*)",
       "Bash(wget:*)",
-      "Read(.env*)",
+      "Read(.env)",
       "Write(.env*)"
     ]
   },
