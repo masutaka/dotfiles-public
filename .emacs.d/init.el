@@ -1887,6 +1887,7 @@ do nothing. And suppress the output from `message' and
 
 ;; custom of the ctl-x-map
 (define-key ctl-x-map (kbd "9") 'delete-other-windows-vertically)
+(define-key ctl-x-map (kbd "B") 'ibuffer)
 (define-key ctl-x-map (kbd "M") 'compose-mail)
 (define-key ctl-x-map (kbd "f") 'find-file-literally)
 (define-key ctl-x-map (kbd "m") mule-keymap)
