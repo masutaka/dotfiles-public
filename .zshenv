@@ -56,7 +56,6 @@ fi
 
 export ACKRC="${XDG_CONFIG_HOME}/ack/ackrc"
 export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
-export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1
 export EDITOR=emacsclient
 export GEMSRC_USE_GHQ=1
 export IRBRC="${XDG_CONFIG_HOME}/ruby/irbrc"

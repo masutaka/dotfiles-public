@@ -175,6 +175,11 @@ zstyle ':completion:*:default' menu select=1
 # $FPATH 以下にある補完コレクションを使う。
 autoload -Uz compinit && compinit -u
 
+# diff の補完修正 (See "which _diff")
+_diff () {
+  _diff_options "$words[1]" '*:file:_files'
+}
+
 # for hook
 autoload -Uz add-zsh-hook
 

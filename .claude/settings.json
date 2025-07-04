@@ -1,4 +1,10 @@
 {
+  "env": {
+    "BASH_DEFAULT_TIMEOUT_MS": "300000",
+    "BASH_MAX_TIMEOUT_MS": "1200000",
+    "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
+    "SHELL": "/bin/zsh"
+  },
   "permissions": {
     "allow": [
       "Bash(find:*)",
@@ -22,12 +28,6 @@
       "Read(.env)",
       "Write(.env*)"
     ]
-  },
-  "env": {
-    "BASH_DEFAULT_TIMEOUT_MS": "300000",
-    "BASH_MAX_TIMEOUT_MS": "1200000",
-    "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
-    "SHELL": "/bin/zsh"
   },
   "enableAllProjectMcpServers": false
 }
