@@ -1314,8 +1314,9 @@ DO NOT SET VALUE MANUALLY.")
 	  (beginning-of-line)
 	(goto-char tmp-point))))
 
-  (define-key navi2ch-global-view-map (kbd "N") 'my-navi2ch-bm-next-unread)
-  (define-key navi2ch-global-view-map (kbd "P") 'my-navi2ch-bm-previous-unread))
+  (with-eval-after-load "navi2ch-vars"
+    (define-key navi2ch-global-view-map (kbd "N") 'my-navi2ch-bm-next-unread)
+    (define-key navi2ch-global-view-map (kbd "P") 'my-navi2ch-bm-previous-unread)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; occur

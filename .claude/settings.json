@@ -26,6 +26,7 @@
       "Bash(sudo:*)",
       "Bash(wget:*)",
       "Read(.env)",
+      "Read(.envrc)",
       "Write(.env*)"
     ]
   },
