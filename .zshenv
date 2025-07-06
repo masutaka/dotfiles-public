@@ -54,12 +54,10 @@ if [ -r "$HOME/.cargo/env" ]; then
   source "$HOME/.cargo/env"
 fi
 
-export ACKRC="${XDG_CONFIG_HOME}/ack/ackrc"
 export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
 export EDITOR=emacsclient
 export GEMSRC_USE_GHQ=1
 export IRBRC="${XDG_CONFIG_HOME}/ruby/irbrc"
-export LANG=en_US.UTF-8 # Avoid ack warning
 export MYSQL_PS1="(\u@$(hostname)) [\d] > "
 export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/config"
 export RIPGREP_CONFIG_PATH="${XDG_CONFIG_HOME}/rg/rgrc"
