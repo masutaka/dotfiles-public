@@ -54,7 +54,7 @@ function rm-local-branches () {
     git="git"
   fi
 
-  for b in $(git branch --merged "origin/$base_branch" | grep -Fvw "$base_branch" | awk '{print $1}'); do
+  for b in $(git branch --merged "origin/$base_branch" | grep -v '^+' | grep -Fvw "$base_branch" | awk '{print $1}'); do
     eval "$git branch -d $b"
   done
 }
