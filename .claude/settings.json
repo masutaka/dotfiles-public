@@ -5,24 +5,31 @@
   },
   "permissions": {
     "allow": [
+      "Bash(curl:*)",
       "Bash(find:*)",
       "Bash(gemini:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
       "Bash(rg:*)",
+      "Bash(wget:*)",
       "Read(.env.example)",
       "WebFetch(domain:*)"
     ],
     "deny": [
-      "Bash(curl:*)",
+      "Bash(curl * | bash)",
+      "Bash(curl * | sh)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
       "Bash(git rebase:*)",
       "Bash(git reset:*)",
       "Bash(nc:*)",
       "Bash(rm -rf .git)",
+      "Bash(rm -rf /)",
+      "Bash(rm -rf /*)",
+      "Bash(rm -rf ~)",
       "Bash(sudo:*)",
-      "Bash(wget:*)",
+      "Bash(wget * | bash)",
+      "Bash(wget * | sh)",
       "Read(.env)",
       "Read(.envrc)",
       "Write(.env*)"
