@@ -50,7 +50,6 @@
 (package-install 'helm-swoop)
 (package-install 'highlight-symbol)
 (package-install 'js2-mode)
-(package-install 'keyfreq)
 (package-install 'markdown-mode)
 (package-install 'markdown-preview-mode)
 (package-install 'mozc)
@@ -1470,6 +1469,8 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (require 'web-mode)
 
 (defun web-mode-hook-func ()
+  ;; 行末のスペースやタブに色づけして警告する。
+  (setq show-trailing-whitespace t)
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
   (setq web-mode-markup-indent-offset 2)
@@ -1495,6 +1496,11 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; yaml-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun yaml-mode-hook-func ()
+  ;; 行末のスペースやタブに色づけして警告する。
+  (setq show-trailing-whitespace t))
+(add-hook 'yaml-mode-hook #'yaml-mode-hook-func)
 
 (with-eval-after-load "yaml-mode"
   (define-key yaml-mode-map (kbd "C-c C-m") 'browse-url-at-point))
@@ -1568,12 +1574,6 @@ do nothing. And suppress the output from `message' and
 
 ;; for distnoted patch
 (setq use-dialog-box nil)
-
-;; コマンドの使用頻度を表示(M-x keyfreq-show)
-(setq keyfreq-file (expand-file-name ".keyfreq" user-emacs-directory))
-(setq keyfreq-file-lock (expand-file-name ".keyfreq.lock" user-emacs-directory))
-(keyfreq-mode 1)
-(keyfreq-autosave-mode 1)
 
 (require 'uniquify)
 (setq uniquify-buffer-name-style 'post-forward-angle-brackets)

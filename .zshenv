@@ -55,7 +55,7 @@ if [ -r "$HOME/.cargo/env" ]; then
 fi
 
 export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
-export EDITOR=emacsclient
+export EDITOR=vi
 export GEMSRC_USE_GHQ=1
 export IRBRC="${XDG_CONFIG_HOME}/ruby/irbrc"
 export MYSQL_PS1="(\u@$(hostname)) [\d] > "
