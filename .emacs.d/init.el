@@ -46,7 +46,6 @@
 (package-install 'helm-descbinds)
 (package-install 'helm-ghq)
 (package-install 'helm-github-stars)
-(package-install 'helm-hatena-bookmark)
 (package-install 'helm-swoop)
 (package-install 'highlight-symbol)
 (package-install 'js2-mode)
@@ -500,26 +499,27 @@ DO NOT SET VALUE MANUALLY.")
 ;; helm-github-stars-token が nil 判定され、*-by-token 関数を使ってくれないことがある。
 (my-helm-github-stars-set-timer)
 
-;;; helm-hatena-bookmark.el
+;;; helm-raindrop.el
 
-(setq helm-hatena-bookmark-username "masutaka26")
-(setq helm-hatena-bookmark-interval (* 3 60 60))
-(setq helm-hatena-bookmark-debug-mode t)
-(helm-hatena-bookmark-initialize)
+(require 'helm-raindrop)
+(setq helm-raindrop-access-token (my-lisp-load "helm-raindrop-access-token"))
+(setq helm-raindrop-collection-ids '("58160783" "58160977"))
+(setq helm-raindrop-debug-mode 'info)
+(helm-raindrop-initialize)
 
-(defadvice helm-hatena-bookmark-http-request
-  (around helm-hatena-bookmark-run activate)
+(defadvice helm-raindrop-http-request
+  (around helm-raindrop-run activate)
   (if (my-laptop-is-sleeping-p)
-      (message "[B!] Skip, as this laptop seems to be sleeping at %s."
+      (message "[Raindrop] Skip, as this laptop seems to be sleeping at %s."
 	       (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)))
     ad-do-it))
 
 ;;; My bookmark
 
 (defun my-helm-bookmark ()
-  "Search Hatena:Bookmark and Qiita Stocks using `helm'."
+  "Search Raindrop items and GitHub repos using `helm'."
   (interactive)
-  (helm :sources '(helm-hatena-bookmark-source
+  (helm :sources '(helm-raindrop-source
 		   hgs/helm-c-source-stars
 		   hgs/helm-c-source-repos)
 	:prompt "Find Bookmark: "))
