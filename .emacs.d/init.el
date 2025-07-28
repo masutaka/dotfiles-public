@@ -460,7 +460,7 @@ DO NOT SET VALUE MANUALLY.")
   "Generate `helm-github-stars-cache-file' in the child emacs process"
   (if (my-laptop-is-sleeping-p)
       (message "[GH] Skip, as this laptop seems to be sleeping at %s."
-	       (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)))
+	       (format-time-string "%F %T" (current-time)))
     (async-start
      `(lambda ()
 	(let ((start-time (current-time)))
@@ -475,7 +475,7 @@ DO NOT SET VALUE MANUALLY.")
        (let ((now (current-time)))
 	 (message "[GH] Success to GET my GitHub Stars and Repos (%0.1fsec) at %s."
 		  (time-to-seconds (time-subtract now start-time))
-		  (format-time-string "%Y-%m-%d %H:%M:%S" now)))))))
+		  (format-time-string "%F %T" now)))))))
 
 (defun my-laptop-is-sleeping-p ()
   "Is this laptop sleeping?"
@@ -511,7 +511,7 @@ DO NOT SET VALUE MANUALLY.")
   (around helm-raindrop-run activate)
   (if (my-laptop-is-sleeping-p)
       (message "[Raindrop] Skip, as this laptop seems to be sleeping at %s."
-	       (format-time-string "%Y-%m-%d %H:%M:%S" (current-time)))
+	       (format-time-string "%F %T" (current-time)))
     ad-do-it))
 
 ;;; My bookmark
@@ -775,9 +775,9 @@ DO NOT SET VALUE MANUALLY.")
        (if month-name
 	   (format
 	    (format-time-string
-	     "\\(%Y-%m-%d\\|%b %e\\|%%s %e\\) [0-9]....") month-name)
+	     "\\(%F\\|%b %e\\|%%s %e\\) [0-9]....") month-name)
 	 (format-time-string
-	  "\\(%Y-%m-%d\\|%b %e\\) [0-9]....")))
+	  "\\(%F\\|%b %e\\) [0-9]....")))
      arg t))
 
   (with-eval-after-load "dired"
