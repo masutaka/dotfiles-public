@@ -46,6 +46,7 @@
 (package-install 'helm-descbinds)
 (package-install 'helm-ghq)
 (package-install 'helm-github-stars)
+(package-install 'helm-raindrop)
 (package-install 'helm-swoop)
 (package-install 'highlight-symbol)
 (package-install 'js2-mode)
@@ -501,7 +502,6 @@ DO NOT SET VALUE MANUALLY.")
 
 ;;; helm-raindrop.el
 
-(require 'helm-raindrop)
 (setq helm-raindrop-access-token (my-lisp-load "helm-raindrop-access-token"))
 (setq helm-raindrop-collection-ids '("58160783" "58160977"))
 (setq helm-raindrop-debug-mode 'info)
