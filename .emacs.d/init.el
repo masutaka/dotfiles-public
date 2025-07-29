@@ -503,7 +503,7 @@ DO NOT SET VALUE MANUALLY.")
 ;;; helm-raindrop.el
 
 (setq helm-raindrop-access-token (my-lisp-load "helm-raindrop-access-token"))
-(setq helm-raindrop-collection-ids '("58160783" "56287752"))
+(setq helm-raindrop-collection-ids '("58160783" "56287752" "-1"))
 (setq helm-raindrop-debug-mode 'info)
 (helm-raindrop-initialize)
 
