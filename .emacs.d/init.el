@@ -743,10 +743,12 @@ DO NOT SET VALUE MANUALLY.")
     (when (y-or-n-p (format "Open 'eww' %s " (file-name-nondirectory file)))
       (eww-open-file file))))
 
-(setq dired-listing-switches "-al")
-
 ;; `C' コマンドでコピーした時、ファイルの更新時刻を変える。
 (setq dired-copy-preserve-time nil)
+
+;; GNU ls があれば使用する。`--dired` オプション等の恩恵を受けられる。
+(if (and os-mac-p (executable-find "gls"))
+    (setq insert-directory-program "gls"))
 
 ;; for ! (dired-do-shell-command)
 (if os-mac-p
