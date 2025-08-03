@@ -39,5 +39,8 @@
       "Write(.env*)"
     ]
   },
-  "enableAllProjectMcpServers": false
+  "enableAllProjectMcpServers": false,
+  "feedbackSurveyState": {
+    "lastShownTime": 1753975134227
+  }
 }
