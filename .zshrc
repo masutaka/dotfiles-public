@@ -23,6 +23,14 @@ function fingerprints {
   done < $1
 }
 
+function gh-extension-installs () {
+  for i in $(cat $HOME/src/github.com/masutaka/dotfiles/gh-extension.txt); do
+    echo $i
+    gh extension install $i
+  done
+}
+alias gh-extension-updates='gh extension upgrade --all'
+
 function go-installs () {
   for i in $(cat $HOME/src/github.com/masutaka/dotfiles/go.txt); do
     echo $i
