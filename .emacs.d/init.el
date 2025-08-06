@@ -496,8 +496,6 @@ DO NOT SET VALUE MANUALLY.")
     (cancel-timer my-helm-github-stars-timer)
     (setq my-helm-github-stars-timer nil)))
 
-;; [原因不明] helm-github-stars.el がバイトコンパイルされていると、
-;; helm-github-stars-token が nil 判定され、*-by-token 関数を使ってくれないことがある。
 (my-helm-github-stars-set-timer)
 
 ;;; helm-raindrop.el
