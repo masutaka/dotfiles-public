@@ -11,6 +11,7 @@
 - **YAGNI (You Aren't Gonna Need It):** 今必要じゃない機能は作らない
 - **DRY (Don't Repeat Yourself):** 同じコードを繰り返さない
 - **KISS (Keep It Simple Stupid):** シンプルに保つ
+- **最小限の変更:** ドキュメントやコードを更新する際は、新しい構造を作るのではなく、既存活用を優先すること
 
 ## ファイルやディレクトリの操作
 
