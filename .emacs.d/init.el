@@ -17,7 +17,7 @@
 
 (defconst my-cursor-color-for-light "black")
 (defconst my-cursor-color-for-dark "gray")
-(defconst my-cursor-color-for-im-enabled "DarkOrange2")
+(defconst my-cursor-color-for-im-enabled "green1")
 
 (defconst my-elisp-directory (expand-file-name "elisp" user-emacs-directory) "The directory for my elisp file.")
 
