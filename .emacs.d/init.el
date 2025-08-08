@@ -902,7 +902,7 @@ DO NOT SET VALUE MANUALLY.")
   (require 'go-autocomplete)
 
   (defun go-mode-hook-func ()
-    (setq tab-width 2)
+    (setq tab-width 4)
     (go-eldoc-setup)
     (flycheck-mode 1))
   (add-hook 'go-mode-hook #'go-mode-hook-func)
