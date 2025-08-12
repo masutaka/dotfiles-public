@@ -91,9 +91,9 @@ fi
 
 # プロンプト(man zshmisc)
 if [ "$OS_KIND" = Darwin ]; then
-  PROMPT='%B%U%m%u:%~ $%b '
+  PROMPT='%B%~ $%b '
 else
-  PROMPT='%B%U%M%u:%~ $%b '
+  PROMPT='%B%~ $%b '
 fi
 
 FPATH=$HOME/.docker/completions:$FPATH
