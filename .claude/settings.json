@@ -40,6 +40,10 @@
       "Write(.env*)"
     ]
   },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.js"
+  },
   "enableAllProjectMcpServers": false,
   "feedbackSurveyState": {
     "lastShownTime": 1754037400924
