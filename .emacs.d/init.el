@@ -8,6 +8,8 @@
 (defconst os-mac-p (eq system-type 'darwin) "macOS")
 (defconst os-linux-p (eq system-type 'gnu/linux) "Linux")
 
+(defconst mac-port-p (featurep 'mac) "Non-nil if this Emacs binary is built with the Mac port patch.")
+
 (defconst my-dark-mode-p
   (let ((cmd (cond
 	      (os-mac-p "defaults read -g AppleInterfaceStyle")
@@ -1118,7 +1120,7 @@ DO NOT SET VALUE MANUALLY.")
 
 ;;; https://masutaka.net/chalow/2015-01-04-1.html
 
-(when os-mac-p
+(when mac-port-p
   (defun mac-input-source-ascii-p ()
     (string-match "\\.\\(ABC\\|US\\)$" (mac-input-source)))
 
