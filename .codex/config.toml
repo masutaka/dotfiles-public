@@ -1,6 +1,6 @@
 # https://github.com/openai/codex/blob/main/docs/config.md
 
-model_reasoning_effort = "high"
+model_reasoning_effort = "medium"
 
 [tools]
 web_search = true
