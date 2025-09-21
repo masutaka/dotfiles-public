@@ -85,14 +85,14 @@
   (let ((inhibit-read-only t))
     (ansi-color-apply-on-region (point-min) (point-max))))
 
-(defadvice find-alternate-file
-  (around revival-point activate)
-  "ファイルを読み直す時だけ、カーソル位置を保持する。"
-  (let* ((filename (ad-get-arg 0))
-	 (point (if (string= (expand-file-name filename)
-			     (buffer-file-name))
-		    (point))))
-    ad-do-it (if point (goto-char point))))
+(advice-add 'find-alternate-file :around
+	    (lambda (orig-fun filename &rest args)
+	      "ファイルを読み直す時だけ、カーソル位置を保持する。"
+	      (let ((point (if (string= (expand-file-name filename)
+					(buffer-file-name))
+			       (point))))
+		(apply orig-fun filename args)
+		(if point (goto-char point)))))
 
 (defun dec2hex-hex2dec (num)
   "10進数->16進数, 16進数->10進数"
@@ -507,12 +507,12 @@ DO NOT SET VALUE MANUALLY.")
 (setq helm-raindrop-debug-mode 'info)
 (helm-raindrop-initialize)
 
-(defadvice helm-raindrop-http-request
-  (around helm-raindrop-run activate)
-  (if (my-laptop-is-sleeping-p)
-      (message "[Raindrop] Skip, as this laptop seems to be sleeping at %s."
-	       (format-time-string "%F %T" (current-time)))
-    ad-do-it))
+(advice-add 'helm-raindrop-http-request :around
+	    (lambda (orig-fun &rest args)
+	      (if (my-laptop-is-sleeping-p)
+		  (message "[Raindrop] Skip, as this laptop seems to be sleeping at %s."
+			   (format-time-string "%F %T" (current-time)))
+		(apply orig-fun args))))
 
 ;;; My bookmark
 
@@ -559,9 +559,9 @@ DO NOT SET VALUE MANUALLY.")
 (setq vc-make-backup-files nil)
 
 ;; `vc-make-backup-files' が無視されてしまう？？？
-(defadvice vc-before-save
-  (around vc-make-backup-files activate)
-  (if vc-make-backup-files ad-do-it))
+(advice-add 'vc-before-save :around
+	    (lambda (orig-fun &rest args)
+	      (if vc-make-backup-files (apply orig-fun args))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; major mode for editing C, C++, Objective-C, and Java code
@@ -614,13 +614,12 @@ DO NOT SET VALUE MANUALLY.")
 (with-eval-after-load "add-log" (require 'clmemo))
 (autoload 'clgrep "clgrep" "grep mode for ChangeLog Memo file" t)
 
-(defadvice add-log-iso8601-time-string-with-weekday
-  (around with-japanese-weekday activate)
-  "ChangeLogメモに日本語の曜日を入れる。"
-  (setq ad-return-value
-	(let ((system-time-locale "ja_JP.UTF-8"))
-	  (concat (add-log-iso8601-time-string)
-		  " (" (format-time-string "%a") ")"))))
+(advice-add 'add-log-iso8601-time-string-with-weekday :around
+	    (lambda (orig-fun &rest args)
+	      "ChangeLogメモに日本語の曜日を入れる。"
+	      (let ((system-time-locale "ja_JP.UTF-8"))
+		(concat (add-log-iso8601-time-string)
+			" (" (format-time-string "%a") ")"))))
 
 (defun mkchalow-ura (force)
   (interactive "P")
@@ -1244,7 +1243,7 @@ DO NOT SET VALUE MANUALLY.")
 		       ;; 特定のファイル名の場合はさらに削除 /foo/index.md -> /foo
 		       (replace-regexp-in-string "\\(/index\\|/README\\)?\\.md$" "" buffer-file-name)))
 	 (match-string (if (string-match "github\\.com/route06/docs/\\(.+\\)$" trimed-bfn)
-			  (match-string-no-properties 1 trimed-bfn))))
+			   (match-string-no-properties 1 trimed-bfn))))
     (if match-string
 	(browse-url (format
 		     (if arg "http://localhost:3000/%s/" "https://docs.route06.co.jp/%s/")
@@ -1350,10 +1349,10 @@ DO NOT SET VALUE MANUALLY.")
 (require 'sequential-command)
 
 (define-sequential-command my-beginning-of-line
-  beginning-of-line back-to-indentation seq-return)
+			   beginning-of-line back-to-indentation seq-return)
 
 (define-sequential-command my-end-of-line
-  end-of-line seq-return)
+			   end-of-line seq-return)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; sql-mode
@@ -1451,7 +1450,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 		    (line-number-at-pos (point-max)))))
 
 ;; read-only の時は view-mode にする。→ edebug やり辛いのでコメントアウト
-;(setq view-read-only t)
+;;(setq view-read-only t)
 
 (with-eval-after-load "view"
   ;; モードラインの " View" を目立たせる。
@@ -1486,9 +1485,9 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 
 ;; https://memo.sugyan.com/entry/20100705/1278306885
-(defadvice flymake-post-syntax-check
-  (before flymake-force-check-was-interrupted activate)
-  (setq flymake-check-was-interrupted t))
+(advice-add 'flymake-post-syntax-check :before
+	    (lambda (&rest _args)
+	      (setq flymake-check-was-interrupted t)))
 
 (defun sgml-mode-hook-func ()
   (setq indent-tabs-mode nil)
@@ -1515,28 +1514,28 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 
 (defvar my-recentf-list-prev nil)
 
-(defadvice recentf-save-list
-  (around no-message activate)
-  "If `recentf-list' and previous recentf-list are equal,
+(advice-add 'recentf-save-list :around
+	    (lambda (orig-fun &rest args)
+	      "If `recentf-list' and previous recentf-list are equal,
 do nothing. And suppress the output from `message' and
 `write-file' to minibuffer."
-  (unless (equal recentf-list my-recentf-list-prev)
-    (cl-letf (((symbol-function 'message) #'format)
-	      ((symbol-function 'write-file)
-	       ;; write-file() は内部で C で書かれた write_region() を
-	       ;; 呼ぶため、上の message() への抑制は効かない。
-	       (lambda (file &optional confirm)
-		 (let ((str (buffer-string)))
-		   (with-temp-file file
-		     (insert str))))))
-      ad-do-it
-      (setq my-recentf-list-prev recentf-list))))
+	      (unless (equal recentf-list my-recentf-list-prev)
+		(cl-letf (((symbol-function 'message) #'format)
+			  ((symbol-function 'write-file)
+			   ;; write-file() は内部で C で書かれた write_region() を
+			   ;; 呼ぶため、上の message() への抑制は効かない。
+			   (lambda (file &optional confirm)
+			     (let ((str (buffer-string)))
+			       (with-temp-file file
+				 (insert str))))))
+		  (apply orig-fun args)
+		  (setq my-recentf-list-prev recentf-list)))))
 
-(defadvice recentf-cleanup
-  (around no-message activate)
-  "suppress the output from `message' to minibuffer"
-  (cl-letf (((symbol-function 'message) #'format))
-    ad-do-it))
+(advice-add 'recentf-cleanup :around
+	    (lambda (orig-fun &rest args)
+	      "suppress the output from `message' to minibuffer"
+	      (cl-letf (((symbol-function 'message) #'format))
+		(apply orig-fun args))))
 
 (setq recentf-save-file (expand-file-name ".recentf" user-emacs-directory))
 (setq recentf-max-saved-items 5000)
@@ -1559,9 +1558,10 @@ do nothing. And suppress the output from `message' and
 (require 'generic-x)
 
 ;; M-x align-regexp で Tab の代わりに Space を使う
-(defadvice align-regexp
-    (around align-regexp-with-spaces activate)
-  (let ((indent-tabs-mode nil)) ad-do-it))
+(advice-add 'align-regexp :around
+	    (lambda (orig-fun &rest args)
+	      (let ((indent-tabs-mode nil))
+		(apply orig-fun args))))
 
 ;; Looker
 (add-to-list 'auto-mode-alist '("\\.lkml\\'" . default-generic-mode))
@@ -1584,8 +1584,9 @@ do nothing. And suppress the output from `message' and
 (setq read-file-name-completion-ignore-case t)
 
 ;; レジスタ挿入時にポイントが挿入した文字列の後ろに移動するように
-(defadvice insert-register (before put-point-after activate)
-  (setq arg (not arg)))
+(advice-add 'insert-register :before
+	    (lambda (register &optional arg)
+	      (setq arg (not arg))))
 
 ;; C-u C-SPC, C-u C-SPC,... が C-u C-SPC, C-SPC,... で良くなる。
 (setq set-mark-command-repeat-pop t)
@@ -1706,11 +1707,11 @@ do nothing. And suppress the output from `message' and
 
 ;; スクリプトファイル保存時に自動で実行許可フラグを立てる。
 (with-eval-after-load "ange-ftp"
-  (defadvice executable-make-buffer-file-executable-if-script-p
-      (around for-ange-ftp activate)
-    "ネットワーク先のファイルには実行しないようにする。"
-    (unless (string-match (car ange-ftp-name-format) (buffer-file-name))
-      ad-do-it)))
+  (advice-add 'executable-make-buffer-file-executable-if-script-p :around
+	      (lambda (orig-fun &rest args)
+		"ネットワーク先のファイルには実行しないようにする。"
+		(unless (string-match (car ange-ftp-name-format) (buffer-file-name))
+		  (apply orig-fun args)))))
 (add-hook 'after-save-hook
 	  #'executable-make-buffer-file-executable-if-script-p)
 
