@@ -8,3 +8,6 @@ web_search = true
 [mcp_servers.context7]
 command = "npx"
 args = ["-y", "@upstash/context7-mcp@latest"]
+
+[projects."/Users/masutaka/src/github.com/masutaka/masutaka.net"]
+trust_level = "trusted"
