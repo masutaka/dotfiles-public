@@ -8,7 +8,4 @@ if [ $(uname) = 'Darwin' ]; then
   RUBY_CONFIGURE_OPTS="$RUBY_CONFIGURE_OPTS --with-readline-dir=/usr --with-libyaml-dir=$(brew --prefix libyaml)"
 fi
 
-export RUBY_BUILD_OPTS='--verbose'
-
 echo "[pre-install] Configure options: $RUBY_CONFIGURE_OPTS"
-echo "[pre-install] ruby-build options: $RUBY_BUILD_OPTS"
