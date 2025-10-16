@@ -52,6 +52,7 @@
 (package-install 'helm-swoop)
 (package-install 'highlight-symbol)
 (package-install 'js2-mode)
+(package-install 'lsp-mode)
 (package-install 'markdown-mode)
 (package-install 'markdown-preview-mode)
 (package-install 'mozc)
@@ -1014,6 +1015,15 @@ DO NOT SET VALUE MANUALLY.")
 (define-key global-map (kbd "C-s-<down>") 'keisen-down-move)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; LSP mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq lsp-keymap-prefix "C-c C-l")
+
+;; ruby-lsp がインストールされていても rubocop が優先されてしまうので、無効にする。
+(setq lsp-disabled-clients '(rubocop-ls))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mozc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1092,9 +1102,8 @@ DO NOT SET VALUE MANUALLY.")
     (self-insert-command (prefix-numeric-value arg))))
 
 (defun ruby-mode-hook-func ()
-  ;; https://qiita.com/katoken-0215/items/9ff1a153691e947113bb
-  ;; (setq flycheck-checker 'ruby-rubocop)
-  ;; (flycheck-mode 1)
+  (lsp-deferred)
+  (setq lsp-format-buffer-on-save t)
   (setq show-trailing-whitespace t))
 (add-hook 'ruby-mode-hook #'ruby-mode-hook-func)
 
