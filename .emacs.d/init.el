@@ -1290,6 +1290,7 @@ DO NOT SET VALUE MANUALLY.")
 
 (when machine-personal-p
   (load (expand-file-name "navi2ch/navi2ch-autoloads" my-elisp-directory))
+  (setq navi2ch-article-enable-fill t)
   (setq navi2ch-history-max-line nil)
 
   (defconst my-navi2ch-history-unread-regexp "^ +[0-9]+ +U")
