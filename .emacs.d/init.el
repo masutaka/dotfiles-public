@@ -565,7 +565,7 @@ DO NOT SET VALUE MANUALLY.")
 	      (if vc-make-backup-files (apply orig-fun args))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; major mode for editing C, C++, Objective-C, and Java code
+;;; C / C++
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun comment-dwim-like-c-mode (arg)
@@ -978,10 +978,10 @@ DO NOT SET VALUE MANUALLY.")
 (add-hook 'Info-mode-hook #'Info-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; JavaScript
+;;; JavaScript / TypeScript / TSX
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-;;; js2-mode
+;; JavaScript
 
 (add-to-list 'auto-mode-alist '("\\.[jg]s\\'" . js2-mode))
 
@@ -992,13 +992,32 @@ DO NOT SET VALUE MANUALLY.")
 (setq js2-include-jslint-globals nil)
 
 (defun js2-mode-hook-func ()
-  (flycheck-mode 1)
+  (lsp-deferred)
+  (setq lsp-format-buffer-on-save t)
   (setq js2-basic-offset 2)
   (setq indent-tabs-mode nil)
   (setq show-trailing-whitespace t)
   (define-key js2-mode-map (kbd "C-c C-[") 'beginning-of-defun)
   (define-key js2-mode-map (kbd "C-c C-]") 'end-of-defun))
 (add-hook 'js2-mode-hook #'js2-mode-hook-func)
+
+;; TypeScript
+
+(add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
+
+(defun typescript-ts-mode-hook-func ()
+  (lsp-deferred)
+  (setq lsp-format-buffer-on-save t))
+(add-hook 'typescript-ts-mode-hook #'typescript-ts-mode-hook-func)
+
+;; TSX
+
+(add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
+
+(defun tsx-ts-mode-hook-func ()
+  (lsp-deferred)
+  (setq lsp-format-buffer-on-save t))
+(add-hook 'tsx-ts-mode-hook #'tsx-ts-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; keisen.el -- provide facility for drawing ruled-line
@@ -1121,6 +1140,20 @@ DO NOT SET VALUE MANUALLY.")
   (flycheck-mode 1)
   )
 (add-hook 'rust-mode-hook #'rust-mode-hook-func)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; LSP mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+;; https://github.com/typescript-language-server/typescript-language-server/blob/master/docs/configuration.md
+(with-eval-after-load 'lsp-mode
+  (lsp-register-custom-settings
+   '(("javascript.format.indentSize" 2)
+     ("javascript.format.tabSize" 2)
+     ("javascript.format.convertTabsToSpaces" t)
+     ("typescript.format.indentSize" 2)
+     ("typescript.format.tabSize" 2)
+     ("typescript.format.convertTabsToSpaces" t))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mac port patch
@@ -1451,6 +1484,20 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Treesit for xxx-ts-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq treesit-language-source-alist
+      '((tsx "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "tsx/src")
+	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src")))
+
+;; Install libraries (e.g. ~/.emacs.d/tree-sitter/libtree-sitter-typescript.dylib)
+(dolist (element treesit-language-source-alist)
+  (let ((lang (car element)))
+    (unless (treesit-language-available-p lang)
+      (treesit-install-language-grammar lang))))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; view-mode --- peruse file or buffer without editing
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1492,7 +1539,6 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (face-spec-set 'web-mode-symbol-face '((((background light)) (:foreground "Gold4"))))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.ts[x]?\\'" . web-mode))
 
 ;; https://memo.sugyan.com/entry/20100705/1278306885
 (advice-add 'flymake-post-syntax-check :before

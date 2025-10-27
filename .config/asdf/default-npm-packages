@@ -4,4 +4,6 @@
 eslint@8.31.0
 markdownlint-cli
 prettier
+typescript
+typescript-language-server
 yaml-language-server

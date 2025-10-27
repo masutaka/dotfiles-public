@@ -10,4 +10,6 @@
 - `test`: (adding missing tests, refactoring tests; no production code change)
 - `chore`: (updating grunt tasks etc; no production code change)
 
+(must) 実行したコマンドがあれば、Body に含めること。
+
 (may) Body はリスト形式で最大でも 5 行程度に留めること。
