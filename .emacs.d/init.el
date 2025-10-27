@@ -1042,6 +1042,16 @@ DO NOT SET VALUE MANUALLY.")
 ;; ruby-lsp がインストールされていても rubocop が優先されてしまうので、無効にする。
 (setq lsp-disabled-clients '(rubocop-ls))
 
+;; https://github.com/typescript-language-server/typescript-language-server/blob/master/docs/configuration.md
+(with-eval-after-load 'lsp-mode
+  (lsp-register-custom-settings
+   '(("javascript.format.indentSize" 2)
+     ("javascript.format.tabSize" 2)
+     ("javascript.format.convertTabsToSpaces" t)
+     ("typescript.format.indentSize" 2)
+     ("typescript.format.tabSize" 2)
+     ("typescript.format.convertTabsToSpaces" t))))
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mozc
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1140,20 +1150,6 @@ DO NOT SET VALUE MANUALLY.")
   (flycheck-mode 1)
   )
 (add-hook 'rust-mode-hook #'rust-mode-hook-func)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; LSP mode
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;; https://github.com/typescript-language-server/typescript-language-server/blob/master/docs/configuration.md
-(with-eval-after-load 'lsp-mode
-  (lsp-register-custom-settings
-   '(("javascript.format.indentSize" 2)
-     ("javascript.format.tabSize" 2)
-     ("javascript.format.convertTabsToSpaces" t)
-     ("typescript.format.indentSize" 2)
-     ("typescript.format.tabSize" 2)
-     ("typescript.format.convertTabsToSpaces" t))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mac port patch
