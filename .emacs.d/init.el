@@ -1509,6 +1509,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun yaml-mode-hook-func ()
+  (lsp-deferred)
   ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t))
 (add-hook 'yaml-mode-hook #'yaml-mode-hook-func)
