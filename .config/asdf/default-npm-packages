@@ -1,6 +1,7 @@
 @anthropic-ai/claude-code
 @google/gemini-cli
 @openai/codex
+dockerfile-language-server-nodejs
 eslint@8.31.0
 markdownlint-cli
 prettier

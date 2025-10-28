@@ -35,7 +35,6 @@
 (package-install 'auto-complete)
 (package-install 'blgrep)
 (package-install 'clmemo)
-(package-install 'dockerfile-mode)
 (package-install 'egg)
 (package-install 'flycheck)
 (package-install 'flycheck-rust)
@@ -804,6 +803,17 @@ DO NOT SET VALUE MANUALLY.")
 (add-hook 'dired-mode-hook #'dired-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Dockerfile
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(require 'dockerfile-ts-mode)
+
+(defun dockerfile-ts-mode-hook-func ()
+  (lsp-deferred)
+  (setq lsp-format-buffer-on-save t))
+(add-hook 'dockerfile-ts-mode-hook #'dockerfile-ts-mode-hook-func)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Ediff
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1484,8 +1494,11 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq treesit-language-source-alist
-      '((tsx "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "tsx/src")
-	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src")))
+      '(
+	(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "v0.2.0" "src")
+	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "tsx/src")
+	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src")
+	))
 
 ;; Install libraries (e.g. ~/.emacs.d/tree-sitter/libtree-sitter-typescript.dylib)
 (dolist (element treesit-language-source-alist)
