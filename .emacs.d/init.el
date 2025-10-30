@@ -984,6 +984,17 @@ DO NOT SET VALUE MANUALLY.")
 (add-hook 'Info-mode-hook #'Info-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; JSON
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
+
+(defun json-ts-mode-hook-func ()
+  (lsp-deferred)
+  (setq indent-tabs-mode nil))
+(add-hook 'json-ts-mode-hook #'json-ts-mode-hook-func)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; JavaScript / TypeScript / TSX
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1476,6 +1487,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (setq treesit-language-source-alist
       '(
 	(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "v0.2.0" "src")
+	(json "https://github.com/tree-sitter/tree-sitter-json" "v0.24.8" "src")
 	(ruby "https://github.com/tree-sitter/tree-sitter-ruby" "v0.23.1" "src")
 	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "tsx/src")
 	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src")
@@ -1540,7 +1552,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (add-hook 'sgml-mode-hook #'sgml-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; yaml-mode
+;;; YAML
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (defun yaml-mode-hook-func ()
@@ -1550,8 +1562,6 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 
 (with-eval-after-load "yaml-mode"
   (define-key yaml-mode-map (kbd "C-c C-m") 'browse-url-at-point))
-
-(delete '("\\.js\\'" . javascript-generic-mode) auto-mode-alist)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; 履歴保存

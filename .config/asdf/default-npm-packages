@@ -7,4 +7,5 @@ markdownlint-cli
 prettier
 typescript
 typescript-language-server
+vscode-json-languageserver
 yaml-language-server
