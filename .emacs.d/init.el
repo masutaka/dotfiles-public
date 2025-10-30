@@ -577,9 +577,7 @@ DO NOT SET VALUE MANUALLY.")
   (c-set-style "bsd")
   (setq c-basic-offset 4)
   (setq indent-tabs-mode nil)
-  ;; 演算式が複数行にまたがるときのオフセット
-  (c-set-offset 'statement-cont 'c-lineup-math)
-  ;; 行末のスペースやタブに色づけして警告する。
+  (c-set-offset 'statement-cont 'c-lineup-math) ;; 演算式が複数行にまたがるときのオフセット
   (setq show-trailing-whitespace t)
   (define-key c-mode-base-map (kbd "M-j") 'goto-line)
   (define-key c-mode-base-map (kbd "C-c C-c") nil)
@@ -678,7 +676,6 @@ DO NOT SET VALUE MANUALLY.")
 ;; ChangeLogメモに曜日を入れる。
 (setq clmemo-time-string-with-weekday t)
 
-;; 行末のスペースやタブに色づけして警告する。
 (defun change-log-mode-hook-func ()
   (setq show-trailing-whitespace t))
 (add-hook 'change-log-mode-hook #'change-log-mode-hook-func)
@@ -809,8 +806,7 @@ DO NOT SET VALUE MANUALLY.")
 (require 'dockerfile-ts-mode)
 
 (defun dockerfile-ts-mode-hook-func ()
-  (lsp-deferred)
-  (setq lsp-format-buffer-on-save t))
+  (lsp-deferred))
 (add-hook 'dockerfile-ts-mode-hook #'dockerfile-ts-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1003,7 +999,6 @@ DO NOT SET VALUE MANUALLY.")
 
 (defun js2-mode-hook-func ()
   (lsp-deferred)
-  (setq lsp-format-buffer-on-save t)
   (setq js2-basic-offset 2)
   (setq indent-tabs-mode nil)
   (setq show-trailing-whitespace t)
@@ -1016,8 +1011,7 @@ DO NOT SET VALUE MANUALLY.")
 (add-to-list 'auto-mode-alist '("\\.ts\\'" . typescript-ts-mode))
 
 (defun typescript-ts-mode-hook-func ()
-  (lsp-deferred)
-  (setq lsp-format-buffer-on-save t))
+  (lsp-deferred))
 (add-hook 'typescript-ts-mode-hook #'typescript-ts-mode-hook-func)
 
 ;; TSX
@@ -1025,8 +1019,7 @@ DO NOT SET VALUE MANUALLY.")
 (add-to-list 'auto-mode-alist '("\\.tsx\\'" . tsx-ts-mode))
 
 (defun tsx-ts-mode-hook-func ()
-  (lsp-deferred)
-  (setq lsp-format-buffer-on-save t))
+  (lsp-deferred))
 (add-hook 'tsx-ts-mode-hook #'tsx-ts-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1052,8 +1045,10 @@ DO NOT SET VALUE MANUALLY.")
 ;; ruby-lsp がインストールされていても rubocop が優先されてしまうので、無効にする。
 (setq lsp-disabled-clients '(rubocop-ls))
 
+(setq-default lsp-format-buffer-on-save t)
+
 ;; https://github.com/typescript-language-server/typescript-language-server/blob/master/docs/configuration.md
-(with-eval-after-load 'lsp-mode
+(with-eval-after-load "lsp-mode"
   (lsp-register-custom-settings
    '(("javascript.format.indentSize" 2)
      ("javascript.format.tabSize" 2)
@@ -1115,7 +1110,6 @@ DO NOT SET VALUE MANUALLY.")
   (define-key python-mode-map (kbd "C-c C-m") 'browse-url-at-point))
 
 (defun python-mode-hook-func ()
-  ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t))
 (add-hook 'python-mode-hook #'python-mode-hook-func)
 
@@ -1123,28 +1117,14 @@ DO NOT SET VALUE MANUALLY.")
 ;;; Ruby
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(autoload 'ruby-mode "ruby-mode" "Major mode for editing ruby scripts." t)
-(add-to-list 'auto-mode-alist '("Gemfile\\'" . ruby-mode))
-(add-to-list 'auto-mode-alist '("Rakefile\\'" . ruby-mode))
-(add-to-list 'auto-mode-alist '("\\.rake\\'" . ruby-mode))
+(require 'ruby-ts-mode)
 
 (setq ruby-insert-encoding-magic-comment nil)
 
-;; workaround
-;; http://blog.livedoor.jp/ooboofo3/archives/53748087.html
-(with-eval-after-load "ruby-mode"
-  (defun ruby-electric-brace (arg)
-    (interactive "P")
-    (insert-char last-command-event 1)
-    (ruby-indent-line t)
-    (delete-char -1)
-    (self-insert-command (prefix-numeric-value arg))))
-
-(defun ruby-mode-hook-func ()
+(defun ruby-ts-mode-hook-func ()
   (lsp-deferred)
-  (setq lsp-format-buffer-on-save t)
   (setq show-trailing-whitespace t))
-(add-hook 'ruby-mode-hook #'ruby-mode-hook-func)
+(add-hook 'ruby-ts-mode-hook #'ruby-ts-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Rust
@@ -1496,6 +1476,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (setq treesit-language-source-alist
       '(
 	(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "v0.2.0" "src")
+	(ruby "https://github.com/tree-sitter/tree-sitter-ruby" "v0.23.1" "src")
 	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "tsx/src")
 	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src")
 	))
@@ -1536,7 +1517,6 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (require 'web-mode)
 
 (defun web-mode-hook-func ()
-  ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t)
   (setq web-mode-code-indent-offset 2)
   (setq web-mode-css-indent-offset 2)
@@ -1565,7 +1545,6 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 
 (defun yaml-mode-hook-func ()
   (lsp-deferred)
-  ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t))
 (add-hook 'yaml-mode-hook #'yaml-mode-hook-func)
 
@@ -1784,7 +1763,6 @@ do nothing. And suppress the output from `message' and
 (defun sh-mode-hook-func ()
   (setq sh-basic-offset 2)
   (setq sh-indentation 2)
-  ;; 行末のスペースやタブに色づけして警告する。
   (setq show-trailing-whitespace t))
 (add-hook 'sh-mode-hook #'sh-mode-hook-func)
 
