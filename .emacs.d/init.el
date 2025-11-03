@@ -1263,31 +1263,6 @@ DO NOT SET VALUE MANUALLY.")
           ;; Replace the match with the desired HTML format
           (replace-match (format "<img alt=\"%s\" src=\"%s\" width=\"80%%\" />" alt-text src-url) t t))))))
 
-(defun open-markdown (arg)
-  "Open the URL of the article matching the current markdown"
-  (interactive "P")
-  (if (string-match "github\\.com/route06/docs/\\(.+\\)\\.md$" buffer-file-name)
-      (open-github-pages arg)
-    (open-hugo arg)))
-
-(defun open-github-pages (arg)
-  "Open the URL of the GitHub Pages article matching the current markdown"
-  (let* ((elements (split-string buffer-file-name "/"))
-	 (last-element (car (last elements)))
-	 (second-last-element (car (last elements 2)))
-	 (trimed-bfn (if (equal (concat second-last-element ".md") last-element)
-			 ;; 同じ文字列が連続する場合は後ろの方を削除 /foo/foo.md -> /foo
-			 (mapconcat 'identity (butlast elements 1) "/")
-		       ;; .md は常に削除 /foo/bar.md -> /foo/bar
-		       ;; 特定のファイル名の場合はさらに削除 /foo/index.md -> /foo
-		       (replace-regexp-in-string "\\(/index\\|/README\\)?\\.md$" "" buffer-file-name)))
-	 (match-string (if (string-match "github\\.com/route06/docs/\\(.+\\)$" trimed-bfn)
-			   (match-string-no-properties 1 trimed-bfn))))
-    (if match-string
-	(browse-url (format
-		     (if arg "http://localhost:3000/%s/" "https://docs.route06.co.jp/%s/")
-		     match-string)))))
-
 (defun open-hugo (arg)
   "Open the URL of the Hugo article matching the current markdown"
   (let* ((post-regexp "content/posts/\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}-[0-9]+\\)\\.md$")
@@ -1303,7 +1278,7 @@ DO NOT SET VALUE MANUALLY.")
 (with-eval-after-load "markdown-mode"
   (define-key markdown-mode-command-map (kbd "C-p") 'markdown-preview-mode)
   (define-key markdown-mode-map (kbd "C-c C-m") 'browse-url-at-point)
-  (define-key markdown-mode-map (kbd "C-c C-o") 'open-markdown)
+  (define-key markdown-mode-map (kbd "C-c C-o") 'open-hugo)
   (define-key markdown-mode-map (kbd "C-c C-r") 'replace-markdown-image-to-html))
 
 (defun markdown-mode-hook-func ()

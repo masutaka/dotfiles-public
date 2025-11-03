@@ -53,14 +53,4 @@
 	name = Takashi Masuda
 	signingkey = ssh-ed25519 AAAAC3NzaC1lZDI1NTE5AAAAIOyT9US42sPJA9J8JGoJ6qyec+3ZmcUXe8ylVKDCW/dx
 
-# Override in ROUTE06 repository. To be written at the bottom.
-[includeIf "gitdir:~/src/github.com/route06*/**"]
-	path = ~/.config/git/config_route06
-[includeIf "gitdir:~/src/github.com/r06-*/**"]
-	path = ~/.config/git/config_route06
-[includeIf "gitdir:~/src/github.com/giselles-ai/**"]
-	path = ~/.config/git/config_route06
-[includeIf "gitdir:~/src/github.com/liam-hq/**"]
-	path = ~/.config/git/config_route06
-
 # [^1]: See also https://onk.hatenablog.jp/entry/2022/12/18/000000
