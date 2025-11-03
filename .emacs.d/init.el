@@ -1540,6 +1540,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (face-spec-set 'web-mode-symbol-face '((((background light)) (:foreground "Gold4"))))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
+(add-to-list 'auto-mode-alist '("\\.\\([sx]?html?\\|turbo_stream\\)\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
 
 ;; https://memo.sugyan.com/entry/20100705/1278306885
 (advice-add 'flymake-post-syntax-check :before
