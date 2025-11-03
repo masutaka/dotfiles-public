@@ -806,7 +806,8 @@ DO NOT SET VALUE MANUALLY.")
 (require 'dockerfile-ts-mode)
 
 (defun dockerfile-ts-mode-hook-func ()
-  (lsp-deferred))
+  (lsp-deferred)
+  (setq indent-tabs-mode nil))
 (add-hook 'dockerfile-ts-mode-hook #'dockerfile-ts-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
