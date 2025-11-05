@@ -48,7 +48,6 @@
 (package-install 'helm-ghq)
 (package-install 'helm-github-stars)
 (package-install 'helm-raindrop)
-(package-install 'helm-swoop)
 (package-install 'highlight-symbol)
 (package-install 'js2-mode)
 (package-install 'lsp-mode)
@@ -1874,7 +1873,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key global-map (kbd "s-p") nil)
 ;;(define-key global-map (kbd "s-q") nil)
 ;;(define-key global-map (kbd "s-r") nil)
-(define-key global-map (kbd "s-s") 'helm-swoop)
+;;(define-key global-map (kbd "s-s") nil)
 (define-key global-map (kbd "s-t") 'tab-new)
 ;;(define-key global-map (kbd "s-u") nil)
 (define-key global-map (kbd "s-v") 'yank) ;; for Alfred Snippets
