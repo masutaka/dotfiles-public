@@ -38,9 +38,6 @@
 (package-install 'egg)
 (package-install 'flycheck)
 (package-install 'github-browse-file)
-(package-install 'go-autocomplete)
-(package-install 'go-eldoc)
-(package-install 'go-mode)
 (package-install 'graphql-mode)
 (package-install 'helm)
 (package-install 'helm-descbinds)
@@ -904,21 +901,15 @@ DO NOT SET VALUE MANUALLY.")
 ;;; Go
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(with-eval-after-load "go-mode"
-  (require 'go-autocomplete)
+(add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
+(add-to-list 'auto-mode-alist '("/go\\.mod\\'" . go-mod-ts-mode))
 
-  (defun go-mode-hook-func ()
-    (setq tab-width 4)
-    (go-eldoc-setup)
-    (flycheck-mode 1))
-  (add-hook 'go-mode-hook #'go-mode-hook-func)
+(setq go-ts-mode-indent-offset 4)
 
-  (define-key go-mode-map (kbd "M-.") 'godef-jump)
-  (define-key go-mode-map (kbd "M-,") 'pop-tag-mark))
-
-(setq gofmt-command "goimports")
-
-(add-hook 'before-save-hook #'gofmt-before-save)
+(defun go-ts-mode-hook-func ()
+  (lsp-deferred)
+  (setq tab-width 4))
+(add-hook 'go-ts-mode-hook #'go-ts-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; graphql-mode
@@ -1445,6 +1436,8 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (setq treesit-language-source-alist
       '(
 	(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "v0.2.0" "src")
+	(go "https://github.com/tree-sitter/tree-sitter-go" "v0.23.4" "src") ;; Emacs 29 では src/parser.c の LANGUAGE_VERSION は 14 が上限
+	(gomod "https://github.com/camdencheek/tree-sitter-go-mod" "v1.1.0" "src")
 	(json "https://github.com/tree-sitter/tree-sitter-json" "v0.24.8" "src")
 	(ruby "https://github.com/tree-sitter/tree-sitter-ruby" "v0.23.1" "src")
 	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "tsx/src")
