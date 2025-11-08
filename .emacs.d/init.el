@@ -37,7 +37,6 @@
 (package-install 'clmemo)
 (package-install 'egg)
 (package-install 'flycheck)
-(package-install 'flycheck-rust)
 (package-install 'github-browse-file)
 (package-install 'go-autocomplete)
 (package-install 'go-eldoc)
@@ -60,7 +59,6 @@
 (package-install 'php-mode)
 (package-install 'request)
 (package-install 'rspec-mode)
-(package-install 'rust-mode)
 (package-install 'savekill)
 (package-install 'scratch-log)
 (package-install 'sequential-command)
@@ -1136,21 +1134,6 @@ DO NOT SET VALUE MANUALLY.")
   (lsp-deferred)
   (setq show-trailing-whitespace t))
 (add-hook 'ruby-ts-mode-hook #'ruby-ts-mode-hook-func)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Rust
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(with-eval-after-load 'rust-mode (flycheck-rust-setup))
-
-(setq rust-format-on-save t)
-
-(defun rust-mode-hook-func ()
-  ;;(eldoc-mode)
-  (flycheck-rust-setup)
-  (flycheck-mode 1)
-  )
-(add-hook 'rust-mode-hook #'rust-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mac port patch
