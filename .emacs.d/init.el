@@ -32,9 +32,9 @@
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (package-install 'async)
-(package-install 'auto-complete)
 (package-install 'blgrep)
 (package-install 'clmemo)
+(package-install 'company)
 (package-install 'egg)
 (package-install 'flycheck)
 (package-install 'github-browse-file)
@@ -519,15 +519,6 @@ DO NOT SET VALUE MANUALLY.")
 	:prompt "Find Bookmark: "))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; auto-complete
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(require 'auto-complete-config)
-(define-key ac-mode-map (kbd "M-<tab>") 'auto-complete)
-(ac-config-default)
-(setq ac-ignore-case nil)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Backup
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -689,6 +680,15 @@ DO NOT SET VALUE MANUALLY.")
   ;; 複数のタグがあってもきちんと色付けする。
   (setcar (assoc "\\[!?\\([^]\n]+\\)\\]\\(:\\| (\\)" change-log-font-lock-keywords)
 	  "\\( *\\[.+\\]\\)+ *:"))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; company-mode
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(setq company-minimum-prefix-length 2)
+(setq company-show-quick-access t)
+
+(add-hook 'after-init-hook #'global-company-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Dictionary
