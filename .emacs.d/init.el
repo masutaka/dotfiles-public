@@ -1315,12 +1315,6 @@ DO NOT SET VALUE MANUALLY.")
 ;;; occur
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun my-occur-return ()
-  (switch-to-buffer-other-window "*Occur*"))
-
-;;(add-hook 'occur-hook #'my-occur-return)
-;;(add-hook 'occur-mode-find-occurrence-hook #'my-occur-return)
-
 (define-key occur-mode-map (kbd "n") 'occur-next-error)
 (define-key occur-mode-map (kbd "p") (lambda () (interactive) (occur-next-error -1)))
 
@@ -1441,7 +1435,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (setq treesit-language-source-alist
       '(
 	(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "v0.2.0" "src")
-	(go "https://github.com/tree-sitter/tree-sitter-go" "v0.23.4" "src") ;; Emacs 29 では src/parser.c の LANGUAGE_VERSION は 14 が上限
+	(go "https://github.com/tree-sitter/tree-sitter-go" "v0.23.4" "src") ;; (treesit-library-abi-version) と、src/parser.c の LANGUAGE_VERSION を合わせる (14)
 	(gomod "https://github.com/camdencheek/tree-sitter-go-mod" "v1.1.0" "src")
 	(json "https://github.com/tree-sitter/tree-sitter-json" "v0.24.8" "src")
 	(ruby "https://github.com/tree-sitter/tree-sitter-ruby" "v0.23.1" "src")
