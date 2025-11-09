@@ -104,14 +104,14 @@
   "Use the GitHub API to get the information and
 insert a comment at the end of the current line in the following format:
 
-- Issue/PR/Discussion URL <!-- Title -->
+Without ARG:
+- URL <!-- Title --> (Done or In Progress)
 
-If ARG is given, it has the following format:
-
-- Issue URL <!-- Title --> (Done or In Progress)
-- PR/Discussion URL <!-- Title -->"
+With ARG:
+- [Title](URL) (Done or In Progress)"
   (interactive "P")
-  (let ((url (thing-at-point 'url 'no-properties)))
+  (let ((url (thing-at-point 'url 'no-properties))
+	(url-bounds (bounds-of-thing-at-point 'url)))
     (if (not url)
 	(message "[github-expand-link] No URL at point")
       (let* ((parsed-url (url-generic-parse-url url))
@@ -131,18 +131,23 @@ If ARG is given, it has the following format:
 		:data (json-encode `(("query" . ,(format "query { repository(owner: \"%s\", name: \"%s\") { %s(number: %d) { %s } } }"
 							 (url-hexify-string org) (url-hexify-string repo)
 							 (cdr (assoc type type-alist)) (string-to-number number)
-							 (if (equal type "issues") "title state" "title")))))
+							 (if (equal type "discussions") "title closed" "title state")))))
 		:parser 'json-read
 		:sync t
 		:success (cl-function
 			  (lambda (&key data response &allow-other-keys)
 			    (let* ((body (car (alist-get 'repository (alist-get 'data data))))
 				   (title (alist-get 'title body))
-				   (state (alist-get 'state body)))
-			      (end-of-line)
-			      (insert (if (and arg state)
-					  (format " <!-- %s --> (%s)" title (if (equal "CLOSED" state) "Done" "In Progress"))
-					(format " <!-- %s -->" title))))))
+				   (state (alist-get 'state body))
+				   (closed (alist-get 'closed body))
+				   (is-done (or (equal "CLOSED" state) (equal "MERGED" state) (eq closed t)))
+				   (escaped-title (replace-regexp-in-string "\\[" "\\\\[" (replace-regexp-in-string "\\]" "\\\\]" title))))
+			      (if arg
+				  (when url-bounds
+				    (delete-region (car url-bounds) (cdr url-bounds))
+				    (insert (format "[%s](%s) (%s)" escaped-title url (if is-done "Done" "In Progress"))))
+				(end-of-line)
+				(insert (format " <!-- %s --> (%s)" title (if is-done "Done" "In Progress")))))))
 		:error (cl-function
 			(lambda (&key error-thrown response &allow-other-keys)
 			  (message "[github-expand-link] Fail %S to POST %s"
