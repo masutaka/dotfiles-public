@@ -1429,7 +1429,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (add-hook 'terraform-mode-hook #'terraform-format-on-save-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Treesit for xxx-ts-mode
+;;; Tree-sitter for xxx-ts-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
 (setq treesit-language-source-alist
