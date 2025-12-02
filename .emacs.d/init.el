@@ -1244,6 +1244,7 @@ DO NOT SET VALUE MANUALLY.")
 
 (defun open-hugo (arg)
   "Open the URL of the Hugo article matching the current markdown"
+  (interactive "P")
   (let* ((post-regexp "content/posts/\\([0-9]\\{4\\}-[0-9]\\{2\\}-[0-9]\\{2\\}-[0-9]+\\)\\.md$")
 	 (stock-regexp "content/\\([^/]+\\)\\.md$")
 	 (match-string (if (or (string-match post-regexp buffer-file-name)

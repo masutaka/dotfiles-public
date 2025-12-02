@@ -9,16 +9,14 @@
       "Bash(curl:*)",
       "Bash(find:*)",
       "Bash(gemini:*)",
+      "Bash(gh issue view:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr view:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
       "Bash(rg:*)",
       "Bash(wget:*)",
-      "Read(.env.example)",
-      "mcp__github__get_file_contents",
-      "mcp__github__get_pull_request",
-      "mcp__github__list_commits",
-      "mcp__github__list_pull_requests",
-      "mcp__github__search_pull_requests"
+      "Read(.env.example)"
     ],
     "deny": [
       "Bash(curl:*)",
