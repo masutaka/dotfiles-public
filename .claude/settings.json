@@ -6,6 +6,7 @@
   },
   "permissions": {
     "allow": [
+      "Bash(bundle info:*)",
       "Bash(curl:*)",
       "Bash(find:*)",
       "Bash(gemini:*)",
@@ -14,9 +15,16 @@
       "Bash(gh pr view:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
+      "Bash(rails routes:*)",
       "Bash(rg:*)",
       "Bash(wget:*)",
-      "Read(.env.example)"
+      "Read(.env.example)",
+      "mcp__context7__get-library-docs",
+      "mcp__context7__resolve-library-id",
+      "mcp__nulab-backlog__get_issue",
+      "mcp__nulab-backlog__get_issue_comments",
+      "mcp__sentry__get_issue_details",
+      "mcp__sentry__search_events"
     ],
     "deny": [
       "Bash(curl:*)",

@@ -1,4 +1,4 @@
-gh CLI で $1 を熟読し、実装計画を docs/plan-for-issue-{Issue番号}.md として作成して。
+gh CLI で $1 を熟読し、実装計画を docs/plan-for-issue-{Issue番号}.md として作成して。 ultrathink
 
 - 既存の計画書を参考にすること
 - context7 を使って、一次情報である公式ドキュメントを確認すること
