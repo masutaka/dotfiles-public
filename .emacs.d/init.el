@@ -100,60 +100,6 @@
 	    base 10))
     (message string num (string-to-number num base))))
 
-(defun github-expand-link (arg)
-  "Use the GitHub API to get the information and
-insert a comment at the end of the current line in the following format:
-
-Without ARG:
-- URL <!-- Title --> (Done or In Progress)
-
-With ARG:
-- [Title](URL) (Done or In Progress)"
-  (interactive "P")
-  (let ((url (thing-at-point 'url 'no-properties))
-	(url-bounds (bounds-of-thing-at-point 'url)))
-    (if (not url)
-	(message "[github-expand-link] No URL at point")
-      (let* ((parsed-url (url-generic-parse-url url))
-	     (host (url-host parsed-url))
-	     (parts (split-string (url-filename parsed-url) "/" t)))
-	(if (and (string-match-p "github\\.com$" host) (>= (length parts) 4))
-	    (let ((access-token (my-lisp-load "github-expand-link-token"))
-		  (org (nth 0 parts))
-		  (repo (nth 1 parts))
-		  (type (nth 2 parts))
-		  (number (nth 3 parts))
-		  (type-alist '(("issues" . "issue") ("pull" . "pullRequest") ("discussions" . "discussion"))))
-	      (request
-		"https://api.github.com/graphql"
-		:type "POST"
-		:headers `(("Authorization" . ,(concat "Bearer " access-token)))
-		:data (json-encode `(("query" . ,(format "query { repository(owner: \"%s\", name: \"%s\") { %s(number: %d) { %s } } }"
-							 (url-hexify-string org) (url-hexify-string repo)
-							 (cdr (assoc type type-alist)) (string-to-number number)
-							 (if (equal type "discussions") "title closed" "title state")))))
-		:parser 'json-read
-		:sync t
-		:success (cl-function
-			  (lambda (&key data response &allow-other-keys)
-			    (let* ((body (car (alist-get 'repository (alist-get 'data data))))
-				   (title (alist-get 'title body))
-				   (state (alist-get 'state body))
-				   (closed (alist-get 'closed body))
-				   (is-done (or (equal "CLOSED" state) (equal "MERGED" state) (eq closed t)))
-				   (escaped-title (replace-regexp-in-string "\\[" "\\\\[" (replace-regexp-in-string "\\]" "\\\\]" title))))
-			      (if arg
-				  (when url-bounds
-				    (delete-region (car url-bounds) (cdr url-bounds))
-				    (insert (format "[%s](%s) (%s)" escaped-title url (if is-done "Done" "In Progress"))))
-				(end-of-line)
-				(insert (format " <!-- %s --> (%s)" title (if is-done "Done" "In Progress")))))))
-		:error (cl-function
-			(lambda (&key error-thrown response &allow-other-keys)
-			  (message "[github-expand-link] Fail %S to POST %s"
-				   error-thrown (request-response-url response))))))
-	  (message "[github-expand-link] Not a valid GitHub Issue/PR/Discussion URL"))))))
-
 (defun kill-current-line (&optional arg)
   "現在の行を改行ごと killします。"
   (interactive "P")
@@ -861,6 +807,125 @@ DO NOT SET VALUE MANUALLY.")
 ;; モードラインの "ElDoc" の表示はいらない。
 (with-eval-after-load "eldoc"
   (setcar (cdr (assq 'eldoc-mode minor-mode-alist)) ""))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; my-expand-link
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(defun my-expand-link ()
+  "Expand URL at point using the appropriate service.
+Dispatches to `github-expand-link' or `backlog-expand-link' based on the URL."
+  (interactive)
+  (let ((url (thing-at-point 'url 'no-properties)))
+    (if (not url)
+	(message "[my-expand-link] No URL at point")
+      (let* ((parsed-url (url-generic-parse-url url))
+	     (host (url-host parsed-url)))
+	(cond
+	 ((string-match-p "\\.backlog\\.com$" host)
+	  (backlog-expand-link))
+	 ((string-match-p "github\\.com$" host)
+	  (github-expand-link nil))
+	 (t
+	  (message "[my-expand-link] Unsupported URL: %s" host)))))))
+
+(defun backlog-expand-link ()
+  "Use the Backlog API to get the issue information and
+replace the URL with a Markdown link in the following format:
+
+- [PROJ-123 Title](URL) (Done / In Review / In Progress)"
+  (interactive)
+  (let ((url (thing-at-point 'url 'no-properties))
+	(url-bounds (bounds-of-thing-at-point 'url)))
+    (if (not url)
+	(message "[backlog-expand-link] No URL at point")
+      (let* ((parsed-url (url-generic-parse-url url))
+	     (host (url-host parsed-url))
+	     (path (url-filename parsed-url)))
+	(if (and (string-match "\\(.+\\)\\.backlog\\.com$" host)
+		 (string-match "^/view/\\([A-Z0-9_]+-[0-9]+\\)" path))
+	    (let* ((issue-key (match-string 1 path))
+		   (api-key (my-lisp-load "backlog-expand-link-api-key"))
+		   (api-url (format "https://%s/api/v2/issues/%s?apiKey=%s"
+				    host issue-key api-key)))
+	      (request
+		api-url
+		:type "GET"
+		:parser 'json-read
+		:sync t
+		:success (cl-function
+			  (lambda (&key data response &allow-other-keys)
+			    (let* ((summary (alist-get 'summary data))
+				   (issue-key (alist-get 'issueKey data))
+				   (status (alist-get 'status data))
+				   (status-id (alist-get 'id status))
+				   (state-label (cond
+						 ((= status-id 4) "Done")
+						 ((= status-id 3) "In Review")
+						 (t "In Progress")))
+				   (escaped-summary (replace-regexp-in-string "\\[" "\\\\[" (replace-regexp-in-string "\\]" "\\\\]" summary))))
+			      (when url-bounds
+				(delete-region (car url-bounds) (cdr url-bounds))
+				(insert (format "[%s %s](%s) (%s)" issue-key escaped-summary url state-label))))))
+		:error (cl-function
+			(lambda (&key error-thrown response &allow-other-keys)
+			  (message "[backlog-expand-link] Fail %S to GET %s"
+				   error-thrown (request-response-url response))))))
+	  (message "[backlog-expand-link] Not a valid Backlog issue URL"))))))
+
+(defun github-expand-link (arg)
+  "Use the GitHub API to get the information and
+insert a comment at the end of the current line in the following format:
+
+Without ARG:
+- URL <!-- Title --> (Done or In Progress)
+
+With ARG:
+- [Title](URL) (Done or In Progress)"
+  (interactive "P")
+  (let ((url (thing-at-point 'url 'no-properties))
+	(url-bounds (bounds-of-thing-at-point 'url)))
+    (if (not url)
+	(message "[github-expand-link] No URL at point")
+      (let* ((parsed-url (url-generic-parse-url url))
+	     (host (url-host parsed-url))
+	     (parts (split-string (url-filename parsed-url) "/" t)))
+	(if (and (string-match-p "github\\.com$" host) (>= (length parts) 4))
+	    (let ((access-token (my-lisp-load "github-expand-link-token"))
+		  (org (nth 0 parts))
+		  (repo (nth 1 parts))
+		  (type (nth 2 parts))
+		  (number (nth 3 parts))
+		  (type-alist '(("issues" . "issue") ("pull" . "pullRequest") ("discussions" . "discussion"))))
+	      (request
+		"https://api.github.com/graphql"
+		:type "POST"
+		:headers `(("Authorization" . ,(concat "Bearer " access-token)))
+		:data (json-encode `(("query" . ,(format "query { repository(owner: \"%s\", name: \"%s\") { %s(number: %d) { %s } } }"
+							 (url-hexify-string org) (url-hexify-string repo)
+							 (cdr (assoc type type-alist)) (string-to-number number)
+							 (if (equal type "discussions") "title closed" "title state")))))
+		:parser 'json-read
+		:sync t
+		:success (cl-function
+			  (lambda (&key data response &allow-other-keys)
+			    (let* ((body (car (alist-get 'repository (alist-get 'data data))))
+				   (title (alist-get 'title body))
+				   (state (alist-get 'state body))
+				   (closed (alist-get 'closed body))
+				   (is-done (or (equal "CLOSED" state) (equal "MERGED" state) (eq closed t)))
+				   (escaped-title (replace-regexp-in-string "\\[" "\\\\[" (replace-regexp-in-string "\\]" "\\\\]" title))))
+			      (if arg
+				  (when url-bounds
+				    (delete-region (car url-bounds) (cdr url-bounds))
+				    (insert (format "[%s](%s) (%s)" escaped-title url (if is-done "Done" "In Progress"))))
+				(end-of-line)
+				(insert (format " <!-- %s --> (%s)" title (if is-done "Done" "In Progress")))))))
+		:error (cl-function
+			(lambda (&key error-thrown response &allow-other-keys)
+			  (message "[github-expand-link] Fail %S to POST %s"
+				   error-thrown (request-response-url response))))))
+	  (message "[github-expand-link] Not a valid GitHub Issue/PR/Discussion URL"))))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Face
@@ -1839,7 +1904,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key global-map (kbd "s-f") nil)
 ;;(define-key global-map (kbd "s-g") nil)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
-(define-key global-map (kbd "s-i") 'github-expand-link)
+(define-key global-map (kbd "s-i") 'my-expand-link)
 (define-key global-map (kbd "s-j") 'scroll-up-one-line)
 (define-key global-map (kbd "s-k") 'scroll-down-one-line)
 (define-key global-map (kbd "s-l") (lambda (arg) (interactive "p") (scroll-right arg t)))
