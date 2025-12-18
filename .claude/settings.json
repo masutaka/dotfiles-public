@@ -49,11 +49,7 @@
     "type": "command",
     "command": "~/.claude/statusline.js"
   },
-  "alwaysThinkingEnabled": false,
   "feedbackSurveyState": {
     "lastShownTime": 1754037400924
-  },
-  "enabledPlugins": {
-    "code-review@claude-plugins-official": true
   }
 }
