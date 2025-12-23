@@ -812,10 +812,12 @@ DO NOT SET VALUE MANUALLY.")
 ;;; my-expand-link
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defun my-expand-link ()
+(defun my-expand-link (arg)
   "Expand URL at point using the appropriate service.
-Dispatches to `github-expand-link' or `backlog-expand-link' based on the URL."
-  (interactive)
+Dispatches to `github-expand-link' or `backlog-expand-link' based on the URL.
+
+With ARG (C-u), include status information."
+  (interactive "P")
   (let ((url (thing-at-point 'url 'no-properties)))
     (if (not url)
 	(message "[my-expand-link] No URL at point")
@@ -823,18 +825,22 @@ Dispatches to `github-expand-link' or `backlog-expand-link' based on the URL."
 	     (host (url-host parsed-url)))
 	(cond
 	 ((string-match-p "\\.backlog\\.com$" host)
-	  (backlog-expand-link))
+	  (backlog-expand-link arg))
 	 ((string-match-p "github\\.com$" host)
-	  (github-expand-link nil))
+	  (github-expand-link arg))
 	 (t
 	  (message "[my-expand-link] Unsupported URL: %s" host)))))))
 
-(defun backlog-expand-link ()
+(defun backlog-expand-link (arg)
   "Use the Backlog API to get the issue information and
 replace the URL with a Markdown link in the following format:
 
+Without ARG:
+- [PROJ-123 Title](URL)
+
+With ARG (C-u):
 - [PROJ-123 Title](URL) (Done / In Review / In Progress)"
-  (interactive)
+  (interactive "P")
   (let ((url (thing-at-point 'url 'no-properties))
 	(url-bounds (bounds-of-thing-at-point 'url)))
     (if (not url)
@@ -862,11 +868,12 @@ replace the URL with a Markdown link in the following format:
 				   (state-label (cond
 						 ((= status-id 4) "Done")
 						 ((= status-id 3) "In Review")
-						 (t "In Progress")))
-				   (escaped-summary (replace-regexp-in-string "\\[" "\\\\[" (replace-regexp-in-string "\\]" "\\\\]" summary))))
+						 (t "In Progress"))))
 			      (when url-bounds
 				(delete-region (car url-bounds) (cdr url-bounds))
-				(insert (format "[%s %s](%s) (%s)" issue-key escaped-summary url state-label))))))
+				(if arg
+				    (insert (format "[%s %s](%s) (%s)" issue-key summary url state-label))
+				  (insert (format "[%s %s](%s)" issue-key summary url)))))))
 		:error (cl-function
 			(lambda (&key error-thrown response &allow-other-keys)
 			  (message "[backlog-expand-link] Fail %S to GET %s"
@@ -875,12 +882,12 @@ replace the URL with a Markdown link in the following format:
 
 (defun github-expand-link (arg)
   "Use the GitHub API to get the information and
-insert a comment at the end of the current line in the following format:
+replace the URL with a Markdown link in the following format:
 
 Without ARG:
-- URL <!-- Title --> (Done or In Progress)
+- [Title](URL)
 
-With ARG:
+With ARG (C-u):
 - [Title](URL) (Done or In Progress)"
   (interactive "P")
   (let ((url (thing-at-point 'url 'no-properties))
@@ -913,14 +920,12 @@ With ARG:
 				   (title (alist-get 'title body))
 				   (state (alist-get 'state body))
 				   (closed (alist-get 'closed body))
-				   (is-done (or (equal "CLOSED" state) (equal "MERGED" state) (eq closed t)))
-				   (escaped-title (replace-regexp-in-string "\\[" "\\\\[" (replace-regexp-in-string "\\]" "\\\\]" title))))
-			      (if arg
-				  (when url-bounds
-				    (delete-region (car url-bounds) (cdr url-bounds))
-				    (insert (format "[%s](%s) (%s)" escaped-title url (if is-done "Done" "In Progress"))))
-				(end-of-line)
-				(insert (format " <!-- %s --> (%s)" title (if is-done "Done" "In Progress")))))))
+				   (is-done (or (equal "CLOSED" state) (equal "MERGED" state) (eq closed t))))
+			      (when url-bounds
+				(delete-region (car url-bounds) (cdr url-bounds))
+				(if arg
+				    (insert (format "[%s](%s) (%s)" title url (if is-done "Done" "In Progress")))
+				  (insert (format "[%s](%s)" title url)))))))
 		:error (cl-function
 			(lambda (&key error-thrown response &allow-other-keys)
 			  (message "[github-expand-link] Fail %S to POST %s"
