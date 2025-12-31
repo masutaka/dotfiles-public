@@ -555,13 +555,13 @@ DO NOT SET VALUE MANUALLY.")
 		(concat (add-log-iso8601-time-string)
 			" (" (format-time-string "%a") ")"))))
 
-(defun mkchalow-ura (force)
+(defun mkchalow (force)
   (interactive "P")
   (let (pro
 	(hostname (downcase (car (split-string (system-name) "\\."))))
-	(pnm "mkchalow-ura")
-	(buf " *mkchalow-ura*")
-	(cnm "mkchalow-ura")
+	(pnm "mkchalow")
+	(buf " *mkchalow*")
+	(cnm "mkchalow")
 	(opts (if force '("-f"))))
     (message (format "%sBuilding chalow for %s..."
 		     (if force "Force " "") hostname))
@@ -584,7 +584,7 @@ DO NOT SET VALUE MANUALLY.")
 	 (scheme
 	  (if (equal filename "clmemo.txt") "https" "http"))
 	 (base-url
-	  (if (equal filename "clmemo.txt") "masutaka.net/chalow" "localhost:8080/chalow-ura")))
+	  (if (equal filename "clmemo.txt") "masutaka.net/chalow" "localhost:8080/chalow")))
     (save-excursion
       (setq date (and (re-search-backward date-regexp (point-min) t)
 		      (match-string-no-properties 1))))
@@ -624,7 +624,7 @@ DO NOT SET VALUE MANUALLY.")
   (setcar (cadr clmemo-font-lock-keywords)
 	  "\\[2[0-9][0-9][0-9]-[01]?[0-9]-[0-3]?[0-9]-?[0-9]*\\]")
   (define-key clmemo-mode-map (kbd "C-i") 'indent-for-tab-command)
-  (define-key clmemo-mode-map (kbd "C-c C-u") 'mkchalow-ura)
+  (define-key clmemo-mode-map (kbd "C-c C-u") 'mkchalow)
   (define-key clmemo-mode-map (kbd "C-c C-o") 'open-chalow))
 
 (with-eval-after-load "add-log"
