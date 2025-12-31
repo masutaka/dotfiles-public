@@ -1585,6 +1585,10 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (with-eval-after-load "yaml-mode"
   (define-key yaml-mode-map (kbd "C-c C-m") 'browse-url-at-point))
 
+;; for template.yaml (AWS SAM)
+;; See https://docs.aws.amazon.com/AWSCloudFormation/latest/TemplateReference/intrinsic-function-reference.html
+(setq lsp-yaml-custom-tags ["!GetAtt" "!Ref"])
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; 履歴保存
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
