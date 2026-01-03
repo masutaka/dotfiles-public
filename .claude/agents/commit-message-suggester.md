@@ -45,29 +45,29 @@ feat: add hat wobble
 
 変更の種類に応じて以下のプレフィックスを使用：
 
+- `chore`: (updating grunt tasks etc; no production code change)
+- `docs`: (changes to the documentation)
 - `feat`: (new feature for the user, not a new feature for build script)
 - `fix`: (bug fix for the user, not a fix to a build script)
-- `docs`: (changes to the documentation)
-- `style`: (formatting, missing semi colons, etc; no production code change)
 - `refactor`: (refactoring production code, eg. renaming a variable)
+- `style`: (formatting, missing semi colons, etc; no production code change)
 - `test`: (adding missing tests, refactoring tests; no production code change)
-- `chore`: (updating grunt tasks etc; no production code change)
 
 ### 良いコミットメッセージの例
 
 日本語:
+- chore: 依存パッケージを更新
+- docs: README にインストール手順を追記
 - feat: ユーザー認証機能を追加
 - fix: ログイン時のセッション切れを修正
 - refactor: UserService のメソッドを整理
-- docs: README にインストール手順を追記
-- chore: 依存パッケージを更新
 
 英語:
+- chore: Update dependencies
+- docs: Add installation instructions to README
 - feat: Add user authentication feature
 - fix: Resolve session expiration on login
 - refactor: Reorganize UserService methods
-- docs: Add installation instructions to README
-- chore: Update dependencies
 
 ## 出力形式
 
