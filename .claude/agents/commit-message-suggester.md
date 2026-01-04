@@ -56,11 +56,11 @@ feat: add hat wobble
 ### 良いコミットメッセージの例
 
 日本語:
-- chore: 依存パッケージを更新
-- docs: README にインストール手順を追記
-- feat: ユーザー認証機能を追加
-- fix: ログイン時のセッション切れを修正
-- refactor: UserService のメソッドを整理
+- chore: 依存パッケージを更新する
+- docs: README にインストール手順を追記する
+- feat: ユーザー認証機能を追加する
+- fix: ログイン時のセッション切れを修正する
+- refactor: UserService のメソッドを整理する
 
 英語:
 - chore: Update dependencies
