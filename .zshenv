@@ -58,6 +58,7 @@ if [ -r "$HOME/.cargo/env" ]; then
   source "$HOME/.cargo/env"
 fi
 
+export ASPELL_CONF="${XDG_CONFIG_HOME}/aspell/aspell.conf"
 export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
 export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1
 export EDITOR=emacsclient
