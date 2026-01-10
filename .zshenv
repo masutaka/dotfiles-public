@@ -41,7 +41,7 @@ Linux)
   source /opt/google-cloud-cli/completion.zsh.inc
   ;;
 *)
-  echo "Unkonwn OS" > /dev/stderr
+  echo "Unknown OS" > /dev/stderr
   ;;
 esac
 

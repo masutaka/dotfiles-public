@@ -14,7 +14,7 @@
   (let ((cmd (cond
 	      (os-mac-p "defaults read -g AppleInterfaceStyle")
 	      (os-linux-p "xfconf-query -c xsettings -p /Net/ThemeName"))))
-    (string-match "dark" (shell-command-to-string cmd)))
+    (string-match-p "dark" (shell-command-to-string cmd)))
   "On macOS and Linux (Xfce4), it automatically detects if it is dark mode or not.")
 
 (defconst my-cursor-color-for-light "black")
@@ -173,7 +173,7 @@
 	(setq str
 	      (concat
 	       name quote
-	       (unless (= (point-at-bol) (point-at-eol)) " ")))
+	       (unless (= (pos-bol) (pos-eol)) " ")))
 	(insert str)
 	(forward-line 1)
 	(setq end (+ end (length str)))))))
@@ -788,7 +788,6 @@ DO NOT SET VALUE MANUALLY.")
 		  (key-description (read-key-sequence "")))))
 
 (defun elisp-mode-common-hook-func ()
-  (turn-on-eldoc-mode)
   (local-set-key (kbd "C-c C-b") 'edebug-defun)
   (local-set-key (kbd "C-c C-d") 'eval-defun)
   (local-set-key (kbd "C-c C-[") 'beginning-of-defun)
@@ -1270,7 +1269,7 @@ With ARG (C-u):
 	(mac-select-input-source mac-win-kana-input-method)))
 
   (defun mac-win-target-commands-match ()
-    (remove-if-not
+    (cl-remove-if-not
      (lambda (c)
        (string-match (format "^%s" c) (format "%s" this-command)))
      mac-win-target-commands))
@@ -1478,7 +1477,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 	(type) (type-for-url) (owner) (provider) (name))
     (save-excursion
       (re-search-backward "^[a-z]" (point-min) t)
-      (when (re-search-forward regexp (point-at-eol) t)
+      (when (re-search-forward regexp (pos-eol) t)
 	(setq type (match-string-no-properties 1)
 	      provider (match-string-no-properties 2)
 	      name (match-string-no-properties 3))))
@@ -1560,7 +1559,6 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (face-spec-set 'web-mode-html-attr-name-face '((((background light)) (:foreground "Blue4"))))
 (face-spec-set 'web-mode-symbol-face '((((background light)) (:foreground "Gold4"))))
 (add-to-list 'auto-mode-alist '("\\.css\\'" . web-mode))
-(add-to-list 'auto-mode-alist '("\\.[sx]?html?\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
 (add-to-list 'auto-mode-alist '("\\.\\([sx]?html?\\|turbo_stream\\|pdf\\)\\(\\.[a-zA-Z_]+\\)?\\'" . web-mode))
 
 ;; https://memo.sugyan.com/entry/20100705/1278306885
@@ -1886,7 +1884,7 @@ do nothing. And suppress the output from `message' and
 (define-key esc-map (kbd "o") 'tab-next)
 (define-key esc-map (kbd "p") 'backward-paragraph)
 ;;(define-key esc-map (kbd "q") 'fill-paragraph)
-(define-key esc-map (kbd "r") 'toggle-read-only)
+;;(define-key esc-map (kbd "r") 'move-to-window-line-top-bottom)
 ;;(define-key esc-map (kbd "s") search-map)
 ;;(define-key esc-map (kbd "t") 'transpose-words)
 ;;(define-key esc-map (kbd "u") 'upcase-word)
@@ -1959,7 +1957,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-q") 'quoted-insert)
 (define-key ctl-q-map (kbd "C-r") 'rename-uniquely)
 (define-key ctl-q-map (kbd "C-s") 'toggle-truncate-lines)
-(define-key ctl-q-map (kbd "C-t") 'linum-mode)
+(define-key ctl-q-map (kbd "C-t") 'display-line-numbers-mode)
 (define-key ctl-q-map (kbd "C-u") 'sort-lines)
 (define-key ctl-q-map (kbd "C-v") 'my-copy-whole-buffer-to-kill-ring)
 (define-key ctl-q-map (kbd "C-w") 'erase-buffer)
