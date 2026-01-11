@@ -112,9 +112,6 @@ SAVEHIST=1000000
 # tab キーを押したときに beep しない。
 setopt nolistbeep
 
-# cd の際に自動的に pushdしてくれる。(for alias=d)
-setopt auto_pushd
-
 # コマンドの問い合わせ訂正
 setopt correct
 
@@ -144,9 +141,6 @@ setopt notify
 
 # プロンプトに環境変数やエスケープシーケンスを含める。
 setopt prompt_subst
-
-# 既にpushdしたディレクトリはダブらせずにディレクトリスタックの先頭に持って来る。
-setopt pushd_ignore_dups
 
 # 他の端末と履歴の同期を取る。
 # この設定が合わなければ、適当なタイミングで fc -RI しても良いかも。
