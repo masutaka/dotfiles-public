@@ -90,10 +90,6 @@ ulimit -S -c 0
 # /etc/zprofile 等の /etc 以下のファイルを読み込ませない
 setopt no_global_rcs
 
-if type direnv > /dev/null; then
-  eval "$(direnv hook zsh)"
-fi
-
 #---------------------------------------------------------------------
 # asdf
 #---------------------------------------------------------------------

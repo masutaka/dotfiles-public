@@ -8,7 +8,7 @@ function backup-elpa () {
 }
 
 function exists () {
-  type $1 > /dev/null
+  type $1 > /dev/null 2>&1
 }
 
 # Usage: $ fingerprints <".pub" or authorized_keys>
@@ -40,11 +40,11 @@ function go-installs () {
 alias go-updates=go-installs
 
 function psme () {
-  ps auxw$1 | egrep "^(USER|$USER)" | sort -k 2 -n
+  ps auxw$1 | grep -E "^(USER|$USER)" | sort -k 2 -n
 }
 
 function psnot () {
-  ps auxw$1 | egrep -v "^$USER" | sort -k 2 -n
+  ps auxw$1 | grep -E -v "^$USER" | sort -k 2 -n
 }
 
 function rm-local-branches () {
@@ -92,7 +92,7 @@ fi
 # プロンプト(man zshmisc)
 PROMPT='%B%~ $%b '
 
-FPATH=$HOME/.docker/completions:$FPATH
+fpath=($HOME/.docker/completions $fpath)
 
 # 履歴を保存するファイル
 HISTFILE=$HOME/.zhistory
@@ -198,13 +198,21 @@ fi
 
 autoload -Uz chpwd_recent_dirs cdr
 add-zsh-hook chpwd chpwd_recent_dirs
-mkdir -p "${XDG_CACHE_HOME}/shell"
+[ -d "${XDG_CACHE_HOME}/shell" ] || mkdir -p "${XDG_CACHE_HOME}/shell"
 zstyle ':completion:*:*:cdr:*:*' menu selection
 zstyle ':completion:*' recent-dirs-insert both
 zstyle ':chpwd:*' recent-dirs-max 500
 zstyle ':chpwd:*' recent-dirs-default true
 zstyle ':chpwd:*' recent-dirs-file "${XDG_CACHE_HOME}/shell/chpwd-recent-dirs"
 zstyle ':chpwd:*' recent-dirs-pushd true
+
+#---------------------------------------------------------------------
+# direnv
+#---------------------------------------------------------------------
+
+if exists direnv; then
+  eval "$(direnv hook zsh)"
+fi
 
 #---------------------------------------------------------------------
 # Homebrew
