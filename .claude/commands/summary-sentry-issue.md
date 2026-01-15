@@ -5,5 +5,6 @@ Sentry issue $1 を熟読して、doc/my/sentry-{IssueShortID}.md にまとめ�
 - 今までまとめた Markdown ファイルを参考にすること
 - 他の Sentry issue も確認して、俯瞰的な観点でまとめること
 - gh CLI で GitHub issue も確認して、すでに報告されていないか確認すること
+- Sentry issue のステータスをどう変更すべきか記載すること
 
 ultrathink

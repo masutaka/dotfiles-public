@@ -25,13 +25,7 @@
       "Read(.env.example)",
       "mcp__context7__get-library-docs",
       "mcp__context7__query-docs",
-      "mcp__context7__resolve-library-id",
-      "mcp__nulab-backlog__get_issue",
-      "mcp__nulab-backlog__get_issue_comments",
-      "mcp__sentry__get_issue_details",
-      "mcp__sentry__search_events",
-      "mcp__sentry__search_issues",
-      "mcp__serena__list_dir"
+      "mcp__context7__resolve-library-id"
     ],
     "deny": [
       "Bash(curl:*)",
