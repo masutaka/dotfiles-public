@@ -29,7 +29,9 @@
       "mcp__nulab-backlog__get_issue",
       "mcp__nulab-backlog__get_issue_comments",
       "mcp__sentry__get_issue_details",
-      "mcp__sentry__search_events"
+      "mcp__sentry__search_events",
+      "mcp__sentry__search_issues",
+      "mcp__serena__list_dir"
     ],
     "deny": [
       "Bash(curl:*)",
