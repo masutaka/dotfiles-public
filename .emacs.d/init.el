@@ -1954,7 +1954,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-n") 'move-to-window-line-bottom)
 (define-key ctl-q-map (kbd "C-o") (lambda () (interactive) (other-window -1)))
 (define-key ctl-q-map (kbd "C-p") 'move-to-window-line-top)
-(define-key ctl-q-map (kbd "C-q") 'quoted-insert)
+;; (define-key ctl-q-map (kbd "C-q") nil)
 (define-key ctl-q-map (kbd "C-r") 'rename-uniquely)
 (define-key ctl-q-map (kbd "C-s") 'toggle-truncate-lines)
 (define-key ctl-q-map (kbd "C-t") 'display-line-numbers-mode)
