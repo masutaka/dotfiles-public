@@ -8,9 +8,7 @@
   "permissions": {
     "allow": [
       "Bash(bundle info:*)",
-      "Bash(curl:*)",
       "Bash(find:*)",
-      "Bash(gemini:*)",
       "Bash(gh issue list:*)",
       "Bash(gh issue view:*)",
       "Bash(gh pr diff:*)",
@@ -19,9 +17,7 @@
       "Bash(gh repo view:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
-      "Bash(rails routes:*)",
       "Bash(rg:*)",
-      "Bash(wget:*)",
       "Read(.env.example)",
       "mcp__context7__get-library-docs",
       "mcp__context7__query-docs",
