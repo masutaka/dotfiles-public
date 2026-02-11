@@ -1,3 +1,9 @@
+---
+name: create-plan-for-gh-issue
+description: Create plan for GitHub issue
+disable-model-invocation: true
+---
+
 gh CLI で $1 を熟読し、実装計画を docs/plan-for-issue-{Issue番号}.md として作成して。
 
 - 既存の計画書を参考にすること

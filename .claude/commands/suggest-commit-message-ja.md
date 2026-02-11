@@ -1,1 +1,0 @@
-commit-message-suggester エージェントを使って、日本語のコミットメッセージを提案して
