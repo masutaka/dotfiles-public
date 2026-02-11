@@ -1,6 +1,7 @@
 ---
 name: suggest-commit-message
 description: Suggest commit message from staged/unstaged changes
+disable-model-invocation: true
 model: sonnet
 ---
 
