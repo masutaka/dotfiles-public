@@ -2,8 +2,7 @@
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
   "env": {
     "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
-    "ENABLE_TOOL_SEARCH": "true",
-    "ENABLE_EXPERIMENTAL_MCP_CLI": "false"
+    "ENABLE_TOOL_SEARCH": "true"
   },
   "permissions": {
     "allow": [
@@ -21,7 +20,6 @@
       "Bash(jq:*)",
       "Bash(rg:*)",
       "Read(.env.example)",
-      "mcp__context7__get-library-docs",
       "mcp__context7__query-docs",
       "mcp__context7__resolve-library-id"
     ],
