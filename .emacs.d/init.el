@@ -48,7 +48,6 @@
 (package-install 'js2-mode)
 (package-install 'lsp-mode)
 (package-install 'markdown-mode)
-(package-install 'markdown-preview-mode)
 (package-install 'mozc)
 (package-install 'nginx-mode)
 (package-install 'open-junk-file)
@@ -1293,10 +1292,6 @@ With ARG (C-u):
 ;;; markdown
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(let ((stylesheet "https://cdnjs.cloudflare.com/ajax/libs/github-markdown-css/5.8.1/github-markdown-dark.min.css"))
-  (setq markdown-css-paths (list stylesheet))
-  (setq markdown-preview-stylesheets (list stylesheet)))
-
 (defun replace-markdown-image-to-html (&optional start end)
   "Replace a single Markdown image syntax with an HTML image tag in the selected region or current line if no region is selected."
   (interactive)
@@ -1325,7 +1320,6 @@ With ARG (C-u):
 		     match-string)))))
 
 (with-eval-after-load "markdown-mode"
-  (define-key markdown-mode-command-map (kbd "C-p") 'markdown-preview-mode)
   (define-key markdown-mode-map (kbd "C-c C-m") 'browse-url-at-point)
   (define-key markdown-mode-map (kbd "C-c C-o") 'open-hugo)
   (define-key markdown-mode-map (kbd "C-c C-r") 'replace-markdown-image-to-html))
