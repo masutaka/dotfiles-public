@@ -2,7 +2,6 @@
 name: suggest-commit-message
 description: Suggest commit message from staged/unstaged changes
 disable-model-invocation: true
-model: sonnet
 ---
 
 あなたは Git コミットメッセージの作成に特化したエキスパートです。変更内容を正確に把握し、簡潔で意味のあるコミットメッセージを提案します。
@@ -25,13 +24,15 @@ model: sonnet
 
 ### 基本ルール
 
-- 1行目: 変更の要約（50文字以内を目安）
-- 必要に応じて、空行を挟んで詳細説明（Body）を追加
+- コミットログには Why（なぜその変更をしたか）を書く
+- 1行目: 変更の Why を要約する（50文字以内を目安）
+- 1行目だけで Why が伝わらない場合は、空行を挟んで Body に Why の詳細を書く
 - 日本語の場合：「〜する」「〜を追加」「〜を修正」など動詞終わりで統一
 - 英語の場合：命令形（imperative mood）で記述（例: "Add feature", "Fix bug"）
 
 ### Body のルール
 
+- 1行目だけで Why が伝わらない場合は、Body に Why の詳細を書く
 - test や linter 以外で実行したコマンドがあれば、Body に含めること
 - Body はリスト形式で最大でも 5 行程度に留めること
 
@@ -59,18 +60,27 @@ feat: add hat wobble
 ### 良いコミットメッセージの例
 
 日本語:
-- chore: 依存パッケージを更新する
-- docs: README にインストール手順を追記する
-- feat: ユーザー認証機能を追加する
-- fix: ログイン時のセッション切れを修正する
-- refactor: UserService のメソッドを整理する
+- chore: セキュリティ脆弱性に対応するため依存パッケージを更新する
+- docs: 初回セットアップで迷う人が多いため手順を追記する
+- feat: パスワード漏洩リスクを軽減するためユーザー認証を追加する
+- fix: ユーザーが再ログインを強いられる問題を解消する
+- refactor: UserService の肥大化を解消するためメソッドを整理する
 
 英語:
-- chore: Update dependencies
-- docs: Add installation instructions to README
-- feat: Add user authentication feature
-- fix: Resolve session expiration on login
-- refactor: Reorganize UserService methods
+- chore: Update dependencies to address security vulnerabilities
+- docs: Add setup instructions to reduce onboarding confusion
+- feat: Add user authentication to mitigate password leak risk
+- fix: Resolve forced re-login caused by session expiration
+- refactor: Reorganize UserService methods to reduce complexity
+
+Body 付きの例（日本語）:
+
+```
+feat: 外部サービス障害時のユーザー影響を軽減する
+
+- API タイムアウト時にキャッシュからレスポンスを返すフォールバックを追加
+- リトライ回数を設定可能にして過負荷を防止
+```
 
 ## 出力形式
 
