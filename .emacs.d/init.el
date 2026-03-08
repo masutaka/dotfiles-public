@@ -1980,7 +1980,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-x-map (kbd "C-k") 'kill-buffer)
 ;;(define-key ctl-x-map (kbd "C-l") 'downcase-region)
 ;;(define-key ctl-x-map (kbd "C-m") mule-keymap)
-(define-key ctl-x-map (kbd "C-n") nil)
+(define-key ctl-x-map (kbd "C-n") 'delete-trailing-whitespace)
 (define-key ctl-x-map (kbd "C-o") 'other-window)
 ;;(define-key ctl-x-map (kbd "C-p") 'mark-page)
 ;;(define-key ctl-x-map (kbd "C-q") 'read-only-mode)
