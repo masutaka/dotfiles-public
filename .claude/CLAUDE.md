@@ -39,7 +39,9 @@
 
 ### GitHub
 
-- gh CLI を使用すること
+- GitHub の情報を取得する時は ghro CLI を使用すること。権限が read-only であるため、安全に取得できる
+- GitHub 上のファイル内容を取得する時、Fetch を使うと取得できない。ghro CLI を使用すること
+- 何らかの書き込み操作を行うときは ghro CLI ではなく gh CLI を使用すること
 
 ### パッケージ
 
