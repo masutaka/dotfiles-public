@@ -95,23 +95,6 @@ ulimit -S -c 0
 # /etc/zprofile 等の /etc 以下のファイルを読み込ませない
 setopt no_global_rcs
 
-#---------------------------------------------------------------------
-# asdf
-#---------------------------------------------------------------------
-
-MY_ASDF_CONFIG_HOME="${XDG_CONFIG_HOME}/asdf"
-export ASDF_CONFIG_FILE="${MY_ASDF_CONFIG_HOME}/asdfrc"
-export ASDF_DATA_DIR="${XDG_DATA_HOME}/asdf"
-
-export ASDF_GEM_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-gems"
-export ASDF_NPM_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-npm-packages"
-export ASDF_PERL_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-perl-modules"
-export ASDF_PYTHON_DEFAULT_PACKAGES_FILE="${MY_ASDF_CONFIG_HOME}/default-python-packages"
-
-export ASDF_RUBY_BUILD_VERSION=master
-
-PATH=$ASDF_DATA_DIR/shims:$PATH
-
 # Local Variables:
 # tab-width: 8
 # End:

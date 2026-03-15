@@ -1,2 +1,0 @@
-[ -d bin ] && [ -f Gemfile.lock ] && PATH_add bin || :
-[ -d vendor/bundle/bin ] && [ -f Gemfile.lock ] && PATH_add vendor/bundle/bin || :

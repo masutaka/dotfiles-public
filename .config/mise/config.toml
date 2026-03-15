@@ -1,0 +1,8 @@
+[settings.node]
+# ruby と異なり ~ が展開されないバグがある。https://github.com/jdx/mise では未報告。
+default_packages_file = "/Users/masutaka/.config/mise/default-npm-packages"
+
+[settings.ruby]
+default_packages_file = "~/.config/mise/default-gems"
+# precompiled ruby は 2026.8.0 でデフォルトになるので、それ以降はこの設定を削除できる。
+compile = false
