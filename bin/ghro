@@ -2,4 +2,5 @@
 
 set -eu
 
-GH_CONFIG_DIR="${HOME}/.config/ghro" exec gh "$@"
+GH_TOKEN="$(security find-generic-password -s ghro:github.com -a github.com -w 2>/dev/null)" \
+  exec gh "$@"
