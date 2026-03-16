@@ -246,7 +246,7 @@ if exists mise; then
   # そのままだと Emacs 内で各リポジトリの tool version が反映されないため、
   # Emacs 起動時のみ shims ディレクトリを PATH に追加する。
   # See also https://mise.jdx.dev/dev-tools/shims.html#how-to-add-mise-shims-to-path
-  alias emacs="LC_COLLATE=C PATH='${HOME}/.local/share/mise/shims:$PATH' emacs"
+  alias emacs="LC_COLLATE=C PATH='${XDG_DATA_HOME}/mise/shims:$PATH' emacs"
 else
   alias emacs="LC_COLLATE=C emacs"
 fi
