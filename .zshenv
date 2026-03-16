@@ -95,16 +95,6 @@ ulimit -S -c 0
 # /etc/zprofile 等の /etc 以下のファイルを読み込ませない
 setopt no_global_rcs
 
-#---------------------------------------------------------------------
-# mise
-#---------------------------------------------------------------------
-
-eval "$(mise activate zsh)"
-
-# shims のパスを優先させないと、Emacs から各リポジトリでの ruby vesion に対応した
-# ruby-lsp などが動的に使われないため、この設定がここに必要。
-eval "$(mise activate zsh --shims)"
-
 # Local Variables:
 # tab-width: 8
 # End:
