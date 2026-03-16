@@ -242,7 +242,7 @@ fi
 if exists mise; then
   eval "$(mise activate zsh)"
 
-  # "mise activate zsh" は shims ディレクトリを PATH から除去する。
+  # "mise activate zsh" は shims ディレクトリを PATH に追加しない。
   # そのままだと Emacs 内で各リポジトリの tool version が反映されないため、
   # Emacs 起動時のみ shims ディレクトリを PATH に追加する。
   # See also https://mise.jdx.dev/dev-tools/shims.html#how-to-add-mise-shims-to-path
