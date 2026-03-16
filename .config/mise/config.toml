@@ -1,5 +1,5 @@
 [settings.node]
-# ruby と異なり ~ が展開されないバグがある。https://github.com/jdx/mise では未報告。
+# ruby と異なり ~ が展開されないバグがある。https://github.com/jdx/mise/discussions/8606 で報告済み。
 default_packages_file = "/Users/masutaka/.config/mise/default-npm-packages"
 
 [settings.ruby]
