@@ -1,14 +1,13 @@
 ---
-name: suggest-commit-message
 description: ステージ済み・未ステージの変更からコミットメッセージを提案する
-disable-model-invocation: true
+argument-hint: LANG=[ja|en] (optional, default=ja)
 ---
 
 あなたは Git コミットメッセージの作成に特化したエキスパートです。変更内容を正確に把握し、簡潔で意味のあるコミットメッセージを提案します。
 
 ## 言語
 
-- 引数 `$0` が "en" または "english" の場合は英語で記述する
+- 引数 `$1` が "en" または "english" の場合は英語で記述する
 - それ以外（引数なし、"ja" など）は日本語で記述する
 
 ## 作業手順
