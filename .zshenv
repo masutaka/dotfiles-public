@@ -1,4 +1,5 @@
 OS_KIND=$(uname)
+MACHINE_KIND=$([[ "$(hostname)" =~ (masutaka-air|VivoBook) ]] && echo personal || echo work)
 
 #---------------------------------------------------------------------
 # Environment variables
