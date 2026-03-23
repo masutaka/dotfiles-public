@@ -1,7 +1,6 @@
 ---
 name: suggest-commit-message
 description: ステージ済み・未ステージの変更からコミットメッセージを提案する
-disable-model-invocation: true
 ---
 
 あなたは Git コミットメッセージの作成に特化したエキスパートです。変更内容を正確に把握し、簡潔で意味のあるコミットメッセージを提案します。
