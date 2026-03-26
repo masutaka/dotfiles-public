@@ -1,10 +1,10 @@
 ---
 name: create-plan-for-gh-issue
-description: ghro CLI で Issue を調査し、docs/plan-for-issue-{Issue番号}.md に作業計画を作成する
+description: ghro CLI で Issue を調査し、tmp/docs/plan-for-issue-{Issue番号}.md に作業計画を作成する
 disable-model-invocation: true
 ---
 
-ghro CLI で $0（GitHub Issue URL または Issue 番号）を熟読し、作業計画を docs/plan-for-issue-{Issue番号}.md として作成して。
+ghro CLI で $0（GitHub Issue URL または Issue 番号）を熟読し、作業計画を tmp/docs/plan-for-issue-{Issue番号}.md として作成して。
 
 $0 が指定されていない場合は、ユーザーに GitHub Issue URL または Issue 番号を確認すること。
 
