@@ -1,2 +1,6 @@
+audit-level=high
+audit=true
+engine-strict=true
+ignore-scripts=true
 min-release-age=7
-save-prefix=""
+save-exact=true
