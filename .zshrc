@@ -457,10 +457,6 @@ if [ "$OS_KIND" = Linux ]; then
   alias pbcopy="xsel -b"
 fi
 
-if [ "$MACHINE_KIND" = personal ]; then
-  alias claude="claude --model opus"
-fi
-
 if exists peco; then
   alias -g B='$(git branch | peco | sed -e "s/^\*[ ]*//")'
 fi
