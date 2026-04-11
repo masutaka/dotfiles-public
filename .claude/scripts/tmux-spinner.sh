@@ -71,13 +71,18 @@ start_spinner() {
     i=0
     while true; do
       # Esc 中断などで heartbeat が止まって TTL を超えたら自壊する。
-      # 元のウィンドウ名を復元し、関連する一時ファイルを掃除してから抜ける。
+      # automatic-rename を unset してウィンドウ名を tmux に再決定させ、
+      # 関連する一時ファイルを掃除してから抜ける。
       heartbeat_ts=$(cat "$HEARTBEAT_FILE" 2>/dev/null || echo 0)
       # 万一空文字列を読んだ場合（write_heartbeat が mv で原子化しているので
       # 通常は起きないが防御的に）は「直近で書かれた」扱いで自壊を回避する。
       [[ -z "$heartbeat_ts" ]] && heartbeat_ts=$(date +%s)
       if (( $(date +%s) - heartbeat_ts > HEARTBEAT_TTL_SEC )); then
-        tmux rename-window -t "$WINDOW_ID" "$original_name" 2>/dev/null || true
+        # automatic-rename を unset してグローバル継承（通常 on）に戻し、
+        # tmux に現在の foreground プロセスからウィンドウ名を再決定させる。
+        # 単に rename-window で書き戻すと automatic-rename が off のまま固定
+        # され、Claude Code 終了後も name が古い値で固着する。
+        tmux set-option -w -t "$WINDOW_ID" -u automatic-rename 2>/dev/null || true
         rm -f "$NAME_FILE" "$HEARTBEAT_FILE" "$PID_FILE"
         break
       fi
@@ -104,22 +109,21 @@ notify_attention() {
   fi
 }
 
-# Claude Code が応答を完了したときに、スピナーを停止してウィンドウ名を元に戻し、
-# 別ウィンドウにいた場合のみ未読フラグを立てる（同じウィンドウを見ていれば既に
-# 視認済みなので立てない）。
+# Claude Code が応答を完了したときに、スピナーを停止してウィンドウ名の再決定
+# を tmux に任せ、別ウィンドウにいた場合のみ未読フラグを立てる（同じウィンドウ
+# を見ていれば既に視認済みなので立てない）。
 stop_spinner() {
   kill_spinner
 
   [[ -z "$WINDOW_ID" ]] && exit 0
 
-  # 元のウィンドウ名を復元（空ファイルなら復元すべき名前が無いのでスキップ）
-  if [[ -s "$NAME_FILE" ]]; then
-    local original_name
-    original_name=$(cat "$NAME_FILE")
-    tmux rename-window -t "$WINDOW_ID" "$original_name" 2>/dev/null || true
-    rm -f "$NAME_FILE"
-  fi
-  rm -f "$HEARTBEAT_FILE"
+  # automatic-rename を unset してグローバル継承（通常 on）に戻し、tmux に
+  # 現在の foreground プロセス（Claude Code 終了後なら zsh）からウィンドウ
+  # 名を再決定させる。start_spinner の rename-window によってこのウィンドウ
+  # の automatic-rename は off に固定されており、保存名を rename-window で
+  # 書き戻すだけでは Claude Code 終了後も name が固着してしまう。
+  tmux set-option -w -t "$WINDOW_ID" -u automatic-rename 2>/dev/null || true
+  rm -f "$NAME_FILE" "$HEARTBEAT_FILE"
 
   # 別のウィンドウにいる場合のみ未読フラグを設定
   local current_window
