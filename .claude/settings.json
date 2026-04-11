@@ -49,5 +49,81 @@
   "statusLine": {
     "type": "command",
     "command": "~/.claude/statusline.js"
+  },
+  "hooks": {
+    "UserPromptSubmit": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/tmux-spinner.sh start"
+          }
+        ]
+      }
+    ],
+    "PreToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/tmux-spinner.sh heartbeat"
+          }
+        ]
+      }
+    ],
+    "PostToolUse": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/tmux-spinner.sh heartbeat"
+          }
+        ]
+      }
+    ],
+    "Notification": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/macos-notify.sh Funk"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/tmux-spinner.sh notify"
+          }
+        ]
+      }
+    ],
+    "Stop": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/macos-notify.sh Glass"
+          },
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/tmux-spinner.sh stop"
+          }
+        ]
+      }
+    ],
+    "SessionEnd": [
+      {
+        "matcher": "",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/tmux-spinner.sh stop"
+          }
+        ]
+      }
+    ]
   }
 }
