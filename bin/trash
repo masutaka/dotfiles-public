@@ -6,7 +6,7 @@
 # Backslashes and doublequotes must be escaped.
 # replace  \  -->  \\
 # replace  "  -->  \"
-CWD=`pwd | sed -E -e 's/\\\\/\\\\\\\\/g' -e 's/"/\\\\"/g'`
+CWD=$(pwd | sed -E -e 's/\\\\/\\\\\\\\/g' -e 's/"/\\\\"/g')
 
 osascript - "$@" <<EOF
 on run argv
