@@ -35,10 +35,6 @@
     ]
   },
   "enableAllProjectMcpServers": false,
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/statusline.js"
-  },
   "extraKnownMarketplaces": {
     "openai-codex": {
       "source": {
@@ -49,5 +45,9 @@
   },
   "enabledPlugins": {
     "codex@openai-codex": true
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/statusline.js"
   }
 }
