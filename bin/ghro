@@ -2,6 +2,10 @@
 
 set -eu
 
+# Read-only な Fine-grained PAT を GH_TOKEN 経由で gh に渡すことで、
+# 読み取り専用の gh コマンドとして使う。詳しくは以下を参照。
+# https://blog.shibayu36.org/entry/2026/03/09/173000#comment-17179246901365242553
+#
 # あらかじめ以下のコマンドで、Fine-grained PAT をキーチェーンに登録しておく。
 # $ security add-generic-password -s "ghro:github.com" -a "github.com" -w "github_pat_****"
 
