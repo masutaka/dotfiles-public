@@ -4,9 +4,21 @@ description: ghro CLI で Issue を調査し、tmp/docs/plan-for-issue-{Issue番
 disable-model-invocation: true
 ---
 
-ghro CLI で $0（GitHub Issue URL または Issue 番号）を熟読し、作業計画を tmp/docs/plan-for-issue-{Issue番号}.md として作成して。
+ghro CLI で $0（GitHub Issue URL または Issue 番号）をコメント含めて熟読し、作業計画を tmp/docs/plan-for-issue-{Issue番号}.md として作成して。
 
 $0 が指定されていない場合は、ユーザーに GitHub Issue URL または Issue 番号を確認すること。
+
+## 画像の読み取り
+
+Issue 本文やコメントに画像が含まれる場合（`<img src="...">` や `![...](URL)` 形式）、以下の手順で内容を読み取ること：
+
+1. ghro の出力から画像 URL を抽出する
+2. `mktemp -d` で一時ディレクトリを作成する
+3. gh api で一時ディレクトリにダウンロードする（ghro api では取得できないため gh api を使う）
+    - 例: `gh api "画像URL" --header "Accept: application/octet-stream" > "$tmpdir/1.png"`
+4. Read ツールで画像ファイルを読み取り、内容を把握する
+5. 画像の内容を作業計画に反映する（スクリーンショット、エラー画面など）
+6. 作業完了後、一時ディレクトリを削除する
 
 ## 共通
 
