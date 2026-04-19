@@ -6,4 +6,4 @@ mouse-hide-while-typing = true
 # 左 Option キーを Meta キーとして使用する。
 macos-option-as-alt = left
 
-theme = Material Dark
+theme = Terminal Basic Dark
