@@ -1,0 +1,9 @@
+font-size = 12.0
+
+# 入力中はマウスカーソルを非表示にする
+mouse-hide-while-typing = true
+
+# 左 Option キーを Meta キーとして使用する。
+macos-option-as-alt = left
+
+theme = Material Dark
