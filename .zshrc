@@ -39,6 +39,10 @@ function go-installs () {
 }
 alias go-updates=go-installs
 
+function kd () {
+  LC_COLLATE=C ls -alF $@ | more -e
+}
+
 function psme () {
   ps auxw$1 | grep -E "^(USER|$USER)" | sort -k 2 -n
 }
@@ -66,24 +70,6 @@ function rm-local-branches () {
     eval "$git branch -d $b"
   done
 }
-
-if [ "$OS_KIND" = Darwin ]; then
-  function unixtime2date () {
-    date -r $1 +%Y-%m-%dT%H:%M:%S%z
-  }
-
-  function kd () {
-    ls -alF $@ | more -e
-  }
-else
-  function unixtime2date () {
-    date --date="@$1" +%Y-%m-%dT%H:%M:%S%z
-  }
-
-  function kd () {
-    LC_COLLATE=C ls -alF $@ | more -e
-  }
-fi
 
 #---------------------------------------------------------------------
 # Shell variables
