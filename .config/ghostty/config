@@ -1,3 +1,9 @@
+# "-" ">" などのプログラミング合字を無効化（→ のように表示されるのを防ぐ）
+# プログラミング合字は主に calt で実装されているため、dlig だけでは不十分
+font-feature = -calt
+font-feature = -dlig
+font-feature = -liga
+
 font-size = 12.0
 
 # 入力中はマウスカーソルを非表示にする
