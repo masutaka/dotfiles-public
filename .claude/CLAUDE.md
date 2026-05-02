@@ -37,6 +37,10 @@
 - テキストファイル（非バイナリファイル）の終端は空行にすること
 - テキストファイルの行末に存在する、不要な空白やタブ文字は除去すること
 
+### Git
+
+- git commit のメッセージは suggest-commit-message skill の規約に従うこと
+
 ### GitHub
 
 - GitHub の情報を取得する時は ghro CLI を使用すること（read-only で安全。Fetch ではファイル内容を取得できない）
