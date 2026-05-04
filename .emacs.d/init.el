@@ -1983,7 +1983,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-x-map (kbd "C-n") 'delete-trailing-whitespace)
 (define-key ctl-x-map (kbd "C-o") 'other-window)
 ;;(define-key ctl-x-map (kbd "C-p") 'mark-page)
-;;(define-key ctl-x-map (kbd "C-q") 'read-only-mode)
+(define-key ctl-x-map (kbd "C-q") 'quoted-insert)
 ;;(define-key ctl-x-map (kbd "C-r") 'find-file-read-only)
 ;;(define-key ctl-x-map (kbd "C-s") 'save-buffer)
 ;;(define-key ctl-x-map (kbd "C-t") 'transpose-lines)
