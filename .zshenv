@@ -68,6 +68,7 @@ export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
 export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1
 export EDITOR=emacsclient
 export GEMSRC_USE_GHQ=1
+export GH_TELEMETRY=false
 export IRBRC="${XDG_CONFIG_HOME}/ruby/irbrc"
 export MYSQL_PS1="(\u@$(hostname)) [\d] > "
 export NPM_CONFIG_USERCONFIG="${XDG_CONFIG_HOME}/npm/config"
