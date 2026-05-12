@@ -21,14 +21,12 @@
       "mcp__context7__resolve-library-id"
     ],
     "deny": [
-      "Bash(curl:*)",
       "Bash(git add --all:*)",
       "Bash(git add -A:*)",
       "Bash(git add .:*)",
       "Bash(git commit --amend:*)",
       "Bash(git commit --no-verify:*)",
       "Bash(git commit -n:*)",
-      "Bash(git push:*)",
       "Bash(git rebase:*)",
       "Bash(git reset:*)",
       "Bash(nc:*)",
@@ -41,6 +39,10 @@
       "Read(.env)",
       "Read(.envrc)",
       "Write(.env*)"
+    ],
+    "ask": [
+      "Bash(curl:*)",
+      "Bash(git push:*)"
     ]
   },
   "enableAllProjectMcpServers": false,
