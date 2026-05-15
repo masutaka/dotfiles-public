@@ -48,10 +48,10 @@ feat: add hat wobble
 
 変更の種類に応じて以下のプレフィックスを使用：
 
-- `chore`: (updating grunt tasks etc; no production code change)
+- `chore`: (updating grunt tasks etc; no production code change) — 依存パッケージのバージョン更新（脆弱性パッチを含む）も原則 chore に分類する
 - `docs`: (changes to the documentation)
 - `feat`: (new feature for the user, not a new feature for build script)
-- `fix`: (bug fix for the user, not a fix to a build script)
+- `fix`: (bug fix for the user, not a fix to a build script) — 依存更新が「ユーザーが踏んでいる具体的なバグ」を直接解消する場合に限り fix を選ぶ
 - `refactor`: (refactoring production code, eg. renaming a variable)
 - `style`: (formatting, missing semi colons, etc; no production code change)
 - `test`: (adding missing tests, refactoring tests; no production code change)
