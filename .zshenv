@@ -64,11 +64,6 @@ if [ -r "$HOME/.local/share/ca-certificates.pem" ]; then
   export NODE_EXTRA_CA_CERTS="$HOME/.local/share/ca-certificates.pem"
 fi
 
-# Keeper
-if [ -S "$HOME/Library/Containers/com.callpod.keepermac.lite/Data/tmp/keeper-ssh-agent.sock" ]; then
-  export SSH_AUTH_SOCK="$HOME/Library/Containers/com.callpod.keepermac.lite/Data/tmp/keeper-ssh-agent.sock"
-fi
-
 export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
 export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1
 export EDITOR=emacsclient
