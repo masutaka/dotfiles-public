@@ -878,15 +878,23 @@ With ARG (C-u):
 				   error-thrown (request-response-url response))))))
 	  (message "[backlog-expand-link] Not a valid Backlog issue URL"))))))
 
+(defvar github-expand-link-format 'url
+  "Insertion format for `github-expand-link'.
+'link - [Title](URL)
+'url  - URL <!-- Title -->")
+
 (defun github-expand-link (arg)
-  "Use the GitHub API to get the information and
-replace the URL with a Markdown link in the following format:
+  "Use the GitHub API to get the information and replace the URL.
 
-Without ARG:
-- [Title](URL)
+The output format is controlled by `github-expand-link-format'.
 
-With ARG (C-u):
-- [Title](URL) (Done or In Progress)"
+When `github-expand-link-format' is 'link:
+  Without ARG: [Title](URL)
+  With ARG (C-u): [Title](URL) (Done or In Progress)
+
+When `github-expand-link-format' is 'url:
+  Without ARG: URL <!-- Title -->
+  With ARG (C-u): URL <!-- Title --> (Done or In Progress)"
   (interactive "P")
   (let ((url (thing-at-point 'url 'no-properties))
 	(url-bounds (bounds-of-thing-at-point 'url)))
@@ -921,9 +929,12 @@ With ARG (C-u):
 				   (is-done (or (equal "CLOSED" state) (equal "MERGED" state) (eq closed t))))
 			      (when url-bounds
 				(delete-region (car url-bounds) (cdr url-bounds))
-				(if arg
-				    (insert (format "[%s](%s) (%s)" title url (if is-done "Done" "In Progress")))
-				  (insert (format "[%s](%s)" title url)))))))
+				(let ((base (if (eq github-expand-link-format 'url)
+						(format "%s <!-- %s -->" url title)
+					      (format "[%s](%s)" title url))))
+				  (if arg
+				      (insert (format "%s (%s)" base (if is-done "Done" "In Progress")))
+				    (insert base)))))))
 		:error (cl-function
 			(lambda (&key error-thrown response &allow-other-keys)
 			  (message "[github-expand-link] Fail %S to POST %s"
