@@ -42,6 +42,7 @@
       "Bash(git push:*)"
     ]
   },
+  "language": "Japanese",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [
