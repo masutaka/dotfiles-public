@@ -1,6 +1,6 @@
 ---
 name: codex-discuss
-description: 論点整理と反証のために Codex CLI と議論する
+description: 論点整理と反証のために Codex CLI と議論する。複数案のトレードオフを比較したい、自案への反証や弱点を検証したい、判断基準を確認したいときに使う。実装やファイル変更は一切行わず、議論と最終報告のみ
 ---
 
 codex と $ARGUMENTS について議論して。
@@ -31,16 +31,58 @@ $ARGUMENTS を元に、必要なコンテキストを収集する。分かって
 
 ## codex との会話方法
 
-出力ファイルは `/tmp/codex-${CLAUDE_SESSION_ID}.txt` に統一する。
+このスキルで使うファイルパスは以下で固定する。`CLAUDE_CODE_SESSION_ID` はセッション間の衝突防止用（未設定時は `default`）:
 
-1. $ARGUMENTS と収集したコンテキストを含めて新規セッションを作成する:
-   `codex exec --json -s read-only -o /tmp/codex-${CLAUDE_SESSION_ID}.txt "<議論内容とコンテキスト>"`
-2. 出力から `type` が `thread.started` のイベントを探し、`thread_id` を取得する。以降の会話で使用する
-3. 出力ファイルを読み取った後、以降は取得した `thread_id` を指定して会話を続ける:
-   `codex exec resume --json --full-auto -o /tmp/codex-${CLAUDE_SESSION_ID}.txt <thread_id> "<議論内容>"`
-4. codex の応答は出力ファイルから読み取る
+- プロンプトファイル: `/tmp/codex-discuss-${CLAUDE_CODE_SESSION_ID:-default}-prompt.txt`
+- 応答出力ファイル: `/tmp/codex-discuss-${CLAUDE_CODE_SESSION_ID:-default}-out.txt`
 
-Codex とのセッション確立に失敗した場合、resume で応答が得られない場合、または出力が解釈不能な場合は、その時点でユーザーに報告し、議論を継続しない。
+### 呼び出しの絶対ルール
+
+以下は長文プロンプトで Codex が応答を返さない事故を防ぐために必須:
+
+- 議論文は必ず一時ファイルに書き、`-` 引数で stdin から渡す。コマンドライン引数で直接渡すと、改行・引用符・コードブロックを含む長文でシェルのクォーティングが壊れ、Codex が壊れたプロンプトを受け取って無応答や誤応答になる
+- Bash 呼び出しには必ず `timeout: 600000`（10 分）を指定する。Bash のデフォルトは 2 分で、中規模プロンプトでも Codex の応答に 60 秒以上かかるため、長文では Bash 側でタイムアウトして殺される
+- このスキルは議論専用なので、初回 `codex exec` には必ず `--sandbox read-only` を付ける。`codex exec resume` は初回セッションの sandbox を継承する仕様なので、`--sandbox` や非推奨の `--full-auto` を resume 側で指定してはいけない
+- 議論内容はリポジトリの中身に依存しない汎用議論もあり得るので、`--skip-git-repo-check` を常に付ける
+
+### 1. 新規セッションの開始
+
+```bash
+cat > /tmp/codex-discuss-${CLAUDE_CODE_SESSION_ID:-default}-prompt.txt <<'EOF'
+<議論内容とコンテキスト>
+EOF
+
+cat /tmp/codex-discuss-${CLAUDE_CODE_SESSION_ID:-default}-prompt.txt | \
+  codex exec --json --sandbox read-only --skip-git-repo-check \
+    -o /tmp/codex-discuss-${CLAUDE_CODE_SESSION_ID:-default}-out.txt -
+```
+
+### 2. 応答の取得と成否の検証
+
+応答本文は出力ファイル `/tmp/codex-discuss-${CLAUDE_CODE_SESSION_ID:-default}-out.txt` から読む。標準出力は JSONL イベントストリームで、以下を確認する:
+
+- `thread.started` の `thread_id` を控える（以降の resume で必要）
+- `turn.completed` が含まれていて、かつ出力ファイルが非空ならば成功
+- `turn.failed` が含まれている、または `turn.completed` が無いまま終わっている、または出力ファイルが空ならば失敗
+
+失敗時は JSONL の末尾と stderr の主要な行を添えてユーザーに報告し、議論を継続しない。
+
+### 3. セッションの継続
+
+`<thread_id>` は新規セッションで控えた値:
+
+```bash
+cat > /tmp/codex-discuss-${CLAUDE_CODE_SESSION_ID:-default}-prompt.txt <<'EOF'
+<次のメッセージ>
+EOF
+
+cat /tmp/codex-discuss-${CLAUDE_CODE_SESSION_ID:-default}-prompt.txt | \
+  codex exec resume --json --skip-git-repo-check \
+    -o /tmp/codex-discuss-${CLAUDE_CODE_SESSION_ID:-default}-out.txt \
+    <thread_id> -
+```
+
+成否の判定方法は新規セッションと同じ。
 
 ## 議論の進め方
 

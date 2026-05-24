@@ -15,6 +15,7 @@
       "Bash(ghro:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
+      "Bash(mkdir:*)",
       "Bash(rg:*)",
       "Read(.env.example)",
       "mcp__context7__query-docs",
@@ -97,6 +98,15 @@
           {
             "type": "command",
             "command": "~/.claude/scripts/tmux-spinner.sh heartbeat"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "jq -r '.tool_input.file_path // empty' | { read -r f; case \"$f\" in *.md) mo \"$f\" </dev/null ;; esac; } 2>/dev/null || true"
           }
         ]
       }
