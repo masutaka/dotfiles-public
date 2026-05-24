@@ -1,12 +1,12 @@
 {
   "$schema": "https://json.schemastore.org/claude-code-settings.json",
-  "attribution": {
-    "commit": "",
-    "pr": ""
-  },
   "env": {
     "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
     "ENABLE_TOOL_SEARCH": "true"
+  },
+  "attribution": {
+    "commit": "",
+    "pr": ""
   },
   "permissions": {
     "allow": [
@@ -43,21 +43,6 @@
     ]
   },
   "enableAllProjectMcpServers": false,
-  "extraKnownMarketplaces": {
-    "openai-codex": {
-      "source": {
-        "source": "github",
-        "repo": "openai/codex-plugin-cc"
-      }
-    }
-  },
-  "enabledPlugins": {
-    "codex@openai-codex": true
-  },
-  "statusLine": {
-    "type": "command",
-    "command": "~/.claude/scripts/statusline.js"
-  },
   "hooks": {
     "UserPromptSubmit": [
       {
@@ -136,5 +121,20 @@
         ]
       }
     ]
+  },
+  "statusLine": {
+    "type": "command",
+    "command": "~/.claude/scripts/statusline.js"
+  },
+  "enabledPlugins": {
+    "codex@openai-codex": true
+  },
+  "extraKnownMarketplaces": {
+    "openai-codex": {
+      "source": {
+        "source": "github",
+        "repo": "openai/codex-plugin-cc"
+      }
+    }
   }
 }
