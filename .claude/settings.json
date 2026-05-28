@@ -42,7 +42,6 @@
       "Bash(git push:*)"
     ]
   },
-  "language": "Japanese",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [
@@ -137,5 +136,7 @@
         "repo": "openai/codex-plugin-cc"
       }
     }
-  }
+  },
+  "language": "Japanese",
+  "effortLevel": "high"
 }
