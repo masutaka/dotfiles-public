@@ -29,11 +29,14 @@ PR タイトル解析:
 2. PR body に Dependabot が埋め込む各種セクション
 3. Release Notes / CHANGELOG（body にリンクがあれば確認）
 
+ただしセキュリティ面（CVE/GHSA・深刻度・影響範囲・修正導入版）に限れば、紐づく Dependabot alert（後述）が最も確実な一次情報で、Release notes より優先する。
+
 ghro コマンド例:
 
 - メタ情報: `ghro pr view <PR番号> --repo owner/repo --json number,title,body,headRefName,labels,additions,deletions,files`
 - 差分本体: `ghro pr diff <PR番号> --repo owner/repo`
 - CI 状況: `ghro pr checks <PR番号> --repo owner/repo`
+- Dependabot alert 一覧: `ghro api repos/<owner>/<repo>/dependabot/alerts --jq '.[] | {number, state, package: .dependency.package.name, manifest: .dependency.manifest_path, ghsa: .security_advisory.ghsa_id, cve: .security_advisory.cve_id, severity: .security_advisory.severity}'`
 
 Dependabot body の読み方:
 
@@ -41,7 +44,6 @@ Dependabot は body に決まったセクションを埋め込むので、該当
 
 - `Release notes` — 各バージョンのリリースノート。Breaking Changes / セキュリティ修正の主な情報源
 - `Commits` — 期間内のコミット一覧。リリースノートに載らない小さな破壊的変更が出ることがある
-- `Compatibility` — Dependabot が算出した compatibility score。「他リポジトリで同 PR が CI を通った割合」の指標で、低いほど警戒材料
 
 不明な点は推測せず「未確認」と記載する。
 
@@ -66,22 +68,27 @@ git diff では検出できないものがあるので過信しないこと:
 - transitive な依存への混入
 - 乗っ取られたメンテナアカウントから push されたタグ（署名検証なしでは正当性を保証できない）
 
-## レビュー観点
+### Dependabot alert 起因か必ず照合する
 
-以下の観点で調査し、各項目について判断と根拠を記載する:
+Dependabot PR にはバージョンアップ起因とセキュリティ修正起因があり、後者だけがリポジトリの Dependabot alert に紐づく。PR 単体ではどちらか判別しづらく、PR と alert の紐づけは API でも直接は取れないため、alert 一覧との照合で判定する。安価なのでセキュリティ起因かどうかに関わらず Dependabot PR では毎回実施する:
 
-- 依存の種類: ランタイム依存 / 開発依存
-- バージョン変更: メジャー / マイナー / パッチ
-- Breaking Changes: Release notes / Commits から有無を判定
-- セキュリティ: CVE / GHSA への言及があれば記載
-- サポートバージョン: 言語・ランタイムの最低バージョン変更の有無
-- CI 状況: `ghro pr checks` の結果。失敗があれば内容を記載
-- Compatibility score: Dependabot body の値。低スコアなら結論判定で警戒材料にする
-- 影響範囲: アプリケーションコードへの影響を manifest / diff から判断
-- 連鎖更新: lockfile に更新対象以外のパッケージ更新が混ざっていないか
-- 上流 release 差分（補助）: postinstall / 不審 URL / 異常な diff 規模 / 不明な author の有無
+- 上の「Dependabot alert 一覧」コマンドで alert を取得し、PR と次がすべて一致する alert を探す
+  - パッケージ名が一致
+  - manifest パスが一致（例: `hatebu/notifier/package-lock.json`）
+  - `state` が `open`（その PR でまだ未解消）
+  - `vulnerable_version_range` に現行バージョンが含まれ、`first_patched_version` を PR の新バージョンが満たす（＝この PR で解消される）
+- 一致する alert があれば、その PR は alert 起因（セキュリティ修正）。見つからなければ通常のバージョンアップ起因と判断する
+
+一致した alert の詳細を引けば、Release notes に載らないこともある CVE/GHSA・深刻度・影響範囲・修正導入版を確実に取得でき、これがセキュリティ判定の一次情報になる:
+
+- `ghro api repos/<owner>/<repo>/dependabot/alerts/<番号> --jq '{number, state, ghsa: .security_advisory.ghsa_id, cve: .security_advisory.cve_id, severity: .security_advisory.severity, summary: .security_advisory.summary, range: .security_vulnerability.vulnerable_version_range, first_patched: .security_vulnerability.first_patched_version.identifier, url: .html_url}'`
+- ユーザーから alert の URL/番号を直接渡された場合は、その番号で詳細を引くのが最短
+
+なお Dependabot alert API は Projects 権限とは無関係に ghro（read-only）で取得できる。1 つの PR が複数の脆弱性を一度にまとめて修正することもあるので、複数の alert が一致しないか意識する。
 
 ## 出力形式
+
+各項目は diff・PR body・Release notes・Dependabot alert を調べ、判断と根拠をあわせて記載する。テンプレートの各フィールドがそのまま調査すべき観点になる。上流 release 差分（補助）で不審点があれば「未確認事項」または「結論」で触れる。
 
 `tmp/docs/pr-review-{PR番号}.md` に以下の構成で出力する:
 
@@ -97,10 +104,9 @@ git diff では検出できないものがあるので過信しないこと:
 ## 主要な確認結果
 
 - Breaking Changes: {有無と詳細}
-- セキュリティ: {該当する CVE / GHSA があれば記載。なければ「なし」}
+- セキュリティ: {紐づく Dependabot alert と CVE / GHSA・深刻度・影響範囲・修正導入版。この PR で解消されるか。なければ「なし」}
 - サポートバージョン: {言語・ランタイムの最低バージョン変更の有無}
 - CI 状況: {pass / fail / pending と失敗の概要}
-- Compatibility score: {値（取得できなければ「未掲載」）}
 - 連鎖更新: {更新対象以外の意図しない依存変更の有無}
 
 ## 影響範囲
@@ -121,3 +127,6 @@ git diff では検出できないものがあるので過信しないこと:
 ## 注意事項
 
 - このスキルはレビューと報告のみを行い、PR のマージや承認は行わない
+- 出力するレポートは PR レビューコメントとして GitHub に投稿する前提で書く。GitHub-flavored Markdown の自動リンクに注意する:
+  - 裸の `#123` は Issue/PR へ自動リンクされてしまうので、そのまま書かない
+  - Dependabot alert 番号は `[alert #123](https://github.com/<owner>/<repo>/security/dependabot/123)` のように対象 URL への Markdown リンクにする。セキュリティ欄・結論など、言及するたびに毎回
