@@ -24,14 +24,6 @@ Darwin)
     PATH=${HOMEBREW_PREFIX}/opt/libpq/bin:$PATH
   fi
 
-  if [ -d "${HOME}/.local/bin" ]; then
-    PATH=$HOME/.local/bin:$PATH
-  fi
-
-  if [ -d "${HOME}/.tfenv/bin" ]; then
-    PATH=${HOME}/.tfenv/bin:$PATH
-  fi
-
   if [ -d "${HOMEBREW_PREFIX}/share/google-cloud-sdk" ]; then
     source ${HOMEBREW_PREFIX}/share/google-cloud-sdk/path.zsh.inc
     source ${HOMEBREW_PREFIX}/share/google-cloud-sdk/completion.zsh.inc
@@ -45,6 +37,16 @@ Linux)
   echo "Unknown OS" > /dev/stderr
   ;;
 esac
+
+if [ -d "${HOME}/.local/bin" ]; then
+  PATH=$HOME/.local/bin:$PATH
+fi
+
+# Codex.app と Codex CLI のコマンド実行では .zshrc の mise activate zsh が効かないため、
+# mise shims を PATH に追加する。
+if [ -n "$CODEX_CI" ]; then
+  PATH=${XDG_DATA_HOME}/mise/shims:$PATH
+fi
 
 # GOPATH を設定しつつ、直下の bin をパスに通す。
 export GOPATH=$HOME/go:$HOME
