@@ -764,6 +764,7 @@ DO NOT SET VALUE MANUALLY.")
 ;; dark 用の face が見づらいので自分で設定する。
 (face-spec-set 'ediff-even-diff-A '((((background dark)) (:background "black" :extend t))))
 (face-spec-set 'ediff-even-diff-B '((((background dark)) (:background "dim gray" :extend t))))
+(face-spec-set 'ediff-fine-diff-B '((((background dark)) (:background "#227722"))))
 (face-spec-set 'ediff-odd-diff-A '((((background dark)) (:background "dim gray" :extend t))))
 (face-spec-set 'ediff-odd-diff-B '((((background dark)) (:background "black" :extend t))))
 
