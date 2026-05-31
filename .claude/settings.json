@@ -137,5 +137,6 @@
       }
     }
   },
-  "language": "Japanese"
+  "language": "Japanese",
+  "model": "claude-opus-4-6[1m]"
 }

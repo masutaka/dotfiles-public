@@ -41,6 +41,10 @@ write_heartbeat() {
 # 逆に Esc 中断時はこの更新が止まり、スピナーが自壊する。
 refresh_heartbeat() {
   [[ -f "$HEARTBEAT_FILE" ]] && write_heartbeat
+  # スピナー未起動などで HEARTBEAT_FILE が無い場合、上の && が偽になり set -e
+  # 下で関数（＝スクリプト最終コマンド）が非ゼロ終了し、フックエラーとして
+  # 表示される。リフレッシュ対象が無いだけの無害な状態なので 0 を返す。
+  return 0
 }
 
 # Claude Code が新しいリクエストの処理を始めたときに、未読フラグをクリアし、
