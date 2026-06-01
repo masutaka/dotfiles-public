@@ -35,7 +35,7 @@ ghro コマンド例:
 
 - メタ情報: `ghro pr view <PR番号> --repo owner/repo --json number,title,body,headRefName,labels,additions,deletions,files`
 - 差分本体: `ghro pr diff <PR番号> --repo owner/repo`
-- CI 状況: `ghro pr checks <PR番号> --repo owner/repo`
+- CI 状況: `gh pr checks <PR番号> --repo owner/repo`
 - Dependabot alert 一覧: `ghro api repos/<owner>/<repo>/dependabot/alerts --jq '.[] | {number, state, package: .dependency.package.name, manifest: .dependency.manifest_path, ghsa: .security_advisory.ghsa_id, cve: .security_advisory.cve_id, severity: .security_advisory.severity}'`
 
 Dependabot body の読み方:
