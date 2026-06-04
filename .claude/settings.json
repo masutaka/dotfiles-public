@@ -12,6 +12,7 @@
     "allow": [
       "Bash(bundle info:*)",
       "Bash(find:*)",
+      "Bash(gh pr *)",
       "Bash(ghro:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
