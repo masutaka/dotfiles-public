@@ -1,5 +1,5 @@
 ---
-name: review-dependabot-pr
+name: my-review-dependabot-pr
 description: Dependabot PR をレビューし、tmp/docs/pr-review-{PR番号}.md にまとめる
 disable-model-invocation: true
 argument-hint: [GitHub PR URL or PR番号]
@@ -36,7 +36,7 @@ ghro コマンド例:
 - メタ情報: `ghro pr view <PR番号> --repo owner/repo --json number,title,body,headRefName,labels,additions,deletions,files`
 - 差分本体: `ghro pr diff <PR番号> --repo owner/repo`
 - CI 状況: `gh pr checks <PR番号> --repo owner/repo`
-- Dependabot alert 一覧: `ghro api repos/<owner>/<repo>/dependabot/alerts --jq '.[] | {number, state, package: .dependency.package.name, manifest: .dependency.manifest_path, ghsa: .security_advisory.ghsa_id, cve: .security_advisory.cve_id, severity: .security_advisory.severity}'`
+- Dependabot alert 一覧: `ghro api 'repos/<owner>/<repo>/dependabot/alerts?state=open&per_page=100' --paginate --jq '.[] | {number, package: .dependency.package.name, manifest: .dependency.manifest_path, ghsa: .security_advisory.ghsa_id, cve: .security_advisory.cve_id, severity: .security_advisory.severity, range: .security_vulnerability.vulnerable_version_range, first_patched: .security_vulnerability.first_patched_version.identifier}'`（デフォルトは全 state・1 ページ 30 件で照合漏れするので、open に絞ってページングする）
 
 Dependabot body の読み方:
 
@@ -65,18 +65,18 @@ git diff では検出できないものがあるので過信しないこと:
 
 - レジストリ tarball にのみ混ぜられた悪意コード（git タグと publish 内容が一致しない場合）
 - 難読化 / 時限発火 / 環境依存で動作するコード
-- transitive な依存への混入
+- 間接依存（依存先の依存）への混入
 - 乗っ取られたメンテナアカウントから push されたタグ（署名検証なしでは正当性を保証できない）
 
 ### Dependabot alert 起因か必ず照合する
 
-Dependabot PR にはバージョンアップ起因とセキュリティ修正起因があり、後者だけがリポジトリの Dependabot alert に紐づく。PR 単体ではどちらか判別しづらく、PR と alert の紐づけは API でも直接は取れないため、alert 一覧との照合で判定する。安価なのでセキュリティ起因かどうかに関わらず Dependabot PR では毎回実施する:
+Dependabot PR にはバージョンアップ起因とセキュリティ修正起因があり、後者だけがリポジトリの Dependabot alert に紐づく。PR 単体ではどちらか判別しづらく、PR と alert の紐づけは API でも直接は取れないため、alert 一覧との照合で判定する。セキュリティ起因かどうかに関わらず Dependabot PR では毎回実施する:
 
 - 上の「Dependabot alert 一覧」コマンドで alert を取得し、PR と次がすべて一致する alert を探す
   - パッケージ名が一致
-  - manifest パスが一致（例: `hatebu/notifier/package-lock.json`）
-  - `state` が `open`（その PR でまだ未解消）
-  - `vulnerable_version_range` に現行バージョンが含まれ、`first_patched_version` を PR の新バージョンが満たす（＝この PR で解消される）
+  - manifest パスが一致（例: `package-lock.json`）
+  - `range` に現行バージョンが含まれ、`first_patched` を PR の新バージョンが満たす（＝この PR で解消される）
+  - state が open であること（未解消）は一覧コマンドの `state=open` で保証済み
 - 一致する alert があれば、その PR は alert 起因（セキュリティ修正）。見つからなければ通常のバージョンアップ起因と判断する
 
 一致した alert の詳細を引けば、Release notes に載らないこともある CVE/GHSA・深刻度・影響範囲・修正導入版を確実に取得でき、これがセキュリティ判定の一次情報になる:
@@ -84,7 +84,7 @@ Dependabot PR にはバージョンアップ起因とセキュリティ修正起
 - `ghro api repos/<owner>/<repo>/dependabot/alerts/<番号> --jq '{number, state, ghsa: .security_advisory.ghsa_id, cve: .security_advisory.cve_id, severity: .security_advisory.severity, summary: .security_advisory.summary, range: .security_vulnerability.vulnerable_version_range, first_patched: .security_vulnerability.first_patched_version.identifier, url: .html_url}'`
 - ユーザーから alert の URL/番号を直接渡された場合は、その番号で詳細を引くのが最短
 
-なお Dependabot alert API は Projects 権限とは無関係に ghro（read-only）で取得できる。1 つの PR が複数の脆弱性を一度にまとめて修正することもあるので、複数の alert が一致しないか意識する。
+1 つの PR が複数の脆弱性を一度にまとめて修正することもあるので、複数の alert が一致しないか意識する。
 
 ## 出力形式
 
@@ -129,4 +129,4 @@ Dependabot PR にはバージョンアップ起因とセキュリティ修正起
 - このスキルはレビューと報告のみを行い、PR のマージや承認は行わない
 - 出力するレポートは PR レビューコメントとして GitHub に投稿する前提で書く。GitHub-flavored Markdown の自動リンクに注意する:
   - 裸の `#123` は Issue/PR へ自動リンクされてしまうので、そのまま書かない
-  - Dependabot alert 番号は `[alert #123](https://github.com/<owner>/<repo>/security/dependabot/123)` のように対象 URL への Markdown リンクにする。セキュリティ欄・結論など、言及するたびに毎回
+  - Dependabot alert 番号は `[alert #123](https://github.com/<owner>/<repo>/security/dependabot/123)` のように対象 URL への Markdown リンクにする。セキュリティ欄・結論など、言及するたびに毎回リンクにする

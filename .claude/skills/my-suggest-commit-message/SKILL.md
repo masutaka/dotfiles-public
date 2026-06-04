@@ -1,5 +1,5 @@
 ---
-name: suggest-commit-message
+name: my-suggest-commit-message
 description: git の変更内容から Semantic Commit Messages 形式のコミットメッセージを提案する。ユーザーが「コミットメッセージを書いて／考えて／提案して」「commit message を作って」などコミットメッセージの作成を求めた時に必ず使うこと。ステージ済み・未ステージ・新規追加（untracked）すべての変更を対象に、Why を重視した提案を行う。
 ---
 
