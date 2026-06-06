@@ -58,6 +58,7 @@
 (package-install 'savekill)
 (package-install 'scratch-log)
 (package-install 'sequential-command)
+(package-install 'sis)
 (package-install 'terraform-mode)
 (package-install 'web-mode)
 (package-install 'wgrep)
@@ -1217,7 +1218,8 @@ When `github-expand-link-format' is 'url:
 
 ;;; https://masutaka.net/chalow/2015-01-04-1.html
 
-(when mac-port-p
+(cond
+ (mac-port-p
   (defun mac-input-source-ascii-p ()
     (string-match "\\.\\(ABC\\|US\\)$" (mac-input-source)))
 
@@ -1288,6 +1290,17 @@ When `github-expand-link-format' is 'url:
   ;; `mac-win-target-commands' と前方一致する関数の終了後に、日本語入力
   ;; 状態をリストアする
   (add-hook 'pre-command-hook #'mac-win-restore-ime-target-commands))
+
+ (os-mac-p
+  ;; ミニバッファにカーソルを移動する際、自動的に英語モードにして、
+  ;; 元のバッファに戻った後に、日本語入力状態をリストアする。
+  (sis-ism-lazyman-config
+   "com.apple.keylayout.ABC"		   ;; ABC
+   "com.google.inputmethod.Japanese.base") ;; Google 日本語入力
+  (sis-global-respect-mode t)
+
+  ;; 入力モードに合わせてカーソル色を切り替える。
+  (sis-global-cursor-color-mode t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mark
