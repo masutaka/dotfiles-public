@@ -1770,11 +1770,9 @@ do nothing. And suppress the output from `message' and
 (setq require-final-newline t)
 
 ;; 警告音のかわりに画面フラッシュ
-(if (or os-linux-p mac-port-p)
-    (setq visible-bell t)
+(unless (setq visible-bell (or os-linux-p mac-port-p))
   ;; 標準の NS ビルド版は visible-bell が大きな ⚠️ を表示して目障りなので、
   ;; モードラインを一瞬反転させてフラッシュを再現する。
-  (setq visible-bell nil)
   (setq ring-bell-function
 	(lambda ()
 	  (invert-face 'mode-line)
