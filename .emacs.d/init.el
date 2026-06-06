@@ -1769,8 +1769,9 @@ do nothing. And suppress the output from `message' and
 ;; (t->常に挿入する、nil->常に挿入しない、それ以外->ユーザに問い合わせる。)
 (setq require-final-newline t)
 
-;; 警告音のかわりに画面フラッシュ
-(unless (setq visible-bell (or os-linux-p mac-port-p))
+(if (or os-linux-p mac-port-p)
+    ;; 警告音のかわりに画面フラッシュ
+    (setq visible-bell t)
   ;; 標準の NS ビルド版は visible-bell が大きな ⚠️ を表示して目障りなので、
   ;; モードラインを一瞬反転させてフラッシュを再現する。
   (setq ring-bell-function
