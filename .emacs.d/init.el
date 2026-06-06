@@ -1769,7 +1769,15 @@ do nothing. And suppress the output from `message' and
 (setq require-final-newline t)
 
 ;; 警告音のかわりに画面フラッシュ
-(setq visible-bell t)
+(if (or os-linux-p mac-port-p)
+    (setq visible-bell t)
+  ;; 標準の NS ビルド版は visible-bell が大きな ⚠️ を表示して目障りなので、
+  ;; モードラインを一瞬反転させてフラッシュを再現する。
+  (setq visible-bell nil)
+  (setq ring-bell-function
+	(lambda ()
+	  (invert-face 'mode-line)
+	  (run-with-timer 0.1 nil #'invert-face 'mode-line))))
 
 ;; dabbrev-expand (M-/) で大文字と小文字の区別をする。
 (setq dabbrev-case-fold-search nil)
