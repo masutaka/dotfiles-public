@@ -55,7 +55,6 @@
 (package-install 'php-mode)
 (package-install 'request)
 (package-install 'rspec-mode)
-(package-install 'savekill)
 (package-install 'scratch-log)
 (package-install 'sequential-command)
 (package-install 'sis)
@@ -1643,8 +1642,10 @@ do nothing. And suppress the output from `message' and
 (run-with-idle-timer 30 t 'recentf-save-list)
 (recentf-mode 1)
 
-;; Emacs 終了時に kill-ring を保存する。
-(require 'savekill)
+;; ミニバッファ履歴と kill-ring をファイルに保存し、Emacs を終了・再起動しても
+;; 引き継げるようにする。
+(setq savehist-additional-variables '(kill-ring))
+(savehist-mode 1)
 
 ;; scratch バッファを次回起動時に復元。ログも記録する。
 (require 'scratch-log)
