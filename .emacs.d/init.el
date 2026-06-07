@@ -1026,9 +1026,6 @@ When `github-expand-link-format' is 'url:
 (setq next-error-highlight-no-select 3)
 
 (setq grep-find-command '("rg --no-heading -.F ''" . 22))
-(setq grep-find-history
-      '("LANG=ja_JP.sjis grep -n \"$(echo '検索文字列' | nkf -s)\" * | nkf -w"
-	"find . -type f -name '検索文字列' ! -path '*/.git/*' ! -path '*/tmp/*' ! -path '*/node_modules/*' -print0 | xargs -0 grep -nH -e  /dev/null"))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; hl-line+
@@ -1635,16 +1632,14 @@ do nothing. And suppress the output from `message' and
 	      (cl-letf (((symbol-function 'message) #'format))
 		(apply orig-fun args))))
 
-(setq recentf-save-file (expand-file-name ".recentf" user-emacs-directory))
 (setq recentf-max-saved-items 5000)
-(setq recentf-exclude '(".recentf"))
 (setq recentf-auto-cleanup 10)
 (run-with-idle-timer 30 t 'recentf-save-list)
 (recentf-mode 1)
 
-;; ミニバッファ履歴と kill-ring をファイルに保存し、Emacs を終了・再起動しても
-;; 引き継げるようにする。
-(setq savehist-additional-variables '(kill-ring))
+;; 使用したミニバッファ履歴（M-x のコマンド履歴、grep-find-history、
+;; query-replace の検索語など）を ~/.emacs.d/history に保存し、
+;; Emacs を再起動しても M-p や C-r で辿れるようにする。
 (savehist-mode 1)
 
 ;; scratch バッファを次回起動時に復元。ログも記録する。
