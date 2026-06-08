@@ -1055,6 +1055,112 @@ When `github-expand-link-format' is 'url:
 (add-hook 'Info-mode-hook #'Info-mode-hook-func)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Input Method
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(cond
+ (mac-port-p
+  ;; https://masutaka.net/chalow/2015-01-04-1.html
+
+  (defun mac-input-source-ascii-p ()
+    (string-match "\\.\\(ABC\\|US\\)$" (mac-input-source)))
+
+  (defun mac-selected-keyboard-input-source-change-hook-func ()
+    ;; 入力モードに合わせてカーソル色を切り替える。
+    (set-cursor-color (if (mac-input-source-ascii-p)
+			  (if my-dark-mode-p my-cursor-color-for-dark my-cursor-color-for-light)
+			my-cursor-color-for-im-enabled)))
+
+  (add-hook 'mac-selected-keyboard-input-source-change-hook
+	    #'mac-selected-keyboard-input-source-change-hook-func)
+
+  (setq mac-command-modifier 'super)
+  (setq mac-option-modifier 'meta)
+
+  ;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
+  (mac-auto-ascii-mode 1)
+
+  ;; "Emacs 25.1 を EMP版で快適に使う"
+  ;; https://qiita.com/takaxp/items/a86ee2aacb27c7c3a902
+  ;;
+  ;; mac-auto-ascii-mode が Enable かつ日本語入力 ON の時、
+  ;; M-x や C-x C-f 等の後に日本語入力 OFF になる問題を救う。
+
+  (defvar mac-win-last-ime-status 'off) ;; {'off|'on}
+
+  (defconst mac-win-kana-input-method "com.google.inputmethod.Japanese.base")
+
+  (defun advice:mac-auto-ascii-setup-input-source (&optional _prompt)
+    "Extension to store IME status"
+    (mac-win-save-last-ime-status))
+
+  (advice-add 'mac-auto-ascii-setup-input-source :before
+              #'advice:mac-auto-ascii-setup-input-source)
+
+  (defun mac-win-save-last-ime-status ()
+    (setq mac-win-last-ime-status
+          (if (mac-input-source-ascii-p)
+              'off 'on)))
+
+  (defun mac-win-restore-ime ()
+    (if (mac-win-need-restore-ime)
+	(mac-select-input-source mac-win-kana-input-method)))
+
+  (defun mac-win-need-restore-ime ()
+    (and mac-auto-ascii-mode (eq mac-win-last-ime-status 'on)))
+
+  ;; M-x 等でミニバッファから元のバッファに戻った後に、日本語入力状態を
+  ;; リストアする。
+  (add-hook 'minibuffer-setup-hook #'mac-win-save-last-ime-status)
+  (add-hook 'minibuffer-exit-hook #'mac-win-restore-ime)
+
+  (defvar mac-win-target-commands
+    '(find-file save-buffer other-window split-window delete-window
+		delete-other-windows clmemo helm-for-files))
+
+  (defun mac-win-restore-ime-target-commands ()
+    (if (and (mac-win-need-restore-ime)
+	     (mac-win-target-commands-match))
+	(mac-select-input-source mac-win-kana-input-method)))
+
+  (defun mac-win-target-commands-match ()
+    (cl-remove-if-not
+     (lambda (c)
+       (string-match (format "^%s" c) (format "%s" this-command)))
+     mac-win-target-commands))
+
+  ;; `mac-win-target-commands' と前方一致する関数の終了後に、日本語入力
+  ;; 状態をリストアする
+  (add-hook 'pre-command-hook #'mac-win-restore-ime-target-commands))
+
+ (os-mac-p
+  ;; ミニバッファにカーソルを移動する際、自動的に英語モードにして、
+  ;; 元のバッファに戻った後に、日本語入力状態をリストアする。
+  (sis-ism-lazyman-config
+   "com.apple.keylayout.ABC"		   ;; ABC
+   "com.google.inputmethod.Japanese.base") ;; Google 日本語入力
+  (sis-global-respect-mode t)
+
+  ;; 入力モードに合わせてカーソル色を切り替える。
+  (sis-global-cursor-color-mode t))
+
+ (os-linux-p
+  (require 'mozc)
+  (setq default-input-method "japanese-mozc")
+
+  (defun input-method-activate-hook-func ()
+    (set-face-background 'cursor my-cursor-color-for-im-enabled))
+  (add-hook 'input-method-activate-hook #'input-method-activate-hook-func)
+
+  (defun input-method-deactivate-hook-func ()
+    (face-spec-set 'cursor `((((background light)) (:background ,my-cursor-color-for-light))
+			     (((background dark)) (:background ,my-cursor-color-for-dark)))))
+  (add-hook 'input-method-deactivate-hook #'input-method-deactivate-hook-func)
+
+  (define-key global-map (kbd "s-SPC") 'toggle-input-method)
+  (define-key mozc-mode-map (kbd "s-SPC") 'toggle-input-method)))
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; JSON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1140,26 +1246,6 @@ When `github-expand-link-format' is 'url:
      ("typescript.format.convertTabsToSpaces" t))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Mozc
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-(when os-linux-p
-  (require 'mozc)
-  (setq default-input-method "japanese-mozc")
-
-  (defun input-method-activate-hook-func ()
-    (set-face-background 'cursor my-cursor-color-for-im-enabled))
-  (add-hook 'input-method-activate-hook #'input-method-activate-hook-func)
-
-  (defun input-method-deactivate-hook-func ()
-    (face-spec-set 'cursor `((((background light)) (:background ,my-cursor-color-for-light))
-			     (((background dark)) (:background ,my-cursor-color-for-dark)))))
-  (add-hook 'input-method-deactivate-hook #'input-method-deactivate-hook-func)
-
-  (define-key global-map (kbd "s-SPC") 'toggle-input-method)
-  (define-key mozc-mode-map (kbd "s-SPC") 'toggle-input-method))
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; PHP
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1207,96 +1293,6 @@ When `github-expand-link-format' is 'url:
   (lsp-deferred)
   (setq show-trailing-whitespace t))
 (add-hook 'ruby-ts-mode-hook #'ruby-ts-mode-hook-func)
-
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-;;; Mac port patch
-;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
-
-;;; https://masutaka.net/chalow/2015-01-04-1.html
-
-(cond
- (mac-port-p
-  (defun mac-input-source-ascii-p ()
-    (string-match "\\.\\(ABC\\|US\\)$" (mac-input-source)))
-
-  (defun mac-selected-keyboard-input-source-change-hook-func ()
-    ;; 入力モードに合わせてカーソル色を切り替える。
-    (set-cursor-color (if (mac-input-source-ascii-p)
-			  (if my-dark-mode-p my-cursor-color-for-dark my-cursor-color-for-light)
-			my-cursor-color-for-im-enabled)))
-
-  (add-hook 'mac-selected-keyboard-input-source-change-hook
-	    #'mac-selected-keyboard-input-source-change-hook-func)
-
-  (setq mac-command-modifier 'super)
-  (setq mac-option-modifier 'meta)
-
-  ;; ミニバッファにカーソルを移動する際、自動的に英語モードにする
-  (mac-auto-ascii-mode 1)
-
-  ;; "Emacs 25.1 を EMP版で快適に使う"
-  ;; https://qiita.com/takaxp/items/a86ee2aacb27c7c3a902
-  ;;
-  ;; mac-auto-ascii-mode が Enable かつ日本語入力 ON の時、
-  ;; M-x や C-x C-f 等の後に日本語入力 OFF になる問題を救う。
-
-  (defvar mac-win-last-ime-status 'off) ;; {'off|'on}
-
-  (defconst mac-win-kana-input-method "com.google.inputmethod.Japanese.base")
-
-  (defun advice:mac-auto-ascii-setup-input-source (&optional _prompt)
-    "Extension to store IME status"
-    (mac-win-save-last-ime-status))
-
-  (advice-add 'mac-auto-ascii-setup-input-source :before
-              #'advice:mac-auto-ascii-setup-input-source)
-
-  (defun mac-win-save-last-ime-status ()
-    (setq mac-win-last-ime-status
-          (if (mac-input-source-ascii-p)
-              'off 'on)))
-
-  (defun mac-win-restore-ime ()
-    (if (mac-win-need-restore-ime)
-	(mac-select-input-source mac-win-kana-input-method)))
-
-  (defun mac-win-need-restore-ime ()
-    (and mac-auto-ascii-mode (eq mac-win-last-ime-status 'on)))
-
-  ;; M-x 等でミニバッファから元のバッファに戻った後に、日本語入力状態を
-  ;; リストアする。
-  (add-hook 'minibuffer-setup-hook #'mac-win-save-last-ime-status)
-  (add-hook 'minibuffer-exit-hook #'mac-win-restore-ime)
-
-  (defvar mac-win-target-commands
-    '(find-file save-buffer other-window split-window delete-window
-		delete-other-windows clmemo helm-for-files))
-
-  (defun mac-win-restore-ime-target-commands ()
-    (if (and (mac-win-need-restore-ime)
-	     (mac-win-target-commands-match))
-	(mac-select-input-source mac-win-kana-input-method)))
-
-  (defun mac-win-target-commands-match ()
-    (cl-remove-if-not
-     (lambda (c)
-       (string-match (format "^%s" c) (format "%s" this-command)))
-     mac-win-target-commands))
-
-  ;; `mac-win-target-commands' と前方一致する関数の終了後に、日本語入力
-  ;; 状態をリストアする
-  (add-hook 'pre-command-hook #'mac-win-restore-ime-target-commands))
-
- (os-mac-p
-  ;; ミニバッファにカーソルを移動する際、自動的に英語モードにして、
-  ;; 元のバッファに戻った後に、日本語入力状態をリストアする。
-  (sis-ism-lazyman-config
-   "com.apple.keylayout.ABC"		   ;; ABC
-   "com.google.inputmethod.Japanese.base") ;; Google 日本語入力
-  (sis-global-respect-mode t)
-
-  ;; 入力モードに合わせてカーソル色を切り替える。
-  (sis-global-cursor-color-mode t)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Mark
