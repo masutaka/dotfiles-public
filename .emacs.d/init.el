@@ -1139,10 +1139,13 @@ When `github-expand-link-format' is 'url:
   (sis-ism-lazyman-config
    "com.apple.keylayout.ABC"		   ;; ABC
    "com.google.inputmethod.Japanese.base") ;; Google 日本語入力
-  (sis-global-respect-mode t)
+  (sis-global-respect-mode 1)
 
   ;; 入力モードに合わせてカーソル色を切り替える。
-  (sis-global-cursor-color-mode t))
+  (sis-global-cursor-color-mode 1)
+
+  ;; 日本語の文章中に英単語を挟む際、自動的かつ一時的に英語入力に切り替える。
+  (sis-global-inline-mode 1))
 
  (os-linux-p
   (require 'mozc)
