@@ -1142,10 +1142,7 @@ When `github-expand-link-format' is 'url:
   (sis-global-respect-mode 1)
 
   ;; 入力モードに合わせてカーソル色を切り替える。
-  (sis-global-cursor-color-mode 1)
-
-  ;; 日本語の文章中に英単語を挟む際、自動的かつ一時的に英語入力に切り替える。
-  (sis-global-inline-mode 1))
+  (sis-global-cursor-color-mode 1))
 
  (os-linux-p
   (require 'mozc)
