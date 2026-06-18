@@ -72,7 +72,6 @@ if [ -S "$HOME/Library/Containers/com.callpod.keepermac.lite/Data/tmp/keeper-ssh
 fi
 
 export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
-export CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR=1
 export EDITOR=emacsclient
 export GEMSRC_USE_GHQ=1
 export GH_TELEMETRY=false
