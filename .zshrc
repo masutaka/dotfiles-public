@@ -132,9 +132,6 @@ setopt prompt_subst
 # この設定が合わなければ、適当なタイミングで fc -RI しても良いかも。
 setopt share_history
 
-# 既存のファイルへの上書きリダイレクト防止
-unsetopt clobber
-
 # シェル終了時に子プロセスに HUP を送らない
 setopt nocheckjobs nohup
 
@@ -166,6 +163,11 @@ _diff () {
 
 # for hook
 autoload -Uz add-zsh-hook
+
+if [ -z "$CLAUDECODE" ]; then
+  # 既存のファイルへの上書きリダイレクト防止
+  unsetopt clobber
+fi
 
 # Command Completion for AWS CLI
 if [ "$OS_KIND" = Linux ] && exists aws; then
@@ -443,16 +445,18 @@ if [ "$OS_KIND" = Linux ]; then
   alias pbcopy="xsel -b"
 fi
 
+if [ -z "$CLAUDECODE" ]; then
+  alias cp="cp -i"
+  alias mv="mv -i"
+  alias rm="rm -i"
+fi
+
 if exists peco; then
   alias -g B='$(git branch | peco | sed -e "s/^\*[ ]*//")'
 fi
 
 alias -g G='2>&1 | grep'
 alias -g L='2>&1 | less'
-
-alias cp="cp -i"
-alias mv="mv -i"
-alias rm="rm -i"
 
 alias cdg="cd \$(git rev-parse --show-toplevel)"
 alias d=docker
