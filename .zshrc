@@ -193,8 +193,8 @@ zstyle ':chpwd:*' recent-dirs-pushd true
 #---------------------------------------------------------------------
 
 if [ "$OS_KIND" = Darwin ]; then
-  # Don't automatically cleanup on reinstall, install or upgrade
-  export HOMEBREW_NO_INSTALL_CLEANUP=yes
+  export HOMEBREW_NO_INSTALL_CLEANUP=1
+  export HOMEBREW_NO_UPGRADE_AUTO_UPDATES_CASKS=1
 
   function my-brew-upgrade () {
     echo "brew updating..."
