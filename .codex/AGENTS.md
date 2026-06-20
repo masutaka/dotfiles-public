@@ -40,9 +40,6 @@
 
 - GitHub の情報を取得する時は ghro CLI を使用すること（read-only で安全。Fetch ではファイル内容を取得できない）
 - 書き込み操作を行うときは gh CLI を使用すること
+- 画像などのバイナリは ghro では取得できないため gh CLI を使用すること（例: `gh api "画像URL" --header "Accept: application/octet-stream"`）
 - GitHub URL を渡された場合は URL からオーナー・リポジトリ・番号をパースし、`--repo` オプションで指定すること
 - ghro で issue/PR を参照する際は `--json` で必要なフィールドを指定すること（素の `view` は Projects 権限エラーになる）
-
-### パッケージ
-
-- npm パッケージは "npm install" または "npm install --save-dev" でインストールすること
