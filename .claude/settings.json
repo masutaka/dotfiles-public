@@ -129,9 +129,16 @@
   },
   "enabledPlugins": {
     "codex@openai-codex": true,
+    "crit@crit": true,
     "security-guidance@claude-plugins-official": true
   },
   "extraKnownMarketplaces": {
+    "crit": {
+      "source": {
+        "source": "github",
+        "repo": "tomasz-tomczyk/crit"
+      }
+    },
     "openai-codex": {
       "source": {
         "source": "github",
