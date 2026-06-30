@@ -4,6 +4,10 @@ default_packages_file = "~/.config/mise/default-npm-packages"
 [settings.ruby]
 default_packages_file = "~/.config/mise/default-gems"
 
+[settings.status]
+show_env = true
+show_tools = true
+
 [tools]
 node = "lts"
 ruby = "latest"
