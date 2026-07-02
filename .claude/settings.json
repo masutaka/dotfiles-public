@@ -13,6 +13,7 @@
     "allow": [
       "Bash(bundle info:*)",
       "Bash(find:*)",
+      "Bash(gh pr checks:*)",
       "Bash(ghro:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
@@ -120,6 +121,18 @@
             "command": "~/.claude/scripts/tmux-spinner.sh stop"
           }
         ]
+      }
+    ],
+    "SessionStart": [
+      {
+        "hooks": [
+          {
+            "command": "bash '~/.claude/hooks/herdr-agent-state.sh' session",
+            "timeout": 10,
+            "type": "command"
+          }
+        ],
+        "matcher": "*"
       }
     ]
   },

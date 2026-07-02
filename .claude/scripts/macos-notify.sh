@@ -10,12 +10,13 @@
 
 set -euo pipefail
 
+# tmux 外では何もしない
+[[ -z "${TMUX:-}" ]] && exit 0
+
 sound="${1:-Glass}"
 
+window_index=$(tmux display-message -t "${TMUX_PANE}" -p '#{window_index}' 2>/dev/null || echo '')
 suffix=""
-if [[ -n "${TMUX:-}" ]]; then
-  window_index=$(tmux display-message -t "${TMUX_PANE}" -p '#{window_index}' 2>/dev/null || echo '')
-  [[ -n "$window_index" ]] && suffix=" (tmux:$window_index)"
-fi
+[[ -n "$window_index" ]] && suffix=" (tmux:$window_index)"
 
 osascript -e "display notification \"確認してください${suffix}\" with title \"Claude Code\" sound name \"$sound\""
