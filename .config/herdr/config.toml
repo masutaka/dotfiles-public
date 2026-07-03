@@ -1,0 +1,19 @@
+onboarding = false
+
+[keys]
+prefix = "ctrl+z"
+
+new_workspace = "prefix+shift+c"
+previous_workspace = "prefix+shift+p"
+next_workspace = "prefix+shift+n"
+
+new_tab = "prefix+ctrl+c"
+previous_tab = "prefix+ctrl+p"
+next_tab = "prefix+ctrl+n"
+
+[theme]
+name = "gruvbox"
+auto_switch = false
+
+[ui.toast]
+delivery = "system"
