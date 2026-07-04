@@ -11,3 +11,4 @@ show_tools = true
 [tools]
 node = "lts"
 ruby = "latest"
+rust = "latest"

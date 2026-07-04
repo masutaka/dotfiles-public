@@ -44,6 +44,7 @@
       "Bash(git push:*)"
     ]
   },
+  "model": "opus",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [
@@ -125,14 +126,14 @@
     ],
     "SessionStart": [
       {
+        "matcher": "*",
         "hooks": [
           {
+            "type": "command",
             "command": "~/.claude/hooks/herdr-agent-state.sh session",
-            "timeout": 10,
-            "type": "command"
+            "timeout": 10
           }
-        ],
-        "matcher": "*"
+        ]
       }
     ]
   },

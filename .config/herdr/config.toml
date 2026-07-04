@@ -3,6 +3,8 @@ onboarding = false
 [keys]
 prefix = "ctrl+z"
 
+detach = "prefix+d"
+
 new_workspace = "prefix+shift+c"
 previous_workspace = "prefix+shift+p"
 next_workspace = "prefix+shift+n"
@@ -14,6 +16,9 @@ next_tab = "prefix+ctrl+n"
 [theme]
 name = "gruvbox"
 auto_switch = false
+
+[ui]
+prompt_new_tab_name = false
 
 [ui.toast]
 delivery = "system"
