@@ -965,7 +965,7 @@ When `github-expand-link-format' is 'url:
 				      (if current "*" " ")
 				      (if current (propertize rest 'face 'success) rest))
 			      f)))
-		    (frame-list)))
+		    (reverse (frame-list))))
 	  :action (lambda (f) (select-frame-set-input-focus f)))
 	:buffer "*helm frames*"))
 
