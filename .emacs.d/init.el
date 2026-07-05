@@ -374,21 +374,6 @@ bothが non-nilの場合は、両方のWindowがスクロールアップしま�
 ;; Remap
 (define-key global-map [remap execute-extended-command] 'helm-M-x)
 
-;; 日本語入力 OFF でミニバッファに入り、終わったら元に戻す。
-(when os-linux-p
-  (defvar my-last-input-method nil)
-
-  (defun my-helm-before-initialize-hook-func ()
-    (setq my-last-input-method current-input-method)
-    (deactivate-input-method))
-  (add-hook 'helm-before-initialize-hook #'my-helm-before-initialize-hook-func)
-
-  (defun my-helm-after-initialize-hook-func ()
-    (if my-last-input-method
-	(activate-input-method my-last-input-method)
-      (deactivate-input-method)))
-  (add-hook 'helm-after-initialize-hook #'my-helm-after-initialize-hook-func))
-
 ;;; helm-github-stars.el
 
 (require 'helm-github-stars)
@@ -958,6 +943,35 @@ When `github-expand-link-format' is 'url:
   (face-spec-set 'sh-quoted-exec '((((background light)) (:foreground "medium orchid")))))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+;;; Frame
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
+
+(when (display-graphic-p)
+  (set-frame-name "main"))
+
+(defun my-helm-frames ()
+  "List and switch between frames with helm."
+  (interactive)
+  (helm :sources
+	(helm-build-sync-source "Frames"
+	  :candidates
+	  (lambda ()
+	    (mapcar (lambda (f)
+		      (let* ((current (eq f (selected-frame)))
+			     (rest (format "%s [%s]"
+					   (frame-parameter f 'name)
+					   (buffer-name (window-buffer (frame-selected-window f))))))
+			(cons (format "%s %s"
+				      (if current "*" " ")
+				      (if current (propertize rest 'face 'success) rest))
+			      f)))
+		    (frame-list)))
+	  :action (lambda (f) (select-frame-set-input-focus f)))
+	:buffer "*helm frames*"))
+
+(define-key ctl-x-5-map "n" 'set-frame-name)
+
+;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; git
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
@@ -1158,7 +1172,21 @@ When `github-expand-link-format' is 'url:
   (add-hook 'input-method-deactivate-hook #'input-method-deactivate-hook-func)
 
   (define-key global-map (kbd "s-SPC") 'toggle-input-method)
-  (define-key mozc-mode-map (kbd "s-SPC") 'toggle-input-method)))
+  (define-key mozc-mode-map (kbd "s-SPC") 'toggle-input-method)
+
+  ;; 日本語入力 OFF でミニバッファに入り、終わったら元に戻す。
+  (defvar my-last-input-method nil)
+
+  (defun my-helm-before-initialize-hook-func ()
+    (setq my-last-input-method current-input-method)
+    (deactivate-input-method))
+  (add-hook 'helm-before-initialize-hook #'my-helm-before-initialize-hook-func)
+
+  (defun my-helm-after-initialize-hook-func ()
+    (if my-last-input-method
+	(activate-input-method my-last-input-method)
+      (deactivate-input-method)))
+  (add-hook 'helm-after-initialize-hook #'my-helm-after-initialize-hook-func)))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; JSON
@@ -1927,7 +1955,7 @@ do nothing. And suppress the output from `message' and
 ;;(define-key global-map (kbd "s-c") 'ns-copy-including-secondary)
 ;;(define-key global-map (kbd "s-d") 'isearch-repeat-backward)
 (define-key global-map (kbd "s-e") 'grep)
-;;(define-key global-map (kbd "s-f") 'isearch-forward)
+(define-key global-map (kbd "s-f") 'my-helm-frames)
 ;;(define-key global-map (kbd "s-g") 'isearch-repeat-forward)
 (define-key global-map (kbd "s-h") (lambda (arg) (interactive "p") (scroll-left arg t)))
 (define-key global-map (kbd "s-i") 'my-expand-link)
