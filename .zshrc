@@ -40,7 +40,7 @@ function go-installs () {
 alias go-updates=go-installs
 
 function kd () {
-  LC_COLLATE=C ls -alF --color $@ | less -e
+  LC_COLLATE=C ls -alF --color $@ | more -e -R
 }
 
 function psme () {
