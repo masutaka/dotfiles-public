@@ -529,7 +529,7 @@ DO NOT SET VALUE MANUALLY.")
 	("\\[[0-9-]+\\]" (0 'clmemo-inline-date-face)))
       "Additional expressions to highlight in ChangeLog Memo mode."))
 
-(with-eval-after-load "add-log" (require 'clmemo))
+(with-eval-after-load 'add-log (require 'clmemo))
 (autoload 'clgrep "clgrep" "grep mode for ChangeLog Memo file" t)
 
 (advice-add 'add-log-iso8601-time-string-with-weekday :around
@@ -600,7 +600,7 @@ DO NOT SET VALUE MANUALLY.")
   (setq show-trailing-whitespace t))
 (add-hook 'change-log-mode-hook #'change-log-mode-hook-func)
 
-(with-eval-after-load "clmemo"
+(with-eval-after-load 'clmemo
   ;; 日本語の曜日も正しく色付けするように変更。
   (setcar (car clmemo-font-lock-keywords)
 	  "^\\sw.........[0-9:+ ]*\\((.)\\)?")
@@ -611,7 +611,7 @@ DO NOT SET VALUE MANUALLY.")
   (define-key clmemo-mode-map (kbd "C-c C-u") 'mkchalow)
   (define-key clmemo-mode-map (kbd "C-c C-o") 'open-chalow))
 
-(with-eval-after-load "add-log"
+(with-eval-after-load 'add-log
   ;; 複数のタグがあってもきちんと色付けする。
   (setcar (assoc "\\[!?\\([^]\n]+\\)\\]\\(:\\| (\\)" change-log-font-lock-keywords)
 	  "\\( *\\[.+\\]\\)+ *:"))
@@ -652,7 +652,7 @@ DO NOT SET VALUE MANUALLY.")
 ;;; Diff-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(with-eval-after-load "diff-mode"
+(with-eval-after-load 'diff-mode
   (define-key diff-mode-map (kbd "M-0") 'tab-close)
   (define-key diff-mode-map (kbd "M-2") 'tab-new)
   (define-key diff-mode-map (kbd "M-o") 'tab-next))
@@ -707,7 +707,7 @@ DO NOT SET VALUE MANUALLY.")
 	  "\\(%F\\|%b %e\\) [0-9]....")))
      arg t))
 
-  (with-eval-after-load "dired"
+  (with-eval-after-load 'dired
     (font-lock-add-keywords
      'dired-mode
      (list '(dired-today-search . dired-todays-face)))))
@@ -789,7 +789,7 @@ DO NOT SET VALUE MANUALLY.")
 (add-hook 'lisp-interaction-mode-hook #'lisp-interaction-mode-hook-func)
 
 ;; モードラインの "ElDoc" の表示はいらない。
-(with-eval-after-load "eldoc"
+(with-eval-after-load 'eldoc
   (setcar (cdr (assq 'eldoc-mode minor-mode-alist)) ""))
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1266,7 +1266,7 @@ When `github-expand-link-format' is 'url:
 (setq-default lsp-format-buffer-on-save t)
 
 ;; https://github.com/typescript-language-server/typescript-language-server/blob/master/docs/configuration.md
-(with-eval-after-load "lsp-mode"
+(with-eval-after-load 'lsp-mode
   (lsp-register-custom-settings
    '(("javascript.format.indentSize" 2)
      ("javascript.format.tabSize" 2)
@@ -1304,7 +1304,7 @@ When `github-expand-link-format' is 'url:
 ;;; Python
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(with-eval-after-load "python-mode"
+(with-eval-after-load 'python
   (define-key python-mode-map (kbd "C-c C-m") 'browse-url-at-point))
 
 (defun python-mode-hook-func ()
@@ -1366,7 +1366,7 @@ When `github-expand-link-format' is 'url:
 		     (if arg "http://localhost:1313/%s/" "https://masutaka.net/%s/")
 		     match-string)))))
 
-(with-eval-after-load "markdown-mode"
+(with-eval-after-load 'markdown-mode
   (define-key markdown-mode-map (kbd "C-c C-m") 'browse-url-at-point)
   (define-key markdown-mode-map (kbd "C-c C-o") 'open-hugo)
   (define-key markdown-mode-map (kbd "C-c C-r") 'replace-markdown-image-to-html))
@@ -1418,7 +1418,7 @@ When `github-expand-link-format' is 'url:
 	  (beginning-of-line)
 	(goto-char tmp-point))))
 
-  (with-eval-after-load "navi2ch-vars"
+  (with-eval-after-load 'navi2ch-vars
     (define-key navi2ch-global-view-map (kbd "N") 'my-navi2ch-bm-next-unread)
     (define-key navi2ch-global-view-map (kbd "P") 'my-navi2ch-bm-previous-unread)))
 
@@ -1533,7 +1533,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 			    owner provider type-for-url name))
       (message "Unknown terraform DSL"))))
 
-(with-eval-after-load "terraform-mode"
+(with-eval-after-load 'terraform-mode
   (set-face-foreground 'terraform--resource-name-face "deep pink")
   (define-key terraform-mode-map (kbd "C-c C-o") 'open-terraform-document))
 
@@ -1572,7 +1572,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 ;; read-only の時は view-mode にする。→ edebug やり辛いのでコメントアウト
 ;;(setq view-read-only t)
 
-(with-eval-after-load "view"
+(with-eval-after-load 'view
   ;; モードラインの " View" を目立たせる。
   (setcar (cdr (assq 'view-mode minor-mode-alist))
 	  (list (propertize " View" 'face '(:foreground "white" :background "DeepPink1")))))
@@ -1622,7 +1622,7 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
   (setq show-trailing-whitespace t))
 (add-hook 'yaml-mode-hook #'yaml-mode-hook-func)
 
-(with-eval-after-load "yaml-mode"
+(with-eval-after-load 'yaml-mode
   (define-key yaml-mode-map (kbd "C-c C-m") 'browse-url-at-point))
 
 ;; for template.yaml (AWS SAM)
@@ -1746,10 +1746,10 @@ do nothing. And suppress the output from `message' and
 
 (progn
   ;; jpeg ファイルかどうかのチェックを甘くする。
-  (with-eval-after-load "image"
+  (with-eval-after-load 'image
     (add-to-list 'image-type-header-regexps (cons "\\`\xff\xd8" 'jpeg)))
   ;; 画像を表示する時は標準のキーバインドにする。
-  (with-eval-after-load "image-mode"
+  (with-eval-after-load 'image-mode
     (define-key image-mode-map (kbd "C-n") 'next-line)
     (define-key image-mode-map (kbd "C-p") 'previous-line)))
 
@@ -1834,7 +1834,7 @@ do nothing. And suppress the output from `message' and
 (display-time)
 
 ;; スクリプトファイル保存時に自動で実行許可フラグを立てる。
-(with-eval-after-load "ange-ftp"
+(with-eval-after-load 'ange-ftp
   (advice-add 'executable-make-buffer-file-executable-if-script-p :around
 	      (lambda (orig-fun &rest args)
 		"ネットワーク先のファイルには実行しないようにする。"
