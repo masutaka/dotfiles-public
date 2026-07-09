@@ -25,3 +25,6 @@ prompt_new_tab_name = false
 
 [ui.toast]
 delivery = "system"
+
+[update]
+version_check = false
