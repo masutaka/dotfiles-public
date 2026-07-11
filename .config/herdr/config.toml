@@ -11,6 +11,7 @@ detach = "prefix+d"
 new_workspace = "prefix+shift+c"
 previous_workspace = "prefix+shift+p"
 next_workspace = "prefix+shift+n"
+switch_workspace = "prefix+shift+1..9"
 
 new_tab = "prefix+ctrl+c"
 previous_tab = "prefix+ctrl+p"
