@@ -1148,8 +1148,6 @@ When `github-expand-link-format' is 'url:
   (add-hook 'pre-command-hook #'mac-win-restore-ime-target-commands))
 
  (os-mac-p
-  (require 'sis "~/src/github.com/laishulu/emacs-smart-input-source/sis")
-
   ;; ミニバッファにカーソルを移動する際、自動的に英語モードにして、
   ;; 元のバッファに戻った後に、日本語入力状態をリストアする。
   (sis-ism-lazyman-config
