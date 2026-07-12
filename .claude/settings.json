@@ -12,6 +12,8 @@
   "permissions": {
     "allow": [
       "Bash(bundle info:*)",
+      "Bash(crit --session *)",
+      "Bash(crit comment *)",
       "Bash(find:*)",
       "Bash(gh pr checks:*)",
       "Bash(ghro:*)",
