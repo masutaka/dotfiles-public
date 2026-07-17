@@ -162,5 +162,6 @@
         "repo": "openai/codex-plugin-cc"
       }
     }
-  }
+  },
+  "language": "Japanese"
 }
