@@ -16,6 +16,8 @@
       "Bash(crit comment *)",
       "Bash(find:*)",
       "Bash(gh pr checks:*)",
+      "Bash(gh pr diff:*)",
+      "Bash(gh pr view:*)",
       "Bash(ghro:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
@@ -27,7 +29,6 @@
     ],
     "deny": [
       "Bash(git rebase:*)",
-      "Bash(git reset:*)",
       "Bash(nc:*)",
       "Bash(rm -rf .git)",
       "Bash(rm -rf /)",
@@ -35,9 +36,9 @@
       "Bash(rm -rf ~)",
       "Bash(sudo:*)",
       "Bash(wget:*)",
+      "Edit(.env*)",
       "Read(.env)",
-      "Read(.envrc)",
-      "Write(.env*)"
+      "Read(.envrc)"
     ],
     "ask": [
       "Bash(curl:*)",

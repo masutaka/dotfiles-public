@@ -42,9 +42,8 @@ if [ -d "${HOME}/.local/bin" ]; then
   PATH=$HOME/.local/bin:$PATH
 fi
 
-# Codex CLI と Codex.app のコマンド実行では .zshrc の mise activate zsh が効かないため、
-# mise shims を PATH に追加する。
-if [ -n "$CODEX_SANDBOX" ]; then
+# コーディングエージェントのコマンド実行では、.zshrc の mise activate zsh が効かない
+if [ -n "CLAUDECODE" -o -n "$CODEX_SANDBOX" ]; then
   PATH=${XDG_DATA_HOME}/mise/shims:$PATH
 fi
 
