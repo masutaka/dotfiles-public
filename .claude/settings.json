@@ -88,6 +88,15 @@
             "command": "~/.claude/scripts/mo-hook.sh"
           }
         ]
+      },
+      {
+        "matcher": "Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/open-github-url.sh"
+          }
+        ]
       }
     ],
     "Notification": [
