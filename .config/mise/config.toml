@@ -12,4 +12,3 @@ show_tools = true
 go = "latest"
 node = "lts"
 ruby = "latest"
-rust = "latest"
