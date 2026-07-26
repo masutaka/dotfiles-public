@@ -17,15 +17,17 @@ new_tab = "prefix+ctrl+c"
 previous_tab = "prefix+ctrl+p"
 next_tab = "prefix+ctrl+n"
 
+[[keys.command]]
+key = "prefix+ctrl+space"
+type = "plugin_action"
+command = "beyondlex.herdr-recent-navigator.focus-previous-tab"
+description = "Jump to previous tab"
+
 [theme]
 name = "gruvbox"
-auto_switch = false
 
 [ui]
 prompt_new_tab_name = false
 
 [ui.toast]
 delivery = "system"
-
-[update]
-version_check = false
