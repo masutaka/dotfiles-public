@@ -1,14 +1,15 @@
-[settings.node]
-default_packages_file = "~/.config/mise/default-npm-packages"
-
-[settings.ruby]
-default_packages_file = "~/.config/mise/default-gems"
-
 [settings.status]
 show_env = true
 show_tools = true
 
-[tools]
-go = "latest"
-node = "lts"
-ruby = "latest"
+[tools.go]
+version = "latest"
+postinstall = "xargs -r -n1 go install < $HOME/.config/mise/default-go-packages"
+
+[tools.node]
+version = "lts"
+postinstall = "xargs -r -n1 npm install -g < $HOME/.config/mise/default-npm-packages"
+
+[tools.ruby]
+version = "latest"
+postinstall = "xargs -r -n1 gem install < $HOME/.config/mise/default-gems"

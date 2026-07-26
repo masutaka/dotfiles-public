@@ -31,14 +31,6 @@ function gh-extension-installs () {
 }
 alias gh-extension-updates='gh extension upgrade --all'
 
-function go-installs () {
-  for i in $(cat $HOME/src/github.com/masutaka/dotfiles/go.txt); do
-    echo $i
-    go install $i
-  done
-}
-alias go-updates=go-installs
-
 function kd () {
   LC_COLLATE=C ls -alF --color $@ | more -e -R
 }
