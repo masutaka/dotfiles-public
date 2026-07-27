@@ -36,6 +36,8 @@
       "Bash(rm -rf /*)",
       "Bash(rm -rf ~)",
       "Bash(sudo:*)",
+      "Bash(terraform apply:*)",
+      "Bash(terraform import:*)",
       "Edit(.env*)",
       "Read(.env)",
       "Read(.envrc)"
