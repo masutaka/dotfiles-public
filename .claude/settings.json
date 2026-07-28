@@ -51,7 +51,6 @@
       "Bash(wget:*)"
     ]
   },
-  "model": "opus",
   "enableAllProjectMcpServers": false,
   "hooks": {
     "UserPromptSubmit": [

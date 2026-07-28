@@ -437,6 +437,10 @@ if [ "$OS_KIND" = Linux ]; then
   alias pbcopy="xsel -b"
 fi
 
+if [ "$MACHINE_KIND" = personal ]; then
+  alias claude="claude --model opus"
+fi
+
 if [ -z "$CLAUDECODE" ]; then
   alias cp="cp -i"
   alias mv="mv -i"
