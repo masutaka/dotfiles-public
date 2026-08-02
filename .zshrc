@@ -441,7 +441,9 @@ if [ "$MACHINE_KIND" = personal ]; then
   alias claude="claude --model opus"
 fi
 
-if [ -z "$CLAUDECODE" ]; then
+if [ -n "$CLAUDECODE" ]; then
+  alias cat="gcat"
+else
   alias cp="cp -i"
   alias mv="mv -i"
   alias rm="rm -i"
