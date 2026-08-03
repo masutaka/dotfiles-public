@@ -123,6 +123,15 @@
   (interactive)
   (goto-char (point-min)))
 
+(defun my-copy-buffer-file-name-to-kill-ring ()
+  "Copy the file name of the current buffer to the kill ring."
+  (interactive)
+  (let ((filename (buffer-file-name)))
+    (unless filename
+      (error "This buffer is not visiting a file"))
+    (kill-new filename)
+    (message "%s" filename)))
+
 (defun my-copy-whole-buffer-to-kill-ring ()
   "Copy the whole buffer to the kill ring without moving the cursor."
   (interactive)
@@ -2007,7 +2016,7 @@ do nothing. And suppress the output from `message' and
 (define-key ctl-q-map (kbd "C-u") 'sort-lines)
 (define-key ctl-q-map (kbd "C-v") 'my-copy-whole-buffer-to-kill-ring)
 (define-key ctl-q-map (kbd "C-w") 'erase-buffer)
-;;(define-key ctl-q-map (kbd "C-x") nil)
+(define-key ctl-q-map (kbd "C-x") 'my-copy-buffer-file-name-to-kill-ring)
 (define-key ctl-q-map (kbd "C-y") 'quote-yank)
 ;;(define-key ctl-q-map (kbd "C-z") nil)
 (define-key ctl-q-map (kbd "DEL") 'flyspell-region)
