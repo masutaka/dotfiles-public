@@ -124,9 +124,13 @@
   (goto-char (point-min)))
 
 (defun my-copy-buffer-file-name-to-kill-ring ()
-  "Copy the file name of the current buffer to the kill ring."
+  "Copy the file name of the current buffer to the kill ring.
+In Dired, copy the directory name instead."
   (interactive)
-  (let ((filename (buffer-file-name)))
+  (let* ((raw-filename (if (derived-mode-p 'dired-mode)
+                            (dired-current-directory)
+                          (buffer-file-name)))
+         (filename (and raw-filename (abbreviate-file-name raw-filename))))
     (unless filename
       (error "This buffer is not visiting a file"))
     (kill-new filename)
