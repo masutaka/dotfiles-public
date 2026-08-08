@@ -53,35 +53,7 @@
   },
   "enableAllProjectMcpServers": false,
   "hooks": {
-    "UserPromptSubmit": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/tmux-spinner.sh start"
-          }
-        ]
-      }
-    ],
-    "PreToolUse": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/tmux-spinner.sh heartbeat"
-          }
-        ]
-      }
-    ],
     "PostToolUse": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/tmux-spinner.sh heartbeat"
-          }
-        ]
-      },
       {
         "matcher": "Write|Edit",
         "hooks": [
@@ -97,44 +69,6 @@
           {
             "type": "command",
             "command": "~/.claude/scripts/open-github-url.sh"
-          }
-        ]
-      }
-    ],
-    "Notification": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/macos-notify.sh Funk"
-          },
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/tmux-spinner.sh notify"
-          }
-        ]
-      }
-    ],
-    "Stop": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/macos-notify.sh Glass"
-          },
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/tmux-spinner.sh stop"
-          }
-        ]
-      }
-    ],
-    "SessionEnd": [
-      {
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/tmux-spinner.sh stop"
           }
         ]
       }
