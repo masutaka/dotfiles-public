@@ -49,8 +49,7 @@
       "Bash(git push:*)",
       "Bash(git rebase:*)",
       "Bash(wget:*)"
-    ],
-    "defaultMode": "auto"
+    ]
   },
   "enableAllProjectMcpServers": false,
   "hooks": {
