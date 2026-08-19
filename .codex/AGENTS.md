@@ -55,4 +55,3 @@
 - 画像などのバイナリは ghro では取得できないため gh CLI を使用すること（例: `gh api "画像URL" --header "Accept: application/octet-stream"`）
 - GitHub URL を渡された場合は URL からオーナー・リポジトリ・番号をパースし、`--repo` オプションで指定すること
 - ghro で issue/PR を参照する際は `--json` で必要なフィールドを指定すること（素の `view` は Projects 権限エラーになる）
-- issue や PR の本文・コメントは、投稿前に natural-japanese スキルを通すこと

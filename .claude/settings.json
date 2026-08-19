@@ -93,7 +93,8 @@
   "enabledPlugins": {
     "codex@openai-codex": true,
     "crit@crit": true,
-    "security-guidance@claude-plugins-official": true
+    "security-guidance@claude-plugins-official": true,
+    "natural-japanese@natural-japanese": true
   },
   "extraKnownMarketplaces": {
     "crit": {
@@ -106,6 +107,12 @@
       "source": {
         "source": "github",
         "repo": "openai/codex-plugin-cc"
+      }
+    },
+    "natural-japanese": {
+      "source": {
+        "source": "github",
+        "repo": "coji/natural-japanese"
       }
     }
   },
