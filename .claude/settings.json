@@ -55,11 +55,11 @@
   "hooks": {
     "PostToolUse": [
       {
-        "matcher": "Write|Edit",
+        "matcher": "Write|Edit|Bash",
         "hooks": [
           {
             "type": "command",
-            "command": "~/.claude/scripts/mo-hook.sh"
+            "command": "~/.claude/scripts/mo-hook.rb"
           }
         ]
       },
