@@ -1563,8 +1563,6 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" :revision "v0.23.2" :source-dir "typescript/src")
 	))
 
-;; xxx-ts-mode を開いた時点で、足りない grammar を問い合わせなしに
-;; ~/.emacs.d/tree-sitter/ にインストールする(e.g. libtree-sitter-typescript.dylib)。
 (setq treesit-auto-install-grammar 'always)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
