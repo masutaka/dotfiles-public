@@ -7,7 +7,8 @@ set -eu
 # https://blog.shibayu36.org/entry/2026/03/09/173000#comment-17179246901365242553
 #
 # あらかじめ以下のコマンドで、Fine-grained PAT をキーチェーンに登録しておく。
-# $ security add-generic-password -s "ghro:github.com" -a "github.com" -w "github_pat_****"
+# -w を最後に置くと値を対話的に入力でき、シェル履歴にも argv にも残らない。
+# $ security add-generic-password -s "ghro:github.com" -a "github.com" -w
 
-GH_TOKEN="$(security find-generic-password -s ghro:github.com -a github.com -w 2>/dev/null)" \
+GH_TOKEN="$(security find-generic-password -s ghro:github.com -w 2>/dev/null)" \
   exec gh "$@"

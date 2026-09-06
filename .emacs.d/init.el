@@ -163,6 +163,23 @@ In Dired, copy the directory name instead."
                 (error ())))))
     lisp))
 
+(defun my-secret-load (name)
+  "Load secret of NAME from macOS Keychain
+
+Register it beforehand.  Putting -w last prompts for the value, so it
+never appears in argv.  Add -U to update an existing item.
+
+  $ security add-generic-password -s \"emacs:NAME\" -a emacs -w
+
+-a is required by add, but optional for find.  The service name alone
+is unique, so this function passes only -s."
+  (with-temp-buffer
+    (unless (zerop (call-process "security" nil t nil
+                                 "find-generic-password"
+                                 "-s" (concat "emacs:" name) "-w"))
+      (error (format "Cannot read %s from Keychain" name)))
+    (string-trim (buffer-string))))
+
 (defun my-yank-pop ()
   (interactive)
   (if (minibufferp)
@@ -413,7 +430,8 @@ DO NOT SET VALUE MANUALLY.")
 	  (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 	  (package-initialize)
 	  (require 'helm-github-stars)
-	  (setq helm-github-stars-token ,(my-lisp-load "helm-github-stars-token"))
+	  (setq helm-github-stars-token
+		(funcall ,(symbol-function 'my-secret-load) "helm-github-stars-token"))
 	  (hgs/generate-cache-file)
 	  start-time))
      (lambda (start-time)
@@ -445,7 +463,7 @@ DO NOT SET VALUE MANUALLY.")
 
 ;;; helm-raindrop.el
 
-(setq helm-raindrop-access-token (my-lisp-load "helm-raindrop-access-token"))
+(setq helm-raindrop-access-token (my-secret-load "helm-raindrop-access-token"))
 (setq helm-raindrop-collection-ids '("58775180" "-1" "72121899"))
 (setq helm-raindrop-debug-mode 'info)
 (helm-raindrop-initialize)
@@ -849,7 +867,7 @@ With ARG (C-u):
 	(if (and (string-match "\\(.+\\)\\.backlog\\.com$" host)
 		 (string-match "^/view/\\([A-Z0-9_]+-[0-9]+\\)" path))
 	    (let* ((issue-key (match-string 1 path))
-		   (api-key (my-lisp-load "backlog-expand-link-api-key"))
+		   (api-key (my-secret-load "backlog-expand-link-api-key"))
 		   (api-url (format "https://%s/api/v2/issues/%s?apiKey=%s"
 				    host issue-key api-key)))
 	      (request
@@ -904,7 +922,7 @@ When `github-expand-link-format' is 'url:
 	     (host (url-host parsed-url))
 	     (parts (split-string (url-filename parsed-url) "/" t)))
 	(if (and (string-match-p "github\\.com$" host) (>= (length parts) 4))
-	    (let ((access-token (my-lisp-load "github-expand-link-token"))
+	    (let ((access-token (my-secret-load "github-expand-link-token"))
 		  (org (nth 0 parts))
 		  (repo (nth 1 parts))
 		  (type (nth 2 parts))
