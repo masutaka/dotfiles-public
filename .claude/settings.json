@@ -36,6 +36,7 @@
       "Bash(rm -rf /)",
       "Bash(rm -rf /*)",
       "Bash(rm -rf ~)",
+      "Bash(security:*)",
       "Bash(sudo:*)",
       "Bash(terraform apply:*)",
       "Bash(terraform import:*)",
