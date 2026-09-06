@@ -1,3 +1,5 @@
+;;; init.el --- masutaka's Emacs config  -*- lexical-binding: t -*-
+
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; Constants
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -60,7 +62,6 @@
 (package-install 'sis)
 (package-install 'terraform-mode)
 (package-install 'web-mode)
-(package-install 'wgrep)
 (package-install 'yaml-mode)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -949,7 +950,7 @@ When `github-expand-link-format' is 'url:
 	(background (if my-dark-mode-p "#2D3743" "#E2DDC3")))
     (face-spec-set 'default `((t :foreground ,foreground :background ,background))))
   (face-spec-set 'cursor `((((background light)) (:background ,my-cursor-color-for-light)) (((background dark)) (:background ,my-cursor-color-for-dark))))
-  (face-spec-set 'mode-line '((((background light)) (:background "gold")) (((background dark)) (:background "orange"))))
+  (face-spec-set 'mode-line '((((background light)) (:background "gold" :foreground "black")) (((background dark)) (:background "orange" :foreground "black"))))
   (face-spec-set 'region '((((background light)) (:background "lightGoldenrod2")) (((background dark)) (:background "goldenrod4"))))
   (face-spec-set 'font-lock-string-face '((((background light)) (:foreground "gray35")) (((background dark)) (:foreground "gray65"))))
   (face-spec-set 'sh-heredoc '((((background light)) (:foreground "goldenrod4"))))
@@ -1016,7 +1017,7 @@ When `github-expand-link-format' is 'url:
 (add-to-list 'auto-mode-alist '("\\.go\\'" . go-ts-mode))
 (add-to-list 'auto-mode-alist '("/go\\.mod\\'" . go-mod-ts-mode))
 
-(setq go-ts-mode-indent-offset 4)
+(setq go-ts-indent-offset 4)
 
 (defun go-ts-mode-hook-func ()
   (lsp-deferred)
@@ -1512,9 +1513,6 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 (setq tab-bar-tab-hints t)
 (setq tab-bar-tab-name-function #'tab-bar-tab-name-truncated)
 
-;; 現在のタブを見やすくする
-(face-spec-set 'tab-bar-tab '((((background light)) (:background "gold")) (((background dark)) (:background "orange"))))
-
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; terraform-mode
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
@@ -1556,20 +1554,18 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 
 (setq treesit-language-source-alist
       '(
-	(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" "v0.2.0" "src")
-	(go "https://github.com/tree-sitter/tree-sitter-go" "v0.25.0" "src") ;; (treesit-library-abi-version) と、src/parser.c の LANGUAGE_VERSION を合わせる (15)
-	(gomod "https://github.com/camdencheek/tree-sitter-go-mod" "v1.1.0" "src")
-	(json "https://github.com/tree-sitter/tree-sitter-json" "v0.24.8" "src")
-	(ruby "https://github.com/tree-sitter/tree-sitter-ruby" "v0.23.1" "src")
-	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "tsx/src")
-	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" "v0.23.2" "typescript/src")
+	(dockerfile "https://github.com/camdencheek/tree-sitter-dockerfile" :revision "v0.2.0")
+	(go "https://github.com/tree-sitter/tree-sitter-go" :revision "v0.25.0") ;; (treesit-library-abi-version) と、src/parser.c の LANGUAGE_VERSION を合わせる (15)
+	(gomod "https://github.com/camdencheek/tree-sitter-go-mod" :revision "v1.1.0")
+	(json "https://github.com/tree-sitter/tree-sitter-json" :revision "v0.24.8")
+	(ruby "https://github.com/tree-sitter/tree-sitter-ruby" :revision "v0.23.1")
+	(tsx "https://github.com/tree-sitter/tree-sitter-typescript" :revision "v0.23.2" :source-dir "tsx/src")
+	(typescript "https://github.com/tree-sitter/tree-sitter-typescript" :revision "v0.23.2" :source-dir "typescript/src")
 	))
 
-;; Install libraries (e.g. ~/.emacs.d/tree-sitter/libtree-sitter-typescript.dylib)
-(dolist (element treesit-language-source-alist)
-  (let ((lang (car element)))
-    (unless (treesit-language-available-p lang)
-      (treesit-install-language-grammar lang))))
+;; xxx-ts-mode を開いた時点で、足りない grammar を問い合わせなしに
+;; ~/.emacs.d/tree-sitter/ にインストールする(e.g. libtree-sitter-typescript.dylib)。
+(setq treesit-auto-install-grammar 'always)
 
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 ;;; view-mode --- peruse file or buffer without editing
@@ -1644,25 +1640,6 @@ If ARG is non-nil (e.g., called with C-u), insert the cloned tab at the rightmos
 ;;; 履歴保存
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(defvar my-recentf-list-prev nil)
-
-(advice-add 'recentf-save-list :around
-	    (lambda (orig-fun &rest args)
-	      "If `recentf-list' and previous recentf-list are equal,
-do nothing. And suppress the output from `message' and
-`write-file' to minibuffer."
-	      (unless (equal recentf-list my-recentf-list-prev)
-		(cl-letf (((symbol-function 'message) #'format)
-			  ((symbol-function 'write-file)
-			   ;; write-file() は内部で C で書かれた write_region() を
-			   ;; 呼ぶため、上の message() への抑制は効かない。
-			   (lambda (file &optional confirm)
-			     (let ((str (buffer-string)))
-			       (with-temp-file file
-				 (insert str))))))
-		  (apply orig-fun args)
-		  (setq my-recentf-list-prev recentf-list)))))
-
 (advice-add 'recentf-cleanup :around
 	    (lambda (orig-fun &rest args)
 	      "suppress the output from `message' to minibuffer"
@@ -1671,7 +1648,8 @@ do nothing. And suppress the output from `message' and
 
 (setq recentf-max-saved-items 5000)
 (setq recentf-auto-cleanup 10)
-(run-with-idle-timer 30 t 'recentf-save-list)
+(setopt recentf-autosave-interval 30)
+(setopt recentf-show-messages nil)
 (recentf-mode 1)
 
 ;; 使用したミニバッファ履歴（M-x のコマンド履歴、grep-find-history、
