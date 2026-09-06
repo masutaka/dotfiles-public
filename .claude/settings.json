@@ -3,6 +3,7 @@
   "env": {
     "CLAUDE_BASH_MAINTAIN_PROJECT_WORKING_DIR": "1",
     "CLAUDE_CODE_ENABLE_TELEMETRY": "0",
+    "CLAUDE_CODE_THRIFTY_SONIC": "0",
     "ENABLE_TOOL_SEARCH": "true"
   },
   "attribution": {
