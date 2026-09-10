@@ -55,6 +55,11 @@ PATH=$(echo $GOPATH | sed -e 's@:@/bin:@g' -e 's@$@/bin@'):$PATH
 export PYTHONUSERBASE="${HOME}/python"
 PATH=${PYTHONUSERBASE}/bin:$PATH
 
+# Docker
+if [ -d "${HOME}/.docker/bin" ]; then
+  PATH=${HOME}/.docker/bin:$PATH
+fi
+
 # Rust
 if [ -r "$HOME/.cargo/env" ]; then
   source "$HOME/.cargo/env"
