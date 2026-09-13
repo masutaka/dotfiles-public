@@ -153,7 +153,7 @@ In Dired, copy the directory name instead."
   (let ((fullname (expand-file-name (concat "spec/" filename) user-emacs-directory))
         lisp)
     (unless (file-readable-p fullname)
-      (error (format "Cannot read %s" fullname)))
+      (error "Cannot read %s" fullname))
     (with-temp-buffer
       (progn
         (insert-file-contents fullname)
@@ -164,21 +164,19 @@ In Dired, copy the directory name instead."
     lisp))
 
 (defun my-secret-load (name)
-  "Load secret of NAME from macOS Keychain
+  "Load secret of NAME from macOS Keychain via auth-source
 
-Register it beforehand.  Putting -w last prompts for the value, so it
-never appears in argv.  Add -U to update an existing item.
+Register it beforehand as an internet password, since auth-source in
+Emacs 31.1 cannot find generic passwords.  Putting -w last prompts for
+the value, so it never appears in argv.  Add -U to update an existing
+item.
 
-  $ security add-generic-password -s \"emacs:NAME\" -a emacs -w
-
--a is required by add, but optional for find.  The service name alone
-is unique, so this function passes only -s."
-  (with-temp-buffer
-    (unless (zerop (call-process "security" nil t nil
-                                 "find-generic-password"
-                                 "-s" (concat "emacs:" name) "-w"))
-      (error (format "Cannot read %s from Keychain" name)))
-    (string-trim (buffer-string))))
+  $ security add-internet-password -s NAME -a emacs -w"
+  (require 'auth-source)
+  (let ((auth-sources '(macos-keychain-internet))
+        (auth-source-do-cache nil))
+    (or (auth-source-pick-first-password :host name :user "emacs")
+        (error "Cannot read %s from Keychain" name))))
 
 (defun my-yank-pop ()
   (interactive)
