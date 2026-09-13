@@ -130,6 +130,5 @@
     }
   },
   "language": "Japanese",
-  "agentPushNotifEnabled": true,
-  "tui": "fullscreen"
+  "agentPushNotifEnabled": true
 }
