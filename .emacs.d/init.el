@@ -126,16 +126,23 @@
 
 (defun my-copy-buffer-file-name-to-kill-ring ()
   "Copy the file name of the current buffer to the kill ring.
-In Dired, copy the directory name instead."
+Select with Helm from the trailing parts of the path, from the file
+name up to the full path.  In Dired, use the directory name instead."
   (interactive)
   (let* ((raw-filename (if (derived-mode-p 'dired-mode)
                             (dired-current-directory)
                           (buffer-file-name)))
-         (filename (and raw-filename (abbreviate-file-name raw-filename))))
+         (filename (and raw-filename (abbreviate-file-name raw-filename)))
+         (parts (and filename (split-string (directory-file-name filename) "/")))
+         candidates)
     (unless filename
       (error "This buffer is not visiting a file"))
-    (kill-new filename)
-    (message "%s" filename)))
+    (while parts
+      (push (string-join parts "/") candidates)
+      (setq parts (cdr parts)))
+    (let ((selected (helm-comp-read "Copy path: " (delete "" candidates))))
+      (kill-new selected)
+      (message "%s" selected))))
 
 (defun my-copy-whole-buffer-to-kill-ring ()
   "Copy the whole buffer to the kill ring without moving the cursor."
