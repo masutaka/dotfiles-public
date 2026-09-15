@@ -68,20 +68,29 @@
     ],
     "PostToolUse": [
       {
-        "matcher": "Write|Edit|Bash",
-        "hooks": [
-          {
-            "type": "command",
-            "command": "~/.claude/scripts/mo-hook.rb"
-          }
-        ]
-      },
-      {
         "matcher": "Bash",
         "hooks": [
           {
             "type": "command",
             "command": "~/.claude/scripts/open-github-url.sh"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/textlint-hook.rb"
+          }
+        ]
+      },
+      {
+        "matcher": "Write|Edit|Bash",
+        "hooks": [
+          {
+            "type": "command",
+            "command": "~/.claude/scripts/mo-hook.rb"
           }
         ]
       }
