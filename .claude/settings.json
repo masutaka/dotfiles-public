@@ -47,6 +47,9 @@
     ],
     "ask": [
       "Bash(curl:*)",
+      "Bash(gh stack push:*)",
+      "Bash(gh stack rebase:*)",
+      "Bash(gh stack sync:*)",
       "Bash(git add:*)",
       "Bash(git commit:*)",
       "Bash(git push:*)",
