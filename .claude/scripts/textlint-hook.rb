@@ -15,10 +15,6 @@
 # min-release-age を満たす最新版が使われる。条件を満たす版がなければ
 # npx が失敗し、検査は行われない。
 #
-# プリセットは 2026-09-12 に公開されたばかりで、~/.config/npm/config の
-# min-release-age=7 を満たす版がまだない。v1.2.0 が 7 日を超える 2026-09-20
-# までは、一時的に --min-release-age=2 で上書きする。
-#
 # 指摘があれば stderr に出して exit 2 で Claude に返す。npx の失敗など、
 # 指摘以外の失敗では Claude Code 側の処理を止めない。
 #
@@ -51,7 +47,7 @@ exit unless File.extname(path) == '.md'
 text = written_text(payload)
 exit if text.empty?
 
-command = ['npx', '--yes', '--min-release-age=2', '-p', 'textlint', '-p', 'textlint-rule-preset-ai-words-ja',
+command = ['npx', '--yes', '-p', 'textlint', '-p', 'textlint-rule-preset-ai-words-ja',
            'textlint', '--no-textlintrc', '--preset', 'ai-words-ja',
            '--stdin', '--stdin-filename', File.basename(path)]
 
