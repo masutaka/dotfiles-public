@@ -65,8 +65,9 @@ if [ -r "$HOME/.cargo/env" ]; then
   source "$HOME/.cargo/env"
 fi
 
-# Claude Code
+# Claude Code, gcloud
 if [ -r "$HOME/.local/share/ca-certificates.pem" ]; then
+  export CLOUDSDK_CORE_CUSTOM_CA_CERTS_FILE="$HOME/.local/share/ca-certificates.pem"
   export NODE_EXTRA_CA_CERTS="$HOME/.local/share/ca-certificates.pem"
 fi
 
