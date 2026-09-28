@@ -9,6 +9,9 @@ set -eu
 # あらかじめ以下のコマンドで、Fine-grained PAT をキーチェーンに登録しておく。
 # -w を最後に置くと値を対話的に入力でき、シェル履歴にも argv にも残らない。
 # $ security add-generic-password -s "ghro:github.com" -a "github.com" -w
+#
+# PAT を再生成したときは -U を付けて、既存の登録を上書きする。
+# $ security add-generic-password -U -s "ghro:github.com" -a "github.com" -w
 
 GH_TOKEN="$(security find-generic-password -s ghro:github.com -w 2>/dev/null)" \
   exec gh "$@"
