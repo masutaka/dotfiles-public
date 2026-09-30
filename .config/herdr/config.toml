@@ -20,11 +20,7 @@ next_tab = "prefix+ctrl+n"
 navigate_workspace_up = ["up", "ctrl+p"]
 navigate_workspace_down = ["down", "ctrl+n"]
 
-[[keys.command]]
-key = "prefix+ctrl+space"
-type = "plugin_action"
-command = "beyondlex.herdr-recent-navigator.focus-previous-tab"
-description = "Jump to previous tab"
+last_pane = "prefix+ctrl+space"
 
 [theme]
 name = "gruvbox"
