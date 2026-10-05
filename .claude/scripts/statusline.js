@@ -23,7 +23,8 @@ process.stdin.on('end', () => {
     ].map(([label, pct]) => `${label} ${formatGauge(pct)}`).join(' | ');
 
     // Build status line
-    const statusLine = `⚡ ${model} | 📁 ${currentDir} | ${gaugeDisplay}`;
+    const sessionName = data.session_name ? ` | 💬 ${data.session_name}` : '';
+    const statusLine = `⚡ ${model} | 📁 ${currentDir} | ${gaugeDisplay}${sessionName}`;
 
     console.log(statusLine);
   } catch (error) {
