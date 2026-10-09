@@ -43,7 +43,7 @@ if [ -d "${HOME}/.local/bin" ]; then
 fi
 
 # コーディングエージェントのコマンド実行では、.zshrc の mise activate zsh が効かない
-if [ -n "CLAUDECODE" -o -n "$CODEX_SANDBOX" ]; then
+if [ -n "$CLAUDECODE" -o -n "$CODEX_SANDBOX" ]; then
   PATH=${XDG_DATA_HOME}/mise/shims:$PATH
 fi
 
