@@ -1,7 +1,12 @@
 #!/usr/bin/env ruby
 
 # Claude Code の PostToolUse(Write|Edit) フックから呼ばれ、Markdown に書き込んだ
-# 文章を textlint-rule-preset-ai-words-ja で検査する薄いラッパ。
+# 文章を textlint で検査する薄いラッパ。単語は textlint-rule-preset-ai-words-ja、
+# 文章の構造は @textlint-ja/textlint-rule-preset-ai-writing で検査する。
+#
+# ルールの設定は同じディレクトリの textlintrc.json に置く。ai-writing の
+# ai-tech-writing-guideline は抽象表現まで拾い、文書の 1:1 に集計も出して
+# ノイズが多いので切っている。--preset ではルール単位の設定ができない。
 #
 # 標準入力から PostToolUse のフックペイロード(JSON)を受け取り、検査対象を
 # 以下のように取り出す:
@@ -48,7 +53,8 @@ text = written_text(payload)
 exit if text.empty?
 
 command = ['npx', '--yes', '-p', 'textlint', '-p', 'textlint-rule-preset-ai-words-ja',
-           'textlint', '--no-textlintrc', '--preset', 'ai-words-ja',
+           '-p', '@textlint-ja/textlint-rule-preset-ai-writing',
+           'textlint', '--config', File.join(__dir__, 'textlintrc.json'),
            '--stdin', '--stdin-filename', File.basename(path)]
 
 output, _error, status = begin
