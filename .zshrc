@@ -456,10 +456,12 @@ fi
 alias -g G='2>&1 | grep'
 alias -g L='2>&1 | less'
 
+alias c=claude
 alias cdg="cd \$(git rev-parse --show-toplevel)"
 alias d=docker
 alias g=git
 alias hall="history -E -i 1"
+alias x=codex
 
 # Local Variables:
 # tab-width: 8
