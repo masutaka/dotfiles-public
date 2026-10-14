@@ -1,4 +1,5 @@
 [settings]
+activate_shims = false
 auto_update = true
 
 [settings.status]
