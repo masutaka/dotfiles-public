@@ -442,7 +442,9 @@ if [ "$MACHINE_KIND" = personal ]; then
 fi
 
 if [ -n "$CLAUDECODE" ]; then
+  alias awk="gawk"
   alias cat="gcat"
+  alias sed="gsed"
 else
   alias cp="cp -i"
   alias mv="mv -i"
