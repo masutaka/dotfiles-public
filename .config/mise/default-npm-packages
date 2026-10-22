@@ -1,5 +1,3 @@
-@github/copilot
-@google/gemini-cli
 dockerfile-language-server-nodejs
 markdownlint-cli
 prettier
