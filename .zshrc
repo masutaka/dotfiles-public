@@ -209,9 +209,25 @@ EOF
 
       brew cleanup
       brew upgrade
+
+      if echo "$outdated" | grep -q '^google-japanese-ime'; then
+        my-restart-google-japanese-ime
+      fi
     fi
 
     brew doctor
+  }
+
+  # Converter と Renderer の LaunchAgent を登録し直してから本体を起動しないと、
+  # 本体が Converter に接続できず日本語を入力できない。
+  function my-restart-google-japanese-ime () {
+    local s
+    for s in Converter Renderer; do
+      launchctl bootout gui/$(id -u)/com.google.inputmethod.Japanese.$s
+      launchctl bootstrap gui/$(id -u) /Library/LaunchAgents/com.google.inputmethod.Japanese.$s.plist
+    done
+    killall GoogleJapaneseInput
+    open "/Library/Input Methods/GoogleJapaneseInput.app"
   }
 fi
 
