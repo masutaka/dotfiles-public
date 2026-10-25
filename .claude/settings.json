@@ -23,6 +23,8 @@
       "Bash(gh pr view:*)",
       "Bash(gh run view *)",
       "Bash(ghro:*)",
+      "Bash(git add:*)",
+      "Bash(git commit:*)",
       "Bash(git log:*)",
       "Bash(grep:*)",
       "Bash(jq:*)",
