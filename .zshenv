@@ -71,6 +71,11 @@ if [ -r "$HOME/.local/share/ca-certificates.pem" ]; then
   export NODE_EXTRA_CA_CERTS="$HOME/.local/share/ca-certificates.pem"
 fi
 
+# Secretive
+if [ -S "$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh" ]; then
+  export SSH_AUTH_SOCK="$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
+fi
+
 # Keeper
 if [ -S "$HOME/Library/Containers/com.callpod.keepermac.lite/Data/tmp/keeper-ssh-agent.sock" ]; then
   export SSH_AUTH_SOCK="$HOME/Library/Containers/com.callpod.keepermac.lite/Data/tmp/keeper-ssh-agent.sock"
