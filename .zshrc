@@ -453,6 +453,10 @@ if [ "$OS_KIND" = Linux ]; then
   alias pbcopy="xsel -b"
 fi
 
+if [ "$MACHINE_KIND" = personal ]; then
+  alias claude="claude --model opus"
+fi
+
 if [ -n "$CLAUDECODE" ]; then
   alias awk="gawk"
   alias cat="gcat"
@@ -470,7 +474,7 @@ fi
 alias -g G='2>&1 | grep'
 alias -g L='2>&1 | less'
 
-alias c="claude --model opus"
+alias c=claude
 alias cdg="cd \$(git rev-parse --show-toplevel)"
 alias d=docker
 alias g=git
