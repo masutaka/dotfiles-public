@@ -116,7 +116,6 @@
     "command": "~/.claude/scripts/statusline.js"
   },
   "enabledPlugins": {
-    "codex@openai-codex": true,
     "crit@crit": true,
     "security-guidance@claude-plugins-official": true,
     "natural-japanese@natural-japanese": true
@@ -126,12 +125,6 @@
       "source": {
         "source": "github",
         "repo": "tomasz-tomczyk/crit"
-      }
-    },
-    "openai-codex": {
-      "source": {
-        "source": "github",
-        "repo": "openai/codex-plugin-cc"
       }
     },
     "natural-japanese": {
