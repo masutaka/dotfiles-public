@@ -1229,10 +1229,13 @@ When `github-expand-link-format' is 'url:
 ;;; JSON
 ;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;;
 
-(add-to-list 'auto-mode-alist '("\\.json\\'" . json-ts-mode))
+(add-to-list 'auto-mode-alist '("\\.json[cl]?\\'" . json-ts-mode))
 
 (defun json-ts-mode-hook-func ()
-  (lsp-deferred)
+  ;; JSON Lines は json-ls が複数のトップレベル値をエラーにするので LSP を使わない
+  (unless (and buffer-file-name
+               (string-match-p "\\.jsonl\\'" buffer-file-name))
+    (lsp-deferred))
   (setq indent-tabs-mode nil))
 (add-hook 'json-ts-mode-hook #'json-ts-mode-hook-func)
 
