@@ -454,7 +454,9 @@ if [ "$OS_KIND" = Linux ]; then
 fi
 
 if [ "$MACHINE_KIND" = personal ]; then
-  alias claude="claude --model opus"
+  alias c="claude --model opus"
+else
+  alias c="claude --model fable"
 fi
 
 if [ -n "$CLAUDECODE" ]; then
@@ -474,7 +476,6 @@ fi
 alias -g G='2>&1 | grep'
 alias -g L='2>&1 | less'
 
-alias c=claude
 alias cdg="cd \$(git rev-parse --show-toplevel)"
 alias d=docker
 alias g=git
