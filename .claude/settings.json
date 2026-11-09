@@ -135,5 +135,6 @@
     }
   },
   "language": "Japanese",
+  "model": "opus",
   "agentPushNotifEnabled": true
 }

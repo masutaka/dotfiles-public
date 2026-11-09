@@ -470,7 +470,7 @@ fi
 alias -g G='2>&1 | grep'
 alias -g L='2>&1 | less'
 
-alias c="claude --model opus"
+alias c=claude
 alias cdg="cd \$(git rev-parse --show-toplevel)"
 alias d=docker
 alias g=git
