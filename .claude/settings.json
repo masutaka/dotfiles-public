@@ -54,6 +54,9 @@
       "Bash(gh stack sync:*)",
       "Bash(git push:*)",
       "Bash(git rebase:*)",
+      "Bash(rsync:*)",
+      "Bash(scp:*)",
+      "Bash(ssh:*)",
       "Bash(wget:*)"
     ]
   },

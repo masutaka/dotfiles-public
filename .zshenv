@@ -76,11 +76,6 @@ if [ -S "$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/sock
   export SSH_AUTH_SOCK="$HOME/Library/Containers/com.maxgoedjen.Secretive.SecretAgent/Data/socket.ssh"
 fi
 
-# Keeper
-if [ -S "$HOME/Library/Containers/com.callpod.keepermac.lite/Data/tmp/keeper-ssh-agent.sock" ]; then
-  export SSH_AUTH_SOCK="$HOME/Library/Containers/com.callpod.keepermac.lite/Data/tmp/keeper-ssh-agent.sock"
-fi
-
 export BIGQUERYRC="${XDG_CONFIG_HOME}/bq/bigqueryrc"
 export EDITOR=emacsclient
 export GEMSRC_USE_GHQ=1
