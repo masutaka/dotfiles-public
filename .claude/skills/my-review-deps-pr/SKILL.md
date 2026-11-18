@@ -30,7 +30,6 @@ PR タイトルと更新対象の把握:
 - どちらの bot も、1 つの PR で複数パッケージを更新することがある。パッケージごとに調査する
   - group 設定: Dependabot は `bump the <グループ名> group ... with N updates` のようなタイトルで、body に更新一覧が並ぶ。Renovate は body 冒頭の表に複数行が並ぶ。Renovate の lock file maintenance も同様
   - 依存関係による同時更新: タイトルは 1 パッケージでも、バージョンを完全一致で固定し合うパッケージ群（例: Rails の activestorage と actionpack などの gem）は lockfile 上で一緒に上がる。タイトルだけで判断せず、diff で実際に上がったパッケージを確認する
-- 先にパッケージ名・新旧バージョンを取り出しておくと、以降の調査やセクションの当たりを付けるのが早い
 
 ## 情報収集
 
